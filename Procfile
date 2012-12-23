@@ -1,0 +1,1 @@
+web: lein with-profile production trampoline run -m luminus-site.server $PORT
