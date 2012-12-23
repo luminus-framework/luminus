@@ -295,3 +295,9 @@ div.sidebar {
 	float: left;	
 	display: block;
 }
+
+#copyright {
+	text-align: center;
+	padding-left: auto;
+	padding-right: auto;
+}

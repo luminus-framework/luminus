@@ -28,11 +28,11 @@
   [:footer            
       [:div#license
        [:p "Luminus framework is released under the " 
-        (link-to "http://www.eclipse.org/legal/epl-v10.html" "Eclipse Public License")]
-       [:a.yogthos {:href "http://yogthos.net"} #_(image "img/logo.jpg")]]
+        (link-to "http://www.eclipse.org/legal/epl-v10.html" "Eclipse Public License")]]
+      [:div#copyright [:a {:href "http://yogthos.net"} "Copyright © 2012 Dmitri Sotnikov"]]
       [:div#poweredbydiv [:a {:href "http://clojure.org"}
-             (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
-             [:span#poweredby " powered by Clojure"]]]])
+                          (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
+                          [:span#poweredby " powered by Clojure"]]]])
 
 (defn layout [page-id & body]
   (html5

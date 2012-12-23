@@ -37,7 +37,7 @@
 
 (defroutes app-routes
   (GET "/" [] (home))  
-  (GET "/api" [] (common/layout "API" [:section "TODO..."]))
+  (GET "/api" [] (response/redirect "/autodoc/index.html"))
   (GET "/download" [] (common/layout "Download" 
                                      [:section 
                                       "Luminus source is available on " 
