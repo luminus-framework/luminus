@@ -76,3 +76,26 @@ be used in conjunction with Hiccup functions, eg:
 (html [:div.contenr [:p (util/md->html "paragraph.md")]])
 
 ```
+
+## Content caching
+
+Luminus provides some very basic in-memory content caching via the `cache` macro located in `lib-luminus.util`.
+To cache a page you can simply do the following:
+
+```clojure
+(use 'lib-luminus.util)
+ 
+(defn slow-loading-page []
+  (cache
+   :slow-page
+   (common/layout
+    [:div "I load slowly"] 
+     (parse-lots-of-files))))
+```
+
+The cache can be invalidated by calling:
+
+```clojure
+(invalidate-cache! :slow-page)
+```
+

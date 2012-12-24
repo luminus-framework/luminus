@@ -26,14 +26,16 @@
             page-title))))
 
 (defn doc-page [doc-id & [route selected-title]]
-  (common/layout 
-    "Documentation"
-    [:div
-     [:div.sidebar 
-      [:div.docs [:h2 "Topics"]]
-      (doc-page-links (or selected-title (ffirst doc-pages)))]
-     [:section.main 
-      (util/md->html doc-id)]]))
+  (util/cache
+    route
+    (common/layout 
+      "Documentation"
+      [:div
+       [:div.sidebar 
+        [:div.docs [:h2 "Topics"]]
+        (doc-page-links (or selected-title (ffirst doc-pages)))]
+       [:section.main 
+        (util/md->html doc-id)]])))
 
 (defmacro functionize [macro]
   `(fn [& args#] (eval (cons '~macro args#))))

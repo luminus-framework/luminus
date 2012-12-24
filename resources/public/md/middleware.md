@@ -24,4 +24,4 @@ Alternatively, you can define your own middleware instead of using `app-handler`
 and `war-handler` helpers.
 
 
-For detailed information please refer to the official [Ring documentation](https://github.com/mmcgrana/ring).
+For detailed information please refer to the official [Ring documentation](https://github.com/ring-clojure/ring).

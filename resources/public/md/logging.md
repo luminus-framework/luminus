@@ -3,7 +3,7 @@
 Luminus template comes with [clj-log](https://github.com/yogthos/clj-log) dependency 
 and a log4.properties setup for logging to the standard out.
 
-Logging is done using Clojure maps and any Clojure data structure can be logged, eg:
+The logger generates pretty printed Clojure maps and any Clojure data structure can be logged directly:
 
 ```clojure
 (ns example

@@ -2,7 +2,7 @@
   :description "Documentation site for the Luminus framework"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [lib-luminus "0.1.4"]
+                 [lib-luminus "0.1.5"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [bultitude "0.1.7"]                                  
                  [environ "0.3.0"]]

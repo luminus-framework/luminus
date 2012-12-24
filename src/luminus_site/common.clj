@@ -4,7 +4,7 @@
 
 (defn head []
   [:head
-   [:title "Welcome to luminus"]
+   [:title "Luminus"]
    (include-css "/css/screen.css"
                 "/css/shCore.css")
    [:script {:type "text/javascript", :src "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"}]
