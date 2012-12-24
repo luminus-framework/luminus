@@ -1,6 +1,6 @@
 # luminus
 
-The documentation site for the Luminus framework
+sources of the documentation site for the [Luminus framework](http://www.luminusweb.net)
 
 ## License
 
