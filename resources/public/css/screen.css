@@ -19,7 +19,7 @@ header a:link {text-decoration: none; color: white;}
 header a:visited {text-decoration: none; color: white;}
 
 header {
-	background: #D0783F;
+	background: #CAB18C;
 	
 	border-bottom-color: #dedede;
 	line-height: 25px;
@@ -245,7 +245,7 @@ a:hover {color: #777;}
 	text-align:left;
 	font-weight:bold;
 	color: white;
-	background: #D0783F;
+	background: #CAB18C;
 	width: 110px;	
 	list-style-type: none;
 	

@@ -1,53 +1,19 @@
 ## Logging
 
-Luminus template comes with [clj-log](https://github.com/yogthos/clj-log) dependency 
-and a log4.properties setup for logging to the standard out.
-
-The logger generates pretty printed Clojure maps and any Clojure data structure can be logged directly:
+Luminus template comes with [Timbre](https://github.com/ptaoussanis/timbre) dependency which
+logs to standard out at the debug level by default. Any Clojure data structure can be logged 
+directly.
 
 ```clojure
 (ns example
- (:use clj-log.core))
+ (:use [taoensso.timbre :only [trace debug info warn error fatal]]))
 
-(log :info "foo")
+(info "Hello")
+=>2012-Dec-24 09:03:09 -0500 Helios.local INFO [timbretest] - Hello
 
-;output
+(info {:user {:id "Anonymous"}})
 
-{:ns "clojure.core",
- :time #inst "2012-06-14T21:46:12.980-00:00",
- :message "foo",
- :level :info}
-
-
- ;message can be any clojure data structure
- (log :warn {:foo "bar"})
-
- ;output 
-
- {:ns "clojure.core",
- :time #inst "2012-06-15T02:55:17.392-00:00",
- :message {:foo "bar"},
- :level :warn}
+=>2012-Dec-24 09:02:44 -0500 Helios.local INFO [timbretest] - {:user {:id "Anonymous"}}
 ``` 
 
-clj-log uses the standard logging levels
-
-```clojure
-:trace, :debug, :info, :warn, :error, :fatal
-```
-
-You can also provide a format string for the log
-
-```clojure
-(logf :info "%s accidentally the whole %s" "I" ".jar file")
-
-;output
-
-{:pattern "%s accidentally the whole %s",
- :ns "example",
- :time #inst "2012-06-15T02:25:42.070-00:00",
- :message "I accidentally the whole .jar file",
- :level :info}
- ```
- 
- 
+More information is available on the [Github](https://github.com/ptaoussanis/timbre) page for the project.
