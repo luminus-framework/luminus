@@ -45,8 +45,7 @@
      [:ul.header-menu 
       (nav-link page-id "/" "Home")      
       (nav-link page-id "/docs/tutorial" "Documentation")
-      (nav-link page-id "/api" "API")
-      (nav-link page-id "/download" "Download")
+      (nav-link page-id "/api" "API")      
       (nav-link page-id "/contribute" "Get involved")      
       (nav-link page-id "/about" "About")]     
      

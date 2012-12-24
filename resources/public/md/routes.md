@@ -83,17 +83,16 @@ a `defroutes` macro which can group several routes together and bind them to a s
 ```
 
 Compojure provides the `routes` function to group multiple route definitions together. 
-However, Luminus will handle this for you when you call `app-routes` and `war-routes` functions.
-All you have to do is add your routes to the `all-routes` vector defined in the `handler` namespace
-of your application.
+However, Luminus will handle this for you when you call the `app-routes` function.
+
+All you have to do is add your routes to the `all-routes` vector defined in the `handler` 
+namespace of your application. The `war-handler` function adds additional middleware
+used needed for running on an application server such as Tomcat.
 
 ```clojure
 (def all-routes [auth-routes app-routes])
 (def app (middleware/app-handler all-routes))
-(def war-handler (middleware/war-handler all-routes))
+(def war-handler (middleware/war-handler app))
 ```
 
-
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
-
-

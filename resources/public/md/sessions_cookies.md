@@ -1,6 +1,6 @@
 ## Sessions
 
-Session management is provided by the `noir.session` namespace from `lib-noir`.
+Session management is provided by the `noir.session` namespace from [lib-noir](https://github.com/noir-clojure/lib-noir).
 The sessions are provided via middleware handlers both `app-handler` 
 and `war-handler` functions in `lib-luminus.middleware` default to memory session
 store. This can be overriden by passing in a second argument which specifies a 

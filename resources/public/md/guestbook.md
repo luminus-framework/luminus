@@ -322,4 +322,9 @@ If we wanted to deploy our application to an app server such as Apache Tomcat, w
 lein ring uberwar
 ```            
 
-The resulting war archive can now be deployed to the server of your choosing. 
+The resulting war archive can now be deployed to the server of your choosing.
+
+***
+
+For a more complete example you can see the source for
+this site on [Github](https://github.com/yogthos/luminus).  

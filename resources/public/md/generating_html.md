@@ -1,7 +1,7 @@
 ## Generating HTML
 
-Hiccup is used as the default templating engine in Luminus.
-The advantage of using Hiccup is that we can use the full power of Clojure libraries to generate and manipulate our markup.
+[Hiccup](https://github.com/weavejester/hiccup) is used as the default templating engine in Luminus.
+The advantage of using Hiccup is that we can use the full power of Clojure to generate and manipulate our markup.
 This means that you don't have to learn a separate DSL for generating your HTML with its own rules and quirks.
 
 In Hiccup, HTML elements are represented by Clojure vectors and the structure of the element looks as following:
@@ -68,7 +68,7 @@ Finally, Luminus provides a helper function under the `lib-luminus.util` namespa
 this function will read a markdown file located in `resources/public/md` folder and return an HTML string. This can
 be used in conjunction with Hiccup functions, eg:
 
-```
+```clojure
 (:require [lib-luminus.util :as util])
 
 ...

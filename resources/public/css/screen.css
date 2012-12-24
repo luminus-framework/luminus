@@ -42,7 +42,7 @@ header {
 .header-menu {
 	margin-left:auto;
 	margin-right:auto;
-	width:600px;
+	width:410px;
 }
 
 .header-link {	
@@ -75,10 +75,13 @@ content {
 }
 
 h2 {
-	color: #373737;	
+	color: #484848;	
+	font-family: 'Helvetica Nueue', sans-serif;
+	text-shadow:1px 1px #ddd;
 }
 
 h3 {
+	color: #484848;
 	font-family: 'Helvetica Nueue', sans-serif;
 	text-shadow:1px 1px #ddd;
 	
