@@ -40,7 +40,7 @@
     [:body     
      [:header
       [:h1 [:a.yogthos {:href "/"}  "Luminus" #_(image "img/logo.jpg")]]
-      [:p#subtitle "- a Clojure web framework optimized for productivity"]]
+      [:p#subtitle "- a friendly Clojure web framework"]]
      
      [:ul.header-menu 
       (nav-link page-id "/" "Home")      
