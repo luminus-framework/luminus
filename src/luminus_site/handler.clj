@@ -1,8 +1,7 @@
 (ns luminus-site.handler
   (:use compojure.core
         hiccup.element        
-        luminus-site.docs
-        clj-log.core)
+        luminus-site.docs)
   (:require [lib-luminus.middleware :as middleware]
             [compojure.route :as route]
             [lib-luminus.response :as response]

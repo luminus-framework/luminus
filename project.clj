@@ -5,8 +5,7 @@
                  [lib-luminus "0.1.4"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [bultitude "0.1.7"]                                  
-                 [environ "0.3.0"]
-                 [clj-log "0.4.4"]]
+                 [environ "0.3.0"]]
   :min-lein-version "2.0.0"
   :plugins [[lein-ring "0.7.5"]
             [environ/environ.lein "0.3.0"]]
