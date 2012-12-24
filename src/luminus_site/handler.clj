@@ -11,8 +11,7 @@
 (defn feature-item [title description]
   [:li.feature [:h2 title] [:p description]])
 
-(defn home [] 
-  (log :info "hi")
+(defn home []   
   (common/layout  
     "Home"
     [:section#intro
