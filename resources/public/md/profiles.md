@@ -1,7 +1,7 @@
 ## Profiles
 
 Running `lein new luminus myapp` will create an application using the default profile template.
-However, if you would like to attache further functionality to your template you can append
+However, if you would like to attach further functionality to your template you can append
 profile hints for the extended functionality.
 
 Currently, the following profiles are supported
