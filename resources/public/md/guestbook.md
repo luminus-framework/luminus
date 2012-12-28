@@ -40,6 +40,7 @@ src
          └ models
            common.clj
            handler.clj
+           util.clj
            server.clj
 test
    └ guestbook
@@ -68,6 +69,8 @@ As the name implies, the `common` namespace is used for functions which will be 
 The `handler` namespace defines the routes for the application, this is the entry point into the application and any pages
 we define will have to have their routes added here.
 
+The `util` namespace is used for general helper functions, it comes prepopulated with the `md->html` helper.
+
 Finally, we have the `server` namespace, this is used for running the application in standalone mode.
 
 ### The test directory
@@ -88,9 +91,14 @@ The project file of the application we've created is found in its root folder an
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [lib-luminus "0.1.0-SNAPSHOT"]
+                 [lib-noir "0.3.0"]
+                 [compojure "1.1.3"]
+                 [hiccup "1.0.2"]
                  [ring/ring-jetty-adapter "1.1.0"]
-                 [bultitude "0.1.7"]]
+                 [bultitude "0.1.7"]
+                 [com.taoensso/timbre "1.1.0"]
+                 [com.taoensso/tower "1.0.0"]
+                 [markdown-clj "0.9.13"]]
   :plugins [[lein-ring "0.7.5"]]
   :ring {:handler guestbook.handler/war-handler}
   :main guestbook.server
@@ -222,8 +230,8 @@ Since we wish to create an input form to submit messages we'll also have to refe
 
 ```clojure
 (ns guestbook.handler
-  (:use compojure.core hiccup.form)
-  (:require [lib-luminus.middleware :as middleware]
+  (:use compojure.core hiccup.form)  
+  (:require [noir.util.middleware :as middleware]
             [compojure.route :as route]
             [guestbook.common :as common]
             [guestbook.models.db :as db]))

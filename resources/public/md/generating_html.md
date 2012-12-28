@@ -64,12 +64,12 @@ The above will generate the following HTML:
 </form>
 ```
 
-Finally, Luminus provides a helper function under the `lib-luminus.util` namespace called `md->html`, 
+Finally, Luminus template provides a helper function under the `<yourapp>.util` namespace called `md->html`, 
 this function will read a markdown file located in `resources/public/md` folder and return an HTML string. This can
 be used in conjunction with Hiccup functions, eg:
 
 ```clojure
-(:require [lib-luminus.util :as util])
+(:require [<yourapp>.util :as util])
 
 ...
 
@@ -81,11 +81,11 @@ details on supported syntax.
 
 ## Content caching
 
-Luminus provides some very basic in-memory content caching via the `cache` macro located in `lib-luminus.util`.
+lib-noir provides some very basic in-memory content caching via the `cache` macro located in `noir.util.cache`.
 To cache a page you can simply do the following:
 
 ```clojure
-(use 'lib-luminus.util)
+(use 'noir.util.cache)
  
 (defn slow-loading-page []
   (cache

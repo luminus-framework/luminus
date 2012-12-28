@@ -83,11 +83,16 @@ a `defroutes` macro which can group several routes together and bind them to a s
 ```
 
 Compojure provides the `routes` function to group multiple route definitions together. 
-However, Luminus will handle this for you when you call the `app-routes` function.
+There's an `noir.util.middleware/app-handler` function in `lib-noir` which will wrap all
+the common routes for you. 
 
-All you have to do is add your routes to the `all-routes` vector defined in the `handler` 
-namespace of your application. The `war-handler` function adds additional middleware
-used needed for running on an application server such as Tomcat.
+The `app-handler` accepts a vector of routes followed by optional session store. If
+the store is not specified then in-memory store will be used.
+
+You'll notice that the template already defined an `all-routes` vector in the `handler`.
+All you have to do is add your new routes there. The `noir.util.middleware/war-handler` 
+function adds additional middleware used needed for running on an application server 
+such as Tomcat.
 
 ```clojure
 (def all-routes [auth-routes app-routes])
@@ -96,3 +101,51 @@ used needed for running on an application server such as Tomcat.
 ```
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
+
+## Redirects
+
+Redirects are handled by `noir.response/redirect`.
+
+```clojure
+(require 'noir.response)
+
+(redirect "/foo")
+```
+
+## Restricting access
+
+To restrict access to pages you can create functions specifying custom access rules for your routes. 
+Thes functions must accept three argument which are the method, the url, and the params. The function
+must return a boolean indicating the page passed the rule.
+
+```clojure
+(defn user-page [method url params]  
+  (and (= url "/private/:id") 
+       (= (first params) (session/get :user))))
+```
+
+Once you've got your rules defined, you need to wrap the handler with the 
+`noir.util.middleware/wrap-access-rules` and pass in the rules as parameters, 
+in our case `user-page`.
+
+```clojure
+(require '[noir.util.middleware :as middleware])
+
+(def app (-> all-routes
+             (middleware/app-handler)
+             (middleware/wrap-access-rules user-page)))   
+```
+
+Finally, if we want to restrict page access to a page, in this case if the user id 
+matches the user in session then we simply mark our route with `noir.util.route/restricted`: 
+
+```clojure
+(use 'noir.util.route)
+
+(restricted GET "/private/:id" [id] "private!")
+```
+
+All restricted routes will be checked to see if they match at least one of access rules
+passed into `wrap-access-rules`.
+
+

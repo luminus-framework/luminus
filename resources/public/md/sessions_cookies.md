@@ -2,7 +2,7 @@
 
 Session management is provided by the `noir.session` namespace from [lib-noir](https://github.com/noir-clojure/lib-noir).
 The sessions are provided via middleware handlers both `app-handler` 
-and `war-handler` functions in `lib-luminus.middleware` default to memory session
+and `war-handler` functions in `noir.util.middleware` default to memory session
 store. This can be overriden by passing in a second argument which specifies a 
 specific store you'd like to use.
 
@@ -14,12 +14,11 @@ This following creates an in-memory session store.
 ```
 
 Here we specify the `monger-store` as our session store instead.
-Note that the store is specified independently for both the `app=handler` 
+Note that the store is specified independently for both the `app-handler` 
 and the `war-handler`.
  
 ```clojure
 (def app (middleware/app-handler all-routes (monger-store "sessions")))
-(def war-handler (middleware/war-handler all-routes (monger-store "sessions")))
 ```
 
 ### Accessing the session
