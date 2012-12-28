@@ -3,7 +3,7 @@
   (:require [luminus.common :as common]
             [luminus.util :as util]))
 
-(def doc-pages 
+#_(def doc-pages 
   [["Your first application" "/docs/tutorial" "guestbook.md"]
    ["Application profiles" "/docs/profiles" "profiles.md"]
    ["Generating HTML" "/docs/html" "generating_html.md"]
@@ -15,37 +15,64 @@
    ["Security" "/docs/security" "security.md"]
    ["Deployment" "/docs/deployment" "deployment.md"]])
 
+
+
+(def doc-titles 
+  {"guestbook.md"        [1 "Your first application"]
+   "profiles.md"         [2 "Application profiles"]
+   "generating_html.md"  [3 "Generating HTML"]
+   "static_resources.md" [4 "Static resources"]
+   "routes.md"           [5 "Defining routes"]   
+   "middleware.md"       [6 "Custom middleware"]
+   "sessions_cookies.md" [7 "Sessions and cookies"]
+   "security.md"         [8 "Security"]
+   "logging.md"          [9 "Logging"]   
+   "deployment.md"       [10 "Deployment"]})
+
 (defn doc-link [route selected? title]
   [:li.nav-link 
     (link-to {:class (if selected? "selected" "unselected")} route title)])
 
-(defn doc-page-links [selected-title]   
-  (into [:ul.docs] 
-        (for [[page-title route] doc-pages]
-          (doc-link
-            route
-            (= page-title selected-title)
-            page-title))))
+(defn doc-page-links [doc]  
+  (let [selected-title (get doc-titles doc)] 
+    (into 
+      [:ul.docs] 
+      (for [[doc [_ page-title]] (sort-by #(first (second %)) doc-titles)]
+        (doc-link (str "/docs/" doc) 
+                  (= page-title selected-title) 
+                  page-title)))))
 
-(defn doc-page [doc-id & [route selected-title]]
-  (cache
-    route
+(defn doc-page [& [doc]]  
+  (let [doc (or doc "guestbook.md")]
     (common/layout 
-      "Documentation"
-      [:div
-       [:div.sidebar 
-        [:div.docs [:h2 "Topics"]]
-        (doc-page-links (or selected-title (ffirst doc-pages)))]
-       [:section.main 
-        (util/md->html doc-id)]])))
+        "Documentation"
+        [:div
+         [:div.sidebar 
+          [:div.docs [:h2 "Topics"]]
+          (doc-page-links doc)]
+         [:section.main 
+          (util/md->html doc)]])    
+    #_ (cache
+      doc
+      (common/layout 
+        "Documentation"
+        [:div
+         [:div.sidebar 
+          [:div.docs [:h2 "Topics"]]
+          (doc-page-links doc)]
+         [:section.main 
+          (util/md->html doc)]]))))
 
-(defmacro functionize [macro]
+(defroutes doc-routes 
+  (GET "/docs/:doc" [doc] (doc-page doc)))
+
+#_(defmacro functionize [macro]
   `(fn [& args#] (eval (cons '~macro args#))))
 
-(defmacro apply-macro [macro args]
+#_(defmacro apply-macro [macro args]
    `(apply (functionize ~macro) ~args))
      
-(apply-macro defroutes
+#_(apply-macro defroutes
   (cons 'doc-routes
     (for [[title# route# doc-id#] doc-pages]
       (GET route# [] (doc-page doc-id# route# title#)))))

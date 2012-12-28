@@ -16,8 +16,7 @@
                "/js/brushes/shBrushJScript.js"
                "/js/brushes/shBrushPlain.js"
                "/js/brushes/shBrushXml.js"                 
-               "/js/site.js")
-   ])
+               "/js/site.js")])
 
 (defn nav-link [page-id url name]
   [:li {:class (str
