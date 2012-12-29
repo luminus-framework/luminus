@@ -41,6 +41,6 @@
        [:section.main 
         (util/md->html doc)]])))
 
-(defroutes doc-routes 
+(defroutes doc-routes   
   (GET "/docs" [] (doc-page "guestbook.md"))
   (GET "/docs/:doc" [doc] (doc-page doc)))

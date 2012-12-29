@@ -32,7 +32,7 @@
         (feature-item "Mature ecosystem" "Access to the plethora of existing Clojure and Java libraries")
         (feature-item "Powerful tools" "Excellent build tools and deployment options")]])))
 
-(defroutes app-routes
+(defroutes app-routes  
   (GET "/" [] (home))  
   (GET "/api" [] (response/redirect "/autodoc/index.html"))    
   (GET "/contribute" [] (common/layout "Get involved" [:section (util/md->html "contributing.md")]))

@@ -36,12 +36,14 @@ The newly created application has the following structure
 README.md
 project.clj
 src
-└guestbook
-         └ models
-           common.clj
-           handler.clj
-           util.clj
-           server.clj
+  └ guestbook
+            └ views
+                  └ layout.clj
+              routes 
+                   └ home.clj
+              handler.clj
+              util.clj
+              server.clj
 test
    └ guestbook
              └ test
@@ -62,12 +64,16 @@ The `project.clj` file is used to manage the project configuration and dependenc
 
 Our code lives under the `src` folder. A `guestbook` folder has been created for us already.
 In this folder we have a `models` folder where we would put the namespaces for the model of our application. 
-We also have three namespaces already defined for us as well. 
+We also have several namespaces already defined for us as well. 
 
-As the name implies, the `common` namespace is used for functions which will be shared across the pages of our application.
+First, we have `views/layout.clj`, this is where all the common page layout helpers are located. For example,
+it's where you would put headers, footers, and the common layout for the pages. 
 
-The `handler` namespace defines the routes for the application, this is the entry point into the application and any pages
-we define will have to have their routes added here.
+Next, we have `routes/home.clj`, this is where the routes for our homepage are located. When you add more routes,
+such as authentication, or specific workflows you should create namespaces for them here.
+
+The `handler` namespace defines the base routes for the application, this is the entry point into the application 
+and any pages we define will have to have their routes added here.
 
 The `util` namespace is used for general helper functions, it comes prepopulated with the `md->html` helper.
 
@@ -100,7 +106,8 @@ The project file of the application we've created is found in its root folder an
                  [com.taoensso/tower "1.0.0"]
                  [markdown-clj "0.9.13"]]
   :plugins [[lein-ring "0.7.5"]]
-  :ring {:handler guestbook.handler/war-handler}
+  :ring {:handler guestbook.handler/war-handler
+         :init guestbook.handler/init}
   :main guestbook.server
   :profiles
   {:dev {:dependencies [[ring-mock "0.1.3"]
@@ -128,7 +135,7 @@ If you browse to [localhost:8080](http://localhost:8080), you should see your ap
 ## Accessing the databse with JDBC
 
 First, we will create a model for our application, to do that we'll create a new namespace under 
-the src/guestbook/models folder. We will call this namespace `db`.
+the `src/guestbook/models` folder. We will call this namespace `db`.
 The namespace will live in a file called `db.clj` under `src/guestbook/models` directory.
 
 ```clojure
@@ -191,49 +198,44 @@ To do that we'll call `insert-values` and pass it the name and the message to be
 Since we need to have the database table created in order to access it, 
 we'll add the following code to our `server` namespace.
 
-First, we will reference our `db` namespace in the namespace declaration of our server.
+First, we will reference our `db` namespace in the namespace declaration of our handler.
 
 ```clojure
-(ns guestbook.server
-  (:use guestbook.handler
-        ring.adapter.jetty
-        [ring.middleware file-info file]
-        bultitude.core
-        guestbook.models.db)
-  (:gen-class))
+(ns guestbook.handler
+  (:use guestbook.routes.home
+        compojure.core)
+  (:require [noir.util.middleware :as middleware]
+            [compojure.route :as route]
+            [guestbook.models.db :as db]))
 ```
 
-Then we will update our `-main` function to try and create the guestbook table on load, 
-if the table already exists then we'll simply catch the exception and continue. 
-Obviously, this is not a best practice, but it'll do the job for our toy app.
+Then we will update our `init` function to check if our database exists and 
+create it if needed.
 
 ```clojure
-(defn -main [& [port]]    
-  ;initialize the database table if needed
-  (try
-    (guestbook.models.db/create-guestbook-table)
-    (catch Exception ex))
-  
-  (let [port    (if port (Integer/parseInt port) 8080)]    
-    (run-jetty (get-handler) {:join? false :port port})
-    (println "Server started on port [" port "].")
-    (println (str "You can view the site at http://localhost:" port))))
+(defn init
+  "init will be called once when
+   app is deployed as a servlet on
+   an app server such as Tomcat
+   put any initialization code here"
+  []
+  (if-not (.exists (new java.io.File "db.sq3"))
+    (db/create-guestbook-table))
+  (println "guestbook started successfully..."))
 ```
 
-Since we changed the `main` function of our application, let's restart it by hitting `CTRL+C` and
+Since we changed the `init` function of our application, let's restart it by hitting `CTRL+C` and
 running `lein run` again.
 
 ## Creating pages and handling input from forms
 
-We will now add a reference to the `db` namespace to our `handler` and add some helper functions to render the messages.
-Since we wish to create an input form to submit messages we'll also have to reference `hiccup.form` as well.
+We'll now open up our home namespace located under `routes/home.clj` and add the references for `db`
+and `hiccup.form`.
 
 ```clojure
-(ns guestbook.handler
-  (:use compojure.core hiccup.form)  
-  (:require [noir.util.middleware :as middleware]
-            [compojure.route :as route]
-            [guestbook.common :as common]
+(ns guestbook.routes.home
+  (:use compojure.core hiccup.form)
+  (:require [guestbook.views.layout :as layout]
             [guestbook.models.db :as db]))
 ```
 
@@ -247,7 +249,7 @@ display thm as a list.
           [:li
            [:blockquote message]
            [:p "-" [:cite name]]
-           [:time timestamp]])))              
+           [:time timestamp]])))            
 ```
 Next, we'll add a function to render the home page. Here we create a form 
 with text fields named `name` and `message`, these will be sent when the 
@@ -258,8 +260,8 @@ these are passed in then they will be rendered by the page. This allows us
 to retain the form input in case of an error.
 
 ```clojure
-(defn home [& [name message error]] 
-  (common/layout 
+(defn home-page [& [name message error]] 
+  (layout/common
     [:h1 "Guestbook"]
     [:p "Welcome to my guestbook"]
     [:p error]
@@ -285,26 +287,24 @@ Otherwise we will save the message to the database and display a fresh page.
   (cond 
     
     (empty? name) 
-    (home name message "Some dummy who forgot to leave a name")
+    (home-page name message "Some dummy who forgot to leave a name")
     
     (empty? message) 
-    (home name message "Don't you have something to say?")
+    (home-page name message "Don't you have something to say?")
     
     :else 
     (do 
       (db/save-message name message)
-      (home))))      
+      (home-page))))
 ```
 
-Finally, we need to update our route to pass the form parameters to the `home` function,
+Finally, we need to update our route to pass the form parameters to the `home-page` function,
 and create a new route for handling HTTP POST from our form.
 
 ```clojure
-(defroutes app-routes
-  (GET "/"  [name message error] (home name message error))
-  (POST "/" [name message] (save-message name message))
-  (route/resources "/")
-  (route/not-found "Not Found"))
+(defroutes home-routes
+  (GET "/"  [name message error] (home-page name message error))
+  (POST "/" [name message] (save-message name message)))
 ``` 
 
 Now, if you reload the page in the browser you should be greeted by the guestbook page. 
