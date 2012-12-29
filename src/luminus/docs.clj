@@ -1,6 +1,5 @@
 (ns luminus.docs
-  (:use compojure.core hiccup.element noir.util.cache
-        noir.response)
+  (:use compojure.core hiccup.element noir.util.cache)
   (:require [luminus.common :as common]
             [luminus.util :as util]))
 
