@@ -12,25 +12,21 @@
 (defn feature-item [title description]
   [:li.feature [:h2 title] [:p description]])
 
-(defn home []   
+(defn home []
   (cache
     :home
-    (common/layout  
-      "Home"
-      [:section#intro
-       [:div.wrapper
-        [:div.wrapper
-         (util/md->html "intro.md")]]]
-      
-      [:section#features 
-       [:h2 "Why Luminus?"]
-       [:ul#feature-list
-        (feature-item "Rapid development" "No boilerplate, no nonsense, get your work done framework")
-        (feature-item "Productive" "The performance of the JVM combined with the power of Clojure")
-        (feature-item "Interactivity" "Interactive development with full REPL integration")
-        (feature-item "Flexibility" "Choose the components which make sense for you")      
-        (feature-item "Mature ecosystem" "Access to the plethora of existing Clojure and Java libraries")
-        (feature-item "Powerful tools" "Excellent build tools and deployment options")]])))
+    (common/layout-home
+      "Home" (util/md->html "intro.md"))))
+
+;      [:section#features
+;       [:h2 "Why Luminus?"]
+;       [:ul#feature-list
+;        (feature-item "Rapid development" "No boilerplate, no nonsense, get your work done framework")
+;        (feature-item "Productive" "The performance of the JVM combined with the power of Clojure")
+;        (feature-item "Interactivity" "Interactive development with full REPL integration")
+;        (feature-item "Flexibility" "Choose the components which make sense for you")
+;        (feature-item "Mature ecosystem" "Access to the plethora of existing Clojure and Java libraries")
+;        (feature-item "Powerful tools" "Excellent build tools and deployment options")]])))
 
 (defroutes app-routes
   (GET "/" [] (home))  
