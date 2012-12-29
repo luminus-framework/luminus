@@ -102,16 +102,6 @@ such as Tomcat.
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
 
-## Redirects
-
-Redirects are handled by `noir.response/redirect`.
-
-```clojure
-(require 'noir.response)
-
-(redirect "/foo")
-```
-
 ## Restricting access
 
 To restrict access to pages you can create functions specifying custom access rules for your routes. 
