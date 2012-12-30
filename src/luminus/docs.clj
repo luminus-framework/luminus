@@ -13,6 +13,7 @@
    ["middleware.md"       "Custom middleware"]
    ["sessions_cookies.md" "Sessions and cookies"]
    ["security.md"         "Security"]
+   ["database.md"         "Database access"]
    ["logging.md"          "Logging"]   
    ["deployment.md"       "Deployment"]])
 
@@ -29,7 +30,7 @@
                   (= page-title selected-title) 
                   page-title)))))
 
-(defn doc-page [doc]  
+(defn doc-page [doc]    
   (cache
     doc
     (common/layout 

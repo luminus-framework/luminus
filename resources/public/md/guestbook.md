@@ -307,6 +307,12 @@ and create a new route for handling HTTP POST from our form.
   (POST "/" [name message] (save-message name message)))
 ``` 
 
+We now have to add these routes to `all-routes` vector in our `handler` namespace for them to be accessible:
+
+```clojure
+(def all-routes [home-routes app-routes])
+```
+
 Now, if you reload the page in the browser you should be greeted by the guestbook page. 
 Try adding a comment in the guestbook to see that it's working correctly.
 
