@@ -7,7 +7,8 @@ profile hints for the extended functionality.
 Currently, the following profiles are supported
 
 * +bootstrap - adds bootstrap css/js static resources
-* +sqlite - initializes a SQLite database for the site, adds user registration and login
+* +sqlite - adds `models.db` namespace which initializes a SQLite database
+* +site - creates a template application using bootstrap and sqlite templates, adds registration and authentication
 
 To add a profile simply pass it as an argument after your application name, eg:
 

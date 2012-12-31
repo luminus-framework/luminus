@@ -4,14 +4,14 @@ Installing [Leiningen](https://github.com/technomancy/leiningen) is a simple pro
 involves the following steps.
 
 1. Download the script.
+3. Set it to be executable. (eg: chmod +x lein)
 2. Place it on your $PATH. (eg: ~/bin)
-3. Set it to be executable. (eg: chmod +x ~/bin/lein)
 4. Run `lein self-install` and wait for the installation to complete.
 
 ```
 wget https://raw.github.com/technomancy/leiningen/preview/bin/lein
-mv lein ~/bin
 chmod +x lein
+mv lein ~/bin
 lein self-install
 ```
 

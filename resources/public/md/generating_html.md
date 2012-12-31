@@ -95,9 +95,30 @@ To cache a page you can simply do the following:
      (parse-lots-of-files))))
 ```
 
-The cache can be invalidated by calling:
+The cache can be invalidated by calling `invalidate-cache!` and specifying the
+key to invalidate.
 
 ```clojure
 (invalidate-cache! :slow-page)
 ```
 
+Use `clear-cache!` to clear all items which are currently cached.
+
+```clojure
+(clear-cache!)
+```
+
+Use `set-cache-timeout!` to set the timeout for items in seconds,
+if an item has a lifetime longer than the timeout it will be reloaded.
+
+```clojure
+(set-cache-timeout! 10)
+```
+
+Finally, you can limit the total size of the cache, when the cache
+grows past the specified size the oldest items will be removed to 
+make room for new items.
+
+```clojure 
+(set-cache-size! 10)
+```
