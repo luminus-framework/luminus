@@ -31,8 +31,7 @@
                   (= page-title selected-title) 
                   page-title)))))
 
-(defn doc-page [doc]     
-  (clear-cache!)
+(defn doc-page [doc]       
   (cache
     doc
     (common/layout 
