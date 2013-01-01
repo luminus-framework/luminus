@@ -22,7 +22,8 @@
    (link-to {:class (if selected? "selected" "unselected")} route title)])
 
 (defn doc-page-links [doc]  
-  (let [selected-title (get (into {} doc-titles) doc)] 
+  (let [selected-title (get (into {} doc-titles) doc)]
+    (println doc selected-title)
     (into 
       [:ul.docs] 
       (for [[doc page-title] doc-titles]
@@ -30,21 +31,22 @@
                   (= page-title selected-title) 
                   page-title)))))
 
-(defn doc-page [doc]      
+(defn doc-page [doc]     
+  (clear-cache!)
   (cache
     doc
     (common/layout 
       "Documentation"
-      (let [doc (util/fetch-doc doc)] 
+      (let [doc-content (util/fetch-doc doc)] 
         [:div
          [:div.sidebar 
           [:div.docs [:h2 "Topics"]]
           (doc-page-links doc)]
          [:section.main 
           [:h2 "Contents"]
-          (util/generate-toc doc)
+          (util/generate-toc doc-content)
           [:hr]
-          doc]]))))
+          doc-content]]))))
 
 (defroutes doc-routes   
   (GET "/docs" [] (doc-page "guestbook.md"))
