@@ -30,17 +30,21 @@
                   (= page-title selected-title) 
                   page-title)))))
 
-(defn doc-page [doc]     
+(defn doc-page [doc]      
   (cache
     doc
     (common/layout 
       "Documentation"
-      [:div
-       [:div.sidebar 
-        [:div.docs [:h2 "Topics"]]
-        (doc-page-links doc)]
-       [:section.main 
-        (util/fetch-doc doc)]])))
+      (let [doc (util/fetch-doc doc)] 
+        [:div
+         [:div.sidebar 
+          [:div.docs [:h2 "Topics"]]
+          (doc-page-links doc)]
+         [:section.main 
+          [:h2 "Contents"]
+          (util/generate-toc doc)
+          [:hr]
+          doc]]))))
 
 (defroutes doc-routes   
   (GET "/docs" [] (doc-page "guestbook.md"))
