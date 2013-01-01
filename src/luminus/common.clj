@@ -1,6 +1,7 @@
 (ns luminus.common
   (:use hiccup.element
-        hiccup.page))
+        hiccup.page
+        hiccup.def))
 
 (defn head []
   [:head
@@ -34,20 +35,17 @@
                           (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
                           [:span#poweredby " powered by Clojure"]]]])
 
-(defn layout [page-id & body]
-  (html5
-    (head)    
-    [:body     
-     [:header
-      [:h1 [:a.yogthos {:href "/"}  "Luminus" #_(image "img/logo.jpg")]]
-      [:p#subtitle "- a friendly Clojure web framework"]]
-     
-     [:ul.header-menu 
-      (nav-link page-id "/" "Home")      
-      (nav-link page-id "/docs" "Documentation")
-      ;(nav-link page-id "/api" "API")      
-      (nav-link page-id "/contribute" "Get involved")      
-      (nav-link page-id "/about" "About")]     
-     
-     (into [:content] body)     
-     (footer)]))
+(defhtml layout [page-id & body]  
+  (head)    
+  [:body     
+   [:header
+    [:h1 [:a.yogthos {:href "/"}  "Luminus"]]
+    [:p#subtitle "- a friendly Clojure web framework"]]     
+   [:ul.header-menu 
+    (nav-link page-id "/" "Home")      
+    (nav-link page-id "/docs" "Documentation")
+    (nav-link page-id "/contribute" "Get involved")      
+    (nav-link page-id "/about" "About")]     
+   
+   (into [:content] body)     
+   (footer)])
