@@ -26,7 +26,7 @@
        [:h2 "Why Luminus?"]
        [:ul#feature-list
         (feature-item "Rapid development" "No boilerplate, no nonsense, get your work done framework")
-        (feature-item "Productive" "The performance of the JVM combined with the power of Clojure")
+        (feature-item "Productivity" "The performance of the JVM combined with the power of Clojure")
         (feature-item "Interactivity" "Interactive development with full REPL integration")
         (feature-item "Flexibility" "Choose the components which make sense for you")      
         (feature-item "Mature ecosystem" "Access to the plethora of existing Clojure and Java libraries")
