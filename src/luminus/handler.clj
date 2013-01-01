@@ -40,6 +40,9 @@
   (route/resources "/")
   (route/not-found "Not Found"))
 
+(defn init []
+  (set-cache-timeout! 60))
+
 (def all-routes [doc-routes app-routes])
 (def app (middleware/app-handler all-routes))
 (def war-handler (middleware/war-handler app))
