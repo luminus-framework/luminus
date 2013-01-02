@@ -20,7 +20,7 @@
 
 (defn fetch-doc [name]
   (md/md-to-html-string
-    (->> name 
+    (->> name
       (str "https://raw.github.com/yogthos/luminus/master/resources/public/md/")
       (client/get)
       :body)

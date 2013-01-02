@@ -64,7 +64,7 @@ The above will generate the following HTML:
 </form>
 ```
 
-Finally, Luminus template provides a helper function under the `<yourapp>.util` namespace called `md->html`, 
+Finally, Luminus template provides a helper function under the `<yourapp>.util` namespace called `md->html`,
 this function will read a markdown file located in `resources/public/md` folder and return an HTML string. This can
 be used in conjunction with Hiccup functions, eg:
 

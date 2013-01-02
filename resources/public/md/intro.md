@@ -1,21 +1,22 @@
 
-## No fuss Clojure web applications!
 
-Luminus is based on a set of lightweight libraries and aims to provide a robust, scalable and easy to use platform.
-With Luminus you can focus on developing your app the way you want without any distractions.
-           
-### Getting started
+## Getting started
 
-Getting started with Luminus is easy!
+__Install Leiningen version 2__
 
-* install [Leiningen](https://github.com/technomancy/leiningen)
+Leiningen is the Clojure package manager. You can find further instructions on the [Leiningen website](https://github.com/technomancy/leiningen)
 
-* create a new project:
+__Create a new project__
 
-```
     lein new luminus myapp
     cd myapp
-    lein run
-```
 
-* browse to localhost:8080 and see your app running!
+
+__Run__
+
+    lein run
+
+__Browse__
+
+Open [http://localhost:8080](http://localhost:8080) and see your app running!
+
