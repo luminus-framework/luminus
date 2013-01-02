@@ -22,8 +22,7 @@
    (link-to {:class (if selected? "selected" "unselected")} route title)])
 
 (defn doc-page-links [doc]  
-  (let [selected-title (get (into {} doc-titles) doc)]
-    (println doc selected-title)
+  (let [selected-title (get (into {} doc-titles) doc)]    
     (into 
       [:ul.docs] 
       (for [[doc page-title] doc-titles]
@@ -31,7 +30,7 @@
                   (= page-title selected-title) 
                   page-title)))))
 
-(defn doc-page [doc]       
+(defn doc-page [doc]         
   (cache
     doc
     (common/layout 

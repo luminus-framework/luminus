@@ -281,6 +281,10 @@ a:hover {color: #777;}
 .docs a:visited {text-decoration: none; color: white;}
 .docs a:hover { color: white;}
 
+.contents a:link {text-decoration: none;}
+.contents a:active {text-decoration: none;}
+.contents a:visited {text-decoration: none;}
+.contents a:hover {text-decoration: none;}
 
 .sidebar h3 {
 	padding-left: 40px;

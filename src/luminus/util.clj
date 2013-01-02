@@ -37,7 +37,7 @@
       [] content))
 
 (defn make-links [headings]
-  (into [:ol] 
+  (into [:ol.contents] 
     (for [{[{{name :name} :attrs} title] :content} headings]           
       [:li [:a {:href (str "#" name)} title]])))
 
