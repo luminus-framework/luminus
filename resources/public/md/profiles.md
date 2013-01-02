@@ -7,7 +7,10 @@ profile hints for the extended functionality.
 Currently, the following profiles are supported
 
 * +bootstrap - adds bootstrap css/js static resources
-* +sqlite - initializes a SQLite database for the site, adds user registration and login
+* +sqlite - adds `models.db` namespace and SQLite dependencies
+* +h2 - adds `models.db` namespace and H2 db dependencies
+* +postgres - adds `models.db` namespace and add PostreSQL dependencies 
+* +site - creates an application with registration and authentication setup, uses bootstrap and sqlite when database is not specified
 
 To add a profile simply pass it as an argument after your application name, eg:
 
@@ -16,7 +19,7 @@ lein new luminus myapp +bootstrap
 ```
 You can also mix multiple profiles when creating the applicaiton, eg:
 ```
-lein new luminus myapp +bootstrap +sqlite
+lein new luminus myapp +site +postgres
 ```
 
 In case two profiles generate the same files, the latest one will overwrite the files from the preceding profiles.

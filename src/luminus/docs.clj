@@ -14,6 +14,7 @@
    ["middleware.md" "Custom middleware"]
    ["sessions_cookies.md" "Sessions and cookies"]
    ["security.md" "Security"]
+   ["database.md" "Database access"]
    ["logging.md" "Logging"]
    ["deployment.md" "Deployment"]])
 
@@ -33,14 +34,18 @@
 (defn doc-page [doc]
   (cache
     doc
-  (common/layout "Documentation"
-    [:div {:id "left"}
-     [:div.entry [:h1 (get (into {} doc-titles) doc )]
-      (util/md->html doc)
-      ]]
-    [:div {:id "right"}
-     [:div.sidemenu [:h3 "Sidebar Menu"]
-      (doc-page-links doc)]])))
+    (common/layout "Documentation"
+      (let [doc-content (util/fetch-doc doc)]
+        [:div [:div {:id "left"}
+         [:div.entry [:h1 (get (into {} doc-titles) doc)]
+          [:h2 "Contents"]
+          (util/generate-toc doc-content)
+          [:hr ]
+          doc-content
+          ]]
+        [:div {:id "right"}
+         [:div.sidemenu [:h3 "Sidebar Menu"]
+          (doc-page-links doc)]]]))))
 
 
 (defroutes doc-routes

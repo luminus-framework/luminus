@@ -36,15 +36,15 @@ You can load a static resource relative to the public folder using `get-resource
 with the relative path supplied as individual strings, eg:
 
 ```clojure
-(get-resource "/css/screen.css")
+(get-resource "/md/outline.md")
 ```
-The above will return clojure.java.io/resource for `screen.css` located at public/css/screen.css path.
+The above will return clojure.java.io/resource for `screen.css` located at public/md/outline.md path.
 
 Finally, there's `slurp-resource` which will read the contents of the file and
 return a string, eg:
 
 ```clojure
-(slurp-resource "/css/screen.css")
+(slurp-resource "/md/outline.md")
 ```
 
 

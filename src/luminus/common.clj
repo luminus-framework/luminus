@@ -1,7 +1,8 @@
 (ns luminus.common
   (:use [hiccup.page :only [html5 include-css include-js]]
         [hiccup.element :only [link-to image]]
-        [hiccup.util :only [to-uri]]))
+        [hiccup.util :only [to-uri]]
+        [hiccup.def]))
 
 (defn nav-link
   ([page-id url name]
@@ -15,10 +16,8 @@
    [:p {:id "slogan"} "A Clojure web framework"]
 
    [:div {:id "nav"}
-
     [:ul (nav-link page-id "/" "Home" {:class "first"})
      (nav-link page-id "/docs" "Documentation")
-     (nav-link page-id "/api" "API")
      (nav-link page-id "/contribute" "Get involved")
      (nav-link page-id "/about" "About")
      ]]
@@ -56,7 +55,7 @@
             content
             (footer)]]))
 
-(defn layout [page-id & content]
+(defhtml layout [page-id & content]
   (base page-id
             [:div.clear {:id "content-outer"}
              [:div {:id "content-wrap"}
@@ -64,7 +63,7 @@
               ]]
             ))
 
-(defn layout-home [page-id & content]
+(defhtml layout-home [page-id & content]
   (base page-id
     [:div.clear {:id "featured"}
      [:div.image-block (image "images/img-featured.png" "featured")]
