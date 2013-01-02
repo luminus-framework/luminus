@@ -19,6 +19,7 @@ body {
 	text-align: center;
 }
 
+
 /* Links */
 a:link, a:visited {
 	text-decoration: none;
@@ -64,7 +65,7 @@ dd {
   padding-left: 20px; 
 }
 
-p, dl, code { margin: 10px 20px; }
+p, dl { margin: 10px 20px; }
 
 /* Images */
 #clojure-logo {vertical-align:middle; background: none; border: none;}
@@ -82,7 +83,12 @@ img.float-left {
 }
 
 code {
-  	padding: 5px 15px;
+    font: 500 1em/1.5em 'Lucida Console', 'Courier New', Monospace;
+}
+
+pre > code {
+    margin: 10px 20px;
+  	padding: 0px 15px  10px 15px;
   	text-align: left;
   	display: block;
   	overflow: auto;  
@@ -91,6 +97,8 @@ code {
   	border: 1px solid #F0F0F0;
 	background: #F8F8F8;  
 }
+
+
 acronym {
   cursor: help;
   border-bottom: 1px dotted #555;
