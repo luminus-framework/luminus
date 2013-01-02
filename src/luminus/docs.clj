@@ -30,7 +30,6 @@
           (= page-title selected-title)
           page-title)))))
 
-
 (defn doc-page [doc]
   (cache
     doc
