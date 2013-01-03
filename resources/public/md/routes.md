@@ -106,7 +106,7 @@ Further documentation is available on the [official Compojure wiki](https://gith
 
 To restrict access to pages you can create functions specifying custom access rules for your routes. 
 Thes functions must accept three argument which are the method, the url, and the params. The function
-must return a boolean indicating the page passed the rule.
+must return a boolean indicating whether the page passed the rule.
 
 ```clojure
 (defn user-page [method url params]  
