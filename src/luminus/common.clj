@@ -44,7 +44,7 @@
    [:ul.header-menu 
     (nav-link page-id "/" "Home")      
     (nav-link page-id "/docs" "Documentation")
-    (nav-link page-id "/noir-api/index.html" "API")
+    (nav-link page-id "/api" "API")
     (nav-link page-id "/contribute" "Get involved")      
     (nav-link page-id "/about" "About")]     
    

@@ -34,7 +34,7 @@
 
 (defroutes app-routes  
   (GET "/" [] (home))  
-  (GET "/api" [] (response/redirect "/autodoc/index.html"))    
+  (GET "/api" [] (common/layout "API" [:section (util/md->html "api.md")]))    
   (GET "/contribute" [] (common/layout "Get involved" [:section (util/md->html "contributing.md")]))
   (GET "/about" [] (common/layout "About" [:section (util/md->html "about.md")]))
   (route/resources "/")
