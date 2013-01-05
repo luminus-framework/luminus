@@ -7,10 +7,12 @@ You can get the path to public folder of the application by calling `resource-pa
 
 ### Handling file uploads
 
-Uploading files is handled via `upload-file` which accepts a path relative to the
-public folder and the file map, eg:
+Uploading files is handled via `upload-file` in `noir.io` namespace which accepts a 
+path relative to the public folder and the file map, eg:
 
 ```clojure
+(:require [noir.io :as io])
+
 (defn upload-page []
   (session/put! :user "foo")
   (common/layout
