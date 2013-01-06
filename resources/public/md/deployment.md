@@ -28,4 +28,51 @@ at root context, simply copy it to `webapp` as `ROOT.war`.
 
 ## Heroku Deployment
 
-Simply follow the steps in the [official documentation](https://devcenter.heroku.com/articles/clojure)
+**Heroku deployment steps assume that you are running Leiningen version 2**
+
+First, make sure you have [Heroku toolbelt](https://toolbelt.heroku.com/) installed.
+
+If you created the project using +heroku flag then simply follow the steps below:
+
+test that your application runs locally with `foreman` 
+```
+foreman start
+```
+
+initialize your git repo
+
+```
+git init
+git add .
+git commit -m "init"
+```
+
+create your app on Heroku
+```
+heroku create
+```
+
+deploy the application
+
+```
+git push heroku master
+```
+Your application should now be deployed to Heroku
+
+If you did not use +heroku flag then you need to add the following to your `project.clj`
+
+```clojure
+:dependencies [... [environ "0.3.0"]]
+:min-lein-version "2.0.0"
+:plugins [... [environ/environ.lein "0.3.0"]]
+:hooks [environ.leiningen.hooks]
+:profiles {:production {:env {:production true}}
+           ...}
+```
+
+Then create a new file called `Procfile` in the root folder of your application with the following contents:
+```
+web: lein with-profile production trampoline run -m myapp.server $PORT
+```
+
+For further instructions see the [official documentation](https://devcenter.heroku.com/articles/clojure).
