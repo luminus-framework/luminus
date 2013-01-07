@@ -1,5 +1,5 @@
 body {
-    background: #65979A;	
+    background: #2B4753;	
     color: #444;
     background-origin: padding-box;
     background-size: auto;
@@ -19,7 +19,7 @@ header a:link {text-decoration: none; color: white;}
 header a:visited {text-decoration: none; color: white;}
 
 header {
-	background: #CAB18C;
+	background: #7D9CA9;
 	
 	border-bottom-color: #dedede;
 	line-height: 25px;
@@ -148,7 +148,7 @@ pre {
 
 #feature-list h2 {
 	
-	color: #D0783F;
+	color: #6C97A9;
 	font-family: 'Helvetica Nueue', sans-serif;	
 	text-shadow: none;
 }
@@ -245,7 +245,7 @@ a:hover {color: #777;}
 	text-align:left;
 	font-weight:bold;
 	color: white;
-	background: #CAB18C;
+	background: #7D9CA9;
 	width: 110px;	
 	list-style-type: none;
 	
