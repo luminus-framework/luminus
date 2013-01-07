@@ -184,7 +184,7 @@ footer {
 	width: 700px;
 	margin-left: auto;
 	margin-right: auto;
-	color: #AEE3E6;
+	color: #B8D2D4;
 	position: bottom: 0; 
 	padding-top: 30px;
 	border-top-color: #DEDEDE;	
@@ -194,9 +194,9 @@ footer {
   	box-shadow: inset 0 1px 0 #999;	
 }
 
-footer a:link {color: #AEE3E6;}
-footer a:visited {color: #AEE3E6;}
-footer a:hover {color: #fff;}
+footer a:link {color: #B8D2D4;}
+footer a:visited {color: #B8D2D4;}
+footer a:hover {color: #AEE3E6;}
 
 
 .clear {
