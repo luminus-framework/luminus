@@ -65,7 +65,7 @@ The above will generate the following HTML:
 ```
 
 Finally, Luminus template provides a helper function under the `<yourapp>.util` namespace called `md->html`, 
-this function will read a markdown file located in `resources/public/md` folder and return an HTML string. This can
+this function will read a markdown file relative to `resources/public/` folder and return an HTML string. This can
 be used in conjunction with Hiccup functions, eg:
 
 ```clojure
@@ -73,7 +73,7 @@ be used in conjunction with Hiccup functions, eg:
 
 ...
 
-(html [:div.contenr [:p (util/md->html "paragraph.md")]])
+(html [:div.contenr [:p (util/md->html "/md/paragraph.md")]])
 
 ```
 The markdown generation is done by markdown-clj, please see the [Github page](https://github.com/yogthos/markdown-clj) for
