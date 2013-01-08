@@ -119,3 +119,6 @@ make room for new items.
 ```clojure 
 (set-cache-size! 10)
 ```
+
+Note that cache checks if the operation is successful when reloading. This means that if 
+the operation, such as fetching a remote file, fails then the current cached value is kept.
