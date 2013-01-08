@@ -11,25 +11,26 @@ Uploading files is handled via `upload-file` in `noir.io` namespace which accept
 path relative to the public folder and the file map, eg:
 
 ```clojure
-(:require [noir.io :as io])
-
+(ns myapp.upload
+  ...
+  (:require [noir.io :as io]))
+ 
 (defn upload-page []
-  (session/put! :user "foo")
   (common/layout
     [:h2 "Upload a file"]
     (form-to {:enctype "multipart/form-data"}
-             [:post "/upload"]             
-             (file-upload :file)             
+             [:post "/upload"]            
+             (file-upload :file)            
              (submit-button "upload"))))
-             
-(defn handle-upload [file] 
-  (upload-file (str "/" (session/get :user)) file)
-  (redirect 
+              
+(defn handle-upload [file]
+  (upload-file "/" file)
+  (redirect
     (str "/" (session/get :user) "/" (:filename file))))
-  
+   
 (defroutes upload-routes
   (GET "/upload" [] (upload-page))
-  (POST "/upload" [file] (handle-upload file)))  
+  (POST "/upload" [file] (handle-upload file)))
 ```
 
 ### Serving static resources
