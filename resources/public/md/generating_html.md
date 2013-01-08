@@ -70,11 +70,8 @@ be used in conjunction with Hiccup functions, eg:
 
 ```clojure
 (:require [<yourapp>.util :as util])
-
 ...
-
 (html [:div.contenr [:p (util/md->html "/md/paragraph.md")]])
-
 ```
 The markdown generation is done by markdown-clj, please see the [Github page](https://github.com/yogthos/markdown-clj) for
 details on supported syntax.

@@ -5,7 +5,7 @@ body {
     background-size: auto;
 	color: #666;
 	display: block;
-	font-family: HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-family: Helvetica Nueue', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
 	font-size: 14px;
 	font-weight: 300;
 	margin-left: 20px;
@@ -13,6 +13,12 @@ body {
 	width: 900px;
 	margin-left: auto;
     margin-right: auto;
+    
+}
+
+/* Headers */
+h1, h2, h3, h4 {
+	font: bold 1.5em/1.5em Georgia, 'Times New Roman', Times, serif;	
 }
 
 header a:link {text-decoration: none; color: white;}
@@ -41,11 +47,16 @@ header {
 .header-menu {
 	margin-left:auto;
 	margin-right:auto;
-	width:410px;
+	width: 500px;		
 }
 
+.header-link a:link {color: #eee;}
+.header-link a:visited {color: #eee;}
+.header-link a:hover {color: white;}
+
+
 .header-link {	
-	background: #dedede url(/img/carbon2.png) fixed;
+	background: #7D9CA9;
     color: #fff;
     text-shadow:2px 2px #fff;
     font-size: 15px;
@@ -62,6 +73,8 @@ header {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;	
 	border-radius: 3px;
+	
+	text-shadow: #444 0.1em 0.1em 0.2em;
 }
 
 content {
@@ -73,22 +86,12 @@ content {
 	overflow: auto;	
 }
 
-h2 {
-	color: #484848;	
-	font-family: 'Helvetica Nueue', sans-serif;
-	text-shadow:1px 1px #ddd;
-}
-
-h3 {
-	color: #484848;
-	font-family: 'Helvetica Nueue', sans-serif;
-	text-shadow:1px 1px #ddd;
-	
-}
-
 section {
-	background: #DCDCDC;
-	
+	color: #333;
+	background: #eee;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1.3em;
 	width: 860px;	
 	border:3px solid;
 	border-color:#eee;	
@@ -131,6 +134,7 @@ section {
 #poweredby {line-height: 20px;}
 
 pre {
+    line-height: 1.1em;
 	background-color: #eee;
 	border:1px solid;
 	border-color:#ccc;
@@ -142,8 +146,10 @@ pre {
 	margin-right: 20px;
 }
 
-#features h2 {
+#features h2 {	
 	text-align: center;
+	color: white; 
+	text-shadow: black 0.1em 0.1em 0.2em;
 }
 
 #feature-list h2 {
@@ -171,7 +177,7 @@ pre {
 
 
 .feature {	
-	color: #eee;
+	color: #eee;	
 	display: inline-block;
     list-style: none;
     margin: 1px;
@@ -197,7 +203,6 @@ footer {
 footer a:link {color: #B8D2D4;}
 footer a:visited {color: #B8D2D4;}
 footer a:hover {color: #AEE3E6;}
-
 
 .clear {
 	clear:both;
