@@ -238,7 +238,7 @@ input.button {
 	position: absolute;
 	top: 12px; right: 30px;
 	width: 292px;
-	height: 234px;	
+	height: 234px;		
 	background: url(../img/header-bg.png) no-repeat; 
 }
 
@@ -556,7 +556,7 @@ input.button {
 	font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, sans-serif;
 	font-size: .9em;		
 	color: #777;
-	border-bottom: 50px solid #FFF; 
+	border-bottom: 50px solid #FFF;  
 }
 #footer-bottom a:hover { border: none; }
 #footer-bottom .bottom-left {
@@ -566,115 +566,6 @@ input.button {
 #footer-bottom .bottom-right {
 	text-align: right;
 	padding-right: 0;
-}
-
-/* post */
-.post {
-	margin-bottom: 15px;
-	background: url(../img/dotted-lines.gif) repeat-x left bottom; 
-	padding-bottom: 15px;
-}
-.post .image-section {
-	clear: both;
-	display: block;
-	margin: 25px 0 10px 20px;
-	padding: 0;
-}
-.post .image-section img {
-	background: #FAFAFA;
-   border: 1px solid #ECECEC;	
-	padding: 12px;
-}
-.post .postmeta {	
-	padding: 5px 15px; margin: 20px 20px 15px 20px;	
-	background: #f9fbfd; 
-	border: 1px solid #eaf1f5;
-}
-.post .postmeta a { background: transparent; }
-.post .postmeta a:hover { border: none; }
-.post .postmeta a.comments { margin: 0 10px 0 5px;	}
-.post .postmeta a.readmore { margin: 0 10px 0 5px;	}
-.post .postmeta .date { margin: 0 10px 0 5px;	}
-
-.post .post-info, 
-#featured .post-info { font-size: .95em; margin-top: 0; color: #B0B0B0; }
-
-.post .post-info a, .post .post-info a:visited,
-#featured .post-info a, #featured .post-info a:visited { color: #8BB92E; border: none; }
-
-.post .tags {
-	padding: 5px 15px; margin: 20px 20px 15px 20px;	
-	border-top: 1px solid #eaf1f5;
-	border-bottom: 1px solid #eaf1f5;
-}
-
-/* comments list */
-ol.commentlist {
-	margin: 12px 20px;
-	padding: 0;
-	border-style: solid;	
-	border-color: #F0F0F0;	
-	border-width: 1px 1px 0 1px;
-}
-.commentlist li {
-	margin: 0;
-	padding: 10px;
-	list-style: none;
-	border-bottom: 1px solid #F0F0F0; 
-}
-.commentlist li cite {
-	display: block;
-	font-style: normal;
-	font-weight: bold;
-	padding: 7px;	
-}
-.commentlist li cite img {
-	float: left;
-	margin-right: 10px;	
-}
-.commentlist li cite .comment-data {
-	font-size: .8em;
-	font-weight: normal;
-}
-.commentlist li .comment-text {
-	clear: both;
-	margin: 0; padding: 5px 0 0 0;
-}
-.commentlist li.alt {
-	background: #F8F8F8; 
-}
-
-/* archives */
-ul.archive {
-	background: url(../img/dotted-lines.gif) repeat-x left top; 
-	margin: 15px 20px 20px 20px;
-	padding: 0;	
-}
-ul.archive li {
-	list-style: none;
-	background: url(../img/dotted-lines.gif) repeat-x left bottom; 
-	margin: 0;
-	padding: 10px 5px;
-}
-ul.archive li .post-title {
-	margin: 0;
-	padding: 0;
-	font-size: 1.2em;	
-}
-ul.archive li .post-title a {
-	color: #555;
-}
-ul.archive li .post-title a:hover {
-	border: none;
-	color: #222;
-}
-ul.archive li .post-details {
-	font-size: .9em;
-	margin-left: 0;
-	margin-top: 0;
-}
-ul.archive li .post-details a {
-	border: none;
 }
 
 /* pagenavigation */
@@ -726,6 +617,3 @@ p.thumbs {
 	height:0; 
 	content: "."; 
 }
-
-
-

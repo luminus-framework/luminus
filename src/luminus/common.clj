@@ -22,7 +22,8 @@
      (nav-link page-id "/contribute" "Get involved")
      (nav-link page-id "/about" "About")
      ]]
-   [:div#header-image]])
+   ;[:div#header-image]
+   ])
 
 (defn footer []
   [:div#footer-bottom 
