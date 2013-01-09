@@ -42,7 +42,7 @@
           doc-content
           ]]
         [:div {:id "right"}
-         [:div.sidemenu [:h3 "Sidebar Menu"]
+         [:div.sidemenu [:h3 "Topics"]
           (doc-page-links doc)]]]))))
 
 (defroutes doc-routes   
