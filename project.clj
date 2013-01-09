@@ -8,7 +8,7 @@
                  [ring/ring-jetty-adapter "1.1.0"]
                  [bultitude "0.1.7"]
                  [environ "0.3.0"]
-                 [markdown-clj "0.9.14"]
+                 [markdown-clj "0.9.16"]
                  [clj-http "0.6.3"]
                  [crouton "0.1.1"]]
   :min-lein-version "2.0.0"
