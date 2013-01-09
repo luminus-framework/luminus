@@ -40,14 +40,14 @@ This would result in the following HTML:
 <img align=\"left\" src=\"foo.png\">
 ```
 
-However, it is best practice to use CSS for the actual styling of the elements in order to keep the structure separate from the representation. 
+However, it is best practice to use CSS for the actual styling of the elements in order to keep the structure separate from the representation.
 
 ## Forms and Input
 
 Hiccup also provides helpers for creating HTML forms, here's an example:
 
 ```clojure
-(form-to [:post "/login"] 
+(form-to [:post "/login"]
   (text-field {:placeholder "screen name"} "id")
   (password-field {:placeholder "password"} "pass")
   (submit-button "login"))
@@ -64,7 +64,7 @@ The above will generate the following HTML:
 </form>
 ```
 
-Finally, Luminus template provides a helper function under the `<yourapp>.util` namespace called `md->html`, 
+Finally, Luminus template provides a helper function under the `<yourapp>.util` namespace called `md->html`,
 this function will read a markdown file relative to `resources/public/` folder and return an HTML string. This can
 be used in conjunction with Hiccup functions, eg:
 
@@ -84,12 +84,12 @@ To cache a page you can simply do the following:
 
 ```clojure
 (use 'noir.util.cache)
- 
+
 (defn slow-loading-page []
   (cache
    :slow-page
    (common/layout
-    [:div "I load slowly"] 
+    [:div "I load slowly"]
      (parse-lots-of-files))))
 ```
 
@@ -114,12 +114,12 @@ if an item has a lifetime longer than the timeout it will be reloaded.
 ```
 
 Finally, you can limit the total size of the cache, when the cache
-grows past the specified size the oldest items will be removed to 
+grows past the specified size the oldest items will be removed to
 make room for new items.
 
-```clojure 
+```clojure
 (set-cache-size! 10)
 ```
 
-Note that cache checks if the operation is successful when reloading. This means that if 
+Note that cache checks if the operation is successful when reloading. This means that if
 the operation, such as fetching a remote file, fails then the current cached value is kept.

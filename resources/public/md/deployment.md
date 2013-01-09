@@ -1,6 +1,6 @@
 ## Running Standalone
 
-To create a standalone executable for your application simply run 
+To create a standalone executable for your application simply run
 
 ```bash
 lein uberjar
@@ -28,7 +28,7 @@ cp target/myapp-0.1.0-SNAPSHOT-standalone.war ~/tomcat/webapps/myapp.war
 ```
 
 Your app will now be avaliable at the context `/myapp` when Tomcat starts. To deploy the app
-at root context, simply copy it to `webapp` as `ROOT.war`. 
+at root context, simply copy it to `webapp` as `ROOT.war`.
 
 ## Heroku Deployment
 
@@ -38,7 +38,7 @@ First, make sure you have [Heroku toolbelt](https://toolbelt.heroku.com/) instal
 
 If you created the project using +heroku flag then simply follow the steps below:
 
-test that your application runs locally with `foreman` 
+test that your application runs locally with `foreman`
 
 ```
 foreman start

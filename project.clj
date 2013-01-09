@@ -6,7 +6,7 @@
                  [compojure "1.1.3"]
                  [hiccup "1.0.2"]
                  [ring/ring-jetty-adapter "1.1.0"]
-                 [bultitude "0.1.7"]                                  
+                 [bultitude "0.1.7"]
                  [environ "0.3.0"]
                  [markdown-clj "0.9.14"]
                  [clj-http "0.6.3"]

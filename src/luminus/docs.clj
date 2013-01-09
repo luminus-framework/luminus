@@ -3,18 +3,18 @@
   (:require [luminus.common :as common]
             [luminus.util :as util]))
 
-(def doc-titles 
+(def doc-titles
   [["guestbook.md"        "Your first application"]
    ["profiles.md"         "Application profiles"]
    ["generating_html.md"  "Generating HTML"]
    ["static_resources.md" "Static resources"]
    ["responses.md"        "Response types"]
-   ["routes.md"           "Defining routes"]   
+   ["routes.md"           "Defining routes"]
    ["middleware.md"       "Custom middleware"]
    ["sessions_cookies.md" "Sessions and cookies"]
    ["security.md"         "Security"]
    ["database.md"         "Database access"]
-   ["logging.md"          "Logging"]   
+   ["logging.md"          "Logging"]
    ["deployment.md"       "Deployment"]])
 
 (defn doc-link [route selected? title]
@@ -45,6 +45,6 @@
          [:div.sidemenu [:h3 "Topics"]
           (doc-page-links doc)]]]))))
 
-(defroutes doc-routes   
+(defroutes doc-routes
   (GET "/docs" [] (doc-page "guestbook.md"))
   (GET "/docs/:doc" [doc] (doc-page doc)))
