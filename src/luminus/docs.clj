@@ -18,33 +18,32 @@
    ["deployment.md"       "Deployment"]])
 
 (defn doc-link [route selected? title]
-  [:li.nav-link 
-   (link-to {:class (if selected? "selected" "unselected")} route title)])
+  [:li (link-to {:class (if selected? "selected" "unselected")} route title)])
 
-(defn doc-page-links [doc]  
-  (let [selected-title (get (into {} doc-titles) doc)]    
-    (into 
-      [:ul.docs] 
+(defn doc-page-links [doc]
+  (let [selected-title (get (into {} doc-titles) doc)]
+    (into
+      [:ul ]
       (for [[doc page-title] doc-titles]
-        (doc-link (str "/docs/" doc) 
-                  (= page-title selected-title) 
-                  page-title)))))
+        (doc-link (str "/docs/" doc)
+          (= page-title selected-title)
+          page-title)))))
 
-(defn doc-page [doc]         
+(defn doc-page [doc]
   (cache
     doc
-    (common/layout 
-      "Documentation"
-      (let [doc-content (util/fetch-doc doc)] 
-        [:div
-         [:div.sidebar 
-          [:div.docs [:h2 "Topics"]]
-          (doc-page-links doc)]
-         [:section.main 
+    (common/layout "Documentation"
+      (let [doc-content (util/fetch-doc doc)]
+        [:div [:div {:id "left"}
+         [:div.entry [:h1 (get (into {} doc-titles) doc)]
           [:h2 "Contents"]
           (util/generate-toc doc-content)
-          [:hr]
-          doc-content]]))))
+          [:h2]
+          doc-content
+          ]]
+        [:div {:id "right"}
+         [:div.sidemenu [:h3 "Sidebar Menu"]
+          (doc-page-links doc)]]]))))
 
 (defroutes doc-routes   
   (GET "/docs" [] (doc-page "guestbook.md"))

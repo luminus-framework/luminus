@@ -1,36 +1,46 @@
 (ns luminus.handler
   (:use compojure.core
-        hiccup.element        
+        hiccup.element
         luminus.docs
         noir.util.cache)
   (:require [noir.util.middleware :as middleware]
             [compojure.route :as route]
-            [noir.response :as response]            
+            [noir.response :as response]
             [luminus.common :as common]
             [luminus.util :as util]))
 
 (defn feature-item [title description]
-  [:li.feature [:h2 title] [:p description]])
+  [:div [:h3 title] [:p description]])
 
-(defn home []   
+(defn home []  
   (cache
-    :home
-    (common/layout  
+    :home 
+    (common/base
       "Home"
-      [:section#intro
-       [:div.wrapper
-        [:div.wrapper
-         (util/md->html "intro.md")]]]
+      [:div#featured.clear 
+       #_[:div.image-block (image "img/img-featured.png" "featured")]
+       [:div [:h2 "What is Luminus?"]      
+        [:p [:strong "Luminus"] " is a micro-framework based on a set of lightweight libraries. It aims to provide a robust, scalable, and easy to use platform.
+With Luminus you can focus on developing your app the way you want without any distractions."]
+        
+        [:h3 "Why develop web applications with Clojure?"]
+        
+        [:div#footer-wrap          
+          [:div.col-a 
+           (feature-item "Rapid development" "No boilerplate, no nonsense, get your work done framework")
+           (feature-item "Productivity" "The performance of the JVM combined with the power of Clojure")]
+          [:div.col-a 
+           (feature-item "Interactivity" "Interactive development with full REPL integration")
+           (feature-item "Flexibility" "Choose the components which make sense for you")]
+          [:div.col-b 
+           (feature-item "Mature ecosystem" "Access to the plethora of existing Clojure and Java libraries")
+           (feature-item "Powerful tools" "Excellent build tools and deployment options")]]
+                
+        [:p (link-to {:class "more-link"} "/about" "Read More")]]]
       
-      [:section#features 
-       [:h2 "Why Luminus?"]
-       [:ul#feature-list
-        (feature-item "Rapid development" "No boilerplate, no nonsense, get your work done framework")
-        (feature-item "Productivity" "The performance of the JVM combined with the power of Clojure")
-        (feature-item "Interactivity" "Interactive development with full REPL integration")
-        (feature-item "Flexibility" "Choose the components which make sense for you")      
-        (feature-item "Mature ecosystem" "Access to the plethora of existing Clojure and Java libraries")
-        (feature-item "Powerful tools" "Excellent build tools and deployment options")]])))
+      [:div#content-outer.clear
+       [:div#footer-outer.clear]       
+       [:div#content-wrap (util/md->html "intro.md")]])))
 
 (defroutes app-routes  
   (GET "/" [] (home))  
