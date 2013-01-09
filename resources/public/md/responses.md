@@ -11,16 +11,16 @@ passing it a map of HTTP headers. Note that the keys **must** be strings.
 ```clojure
 (set-headers {"x-csrf" csrf}
     (common/layout [:p "hi there"]))
-``` 
+```
 
 ### Setting content type
 
 You can set a custom response type by using the `content-type` function, eg:
 
 ```clojure
-(GET "/project" [] 
-       (noir.response/content-type 
-       "application/pdf" 
+(GET "/project" []
+       (noir.response/content-type
+       "application/pdf"
        (clojure.java.io/input-stream "report.pdf")))
 ```
 
@@ -31,7 +31,7 @@ There are helpers available for XML, JSON, and JSONP responses:
 * JSONP - Generates JSON for the given content and creates a javascript response for calling
   func-name with it.
 * edn - Wraps the response in the `application/edn` content-type
-   and calls pr-str on the Clojure data stuctures passed in.  
+   and calls pr-str on the Clojure data stuctures passed in.
 
 ```clojure
 
@@ -54,7 +54,7 @@ Setting a custom status is accomplished by passing the content to the `status` f
 
 ### Redirects
 
-Redirects are handled by `noir.response/redirect`. It's also possible to 
+Redirects are handled by `noir.response/redirect`. It's also possible to
 pass a type to the redirect function. Supported types are:
 
 * :permanent

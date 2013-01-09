@@ -11,7 +11,7 @@
     [:li (if (= name page-id) (merge options {:id "current"}) options) (link-to url name)]))
 
 (defn header [page-id]
-  [:div#header 
+  [:div#header
    [:h1#logo-text (link-to "index.html" "Luminus")]
    [:p#slogan "A Clojure web framework"]
 
@@ -26,11 +26,11 @@
    ])
 
 (defn footer []
-  [:div#footer-bottom 
-   [:div.bottom-left 
+  [:div#footer-bottom
+   [:div.bottom-left
     [:p "Luminus framework is released under the "
      (link-to "http://www.eclipse.org/legal/epl-v10.html" "Eclipse Public License")]
-    [:p "Copyright &copy; 2013 " 
+    [:p "Copyright &copy; 2013 "
      [:strong [:a {:href "http://yogthos.net"} "Dmitri Sotnikov"]] "&nbsp; &nbsp; &nbsp;
    Design by " (link-to "http://www.styleshout.com/" "styleshout") "&nbsp; &nbsp; &nbsp; "
      [:a {:href "http://clojure.org"}
@@ -53,15 +53,15 @@
        "/js/brushes/shBrushPlain.js"
        "/js/brushes/shBrushXml.js"
        "/js/site.js")]
-    [:body 
+    [:body
      [:div#wrap
       (header page-id)
       content
       (footer)]]))
 
-(defhtml layout [page-id & content]  
+(defhtml layout [page-id & content]
   (base page-id
-        [:div#content-outer.clear 
-         [:div#content-wrap 
+        [:div#content-outer.clear
+         [:div#content-wrap
           content]]))
 

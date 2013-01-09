@@ -41,7 +41,7 @@ Another approach is to specify the JNDI name for a connection managed by the app
 ```
 
 This can be useful if you have multiple environments in which the application runs in. For example,
-if you have dev/staging/production servers, you can point the JNDI connection to their respective databases. 
+if you have dev/staging/production servers, you can point the JNDI connection to their respective databases.
 The application will pick up the connection from the environment when it loads, which means that you can
 safely deploy the same code in each environment.
 
@@ -68,9 +68,9 @@ You can use the `create-table` function to create the database tables from withi
 ```clojure
 (defn create-users-table []
   (sql/with-connection db
-    (sql/create-table 
+    (sql/create-table
       :users
-      [:id "varchar(32)"]      
+      [:id "varchar(32)"]
       [:pass "varchar(100)"])))
 ```
 
@@ -79,14 +79,14 @@ is cleaned up after the function exists.
 
 ### Selecting records
 
-To select records from the database you can call `with-query-results` 
+To select records from the database you can call `with-query-results`
 
 ```clojure
 (defn get-user [id]
   (sql/with-connection db
-    (sql/with-query-results 
+    (sql/with-query-results
       res ["select * from users where id = ?" id] (first res))))
-``` 
+```
 
 When `with-query-results` runs it will bind `res` to the result set. The result wil be
 a lazy sequence, which means that you have to force evaluation on it before returning.
@@ -96,20 +96,20 @@ If you try to return `res` directly, you will get a nil exception because the co
 will be closed when the function returns.
 
 
-The result will be in a form of a sequence of maps, each map will contain keys matching 
+The result will be in a form of a sequence of maps, each map will contain keys matching
 the names of the selected columns.
 
 ### Inserting records
 
 Inserting records is accomplished by calling `insert-record` with the keyword representing the
 table name and a map representing the record to be inserted. The keys in the map must match
-the column names in the table. 
+the column names in the table.
 
 ```clojure
 (defn create-user [user]
-  (with-connection db     
+  (with-connection db
     (sql/insert-record :users user)))
-``` 
+```
 
 ### Transactions
 
