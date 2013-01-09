@@ -19,7 +19,9 @@ To add a profile simply pass it as an argument after your application name, eg:
 ```
 lein new luminus myapp +bootstrap
 ```
+
 You can also mix multiple profiles when creating the applicaiton, eg:
+
 ```
 lein new luminus myapp +site +postgres
 ```
