@@ -19,7 +19,7 @@ A handler is simply a function which accepts an existing handler with some optio
 
 As you can see the wrapper accepts the handler and returns a function which in turn accepts the request. Since the returned function was defined in the scope where the handler exists, it can use it internally. When called, it will call the handler with the request and add Pragma: no-cache to the response map.
 
-You can add custom middleware to the `app` defined in the `handler` namespace. 
+You can add custom middleware to the `app` defined in the `handler` namespace.
 Alternatively, you can define your own middleware instead of using `app-handler`
 and `war-handler` helpers.
 

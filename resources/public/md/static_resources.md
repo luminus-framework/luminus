@@ -7,16 +7,16 @@ You can get the path to public folder of the application by calling `resource-pa
 
 ### Handling file uploads
 
-Uploading files is handled via `upload-file` in `noir.io` namespace which accepts a 
+Uploading files is handled via `upload-file` in `noir.io` namespace which accepts a
 path relative to the public folder and the file map, eg:
 
 ```clojure
 (ns myapp.upload
   ...
-  (:require [upload-test.views.layout :as layout]            
+  (:require [upload-test.views.layout :as layout]
             [noir.response :as response]
             [noir.io :as io]))
- 
+
 (defn upload-page []
   (layout/common
     [:h2 "Upload a file"]
@@ -29,7 +29,7 @@ path relative to the public folder and the file map, eg:
   (io/upload-file "/" file)
   (response/redirect
     (str "/" (:filename file))))
-   
+
 (defroutes upload-routes
   (GET "/upload" [] (upload-page))
   (POST "/upload" [file] (handle-upload file)))
@@ -55,8 +55,8 @@ return a string, eg:
 
 
 
-  
- 
+
+
 
 
 

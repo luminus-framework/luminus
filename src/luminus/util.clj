@@ -1,4 +1,4 @@
-(ns luminus.util  
+(ns luminus.util
   (:require [noir.io :as io]
             [markdown.core :as md]
             [clj-http.client :as client]
@@ -14,20 +14,20 @@
 (defn md->html
   "reads a markdown file from public/md and returns an HTML string"
   [filename]
-  (->> 
-    (io/slurp-resource (str "/md/" filename))      
+  (->>
+    (io/slurp-resource (str "/md/" filename))
     (md/md-to-html-string)))
 
 (defn fetch-doc [name]
   (md/md-to-html-string
-    (->> name 
+    (->> name
       (str "https://raw.github.com/yogthos/luminus/master/resources/public/md/")
       (client/get)
       :body)
     :heading-anchors true))
 
 (defn get-headings [content]
-  (reduce 
+  (reduce
       (fn [headings {:keys [tag attrs content] :as elm}]
         (if (some #{tag} [:h1 :h2 :h3])
           (conj headings elm)
@@ -37,15 +37,15 @@
       [] content))
 
 (defn make-links [headings]
-  (into [:ol.contents] 
-    (for [{[{{name :name} :attrs} title] :content} headings]           
+  (into [:ol.contents]
+    (for [{[{{name :name} :attrs} title] :content} headings]
       [:li [:a {:href (str "#" name)} title]])))
 
 (defn generate-toc [html]
-  (-> html         
+  (-> html
     (.getBytes)
     (java.io.ByteArrayInputStream.)
-    (html/parse)       
+    (html/parse)
     :content
     (get-headings)
     (make-links)))
