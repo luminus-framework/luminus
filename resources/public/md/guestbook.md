@@ -252,6 +252,7 @@ display thm as a list.
            [:p "-" [:cite name]]
            [:time timestamp]])))            
 ```
+
 Next, we'll add a function to render the home page. Here we create a form 
 with text fields named `name` and `message`, these will be sent when the 
 form posts to the server as keywords of the same name.

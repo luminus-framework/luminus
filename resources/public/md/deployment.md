@@ -35,6 +35,7 @@ First, make sure you have [Heroku toolbelt](https://toolbelt.heroku.com/) instal
 If you created the project using +heroku flag then simply follow the steps below:
 
 test that your application runs locally with `foreman` 
+
 ```
 foreman start
 ```
@@ -73,6 +74,7 @@ If you did not use +heroku flag then you need to add the following to your `proj
 ```
 
 Then create a new file called `Procfile` in the root folder of your application with the following contents:
+
 ```
 web: lein with-profile production trampoline run -m myapp.server $PORT
 ```

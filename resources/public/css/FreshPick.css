@@ -406,7 +406,7 @@ input.button {
 }
 #left .entry {
 	background: url(../img/dotted-lines.gif) repeat-x left bottom; 
-	padding-bottom: 15px;
+	padding-bottom: 15px;	
 }
 #left .entry h3 a {
 	color: #444;
