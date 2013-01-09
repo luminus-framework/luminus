@@ -48,6 +48,7 @@ git commit -m "init"
 ```
 
 create your app on Heroku
+
 ```
 heroku create
 ```
@@ -57,6 +58,7 @@ deploy the application
 ```
 git push heroku master
 ```
+
 Your application should now be deployed to Heroku
 
 If you did not use +heroku flag then you need to add the following to your `project.clj`

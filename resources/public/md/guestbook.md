@@ -169,6 +169,7 @@ Now that we have a database connection declared, let's write a function which wi
     (sql/do-commands 
       "CREATE INDEX timestamp_index ON guestbook (timestamp)")))
 ```
+
 With the table created we can write a function to read the messages from the database.
 
 ```clojure

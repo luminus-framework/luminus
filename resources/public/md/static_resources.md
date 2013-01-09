@@ -43,6 +43,7 @@ with the relative path supplied as individual strings, eg:
 ```clojure
 (get-resource "/md/outline.md")
 ```
+
 The above will return clojure.java.io/resource for `screen.css` located at public/md/outline.md path.
 
 Finally, there's `slurp-resource` which will read the contents of the file and
