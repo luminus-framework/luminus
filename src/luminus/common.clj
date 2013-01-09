@@ -12,7 +12,7 @@
 
 (defn header [page-id]
   [:div#header
-   [:h1#logo-text (link-to "index.html" "Luminus")]
+   [:h1#logo-text (link-to "/" "Luminus")]
    [:p#slogan "A Clojure web framework"]
 
    [:div#nav
