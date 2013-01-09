@@ -13,20 +13,22 @@ path relative to the public folder and the file map, eg:
 ```clojure
 (ns myapp.upload
   ...
-  (:require [noir.io :as io]))
+  (:require [upload-test.views.layout :as layout]            
+            [noir.response :as response]
+            [noir.io :as io]))
  
 (defn upload-page []
-  (common/layout
+  (layout/common
     [:h2 "Upload a file"]
     (form-to {:enctype "multipart/form-data"}
-             [:post "/upload"]            
-             (file-upload :file)            
+             [:post "/upload"]
+             (file-upload :file)
              (submit-button "upload"))))
-              
+
 (defn handle-upload [file]
-  (upload-file "/" file)
-  (redirect
-    (str "/" (session/get :user) "/" (:filename file))))
+  (io/upload-file "/" file)
+  (response/redirect
+    (str "/" (:filename file))))
    
 (defroutes upload-routes
   (GET "/upload" [] (upload-page))
