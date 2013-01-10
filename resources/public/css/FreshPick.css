@@ -290,7 +290,7 @@ input.button {
 /* Featured Block */
 #featured {
 	clear: both;
-	background: #F8FAFD; 
+	background: #F7F9FD; 
 	border: 1px solid #DCF1FB;
 	margin: 3px 0 15px 10px;
 	padding-bottom: 20px;
@@ -494,7 +494,7 @@ input.button {
 	display: inline;
 }
 #footer-wrap h3 {    
-    font: 2.4em 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
+    font: 2.0em 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
     color: #666666;
 }
 #footer-wrap h4 {

@@ -12,7 +12,7 @@
 (defn feature-item [title description]
   [:div [:h3 title] [:p description]])
 
-(defn home []
+(defn home []  
   (cache
     :home
     (common/base
@@ -27,14 +27,14 @@ With Luminus you can focus on developing your app the way you want without any d
 
         [:div#footer-wrap
           [:div.col-a
-           (feature-item "Rapid development" "No boilerplate, no nonsense, get your work done framework")
-           (feature-item "Productivity" "The performance of the JVM combined with the power of Clojure")]
+           (feature-item "Rapid development" "Start hacking immediately with the REPL and embedded development server")
+           (feature-item "Productivity" "JVM combined with the power of Clojure means not having to choose between productivity and performance")]
           [:div.col-a
-           (feature-item "Interactivity" "Interactive development with full REPL integration")
-           (feature-item "Flexibility" "Choose the components which make sense for you")]
+           (feature-item "Interactivity" "See the changes you make immediately, without having to recompile or restart")
+           (feature-item "Flexibility" "Choose the components which make sense for you, have full control over the structure of the project")]
           [:div.col-b
-           (feature-item "Mature ecosystem" "Access to the plethora of existing Clojure and Java libraries")
-           (feature-item "Powerful tools" "Excellent build tools and deployment options")]]
+           (feature-item "Mature ecosystem" "Have access to the plethora of existing Clojure and Java libraries")
+           (feature-item "Powerful tools" "Build and deploy your application easily with Leiningen, enjoy a range of deployment options including Heroku")]]
 
         [:p (link-to {:class "more-link"} "/about" "Read More")]]]
 
