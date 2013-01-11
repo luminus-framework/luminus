@@ -42,7 +42,8 @@ With Luminus you can focus on developing your app the way you want without any d
        [:div#footer-outer.clear]
        [:div#content-wrap (util/md->html "intro.md")]])))
 
-(defroutes app-routes
+
+(defroutes app-routes  
   (GET "/" [] (home))
   (GET "/api" [] (common/layout "API" [:section (util/md->html "api.md")]))
   (GET "/contribute" [] (common/layout "Get involved" [:section (util/md->html "contributing.md")]))
@@ -50,8 +51,11 @@ With Luminus you can focus on developing your app the way you want without any d
   (route/resources "/")
   (route/not-found "Not Found"))
 
-(defn init []
+(defn init []  
   (set-cache-timeout! 60))
+
+(defn destroy []
+  (println "shutting down!"))
 
 (def all-routes [doc-routes app-routes])
 (def app (middleware/app-handler all-routes))

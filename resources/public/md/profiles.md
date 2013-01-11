@@ -7,7 +7,6 @@ profile hints for the extended functionality.
 Currently, the following profiles are supported
 
 * +bootstrap - adds bootstrap css/js static resources
-* +heroku - adds support for Heroku deployment
 * +cljs - adds ClojureScript support to the project along with an example
 * +sqlite - adds `models.db` namespace and SQLite dependencies
 * +h2 - adds `models.db` namespace and H2 db dependencies

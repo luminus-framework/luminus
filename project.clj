@@ -4,20 +4,21 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [lib-noir "0.3.3"]
                  [compojure "1.1.3"]
-                 [hiccup "1.0.2"]
-                 [ring/ring-jetty-adapter "1.1.0"]
-                 [bultitude "0.1.7"]
-                 [environ "0.3.0"]
-                 [markdown-clj "0.9.16"]
+                 [hiccup "1.0.2"]                 
+                 [ring-server "0.2.5"]
+                 [bultitude "0.1.7"]                 
+                 [markdown-clj "0.9.17"]
                  [clj-http "0.6.3"]
                  [crouton "0.1.1"]]
   :min-lein-version "2.0.0"
-  :plugins [[lein-ring "0.7.5"]
-            [environ/environ.lein "0.3.0"]]
+  :plugins [[lein-ring "0.8.0-SNAPSHOT"]]
   :hooks [environ.leiningen.hooks]
-  :profiles {:production {:env {:production true}}
+  :profiles {:production
+             {:ring
+              {:open-browser? false 
+               :stacktraces? false 
+               :auto-reload? false}}
              :dev {:dependencies [[ring-mock "0.1.3"]
                                   [ring/ring-devel "1.1.0"]]}}
   :ring {:handler luminus.handler/war-handler
-         :init luminus.handler/war-handler}
-  :main luminus.server)
+         :init luminus.handler/init})

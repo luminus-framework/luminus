@@ -9,7 +9,7 @@ Getting started couldn't be simpler!
 ```
     lein new luminus myapp
     cd myapp
-    lein run
+    lein ring server
 ```
 
 * browse to localhost:8080 and see your app running!

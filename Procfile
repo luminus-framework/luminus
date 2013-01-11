@@ -1,1 +1,1 @@
-web: lein with-profile production trampoline run -m luminus.server $PORT
+web: lein with-profile production ring server

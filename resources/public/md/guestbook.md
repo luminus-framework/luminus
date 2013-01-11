@@ -97,24 +97,27 @@ The project file of the application we've created is found in its root folder an
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [lib-noir "0.3.0"]
+                 [lib-noir "0.3.3"]
                  [compojure "1.1.3"]
                  [hiccup "1.0.2"]
-                 [ring/ring-jetty-adapter "1.1.0"]
-                 [bultitude "0.1.7"]
+                 [ring-server "0.2.5"]                 
                  [com.taoensso/timbre "1.1.0"]
                  [com.taoensso/tower "1.0.0"]
-                 [markdown-clj "0.9.13"]]
-  :plugins [[lein-ring "0.7.5"]]
+                 [markdown-clj "0.9.16"]]  
+  :plugins [[lein-ring "0.8.0-SNAPSHOT"]]
   :ring {:handler guestbook.handler/war-handler
-         :init guestbook.handler/init}
-  :main guestbook.server
+         :init    guestbook.handler/init
+         :destroy guestbook.handler/destroy}  
   :profiles
-  {:dev {:dependencies [[ring-mock "0.1.3"]
-                        [ring/ring-devel "1.1.0"]]}})
+  {:production {:ring {:open-browser? false 
+                       :stacktraces?  false 
+                       :auto-reload?  false}}
+   :dev {:dependencies [[ring-mock "0.1.3"]
+                        [ring/ring-devel "1.1.0"]]}}
+  :min-lein-version "2.0.0")
 ```
 
-As you can see the project.clj is simply a Clojure file containing key/value pairs describing different aspects of the application.
+As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
 Since our application will need to store the comments posted by visitors, we'll add JDBC dependencies to the `:dependencies` vector:
 
 ```clojure
@@ -125,12 +128,27 @@ Since our application will need to store the comments posted by visitors, we'll 
 We can now run the project as follows:
 
 ```
-lein run
-Server started on port [ 8080 ].
-You can view the site at http://localhost:8080
+>lein ring server
+guestbook started successfully...
+2013-01-10 20:30:40.246:INFO:oejs.Server:jetty-7.6.1.v20120215
+Started server on port 3000
+2013-01-10 20:30:40.294:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 ```
 
-If you browse to [localhost:8080](http://localhost:8080), you should see your application running.
+A new browser window will pop up and you should see your application running.
+
+Note that if you didn't want to pop up a new browser you could run:
+
+```
+lein ring server-headless
+```
+
+You can also pass in a custom port as follows
+
+```
+lein ring server-headless 8000
+```
+
 
 ## Accessing the databse with JDBC
 
@@ -226,7 +244,7 @@ create it if needed.
 ```
 
 Since we changed the `init` function of our application, let's restart it by hitting `CTRL+C` and
-running `lein run` again.
+running `lein ring server` again.
 
 ## Creating pages and handling input from forms
 
@@ -323,7 +341,7 @@ Try adding a comment in the guestbook to see that it's working correctly.
 To package our application we simply run
 
 ```
-lein uberjar
+lein ring uberjar
 ```
 
 This will create a runnable jar which can be run with:
