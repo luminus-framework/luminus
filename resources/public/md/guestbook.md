@@ -79,7 +79,7 @@ The `util` namespace is used for general helper functions, it comes prepopulated
 
 Finally, we have the `repl` namespace, this is used for running the application from the REPL environment. 
 It's useful in cases you already have a REPL running and aren't launching it from Leiningen. An example of this
-would be running the application in Eclipse.
+would be running the application in Eclipse with [counterclockwise](https://code.google.com/p/counterclockwise/).
 
 ### The test directory
 
