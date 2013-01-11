@@ -43,7 +43,7 @@ src
                    └ home.clj
               handler.clj
               util.clj
-              server.clj
+              repl.clj
 test
    └ guestbook
              └ test
@@ -77,7 +77,9 @@ and any pages we define will have to have their routes added here.
 
 The `util` namespace is used for general helper functions, it comes prepopulated with the `md->html` helper.
 
-Finally, we have the `server` namespace, this is used for running the application in standalone mode.
+Finally, we have the `repl` namespace, this is used for running the application from the REPL environment. 
+It's useful in cases you already have a REPL running and aren't launching it from Leiningen. An example of this
+would be running the application in Eclipse.
 
 ### The test directory
 
@@ -215,7 +217,7 @@ To do that we'll call `insert-values` and pass it the name and the message to be
 ### Running code on startup
 
 Since we need to have the database table created in order to access it,
-we'll add the following code to our `server` namespace.
+we'll add the following code to our `handler` namespace.
 
 First, we will reference our `db` namespace in the namespace declaration of our handler.
 
