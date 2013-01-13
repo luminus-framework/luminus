@@ -83,42 +83,42 @@ lib-noir provides some very basic in-memory content caching via the `cache` macr
 To cache a page you can simply do the following:
 
 ```clojure
-(use 'noir.util.cache)
+(require '[noir.util.cache :as cache])
 
 (defn slow-loading-page []
-  (cache
+  (cache/cache!
    :slow-page
    (common/layout
     [:div "I load slowly"]
      (parse-lots-of-files))))
 ```
 
-The cache can be invalidated by calling `invalidate-cache!` and specifying the
+The cache can be invalidated by calling `invalidate!` and specifying the
 key to invalidate.
 
 ```clojure
-(invalidate-cache! :slow-page)
+(cache/invalidate! :slow-page)
 ```
 
-Use `clear-cache!` to clear all items which are currently cached.
+Use `clear!` to clear all items which are currently cached.
 
 ```clojure
-(clear-cache!)
+(cache/clear!)
 ```
 
-Use `set-cache-timeout!` to set the timeout for items in seconds,
+Use `set-timeout!` to set the timeout for items in seconds,
 if an item has a lifetime longer than the timeout it will be reloaded.
 
 ```clojure
-(set-cache-timeout! 10)
+(cache/set-timeout! 10)
 ```
 
-Finally, you can limit the total size of the cache, when the cache
+Finally, you can limit the total size of the cache using `set-size!`, when the cache
 grows past the specified size the oldest items will be removed to
 make room for new items.
 
 ```clojure
-(set-cache-size! 10)
+(cache/set-size! 10)
 ```
 
 Note that cache checks if the operation is successful when reloading. This means that if
