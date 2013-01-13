@@ -1,6 +1,7 @@
 (ns luminus.docs
-  (:use compojure.core hiccup.element noir.util.cache)
+  (:use compojure.core hiccup.element)
   (:require [luminus.common :as common]
+            [noir.util.cache :as cache]
             [luminus.util :as util]))
 
 (def doc-titles
@@ -30,7 +31,7 @@
           page-title)))))
 
 (defn doc-page [doc]
-  (cache
+  (cache/cache!
     doc
     (common/layout "Documentation"
       (let [doc-content (util/fetch-doc doc)]

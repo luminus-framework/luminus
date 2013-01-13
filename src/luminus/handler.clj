@@ -1,11 +1,11 @@
 (ns luminus.handler
   (:use compojure.core
         hiccup.element
-        luminus.docs
-        noir.util.cache)
+        luminus.docs)
   (:require [noir.util.middleware :as middleware]
             [compojure.route :as route]
             [noir.response :as response]
+            [noir.util.cache :as cache]
             [luminus.common :as common]
             [luminus.util :as util]))
 
@@ -13,7 +13,7 @@
   [:div [:h3 title] [:p description]])
 
 (defn home []  
-  (cache
+  (cache/cache!
     :home
     (common/base
       "Home"
@@ -52,7 +52,7 @@ With Luminus you can focus on developing your app the way you want without any d
   (route/not-found "Not Found"))
 
 (defn init []  
-  (set-cache-timeout! 60))
+  (cache/set-timeout! 60))
 
 (defn destroy []
   (println "shutting down!"))
