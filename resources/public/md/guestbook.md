@@ -165,14 +165,14 @@ The namespace will live in a file called `db.clj` under `src/guestbook/models` d
 
 Next, we will create the definition for our database connection.
 The definition is simply a map containing the class for the JDBC driver,
-the protocol and the name of the database file used by SQLite.
+the protocol, user, password, and the name of the database file used by [H2](http://www.h2database.com/html/main.html) embedded database.
 
 ```clojure
-(def db {:classname     "org.h2.Driver",
-         :subprotocol   "h2",
-         :subname       "site"
+(def db {:classname     "org.h2.Driver"
+         :subprotocol   "h2"
          :user          "sa"
-         :password      ""})
+         :password      ""
+         :subname       "site"})
 ```
 
 Now that we have a database connection declared, let's write a function which will create the table for storing the guest messages.
