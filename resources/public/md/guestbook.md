@@ -99,14 +99,14 @@ The project file of the application we've created is found in its root folder an
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [lib-noir "0.3.3"]
+                 [lib-noir "0.3.5"]
                  [compojure "1.1.3"]
                  [hiccup "1.0.2"]
                  [ring-server "0.2.5"]                 
-                 [com.taoensso/timbre "1.1.0"]
-                 [com.taoensso/tower "1.0.0"]
-                 [markdown-clj "0.9.16"]]  
-  :plugins [[lein-ring "0.8.0-SNAPSHOT"]]
+                 [com.taoensso/timbre "1.2.0"]
+                 [com.taoensso/tower "1.2.0"]
+                 [markdown-clj "0.9.18"]]  
+  :plugins [[lein-ring "0.8.0"]]
   :ring {:handler guestbook.handler/war-handler
          :init    guestbook.handler/init
          :destroy guestbook.handler/destroy}  
@@ -124,7 +124,7 @@ Since our application will need to store the comments posted by visitors, we'll 
 
 ```clojure
 [org.clojure/java.jdbc "0.2.3"]
-[org.xerial/sqlite-jdbc "3.7.2"]
+[com.h2database/h2 "1.3.170"]
 ```
 
 We can now run the project as follows:
@@ -160,8 +160,7 @@ The namespace will live in a file called `db.clj` under `src/guestbook/models` d
 
 ```clojure
 (ns guestbook.models.db
-  (:require [clojure.java.jdbc :as sql])
-  (:import java.sql.DriverManager))
+  (:require [clojure.java.jdbc :as sql]))
 ```
 
 Next, we will create the definition for our database connection.
@@ -169,9 +168,11 @@ The definition is simply a map containing the class for the JDBC driver,
 the protocol and the name of the database file used by SQLite.
 
 ```clojure
-(def db {:classname  "org.sqlite.JDBC",
-         :subprotocol   "sqlite",
-         :subname       "db.sq3"})
+(def db {:classname     "org.h2.Driver",
+         :subprotocol   "h2",
+         :subname       "site"
+         :user          "sa"
+         :password      ""})
 ```
 
 Now that we have a database connection declared, let's write a function which will create the table for storing the guest messages.
@@ -182,10 +183,10 @@ Now that we have a database connection declared, let's write a function which wi
     db
     (sql/create-table
       :guestbook
-      [:id "INTEGER PRIMARY KEY AUTOINCREMENT"]
-      [:timestamp "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"]
-      [:name "TEXT"]
-      [:message "TEXT"])
+      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      [:timestamp :timestamp]
+      [:name "varchar(30)"]
+      [:message "varchar(200)"])
     (sql/do-commands
       "CREATE INDEX timestamp_index ON guestbook (timestamp)")))
 ```
@@ -236,11 +237,11 @@ create it if needed.
 ```clojure
 (defn init
   "init will be called once when
-   app is deployed as a servlet on
+   app is deployed as a servlet on 
    an app server such as Tomcat
    put any initialization code here"
   []
-  (if-not (.exists (new java.io.File "db.sq3"))
+  (if-not (.exists (new java.io.File "site.h2.db"))
     (db/create-guestbook-table))
   (println "guestbook started successfully..."))
 ```
@@ -356,5 +357,4 @@ The resulting war archive can now be deployed to the server of your choosing.
 
 ***
 
-For a more complete example you can see the source for
-this site on [Github](https://github.com/yogthos/luminus).
+For a more complete example you can see the source for this site on [Github](https://github.com/yogthos/luminus).
