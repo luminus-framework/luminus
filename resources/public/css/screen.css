@@ -9,10 +9,10 @@
 	visibility:hidden;
 }
 
-ul li a:link.selected {
-	color: #7AB7EE;	
+ul li a:link.selected {	
+	text-decoration:underline;	
 }
 
-ul li a:visited.selected {
-	color: #7AB7EE;	
+ul li a:visited.selected {	
+	text-decoration:underline;
 }
