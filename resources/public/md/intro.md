@@ -12,4 +12,4 @@ Getting started couldn't be simpler!
     lein ring server
 ```
 
-* browse to localhost:8080 and see your app running!
+* the app will start up on port 3000!
