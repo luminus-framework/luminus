@@ -12,4 +12,4 @@ Getting started couldn't be simpler!
     lein ring server
 ```
 
-* the app will start up on port 3000!
+* the app is now available at `localhost:3000`!
