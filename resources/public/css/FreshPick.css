@@ -375,6 +375,10 @@ input.button {
 	padding-bottom: 40px;
 }
 
+section {
+	width: 600px;
+}
+
 /* columns */
 #left {
 	width: 600px;	
