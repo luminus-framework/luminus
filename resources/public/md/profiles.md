@@ -10,6 +10,7 @@ Currently, the following profiles are supported
 * +cljs - adds ClojureScript support to the project along with an example
 * +h2 - adds `models.db` namespace and H2 db dependencies
 * +postgres - adds `models.db` namespace and add PostreSQL dependencies
+* +korma - adds dependencies for [Korma](http://sqlkorma.com/)
 * +site - creates an application with registration and authentication setup, uses bootstrap and h2 when database is not specified
 
 To add a profile simply pass it as an argument after your application name, eg:
