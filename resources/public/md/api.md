@@ -5,3 +5,4 @@
 * [Ring](http://ring-clojure.github.com/ring/)
 * [Ring spec](https://github.com/ring-clojure/ring/blob/master/SPEC)
 * [lib Noir](/noir-api/index.html)
+* [SQL Korma](http://sqlkorma.com/)
