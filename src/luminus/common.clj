@@ -4,6 +4,12 @@
         [hiccup.util :only [to-uri]]
         [hiccup.def]))
 
+(def github-ribbon
+  [:a {:href "https://github.com/yogthos/luminus-template"}
+      [:img {:style "position: absolute; top: 0; right: 30px; border: 0; background: none; padding: 0;"
+             :src "https://github.com/jamesflorentino/fork-ribbons/raw/master/ribbons/blue-white.png"
+             :alt "Fork me on GitHub"}]])
+
 (defn nav-link
   ([page-id url name]
     (nav-link page-id url name {}))
@@ -54,6 +60,7 @@
        "/js/brushes/shBrushXml.js"
        "/js/site.js")]
     [:body
+     github-ribbon
      [:div#wrap
       (header page-id)
       content
@@ -64,4 +71,3 @@
         [:div#content-outer.clear
          [:div#content-wrap
           content]]))
-
