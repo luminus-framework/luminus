@@ -16,7 +16,8 @@
    ["security.md"         "Security"]
    ["database.md"         "Database access"]
    ["logging.md"          "Logging"]
-   ["deployment.md"       "Deployment"]])
+   ["deployment.md"       "Deployment"]
+   ["i18n.md"             "Internationalization"]])
 
 (defn doc-link [route selected? title]
   [:li (link-to {:class (if selected? "selected" "unselected")} route title)])
