@@ -46,7 +46,7 @@
 
 (defn base [page-id & content]
   (html5
-    [:head [:title "Welcome to luminus web framework"]
+    [:head [:title "Luminus - A Clojure Web Framework"]
      (include-css "/css/screen.css"
        "/css/shCore.css")
      [:script {:type "text/javascript", :src "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"}]
