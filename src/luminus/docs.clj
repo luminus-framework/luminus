@@ -37,14 +37,14 @@
     doc
     (common/layout "Documentation"
       (let [doc-content (util/fetch-doc doc)]
-        [:div [:div {:id "left"}
+        [:div [:div#left
          [:div.entry [:h1 (get (into {} doc-titles) doc)]
           [:h2 "Contents"]
           (util/generate-toc doc-content)
           [:h2]
           doc-content
           ]]
-        [:div {:id "right"}
+        [:div#right
          [:div.sidemenu [:h3 "Topics"]
           (doc-page-links doc)]]]))))
 
