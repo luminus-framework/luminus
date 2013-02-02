@@ -5,8 +5,8 @@ Luminus provides to you some defaults like [Lib-noir](https://github.com/noir-cl
 [Timbre](https://github.com/ptaoussanis/timbre) for logging,
 [Tower](https://github.com/ptaoussanis/tower) for internationalization and others,
 but of course you able to use whatever libraries you want.
-Here we are going to provide a list of Clojure libraries which can be useful
-for web developent with Luminus.
+Here we are going to provide a list of Clojure and ClojureScript
+libraries which can be useful for web developent with Luminus.
 
 ## Assets
 
@@ -27,6 +27,15 @@ for web developent with Luminus.
 
 * [Spyglass](https://github.com/clojurewerkz/spyglass) - A Memcached client (also: Couchbase, Kestrel)
 * [core.cache](https://github.com/clojure/core.cache) - A caching library implementing various cache strategies
+
+## ClojureScript
+
+* [Domina](https://github.com/levand/domina) - A jQuery inspired DOM manipulation library
+* [Dommy](https://github.com/Prismatic/dommy) - A no-nonsense templating and (soon) dom manipulation library
+* [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
+* [Fetch](https://github.com/ibdknox/fetch) - A library for Client/Server interaction
+* [Shoreleave](https://github.com/shoreleave) - A smarter client-side with ClojureScript
+* [Widje](https://github.com/Flamefork/widje) - Templating for ClojureScript
 
 ## Database clients
 
