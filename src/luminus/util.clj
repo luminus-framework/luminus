@@ -18,6 +18,16 @@
     (io/slurp-resource (str "/md/" filename))
     (md/md-to-html-string)))
 
+(defn fetch-doc-pages []
+  (with-open
+    [r (->> "https://raw.github.com/yogthos/luminus/master/resources/public/docpages.clj"         
+         client/get
+         :body
+         java.io.StringReader.
+         java.io.PushbackReader.)]
+      (binding [*read-eval* false]
+        (read r))))
+
 (defn fetch-doc [name]
   (md/md-to-html-string
     (->> name

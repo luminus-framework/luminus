@@ -4,26 +4,10 @@
             [noir.util.cache :as cache]
             [luminus.util :as util]))
 
-(def doc-titles
-  [["guestbook.md"        "Your first application"]
-   ["profiles.md"         "Application profiles"]
-   ["generating_html.md"  "Generating HTML"]
-   ["static_resources.md" "Static resources"]
-   ["responses.md"        "Response types"]
-   ["routes.md"           "Defining routes"]
-   ["middleware.md"       "Custom middleware"]
-   ["sessions_cookies.md" "Sessions and cookies"]
-   ["security.md"         "Security"]
-   ["database.md"         "Database access"]
-   ["logging.md"          "Logging"]
-   ["deployment.md"       "Deployment"]
-   ["i18n.md"             "Internationalization"]
-   ["useful_libraries.md" "Useful libraries"]])
-
 (defn doc-link [route selected? title]
   [:li (link-to {:class (if selected? "selected" "unselected")} route title)])
 
-(defn doc-page-links [doc]
+(defn doc-page-links [doc-titles doc]
   (let [selected-title (get (into {} doc-titles) doc)]
     (into
       [:ul ]
@@ -36,7 +20,8 @@
   (cache/cache!
     doc
     (common/layout "Documentation"
-      (let [doc-content (util/fetch-doc doc)]
+      (let [doc-titles (util/fetch-doc-pages)
+            doc-content (util/fetch-doc doc)]
         [:div [:div#left
          [:div.entry [:h1 (get (into {} doc-titles) doc)]
           [:h2 "Contents"]
@@ -46,7 +31,7 @@
           ]]
         [:div#right
          [:div.sidemenu [:h3 "Topics"]
-          (doc-page-links doc)]]]))))
+          (doc-page-links doc-titles doc)]]]))))
 
 (defroutes doc-routes
   (GET "/docs" [] (doc-page "guestbook.md"))
