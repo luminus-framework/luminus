@@ -5,10 +5,10 @@
         [hiccup.def]))
 
 (def github-ribbon
-  [:a {:href "https://github.com/yogthos/luminus-template"}
-      [:img {:style "position: absolute; top: 0; right: 30px; border: 0; background: none; padding: 0;"
-             :src "https://github.com/jamesflorentino/fork-ribbons/raw/master/ribbons/blue-white.png"
-             :alt "Fork me on GitHub"}]])
+  (link-to "https://github.com/yogthos/luminus-template"
+    (image {:style "position: absolute; top: 0; right: 30px; border: 0; background: none; padding: 0;"
+            :alt "Fork me on GitHub"}
+           "https://github.com/jamesflorentino/fork-ribbons/raw/master/ribbons/blue-white.png")))
 
 (defn nav-link
   ([page-id url name]
@@ -37,20 +37,19 @@
     [:p "Luminus framework is released under the "
      (link-to "http://www.eclipse.org/legal/epl-v10.html" "Eclipse Public License")]
     [:p "Copyright &copy; 2013 "
-     [:strong [:a {:href "http://yogthos.net"} "Dmitri Sotnikov"]] "&nbsp; &nbsp; &nbsp;
+     [:strong (link-to "http://yogthos.net" "Dmitri Sotnikov")] "&nbsp; &nbsp; &nbsp;
    Design by " (link-to "http://www.styleshout.com/" "styleshout") "&nbsp; &nbsp; &nbsp; "
-     [:a {:href "http://clojure.org"}
-      (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
-      " powered by Clojure"]]]])
-
+     (link-to "http://clojure.org"
+       (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
+       " powered by Clojure")]]])
 
 (defn base [page-id & content]
   (html5
     [:head [:title "Luminus - A Clojure Web Framework"]
      (include-css "/css/screen.css"
        "/css/shCore.css")
-     [:script {:type "text/javascript", :src "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"}]
-     (include-js "/js/shCore.js"
+     (include-js "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"
+       "/js/shCore.js"
        "/js/brushes/shBrushClojure.js"
        "/js/brushes/shBrushBash.js"
        "/js/brushes/shBrushCss.js"
