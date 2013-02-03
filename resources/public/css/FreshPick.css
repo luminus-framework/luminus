@@ -219,7 +219,7 @@ input.button {
 	top: 30px; left: 30px;	
 }
 #header h1#logo-text a:hover { border: none; }
-#header p#slogan {
+#header h2#slogan {
 	position: absolute;
 	margin: 0; padding:  0 5px 0 0;
 	font-family: Georgia, 'Times New Roman', Times, serif;;
