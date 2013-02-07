@@ -61,6 +61,10 @@ libraries which can be useful for web developent with Luminus.
 * [Mailer](https://github.com/clojurewerkz/mailer) - An ActionMailer-inspired mailer library
 * [Postal](https://github.com/drewr/postal) - Clojure email support
 * [clj-mail](https://github.com/MayDaniel/clj-mail) - Send and receive emails from Clojure
+ 
+## SVG generation
+
+* [Analemma](http://liebke.github.com/analemma/)
 
 ## Template Languages
 
