@@ -62,9 +62,9 @@ libraries which can be useful for web developent with Luminus.
 * [Postal](https://github.com/drewr/postal) - Clojure email support
 * [clj-mail](https://github.com/MayDaniel/clj-mail) - Send and receive emails from Clojure
  
-## SVG generation
+## SVG
 
-* [Analemma](http://liebke.github.com/analemma/)
+* [Analemma](http://liebke.github.com/analemma/) - a Clojure-based SVG DSL and charting library
 
 ## Template Languages
 
