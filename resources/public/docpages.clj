@@ -11,5 +11,6 @@
    ["logging.md"          "Logging"]
    ["deployment.md"       "Deployment"]
    ["i18n.md"             "Internationalization"]
-   ["useful_libraries.md" "Useful libraries"]]
+   ["useful_libraries.md" "Useful libraries"]
+   ["apps.md"             "Sample applications"]
 
