@@ -1,4 +1,4 @@
-[["guestbook.md"        "Your first application"]
+[["guestbook.md"          "Your first application"]
    ["profiles.md"         "Application profiles"]
    ["generating_html.md"  "Generating HTML"]
    ["static_resources.md" "Static resources"]
