@@ -11,3 +11,4 @@ file for the page [here](https://github.com/yogthos/luminus/tree/master/resource
 
 To add a new topic simply create a new Markdown file under [public/md](https://github.com/yogthos/luminus/tree/master/resources/public/md) 
 directory, and update the list of topics [here](https://github.com/yogthos/luminus/blob/master/resources/public/docpages.clj).
+
