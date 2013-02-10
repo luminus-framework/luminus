@@ -1,10 +1,12 @@
-Luminus provides to you some defaults like [Lib-noir](https://github.com/noir-clojure/lib-noir),
+Luminus aims to provide you with solid defaults for creating your web application. As such it comes packaged with several
+libraries by default. These libraries include 
+[lib-noir](https://github.com/noir-clojure/lib-noir) for general purpose utilities,
 [Hiccup](https://github.com/weavejester/hiccup) for HTML templating,
 [Timbre](https://github.com/ptaoussanis/timbre) for logging,
-[Tower](https://github.com/ptaoussanis/tower) for internationalization and others,
-but of course you able to use whatever libraries you want.
-Here we are going to provide a list of Clojure and ClojureScript
-libraries which can be useful for web developent with Luminus.
+[Tower](https://github.com/ptaoussanis/tower) for internationalization and a few others.
+Of course, there are many other Clojure libraires for web development. Here we are going 
+to provide a list of Clojure and ClojureScript libraries which can be useful in addition 
+to those already included with Luminus.
 
 ## Assets
 
