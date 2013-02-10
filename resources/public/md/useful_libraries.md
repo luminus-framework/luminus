@@ -1,5 +1,3 @@
-## Useful libraries
-
 Luminus provides to you some defaults like [Lib-noir](https://github.com/noir-clojure/lib-noir),
 [Hiccup](https://github.com/weavejester/hiccup) for HTML templating,
 [Timbre](https://github.com/ptaoussanis/timbre) for logging,
