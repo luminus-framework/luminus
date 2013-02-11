@@ -80,7 +80,7 @@ to those already included with Luminus.
 ## Web Services 
 
 * [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
-* [necessary-evil](https://github.com/brehaut/necessary-evil) XML RPC library for Clojure
+* [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
 
 
 It's just few categories, more libraries related to web development
