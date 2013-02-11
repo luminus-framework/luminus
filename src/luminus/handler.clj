@@ -40,10 +40,8 @@ With Luminus you can focus on developing your app the way you want without any d
 
       [:div#content-outer.clear
        [:div#footer-outer.clear]
-       [:div#content-wrap (util/md->html "intro.md")]
-       [:div#content-wrap (util/md->html "community.md")]
-       ])))
-
+       [:div#left (util/md->html "intro.md")]
+       [:div#right (util/md->html "community.md")]])))
 
 (defroutes app-routes
   (GET "/" [] (home))
