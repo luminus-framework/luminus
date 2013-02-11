@@ -77,6 +77,9 @@ to those already included with Luminus.
 * [Stencil](https://github.com/davidsantiago/stencil) - A fast, compliant implementation of Mustache
 * [Tinsel](https://github.com/davidsantiago/tinsel) - Selector-based templates with Hiccup
 
+## Web Services 
+
+* [Liberator](http://clojure-liberator.github.com/)
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
