@@ -6,3 +6,5 @@ Luminus ties these libraries together to provide a simple and consistent environ
 
 Unlike traditional frameworks, Luminus leaves most decisions up to the user and does not enforce any one way of building applications.
 It aims to provide good starting defaults via templates on top of which the rest of the application can be built.
+
+The framework is being developed by [Dmitri Sotnikov](http://yogthos.net) and [Edward Tsech](http://about.me/edtsech).

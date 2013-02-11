@@ -37,7 +37,7 @@
     [:p "Luminus framework is released under the "
      (link-to "http://www.eclipse.org/legal/epl-v10.html" "Eclipse Public License")]
     [:p "Copyright &copy; 2013 "
-     [:strong (link-to "http://yogthos.net" "Dmitri Sotnikov")] " and " [:strong (link-to "http://about.me/edtsech" "Edward Tsech")] "&nbsp; &nbsp; &nbsp;
+     [:strong (link-to "http://yogthos.net" "Dmitri Sotnikov")] "&nbsp; &nbsp; &nbsp;
    Design by " (link-to "http://www.styleshout.com/" "styleshout") "&nbsp; &nbsp; &nbsp; "
      (link-to "http://clojure.org"
        (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
