@@ -35,6 +35,7 @@ to those already included with Luminus.
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
 * [Fetch](https://github.com/ibdknox/fetch) - A library for Client/Server interaction
 * [Shoreleave](https://github.com/shoreleave) - A smarter client-side with ClojureScript
+* [Webfui](https://github.com/drcode/webfui) - Client-Side Web Framework
 * [Widje](https://github.com/Flamefork/widje) - Templating for ClojureScript
 
 ## Database clients
