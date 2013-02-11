@@ -79,7 +79,7 @@ to those already included with Luminus.
 
 ## Web Services 
 
-* [Liberator](http://clojure-liberator.github.com/)
+* [Liberator](http://clojure-liberator.github.com/) - a Clojure library that helps you expose your data as REST resources while automatically complying with all the relevant requirements of HTTP specification
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
