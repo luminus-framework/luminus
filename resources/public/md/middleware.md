@@ -23,7 +23,7 @@ You can add custom middleware to the `app` defined in the `handler` namespace.
 Alternatively, you can define your own middleware instead of using `app-handler`
 and `war-handler` helpers or add additional middlewares.
 
-``` clojure
+```clojure
 (def app (-> handler
              app-handler
              wrap-json-params))
