@@ -104,7 +104,7 @@ Further documentation is available on the [official Compojure wiki](https://gith
 
 ## Restricting access
 
-Some pages should only be accessible only if specific conditions are met. For example,
+Some pages should only be accessible if specific conditions are met. For example,
 you may wish to define admin pages only visible to the administrator, or a user profile
 page which is only visible if there is a user in the session.
 
