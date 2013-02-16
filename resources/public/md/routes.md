@@ -119,7 +119,12 @@ Once you've got your rules defined, you need to wrap the handler with the
 in our case `user-page`.
 
 ```clojure
-(require '[noir.util.middleware :as middleware])
+(ns myapp.handler
+  (:use ... 
+        noir.util.route)
+  (:require ... 
+            [noir.util.middleware :as middleware]
+            [noir.session :as session]))
 
 (def app (-> all-routes
              (middleware/app-handler)
