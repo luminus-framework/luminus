@@ -110,7 +110,7 @@ page which is only visible if there is a user in the session.
 
 Using the `noir.util.route` namespace from `lib-noir`, we can define rules for restricting 
 access to specific pages. Let's take a look at how to create a private page which is only 
-viewable if the `:user` key in the session matches the name of the page. Firs, we'll need 
+viewable if the `:user` key in the session matches the name of the page. First, we'll need 
 to reference `noir.util.route` and `noir.session` in the handler.
 
 ```clojure
