@@ -144,7 +144,7 @@ In our case we have a single rule, which is the function `user-page`.
              (middleware/wrap-access-rules user-page)))
 ```
 
-Finally, if we want to restrict page access to a page then we simply mark 
+Finally, when we want to restrict page access to a page, we simply mark 
 our route with `noir.util.route/restricted`:
 
 ```clojure
