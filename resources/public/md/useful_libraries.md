@@ -83,6 +83,9 @@ to those already included with Luminus.
 * [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
 * [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
 
+## Miscellaneous
+
+* [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
