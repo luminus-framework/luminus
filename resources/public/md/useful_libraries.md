@@ -69,6 +69,7 @@ to those already included with Luminus.
 
 ## Template Languages
 
+* [Clabango](https://github.com/danlarkin/clabango) - A template library modeled after Django's templating library
 * [Basil](https://github.com/kumarshantanu/basil) - A general purpose template library
 * [Clostache](https://github.com/fhd/clostache) - {{ mustache }} for Clojure
 * [Enlive](https://github.com/cgrand/enlive) - A selector-based (à la CSS) templating and transformation system
@@ -77,6 +78,14 @@ to those already included with Luminus.
 * [Stencil](https://github.com/davidsantiago/stencil) - A fast, compliant implementation of Mustache
 * [Tinsel](https://github.com/davidsantiago/tinsel) - Selector-based templates with Hiccup
 
+## Web Services 
+
+* [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
+* [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
+
+## Miscellaneous
+
+* [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,

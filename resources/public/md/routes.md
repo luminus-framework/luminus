@@ -104,9 +104,29 @@ Further documentation is available on the [official Compojure wiki](https://gith
 
 ## Restricting access
 
-To restrict access to pages you can create functions specifying custom access rules for your routes.
-These functions must accept three argument which are the method, the url, and the params. The function
-must return a boolean indicating whether the page passed the rule.
+Some pages should only be accessible if specific conditions are met. For example,
+you may wish to define admin pages only visible to the administrator, or a user profile
+page which is only visible if there is a user in the session.
+
+Using the `noir.util.route` namespace from `lib-noir`, we can define rules for restricting 
+access to specific pages. Let's take a look at how to create a private page which is only 
+viewable if the `:user` key in the session matches the name of the page. First, we'll need 
+to reference `noir.util.route` and `noir.session` in the handler.
+
+```clojure
+(ns myapp.handler
+  (:use ... 
+        noir.util.route)
+  (:require ...             
+            [noir.session :as session]))
+```
+
+Next, we'll write the function which implements the rule we described above. This function 
+must accept three argument which are the method, the url, and the params. The function must 
+return a boolean indicating whether the page matches the specified rule.
+
+Here's a function which checks that the URI is of the format "/private/:id" and that the id 
+matches the user in the session.
 
 ```clojure
 (defn user-page [method url params]
@@ -115,23 +135,19 @@ must return a boolean indicating whether the page passed the rule.
 ```
 
 Once you've got your rules defined, you need to wrap the handler with the
-`noir.util.middleware/wrap-access-rules` and pass in the rules as parameters,
-in our case `user-page`.
+`noir.util.middleware/wrap-access-rules` and pass in the rules as parameters.
+In our case we have a single rule, which is the function `user-page`.
 
 ```clojure
-(require '[noir.util.middleware :as middleware])
-
 (def app (-> all-routes
              (middleware/app-handler)
              (middleware/wrap-access-rules user-page)))
 ```
 
-Finally, if we want to restrict page access to a page, in this case if the user id
-matches the user in session then we simply mark our route with `noir.util.route/restricted`:
+Finally, when we want to restrict page access to a page, we simply mark 
+our route with `noir.util.route/restricted`:
 
 ```clojure
-(use 'noir.util.route)
-
 (restricted GET "/private/:id" [id] "private!")
 ```
 
