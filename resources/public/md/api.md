@@ -4,5 +4,5 @@
 * [Compojure](http://weavejester.github.com/compojure/)
 * [Ring](http://ring-clojure.github.com/ring/)
 * [Ring spec](https://github.com/ring-clojure/ring/blob/master/SPEC)
-* [lib Noir](/noir-api/index.html)
+* [lib Noir](http://yogthos.github.com/lib-noir/index.html)
 * [SQL Korma](http://sqlkorma.com/)
