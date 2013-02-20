@@ -60,6 +60,11 @@ create your app on Heroku
 heroku create
 ```
 
+optionally, create a database for the application
+```
+heroku addons:add heroku-postgresql
+```
+
 deploy the application
 
 ```
