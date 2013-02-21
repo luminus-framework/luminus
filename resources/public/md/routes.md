@@ -150,7 +150,8 @@ To set a custom redirect URI simply pass in a map with a `:redirect` key set to 
 ```clojure
 (def app (-> all-routes
              (middleware/app-handler)
-             (middleware/wrap-access-rules {:redirect "/unauthorized"} user-page)))
+             (middleware/wrap-access-rules 
+               {:redirect "/unauthorized"} user-page)))
 
 ```
 
