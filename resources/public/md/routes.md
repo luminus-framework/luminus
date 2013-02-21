@@ -144,7 +144,7 @@ In our case we have a single rule, which is the function `user-page`.
              (middleware/wrap-access-rules user-page)))
 ```
 
-By default `wrap-access-rules` will redirect to the "/" URI if none of the rules return true.
+By default `wrap-access-rules` will redirect to the `/` URI if none of the rules return true.
 To set a custom redirect URI simply pass in a map with a `:redirect` key set to the URI string:
 
 ```clojure
@@ -152,7 +152,6 @@ To set a custom redirect URI simply pass in a map with a `:redirect` key set to 
              (middleware/app-handler)
              (middleware/wrap-access-rules 
                {:redirect "/unauthorized"} user-page)))
-
 ```
 
 Finally, when we want to restrict page access to a page, we simply mark 
