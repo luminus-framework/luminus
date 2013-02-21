@@ -4,6 +4,27 @@
             [clj-http.client :as client]
             [crouton.html :as html]))
 
+(defmulti str-limit
+  (fn [x y]))
+
+(defmethod str-limit
+  java.lang.String
+  [x ^java.lang.Long max]
+  (when-not (empty? x)
+    (if (> (count x)  
+           max)
+      (subs x 0 max)
+      x)))
+
+(defmethod str-limit
+  java.lang.Long
+  [max ^java.lang.String x]
+  (when-not (empty? x)
+    (if (> (count x)  
+           max)
+      (subs x 0 max)
+      x)))
+
 (defn format-time
   "formats the time using SimpleDateFormat, the default format is
    \"dd MMM, yyyy\" and a custom one can be passed in as the second argument"
