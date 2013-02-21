@@ -4,6 +4,23 @@
             [clj-http.client :as client]
             [crouton.html :as html]))
 
+(defn safe-escape
+  "Partial html character conversion for safety.
+  -> &amp; &quot; &lt; &gt;"
+  [^java.lang.String html]
+  (let [r [["\"" "&quot;"]
+           ["<" "&lt;"]
+           [">" "&gt;"]
+           ["&" "&amp;"]]]
+    (loop [c (count r)
+           html html]
+      (if-not (= c 0)
+        (let [[x y] (nth r (dec c))]
+          (recur
+           (dec c)
+           (-> html (.replace x y))))
+        html))))
+
 (defn required-number
   "Returns 0 instead of nil if x is not a number."
   [x]
