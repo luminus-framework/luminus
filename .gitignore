@@ -1,0 +1,14 @@
+/src/testing
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+*.jar
+*.class
+.lein-repl-history
+.lein-deps-sum
+.lein-failures
+.lein-plugins
+*~
+*#*
