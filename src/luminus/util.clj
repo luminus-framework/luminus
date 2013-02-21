@@ -4,6 +4,20 @@
             [clj-http.client :as client]
             [crouton.html :as html]))
 
+(defn required-number
+  "Returns 0 instead of nil if x is not a number."
+  [x]
+  (if-not (number? x) 0 x))
+
+(defn required-string
+  "Returns blank (not nil) string if x is not a string
+   if convert? apply str to x"
+  ([x] (required-string x false))
+  ([x ^java.lang.Boolean convert?]
+  (if convert?
+    (.toString x)
+    (if-not (string? x) " " x))))
+  
 (defmulti str-limit
   (fn [x y]))
 
