@@ -86,6 +86,7 @@ to those already included with Luminus.
 ## Miscellaneous
 
 * [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
+* [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - This middleware prevents CSRF attacks by providing a randomly-generated anti-forgery token
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
