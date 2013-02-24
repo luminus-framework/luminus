@@ -164,4 +164,13 @@ our route with `noir.util.route/restricted`:
 All restricted routes will be checked to see if they match at least one of access rules
 passed into `wrap-access-rules`.
 
+Note that it's also possible to create access rule groups as follows:
 
+```clojure
+(-> handler 
+    (wrap-access-rules rule1 rule2)
+    (wrap-access-rules {:redirect "/unauthorized1"} rule3 rule4)
+    (wrap-access-rules {:redirect "/unauthorized2"} rule5)
+```
+
+In the above example the first set of rules that fails will cause a redirect to its redirect target.
