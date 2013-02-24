@@ -123,7 +123,7 @@ to reference `noir.util.route` and `noir.session` in the handler.
 
 Next, we'll write the function which implements the rule we described above. This function 
 must accept three argument which are the method, the url, and the params. The function must 
-return a boolean indicating whether the page matches the specified rule.
+return a boolean indicating whether the page satisfies the specified rule.
 
 Here's a function which checks that the URI is of the format "/private/:id" and that the id 
 matches the user in the session.
