@@ -134,6 +134,22 @@ matches the user in the session.
        (= (first params) (session/get :user))))
 ```
 
+You can also use `noir.util.route/access-rule` macro to simplify creation of rules. The
+macro accepts a URL pattern and a condition. The condition will only be checked if the 
+URL matches the pattern. 
+
+If we only wanted the `user-page` rule to be checked for the pattern
+`/private/*` we could rewrite it using `access-rule` helper as follows:
+
+```clojure
+(def user-page
+  (access-rule "/private/*" 
+               (= (first params) (session/get :user))))
+```
+
+Note that `method`, `url`, and `params` variables will be implicitly defined by `access-rule` and
+are accessible within its scope.
+
 Once you've got your rules defined, you need to wrap the handler with the
 `noir.util.middleware/wrap-access-rules` and pass in the rules as parameters.
 In our case we have a single rule, which is the function `user-page`.
@@ -164,7 +180,8 @@ our route with `noir.util.route/restricted`:
 All restricted routes will be checked to see if they match at least one of access rules
 passed into `wrap-access-rules`.
 
-Note that it's also possible to create access rule groups as follows:
+
+It's also possible to create access rule groups as follows:
 
 ```clojure
 (-> handler 
