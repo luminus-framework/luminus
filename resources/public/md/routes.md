@@ -155,7 +155,7 @@ It's also possible to use the `access-rule` to create whitelists for pages:
 ```clojure
 (def gallery-page
   (access-rule "/gallery/:id"
-    (some #(= (first params) %) ["photos" "sketches" "misc"])))
+    (some #{(first params)} ["photos" "sketches" "misc"])))
 ```
 These pages will always be visible regardless of what other rules are defined.
 
