@@ -150,6 +150,16 @@ If we only wanted the `user-page` rule to be checked for the pattern
 Note that `method`, `url`, and `params` variables will be implicitly defined by `access-rule` and
 are accessible within its scope.
 
+It's also possible to use the `access-rule` to create whitelists for pages:
+
+```clojure
+(def gallery-page
+  (access-rule "/gallery/:id"
+    (some #(= (first params) %) ["photos" "sketches" "misc"])))
+```
+These pages will always be visible regardless of what other rules are defined.
+
+
 Once you've got your rules defined, you need to wrap the handler with the
 `noir.util.middleware/wrap-access-rules` and pass in the rules as parameters.
 In our case we have a single rule, which is the function `user-page`.
