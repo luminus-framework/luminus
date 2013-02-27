@@ -135,27 +135,29 @@ matches the user in the session.
 ```
 
 You can also use `noir.util.route/access-rule` macro to simplify creation of rules. The
-macro accepts a URL pattern and a condition. The condition will only be checked if the 
-URL matches the pattern. 
+macro accepts three parameters.
 
-If we only wanted the `user-page` rule to be checked for the pattern
+* a URL pattern - rule will only be checked for pages with the matching pattern
+* a parameter vector describing the method, url, and params: `[method url params]`
+* a condition to see if the page satisfies the rule 
+* 
+
+If we only wanted the `user-page` rule to only be checked for the URL pattern
 `/private/*` we could rewrite it using `access-rule` helper as follows:
 
 ```clojure
 (def user-page
-  (access-rule "/private/*" 
-               (= (first params) (session/get :user))))
+  (access-rule "/private/*" [_ _ params]
+    (= (first params) (session/get :user))))
 ```
-
-Note that `method`, `url`, and `params` variables will be implicitly defined by `access-rule` and
-are accessible within its scope.
 
 It's also possible to use the `access-rule` to create whitelists for pages:
 
 ```clojure
 (def gallery-page
-  (access-rule "/gallery/:id"
-    (some #{(first params)} ["photos" "sketches" "misc"])))
+  (access-rule "/gallery/:id" [_ _ params]
+    (some #{(first params)} 
+          ["photos" "sketches" "misc"])))
 ```
 These pages will always be visible regardless of what other rules are defined.
 
