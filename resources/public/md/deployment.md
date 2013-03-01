@@ -22,6 +22,7 @@ java -jar target/myapp1-0.1.0-SNAPSHOT-standalone.jar
 ## Delpoying on Immutant
 
 A Luminus app created using lein new luminus myapp should deploy to [Immutant](http://immutant.org/) out of the box.
+More information available on the [official site](http://immutant.org/tutorials/deploying/index.html).
 
 ## Deploying to Tomcat
 
