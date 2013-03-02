@@ -166,6 +166,6 @@ The get user query would then be rewritten as:
                  (limit 1))))
 ```
 
-For further documentation on Korma and its features, please refer to the [official documentation page](http://sqlkorma.com/docs). 
+For further documentation on Korma and its features please refer to the [official documentation page](http://sqlkorma.com/docs). 
 
 Luminus templates for H2 and Postgres default to using Korma for database access.
