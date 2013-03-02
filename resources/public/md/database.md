@@ -23,12 +23,12 @@ In your `db` namespace, you will need to include `clojure.java.jdbc` as a depend
 (:require [clojure.java.jdbc :as sql])
 ```
 
-### Setting up the database connection
+#### Setting up the database connection
 
 The first thing we'll need to do is to define our database connection, this can be done by providing a map of connection parameters:
 
 ```clojure
-(def db {:subprotocol "postgresql"
+(def db-spec {:subprotocol "postgresql"
          :subname "//localhost/my_website"
          :user "admin"
          :password "admin"})
@@ -37,7 +37,7 @@ The first thing we'll need to do is to define our database connection, this can 
 Another approach is to specify the JNDI name for a connection managed by the application server:
 
 ```clojure
-(def db {:name "jdbc/myDatasource"})
+(def db-spec {:name "jdbc/myDatasource"})
 ```
 
 This can be useful if you have multiple environments in which the application runs in. For example,
@@ -48,7 +48,7 @@ safely deploy the same code in each environment.
 Finally, you can provide a JDBC data source, which you configure manually:
 
 ```clojure
-(def db
+(def db-spec
   {:datasource
     (doto (new PGPoolingDataSource)
      (.setServerName   "localhost")
@@ -61,13 +61,13 @@ Finally, you can provide a JDBC data source, which you configure manually:
 This option is useful if you wish to specify any driver specific parameters directly.
 
 
-### Creating tables
+#### Creating tables
 
 You can use the `create-table` function to create the database tables from within the application.
 
 ```clojure
 (defn create-users-table []
-  (sql/with-connection db
+  (sql/with-connection db-spec
     (sql/create-table
       :users
       [:id "varchar(32)"]
@@ -77,13 +77,15 @@ You can use the `create-table` function to create the database tables from withi
 The `create-table` call must be wrapped inside `with-connection`, which ensures that the connection
 is cleaned up after the function exists.
 
-### Selecting records
+### Accessing the Database With SQL Queries
+
+#### Selecting records
 
 To select records from the database you can call `with-query-results`
 
 ```clojure
 (defn get-user [id]
-  (sql/with-connection db
+  (sql/with-connection db-spec
     (sql/with-query-results
       res ["select * from users where id = ?" id] (first res))))
 ```
@@ -99,7 +101,7 @@ will be closed when the function returns.
 The result will be in a form of a sequence of maps, each map will contain keys matching
 the names of the selected columns.
 
-### Inserting records
+#### Inserting records
 
 Inserting records is accomplished by calling `insert-record` with the keyword representing the
 table name and a map representing the record to be inserted. The keys in the map must match
@@ -107,23 +109,63 @@ the column names in the table.
 
 ```clojure
 (defn create-user [user]
-  (with-connection db
+  (with-connection db-spec
     (sql/insert-record :users user)))
 ```
 
-### Transactions
+#### Transactions
 
 It's also possible to call statements inside a transaction, which will cause all the queries
 to be executed atomically, where if any query fails the rest will be rolled back.
 
 ```clojure
 (defn write-all []
-  (sql/with-connection db
+  (sql/with-connection db-spec
     (sql/transaction
       (get-user "foo")
       (create-user {:id "bar" :pass "baz"}))))
 ```
 
-***
-
 Further documentation is available on the official [github page](https://github.com/clojure/java.jdbc/tree/master/doc/clojure/java/jdbc).
+
+### Accessing the Database Using Korma
+
+>[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/) 
+
+When using Korma, we first need to to wrap our `db-spec` using `defdb` as follows:
+
+```clojure
+(defdb db schema/db-spec)
+```
+
+This will create a connection pool for your db spec using the [c3p0](http://sourceforge.net/projects/c3p0/) library.
+Note that the last created pool is set as the default for all queries.
+
+Korma uses entities to represent SQL tables. The entities represent the core building blocks of your queries.
+These entities are created by using `defentity` macro:
+
+```clojure
+(defentity users)
+```
+
+Using the users entity we can rewrite our query to create a user as follows:
+
+```clojure
+(defn create-user
+  [user]
+  (insert users
+          (values user)))
+``` 
+
+The get user query would then be rewritten as:
+
+```clojure
+(defn get-user [id]
+  (first (select users
+                 (where {:id id})
+                 (limit 1))))
+```
+
+For further documentation on Korma and its features, please refer to the [official documentation page](http://sqlkorma.com/docs). 
+
+Luminus templates for H2 and Postgres default to using Korma for database access.
