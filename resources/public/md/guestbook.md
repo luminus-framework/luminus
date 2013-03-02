@@ -98,24 +98,24 @@ The project file of the application we've created is found in its root folder an
 (defproject guestbook "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
-  :dependencies [[org.clojure/clojure "1.4.0"]
-                 [lib-noir "0.3.5"]
-                 [compojure "1.1.3"]
+  :dependencies [[org.clojure/clojure "1.5.0"]
+                 [lib-noir "0.4.8"]
+                 [compojure "1.1.5"]
                  [hiccup "1.0.2"]
-                 [ring-server "0.2.5"]                 
-                 [com.taoensso/timbre "1.2.0"]
+                 [ring-server "0.2.7"]
+                 [com.taoensso/timbre "1.5.1"]
                  [com.taoensso/tower "1.2.0"]
-                 [markdown-clj "0.9.18"]]  
-  :plugins [[lein-ring "0.8.0"]]
+                 [markdown-clj "0.9.19"]]
+  :plugins [[lein-ring "0.8.2"]]
   :ring {:handler guestbook.handler/war-handler
          :init    guestbook.handler/init
-         :destroy guestbook.handler/destroy}  
+         :destroy guestbook.handler/destroy}
   :profiles
-  {:production {:ring {:open-browser? false 
-                       :stacktraces?  false 
+  {:production {:ring {:open-browser? false
+                       :stacktraces?  false
                        :auto-reload?  false}}
    :dev {:dependencies [[ring-mock "0.1.3"]
-                        [ring/ring-devel "1.1.0"]]}}
+                        [ring/ring-devel "1.1.8"]]}}
   :min-lein-version "2.0.0")
 ```
 
@@ -132,20 +132,19 @@ We can now run the project as follows:
 ```
 >lein ring server
 guestbook started successfully...
-2013-01-10 20:30:40.246:INFO:oejs.Server:jetty-7.6.1.v20120215
+2013-03-01 19:05:30.389:INFO:oejs.Server:jetty-7.6.1.v20120215
 Started server on port 3000
-2013-01-10 20:30:40.294:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+2013-03-01 19:05:30.459:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 ```
 
-A new browser window will pop up and you should see your application running.
-
+A new browser window will pop up and you should see your application running. 
 Note that if you didn't want to pop up a new browser you could run:
 
 ```
 lein ring server-headless
 ```
 
-You can also pass in a custom port as follows
+You can also pass in a custom port as follows:
 
 ```
 lein ring server-headless 8000
