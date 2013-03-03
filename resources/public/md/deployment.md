@@ -75,6 +75,10 @@ optionally, create a database for the application
 heroku addons:add heroku-postgresql
 ```
 
+The connection settings can be found at your
+[Heroku dashboard](https://dashboard.heroku.com/apps/) under
+the add-ons for the app.
+
 deploy the application
 
 ```
