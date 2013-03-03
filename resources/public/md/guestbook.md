@@ -19,9 +19,8 @@ lein self-install
 
 In this tutorial we will create a simple guestbook application using Luminus.
 This will provide you with an overview of the basic project structure and development
-process.
+process. To create a new project simply run the following in your terminal:
 
-### Create a new application using Leiningen
 
 ```
 lein new luminus guestbook
