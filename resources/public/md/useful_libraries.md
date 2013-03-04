@@ -86,7 +86,7 @@ to those already included with Luminus.
 ## Miscellaneous
 
 * [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
-* [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - This middleware prevents CSRF attacks by providing a randomly-generated anti-forgery token
+* [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - CSRF attack prevention using randomly-generated anti-forgery tokens
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
 
