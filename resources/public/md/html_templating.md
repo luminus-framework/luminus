@@ -84,12 +84,29 @@ Filters are specified by using a `|` after the variable name, as can be seen bel
 
 The following filters are currently available:
 
-* upper - converts a string to upper case `{{name|upper}}`
-* date - formats an instance of java.util.Date `{{my-date|date:"yyyy-MM-dd_HH:mm:ss"}}`
-* hash - computes a hash of the variable (md5, sha, sha256, sha384, sha512) `{{name|hash:md5}}`
-* count - counts the length of the variable `{{name|count}}`
-* pluralize - returns pluralization of the word `{{items|count}} item{{items|pluralize}}``
-* to-json - renders a Clojure data structure as JSON `{{data|to-json}}`
+upper - converts a string to upper case 
+
+`{{name|upper}}`
+
+date - formats an instance of java.util.Date 
+
+`{{my-date|date:"yyyy-MM-dd_HH:mm:ss"}}`
+
+hash - computes a hash of the variable (md5, sha, sha256, sha384, sha512) 
+
+`{{name|hash:md5}}`
+
+count - counts the length of the variable 
+
+`{{name|count}}`
+
+pluralize - returns pluralization of the word 
+
+`{{items|count}} item{{items|pluralize}}`
+
+to-json - renders a Clojure data structure as JSON 
+
+`{{data|to-json}}`
 
 ### Tags
 
