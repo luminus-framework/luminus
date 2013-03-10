@@ -1,7 +1,7 @@
 Luminus aims to provide you with solid defaults for creating your web application. As such it comes packaged with several
 libraries by default. These libraries include 
 [lib-noir](https://github.com/noir-clojure/lib-noir) for general purpose utilities,
-[Hiccup](https://github.com/weavejester/hiccup) for HTML templating,
+[Clabango](https://github.com/danlarkin/clabango)/[Hiccup](https://github.com/weavejester/hiccup) for HTML templating,
 [Timbre](https://github.com/ptaoussanis/timbre) for logging,
 [Tower](https://github.com/ptaoussanis/tower) for internationalization and a few others.
 Of course, there are many other Clojure libraires for web development. Here we are going 
