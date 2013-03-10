@@ -1,4 +1,4 @@
-## Installing Leiningen
+### Installing Leiningen
 
 Installing [Leiningen](https://github.com/technomancy/leiningen) is a simple process which
 involves the following steps.
@@ -15,7 +15,7 @@ mv lein ~/bin
 lein self-install
 ```
 
-## Creating a new application
+### Creating a new application
 
 In this tutorial we will create a simple guestbook application using Luminus.
 This will provide you with an overview of the basic project structure and development
@@ -23,108 +23,12 @@ process. To create a new project simply run the following in your terminal:
 
 
 ```
-lein new luminus guestbook
+lein new luminus guestbook +h2
 cd guestbook
 ```
 
-## Anatomy of a Luminus application
+The above will create a new template project with the support for [H2 embedded database](http://www.h2database.com/html/main.html) engine.
 
-The newly created application has the following structure
-
-```
-README.md
-project.clj
-src
-  └ guestbook
-            └ views
-                  └ layout.clj
-              routes
-                   └ home.clj
-              handler.clj
-              util.clj
-              repl.clj
-test
-   └ guestbook
-             └ test
-                 └ handler.clj
-resources
-        └ public
-               └ css
-                  └ screen.css
-                 img
-                 js
-                 md
-```
-
-First, we have the README.md file, this is where documentation for the application is conventionally put.
-The `project.clj` file is used to manage the project configuration and dependencies by Leiningen.
-
-### The src directory
-
-Our code lives under the `src` folder. A `guestbook` folder has been created for us already.
-In this folder we have a `models` folder where we would put the namespaces for the model of our application.
-We also have several namespaces already defined for us as well.
-
-First, we have `views/layout.clj`, this is where all the common page layout helpers are located. For example,
-it's where you would put headers, footers, and the common layout for the pages.
-
-Next, we have `routes/home.clj`, this is where the routes for our homepage are located. When you add more routes,
-such as authentication, or specific workflows you should create namespaces for them here.
-
-The `handler` namespace defines the base routes for the application, this is the entry point into the application
-and any pages we define will have to have their routes added here.
-
-The `util` namespace is used for general helper functions, it comes prepopulated with the `md->html` helper.
-
-Finally, we have the `repl` namespace, this is used for running the application from the REPL environment. 
-It's useful in cases you already have a REPL running and aren't launching it from Leiningen. An example of this
-would be running the application in Eclipse with [counterclockwise](https://code.google.com/p/counterclockwise/).
-
-### The test directory
-
-Here is where we put tests for our application, a couple of sample tests have already been defined for us.
-
-### The resources directory
-
-This is where we put all the static resoruces for our application. We have folders for CSS, JavaScript, images, and markdown already defined.
-
-## Adding dependencies
-
-As was noted above, all the dependencies are managed via updating the `project.clj` file.
-The project file of the application we've created is found in its root folder and should look as follows:
-
-```clojure
-(defproject guestbook "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :dependencies [[org.clojure/clojure "1.5.0"]
-                 [lib-noir "0.4.8"]
-                 [compojure "1.1.5"]
-                 [hiccup "1.0.2"]
-                 [ring-server "0.2.7"]
-                 [com.taoensso/timbre "1.5.1"]
-                 [com.taoensso/tower "1.2.0"]
-                 [markdown-clj "0.9.19"]]
-  :plugins [[lein-ring "0.8.2"]]
-  :ring {:handler guestbook.handler/war-handler
-         :init    guestbook.handler/init
-         :destroy guestbook.handler/destroy}
-  :profiles
-  {:production {:ring {:open-browser? false
-                       :stacktraces?  false
-                       :auto-reload?  false}}
-   :dev {:dependencies [[ring-mock "0.1.3"]
-                        [ring/ring-devel "1.1.8"]]}}
-  :min-lein-version "2.0.0")
-```
-
-As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
-Since our application will need to store the comments posted by visitors, we'll add JDBC dependencies to the `:dependencies` vector:
-
-```clojure
-[org.clojure/java.jdbc "0.2.3"]
-[com.h2database/h2 "1.3.170"]
-```
 
 We can now run the project as follows:
 
@@ -149,36 +53,177 @@ You can also pass in a custom port as follows:
 lein ring server-headless 8000
 ```
 
+### Anatomy of a Luminus application
 
-## Accessing the databse with JDBC
+The newly created application has the following structure
 
-First, we will create a model for our application, to do that we'll create a new namespace under
-the `src/guestbook/models` folder. We will call this namespace `db`.
-The namespace will live in a file called `db.clj` under `src/guestbook/models` directory.
-
-```clojure
-(ns guestbook.models.db
-  (:require [clojure.java.jdbc :as sql]))
+```
+Procfile
+README.md
+project.clj
+src
+  └ log4j.xml
+    guestbook
+       └ handler.clj
+         util.clj
+         repl.clj
+         models
+           └ db.clj
+             schema.clj
+          routes
+           └ home.clj
+          views
+           └ layout.clj
+           └ templates
+              └ about.html
+                base.html
+                home.html                                                            
+test
+  └ guestbook
+       └ test
+           └ handler.clj
+resources
+  └ public
+       └ css
+           └ screen.css
+             img
+             js                                                   
+             md
+              └ docs.md                                                    
 ```
 
-Next, we will create the definition for our database connection.
-The definition is simply a map containing the class for the JDBC driver,
-the protocol, user, password, and the name of the database file used by [H2](http://www.h2database.com/html/main.html) embedded database.
+Let's take a look at what the files in the root folder of the application do:
+
+* `Procfile` - used to facilitate Heroku deployments. 
+* `README.md` - where documentation for the application is conventionally put. 
+* `project.clj` - used to manage the project configuration and dependencies by Leiningen.
+
+### The `src` Directory
+
+All our code lives under the `src` folder. Since our application is called guestbook, this
+is the root namespace for project. Let's take a look at all the namespaces that have been created for us.
+
+#### guestbook
+
+* `handler.clj` - defines the base routes for the application, this is the entry point into the application
+and any pages we define will have to have their routes added here
+* `repl.clj` - provides functions to start and stop the application from the REPL
+* `util.clj` - used for general helper functions, it comes prepopulated with the `md->html` helper
+* `log4j.xml` - logging configuration for [Korma](http://sqlkorma.com/)  
+
+#### guestbook.models
+
+The `models` namespace is used to define the model for the application and handle the persistence layer.
+
+* `db.clj` - used to house the functions for interacting with the database
+* `schema.clj` - used to define the connection parameters and the database tables
+
+#### guestbook.routes
+
+The `routes` namespace is where the routes and controllers for our homepage are located. When you add more routes,
+such as authentication, or specific workflows you should create namespaces for them here.
+
+* `home.clj` - a namespace that defines the home and about pages of the application
+
+#### guestbook.views
+
+The `views` namespace defines the visual layout of the application.
+
+* `layout.clj` - a namespace for the layout helpers
+
+#### guestbook.views.templates
+
+This namespace is reserved for the [Clabango](https://github.com/danlarkin/clabango) templates
+that represent the application pages.
+
+* `about.html` - the about page
+* `base.html` - the base layout for the site
+* `home.html` - the home page
+
+### The Test Directory
+
+Here is where we put tests for our application, a couple of sample tests have already been defined for us.
+
+### The Resources Directory
+
+This is where we put all the static resoruces for our application. We have folders for CSS, JavaScript, images, and markdown already defined.
+
+### Adding Dependencies
+
+As was noted above, all the dependencies are managed via updating the `project.clj` file.
+The project file of the application we've created is found in its root folder and should look as follows:
 
 ```clojure
-(def db {:classname     "org.h2.Driver"
-         :subprotocol   "h2"
-         :user          "sa"
-         :password      ""
-         :subname       "site"})
+(defproject guestbook "0.1.0-SNAPSHOT"
+  :dependencies 
+  [[org.clojure/clojure "1.5.0"]
+   [lib-noir "0.4.9"]
+   [compojure "1.1.5"]
+   [ring-server "0.2.7"]
+   [com.taoensso/timbre "1.5.2"]
+   [com.taoensso/tower "1.2.0"]
+   [markdown-clj "0.9.19"]
+   [clabango "0.5"]
+   [org.clojure/java.jdbc "0.2.3"]
+   [com.h2database/h2 "1.3.170"]
+   [korma "0.3.0-RC2"]
+   [log4j
+    "1.2.15"
+    :exclusions
+    [javax.mail/mail
+     javax.jms/jms
+     com.sun.jdmk/jmxtools
+     com.sun.jmx/jmxri]]]
+  :ring {:handler guestbook.handler/war-handler,
+         :init guestbook.handler/init,
+         :destroy guestbook.handler/destroy}
+  :profiles {:production
+             {:ring
+              {:open-browser? false, 
+               :stacktraces? false, 
+               :auto-reload? false}},
+             :dev
+             {:dependencies [[ring-mock "0.1.3"] [ring/ring-devel "1.1.8"]]}}
+  :url
+  "http://example.com/FIXME"
+  :plugins
+  [[lein-ring "0.8.3"]]
+  :description
+  "FIXME: write description"
+  :min-lein-version "2.0.0")
 ```
 
-Now that we have a database connection declared, let's write a function which will create the table for storing the guest messages.
+As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
+If you need to add any custom dependencies simply append them to the `:dependencies` vector.
+
+
+### Accessing the Databse
+
+First, we will create a model for our application, to do that we'll open up the `schema.clj` file located
+under the `src/guestbook/models` folder.
+
+
+Here, we can see that we already have the definition for our database connection.
+The definition is simply a map containing the class for the JDBC driver, the protocol, 
+user, password, and the name of the database file used by the H2 database.
+
+```clojure
+(def db-spec {:classname "org.h2.Driver"
+              :subprotocol "h2"
+              :subname (str (io/resource-path) db-store)
+              :user "sa"
+              :password ""
+              :naming {:keys clojure.string/upper-case
+                       :fields clojure.string/upper-case}})
+```
+
+Next, we have a function called `create-users-table` with a definition for a table called `users`. 
+We'll replace this function with a `create-guestbook-table` function instead: 
 
 ```clojure
 (defn create-guestbook-table []
   (sql/with-connection
-    db
+    db-spec
     (sql/create-table
       :guestbook
       [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
@@ -189,143 +234,205 @@ Now that we have a database connection declared, let's write a function which wi
       "CREATE INDEX timestamp_index ON guestbook (timestamp)")))
 ```
 
-With the table created we can write a function to read the messages from the database.
+We'll also update the `create-tables` function to call it:
 
 ```clojure
-(defn read-guests []
-  (sql/with-connection
-    db
-    (sql/with-query-results res
-      ["SELECT * FROM guestbook ORDER BY timestamp DESC"]
-      (doall res))))
+(defn create-tables
+  "creates the database tables used by the application"
+  []
+  (create-guestbook-table))
 ```
 
-We'll also need to create a function to add a new row to our guestbook table.
-To do that we'll call `insert-values` and pass it the name and the message to be stored.
+With the table created we can write functions to read and write the messages in our guestbook.
+Let's open the `db.clj` file and add them there. Again, we see that there's already some code
+here to work with the `users` table. We'll replace it with the following code instead:
 
 ```clojure
-(defn save-message [name message]
-  (sql/with-connection
-    db
-    (sql/insert-values
-      :guestbook
-      [:name :message :timestamp]
-      [name message (new java.util.Date)])))
+(ns guestbook.models.db
+  (:use korma.core
+        [korma.db :only (defdb)])
+  (:require [guestbook.models.schema :as schema]))
+ 
+(defdb db schema/db-spec)
+ 
+(defentity guestbook)
+ 
+(defn save-message
+  [name message]
+  (insert guestbook 
+          (values {:name name
+                   :message message
+                   :timestamp (new java.util.Date)})))
+ 
+(defn get-messages []
+  (select guestbook))
 ```
 
-### Running code on startup
+Above we create an entity to represent the guestbook table we created in the `schema` namespace.
+Then we add a functions called `save-message` and `get-messages` to interact with it.
 
-Since we need to have the database table created in order to access it,
-we'll add the following code to our `handler` namespace.
+### Running Code on Startup
 
-First, we will reference our `db` namespace in the namespace declaration of our handler.
+The `handler` namespace contains a function called `init`. This function will be called
+once when the application starts. Let's add the code to check if the database has been initialized
+and initialize it if necessary.
+
+We'll first need to reference the `schema` namespace in order to use the `initialized?` and `create-tables` functions
+from there.
 
 ```clojure
 (ns guestbook.handler
-  (:use guestbook.routes.home
-        compojure.core)
-  (:require [noir.util.middleware :as middleware]
-            [compojure.route :as route]
-            [guestbook.models.db :as db]))
+  (:use ...)
+  (:require ...
+            [guestbook.models.schema :as schema]))
 ```
 
-Then we will update our `init` function to check if our database exists and
-create it if needed.
+Next, we can update the `init` function as follows:
 
 ```clojure
 (defn init
   "init will be called once when
-   app is deployed as a servlet on 
+   app is deployed as a servlet on
    an app server such as Tomcat
    put any initialization code here"
   []
-  (if-not (.exists (new java.io.File "site.h2.db"))
-    (db/create-guestbook-table))
+  (if-not (schema/initialized?) (schema/create-tables))
   (println "guestbook started successfully..."))
 ```
 
-Since we changed the `init` function of our application, let's restart it by hitting `CTRL+C` and
-running `lein ring server` again.
+Since we changed the `init` function of our application, 
+let's restart it by hitting `CTRL+C` and running `lein ring server` again.
 
-## Creating pages and handling input from forms
+### Creating Pages and Handling Form Input
 
-We'll now open up our home namespace located under `routes/home.clj` and add the references for `db`
-and `hiccup.form`.
+Our routes are defined in the `guestbook.routes.home` namespace. Let's open it up and add the logic for
+rendering the messages from the databse. We'll first need to add a reference to our `db` namespace:
 
 ```clojure
 (ns guestbook.routes.home
-  (:use compojure.core hiccup.form)
-  (:require [guestbook.views.layout :as layout]
+  (:use ...)
+  (:require ...
             [guestbook.models.db :as db]))
 ```
 
-We'll first write a function to read the guests from the database by calling `db/read-guests` and
-display them as a list.
-
-```clojure
-(defn show-guests []
-  (into [:ul.guests]
-        (for [{:keys [message name timestamp]} (db/read-guests)]
-          [:li
-           [:blockquote message]
-           [:p "-" [:cite name]]
-           [:time timestamp]])))
-```
-
-Next, we'll add a function to render the home page. Here we create a form
-with text fields named `name` and `message`, these will be sent when the
-form posts to the server as keywords of the same name.
-
-The function accepts optional parameters called name, message, and error. If
-these are passed in then they will be rendered by the page. This allows us
-to retain the form input in case of an error.
+Then we'll change the `home-page` controller to look as follows:
 
 ```clojure
 (defn home-page [& [name message error]]
-  (layout/common
-    [:h1 "Guestbook"]
-    [:p "Welcome to my guestbook"]
-    [:p error]
+  (layout/render "home.html"
+                 {:error    error
+                  :name     name
+                  :message  message
+                  :messages (db/get-messages)}))
 
-    ;here we call our show-guests function
-    ;to generate the list of existing comments
-    (show-guests)
-
-    [:hr]
-
-    (form-to [:post "/"]
-      [:p "Name:" (text-field "name" name)]
-      [:p "Message:" (text-area {:rows 10 :cols 40} "message" message)]
-      (submit-button "comment"))))
 ```
 
-We'll also need to add a function to save messages to the database. We'll
-check if name or message are empty and display the home page with an error.
-Otherwise we will save the message to the database and display a fresh page.
+All we did here was update it to send some extra parameters to the template, one of them being
+a list of messages from the database.
+
+Since we'd like the users to be able to post new messages, we'll add a controller to handle
+the form posts:
 
 ```clojure
 (defn save-message [name message]
   (cond
-
+  
     (empty? name)
     (home-page name message "Some dummy who forgot to leave a name")
-
+  
     (empty? message)
     (home-page name message "Don't you have something to say?")
-
+  
     :else
     (do
       (db/save-message name message)
       (home-page))))
 ```
 
-Finally, we need to update our route to pass the form parameters to the `home-page` function,
-and create a new route for handling HTTP POST from our form.
-
-```clojure
+Finally, we'll add a route for this controller to our `home-routes` definition:
+ 
+````clojure 
 (defroutes home-routes
-  (GET "/"  [name message error] (home-page name message error))
-  (POST "/" [name message] (save-message name message)))
+  (GET "/" [] (home-page))
+  (POST "/" [name message] (save-message name message))
+  (GET "/about" [] (about-page)))
+```
+
+Now that we have our controllers setup, let's open the `home.html` template located under the `guestbook.views.templates` namespace.
+Currenlty, simply renders the contents of the `content` variable inside the content block:
+
+```xml
+{% extends "guestbook/views/templates/base.html" %}
+
+{% block content %}
+{{content}}
+{% endblock %}
+```
+
+We'll update our `content` block to iterate over the messages and print each one in a list:
+
+```xml
+{% block content %}
+<ul>
+{% for item in messages %}
+  <li> 
+      <blockquote>{{item.message}}</blockquote>
+      <p> - {{item.name}}</p>
+      <time>{{item.timestamp}}</time>
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}
+``` 
+
+As you can see above, we use a for iterator to walk the messages. 
+Since each message is a map with the message, name, and timestamp keys, we can access them by name.
+
+Next, we'll add an error block for displaying errors that might be populated by the controller:
+
+```xml
+{% if error %}
+<p>{{error}}</p>
+{% endif %}
+```
+
+Here we simply check if the error field was populated and display it. 
+Finally, we'll create a form to allow users to submit their messages:
+
+```xml
+<form action="/" method="POST">
+    <p>Name: <input type="text" name="name" value={{name}}></p>
+    <p>Message: <input type="text" name="message" value={{message}}></p>
+    <input type="submit" value="comment">
+</form>
+```
+
+Our final `home.html` template should look as follows:
+
+```xml
+{% extends "guestbook/views/templates/base.html" %}
+
+{% block content %}
+<ul>
+{% for item in messages %}
+  <li> 
+      <blockquote>{{item.message}}</blockquote>
+      <p> - {{item.name}}</p>
+      <time>{{item.timestamp}}</time>
+  </li>
+{% endfor %}
+</ul>
+
+{% if error %}
+<p>{{error}}</p>
+{% endif %}
+
+<form action="/" method="POST">
+    <p>Name: <input type="text" name="name" value={{name}}></p>
+    <p>Message: <input type="text" name="message" value={{message}}></p>
+    <input type="submit" value="comment">
+</form>
+{% endblock %}
 ```
 
 Now, if you reload the page in the browser you should be greeted by the guestbook page.

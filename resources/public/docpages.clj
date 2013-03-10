@@ -1,6 +1,6 @@
-[["guestbook.md"          "Your first application"]
+[["guestbook.md"        "Your first application"]
  ["profiles.md"         "Application profiles"]
- ["generating_html.md"  "Generating HTML"]
+ ["html_templating.md"  "HTML templating"]
  ["routes.md"           "Defining routes"]
  ["static_resources.md" "Static resources"]
  ["responses.md"        "Response types"]
