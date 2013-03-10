@@ -69,7 +69,6 @@ to those already included with Luminus.
 
 ## Template Languages
 
-* [Clabango](https://github.com/danlarkin/clabango) - A template library modeled after Django's templating library
 * [Basil](https://github.com/kumarshantanu/basil) - A general purpose template library
 * [Clostache](https://github.com/fhd/clostache) - {{ mustache }} for Clojure
 * [Enlive](https://github.com/cgrand/enlive) - A selector-based (à la CSS) templating and transformation system
