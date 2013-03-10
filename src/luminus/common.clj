@@ -48,16 +48,16 @@
     [:head [:title "Luminus - A Clojure Web Framework"]
      (include-css "/css/screen.css"
        "/css/shCore.css")
-     (include-js "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"
-       "/js/shCore.js"
-       "/js/brushes/shBrushClojure.js"
-       "/js/brushes/shBrushBash.js"
-       "/js/brushes/shBrushCss.js"
-       "/js/brushes/shBrushJava.js"
-       "/js/brushes/shBrushJScript.js"
-       "/js/brushes/shBrushPlain.js"
-       "/js/brushes/shBrushXml.js"
-       "/js/site.js")]
+     (include-js "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"       
+                 "/js/shCore.js"
+                 "/js/brushes/shBrushClojure.js"
+                 "/js/brushes/shBrushBash.js"
+                 "/js/brushes/shBrushCss.js"
+                 "/js/brushes/shBrushJava.js"
+                 "/js/brushes/shBrushJScript.js"
+                 "/js/brushes/shBrushPlain.js"
+                 "/js/brushes/shBrushXml.js"
+                 "/js/site.js")]
     [:body
      #_github-ribbon
      [:div#wrap
