@@ -84,27 +84,27 @@ Filters are specified by using a `|` after the variable name, as can be seen bel
 
 The following filters are currently available:
 
-upper - converts a string to upper case 
+*upper* - converts a string to upper case 
 
 `{{name|upper}}`
 
-date - formats an instance of java.util.Date 
+*date* - formats an instance of java.util.Date 
 
 `{{my-date|date:"yyyy-MM-dd_HH:mm:ss"}}`
 
-hash - computes a hash of the variable (md5, sha, sha256, sha384, sha512) 
+*hash* - computes a hash of the variable (md5, sha, sha256, sha384, sha512) 
 
 `{{name|hash:md5}}`
 
-count - counts the length of the variable 
+*count* - counts the length of the variable 
 
 `{{name|count}}`
 
-pluralize - returns pluralization of the word 
+*pluralize* - returns pluralization of the word 
 
 `{{items|count}} item{{items|pluralize}}`
 
-to-json - renders a Clojure data structure as JSON 
+*to-json* - renders a Clojure data structure as JSON 
 
 `{{data|to-json}}`
 
@@ -117,31 +117,31 @@ block of text. An example of this would be the `if` ... `endif` block.
 
 Let's take a look at the default tags:
 
-extends - used to indicate that the template extends another template:
+*extends* - used to indicate that the template extends another template
 
 `{% extends "base.html" %}`
 
-include - used to include a block from a different template file:
+*include* - used to include a block from a different template file
 
 `{% include "form.html" %}`
 
-block/endbock - used to specify a block that can be overriden by a block from different template with the same name:
+*block/endbock* - used to specify a block that can be overriden by a block from different template with the same name
 
 `{% block form %}{% endblock %}`
 
-if/endif - used to test a condition, the if portion is rendered only if the condition is true:
+*if/endif* - used to test a condition, the if portion is rendered only if the condition is true
 
 `{% if error %} <p>An error occurred: {{error}}</p>{% endif %}`
 
-ifequal/endequal - same as if tag except that it checks that its arguments are equal:
+*ifequal/endequal* - same as if tag except that it checks that its arguments are equal
 
 `{% ifequal foo bar %}yes!{% endifequal %}`
 
-else - can be used inside the `if` and `ifequal` tags to specify the content for the negative case: 
+*else* - can be used inside the `if` and `ifequal` tags to specify the content for the negative case 
 
 `{% if condition %}yes!{% else %}no!{% endif %}`
 
-for/endfor - used to iterate over collections of items:
+*for/endfor* - used to iterate over collections of items
 
 `{% for story in stories %} <h2>{{story.name}}</h2>{% endfor %}`
 
