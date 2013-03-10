@@ -37,7 +37,8 @@ If we saved the template defined above in a file called `index.html` then we cou
   (:use [clabango.parser :only [render-file]]))
   
 (defn index [request]
-  (render-file "example/views/templates/index.html" {:name "John"}))  
+  (render-file "example/views/templates/index.html" 
+               {:name "John"}))  
 ``` 
 
 The `render-file` function expects the templates to be found at a path relative 
@@ -56,14 +57,16 @@ For example, if we pass in a collection we can iterate it using the `for` tag:
 ```
 
 ```clojure
-(render-file "/example/views/templates/items.html {:items (range 10)})
+(render-file "/example/views/templates/items.html 
+             {:items (range 10)})
 ```
 
 If an item happens to be a map, we can access the keys by their name as follows:
 
 
 ```clojure
-(render "<p>Hello {{user.first}} {{user.last}}</p>" {:user {:first "John" :last "Doe"}})
+(render "<p>Hello {{user.first}} {{user.last}}</p>" 
+        {:user {:first "John" :last "Doe"}})
 ```
 
 When no special processing is specified in the template then the `.toString` value
