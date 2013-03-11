@@ -1,3 +1,9 @@
+## Guestbook Application
+
+This tutorial will guide you through building a simple guestbook application where
+the users can leave messages and view all the messages that were created. The application 
+will demonstrate the basics of HTML templating, database access, and project architecture. 
+
 ### Installing Leiningen
 
 Installing [Leiningen](https://github.com/technomancy/leiningen) is a simple process which
