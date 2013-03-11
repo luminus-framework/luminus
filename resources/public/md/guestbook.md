@@ -471,4 +471,5 @@ The resulting war archive can now be deployed to the server of your choosing.
 
 ***
 
+Complete source listing for the tutorial is available [here](https://github.com/yogthos/guestbook). 
 For a more complete example you can see the source for this site on [Github](https://github.com/yogthos/luminus).
