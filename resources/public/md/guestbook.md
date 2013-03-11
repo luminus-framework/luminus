@@ -197,7 +197,7 @@ As you can see the project.clj is simply a Clojure list containing key/value pai
 If you need to add any custom dependencies simply append them to the `:dependencies` vector.
 
 
-### Accessing the Databse
+### Accessing the Database
 
 First, we will create a model for our application, to do that we'll open up the `schema.clj` file located
 under the `src/guestbook/models` folder.
