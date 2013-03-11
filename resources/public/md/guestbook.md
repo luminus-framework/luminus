@@ -1,13 +1,15 @@
 ## Guestbook Application
 
-This tutorial will guide you through building a simple guestbook application where
-the users can leave messages and view all the messages that were created. The application 
-will demonstrate the basics of HTML templating, database access, and project architecture. 
+This tutorial will guide you through building a simple guestbook application using Luminus.
+The guestbook allows users to leave a message and to view a list of messages left by others. 
+The application will demonstrate the basics of HTML templating, database access, and 
+project architecture. 
 
 ### Installing Leiningen
 
-Installing [Leiningen](https://github.com/technomancy/leiningen) is a simple process which
-involves the following steps.
+You need to have [Leiningen](https://github.com/technomancy/leiningen) installed in
+order to work with Luminus. Installing Leiningen is a simple process which involves 
+the following steps.
 
 1. Download the script.
 3. Set it to be executable. (eg: chmod +x lein)
@@ -23,9 +25,8 @@ lein self-install
 
 ### Creating a new application
 
-In this tutorial we will create a simple guestbook application using Luminus.
-This will provide you with an overview of the basic project structure and development
-process. To create a new project simply run the following in your terminal:
+Once you have Leiningen installed you can run the following comman in your terminal to 
+initialize your application:
 
 
 ```
@@ -34,7 +35,6 @@ cd guestbook
 ```
 
 The above will create a new template project with the support for [H2 embedded database](http://www.h2database.com/html/main.html) engine.
-
 
 We can now run the project as follows:
 
@@ -239,6 +239,9 @@ We'll replace this function with a `create-guestbook-table` function instead:
     (sql/do-commands
       "CREATE INDEX timestamp_index ON guestbook (timestamp)")))
 ```
+
+The guestbook table will store all the fields describing the message, such as the name of the
+commenter, the content of the message and a timestamp.
 
 We'll also update the `create-tables` function to call it:
 
