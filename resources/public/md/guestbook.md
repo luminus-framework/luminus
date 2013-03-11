@@ -40,7 +40,7 @@ Started server on port 3000
 2013-03-01 19:05:30.459:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 ```
 
-A new browser window will pop up and you should see your application running. 
+A new browser window will pop up and you should see your application running.
 Note that if you didn't want to pop up a new browser you could run:
 
 ```
@@ -77,7 +77,7 @@ src
            └ templates
               └ about.html
                 base.html
-                home.html                                                            
+                home.html
 test
   └ guestbook
        └ test
@@ -87,18 +87,18 @@ resources
        └ css
            └ screen.css
              img
-             js                                                   
+             js
              md
-              └ docs.md                                                    
+              └ docs.md
 ```
 
 Let's take a look at what the files in the root folder of the application do:
 
-* `Procfile` - used to facilitate Heroku deployments. 
-* `README.md` - where documentation for the application is conventionally put. 
+* `Procfile` - used to facilitate Heroku deployments.
+* `README.md` - where documentation for the application is conventionally put.
 * `project.clj` - used to manage the project configuration and dependencies by Leiningen.
 
-### The `src` Directory
+### The Source Directory
 
 All our code lives under the `src` folder. Since our application is called guestbook, this
 is the root namespace for project. Let's take a look at all the namespaces that have been created for us.
@@ -109,7 +109,7 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 and any pages we define will have to have their routes added here
 * `repl.clj` - provides functions to start and stop the application from the REPL
 * `util.clj` - used for general helper functions, it comes prepopulated with the `md->html` helper
-* `log4j.xml` - logging configuration for [Korma](http://sqlkorma.com/)  
+* `log4j.xml` - logging configuration for [Korma](http://sqlkorma.com/)
 
 #### guestbook.models
 
@@ -155,7 +155,7 @@ The project file of the application we've created is found in its root folder an
 
 ```clojure
 (defproject guestbook "0.1.0-SNAPSHOT"
-  :dependencies 
+  :dependencies
   [[org.clojure/clojure "1.5.0"]
    [lib-noir "0.4.9"]
    [compojure "1.1.5"]
@@ -179,8 +179,8 @@ The project file of the application we've created is found in its root folder an
          :destroy guestbook.handler/destroy}
   :profiles {:production
              {:ring
-              {:open-browser? false, 
-               :stacktraces? false, 
+              {:open-browser? false,
+               :stacktraces? false,
                :auto-reload? false}},
              :dev
              {:dependencies [[ring-mock "0.1.3"] [ring/ring-devel "1.1.8"]]}}
@@ -204,7 +204,7 @@ under the `src/guestbook/models` folder.
 
 
 Here, we can see that we already have the definition for our database connection.
-The definition is simply a map containing the class for the JDBC driver, the protocol, 
+The definition is simply a map containing the class for the JDBC driver, the protocol,
 user, password, and the name of the database file used by the H2 database.
 
 ```clojure
@@ -217,8 +217,8 @@ user, password, and the name of the database file used by the H2 database.
                        :fields clojure.string/upper-case}})
 ```
 
-Next, we have a function called `create-users-table` with a definition for a table called `users`. 
-We'll replace this function with a `create-guestbook-table` function instead: 
+Next, we have a function called `create-users-table` with a definition for a table called `users`.
+We'll replace this function with a `create-guestbook-table` function instead:
 
 ```clojure
 (defn create-guestbook-table []
@@ -252,18 +252,18 @@ here to work with the `users` table. We'll replace it with the following code in
   (:use korma.core
         [korma.db :only (defdb)])
   (:require [guestbook.models.schema :as schema]))
- 
+
 (defdb db schema/db-spec)
- 
+
 (defentity guestbook)
- 
+
 (defn save-message
   [name message]
-  (insert guestbook 
+  (insert guestbook
           (values {:name name
                    :message message
                    :timestamp (new java.util.Date)})))
- 
+
 (defn get-messages []
   (select guestbook))
 ```
@@ -300,7 +300,7 @@ Next, we can update the `init` function as follows:
   (println "guestbook started successfully..."))
 ```
 
-Since we changed the `init` function of our application, 
+Since we changed the `init` function of our application,
 let's restart it by hitting `CTRL+C` and running `lein ring server` again.
 
 ### Creating Pages and Handling Form Input
@@ -336,13 +336,13 @@ the form posts:
 ```clojure
 (defn save-message [name message]
   (cond
-  
+
     (empty? name)
     (home-page name message "Some dummy who forgot to leave a name")
-  
+
     (empty? message)
     (home-page name message "Don't you have something to say?")
-  
+
     :else
     (do
       (db/save-message name message)
@@ -350,8 +350,8 @@ the form posts:
 ```
 
 Finally, we'll add a route for this controller to our `home-routes` definition:
- 
-````clojure 
+
+````clojure
 (defroutes home-routes
   (GET "/" [] (home-page))
   (POST "/" [name message] (save-message name message))
@@ -375,7 +375,7 @@ We'll update our `content` block to iterate over the messages and print each one
 {% block content %}
 <ul>
 {% for item in messages %}
-  <li> 
+  <li>
       <blockquote>{{item.message}}</blockquote>
       <p> - {{item.name}}</p>
       <time>{{item.timestamp}}</time>
@@ -383,9 +383,9 @@ We'll update our `content` block to iterate over the messages and print each one
 {% endfor %}
 </ul>
 {% endblock %}
-``` 
+```
 
-As you can see above, we use a for iterator to walk the messages. 
+As you can see above, we use a for iterator to walk the messages.
 Since each message is a map with the message, name, and timestamp keys, we can access them by name.
 
 Next, we'll add an error block for displaying errors that might be populated by the controller:
@@ -396,7 +396,7 @@ Next, we'll add an error block for displaying errors that might be populated by 
 {% endif %}
 ```
 
-Here we simply check if the error field was populated and display it. 
+Here we simply check if the error field was populated and display it.
 Finally, we'll create a form to allow users to submit their messages:
 
 ```xml
@@ -415,7 +415,7 @@ Our final `home.html` template should look as follows:
 {% block content %}
 <ul>
 {% for item in messages %}
-  <li> 
+  <li>
       <blockquote>{{item.message}}</blockquote>
       <p> - {{item.name}}</p>
       <time>{{item.timestamp}}</time>
