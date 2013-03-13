@@ -130,7 +130,7 @@ Further documentation is available on the official [github page](https://github.
 
 ### Accessing the Database Using Korma
 
->[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/) 
+>[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/)
 
 When using Korma, we first need to to wrap our `db-spec` using `defdb` as follows:
 
@@ -151,11 +151,10 @@ These entities are created by using `defentity` macro:
 Using the users entity we can rewrite our query to create a user as follows:
 
 ```clojure
-(defn create-user
-  [user]
+(defn create-user [user]
   (insert users
           (values user)))
-``` 
+```
 
 The get user query would then be rewritten as:
 
@@ -166,6 +165,6 @@ The get user query would then be rewritten as:
                  (limit 1))))
 ```
 
-For further documentation on Korma and its features please refer to the [official documentation page](http://sqlkorma.com/docs). 
+For further documentation on Korma and its features please refer to the [official documentation page](http://sqlkorma.com/docs).
 
 Luminus templates for H2 and Postgres default to using Korma for database access.
