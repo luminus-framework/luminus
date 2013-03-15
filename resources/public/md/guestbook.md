@@ -7,7 +7,7 @@ project architecture.
 
 ### Installing Leiningen
 
-You need to have [Leiningen](https://github.com/technomancy/leiningen) installed in
+You need to have [Leiningen](http://leiningen.org/) installed in
 order to work with Luminus. Installing Leiningen is a simple process which involves 
 the following steps.
 
@@ -17,7 +17,7 @@ the following steps.
 4. Run `lein self-install` and wait for the installation to complete.
 
 ```
-wget https://raw.github.com/technomancy/leiningen/preview/bin/lein
+wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
 chmod +x lein
 mv lein ~/bin
 lein self-install
