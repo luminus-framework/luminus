@@ -1,7 +1,7 @@
 (defproject luminus "0.1.0-SNAPSHOT"
   :description "Documentation site for the Luminus framework"
   :url "http://example.com/FIXME"
-  :dependencies [[org.clojure/clojure "1.4.0"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
                  [lib-noir "0.4.9"]
                  [compojure "1.1.5"]
                  [hiccup "1.0.2"]                 
