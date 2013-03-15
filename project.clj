@@ -10,7 +10,7 @@
                  [clj-http "0.6.3"]
                  [crouton "0.1.1"]]
   :min-lein-version "2.0.0"
-  :plugins [[lein-ring "0.8.2"]]  
+  :plugins [[lein-ring "0.8.3"]]  
   :profiles {:production
              {:ring
               {:open-browser? false 
