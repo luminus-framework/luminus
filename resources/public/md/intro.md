@@ -2,7 +2,7 @@
 
 Getting started couldn't be simpler!
 
-* install [Leiningen](https://github.com/technomancy/leiningen)
+* install [Leiningen](http://leiningen.org/)
 
 * create a new project:
 
