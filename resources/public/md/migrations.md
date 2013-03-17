@@ -106,4 +106,4 @@ And the last thing it's update the `handler.clj` file to use our new functions:
 Now just run your server and your application will automatically run all pending migrations.
 
 Hope it helps you start using migrations in Luminus if you got stuck you can find all code in
-the [repository]()
+the [repository](https://github.com/edtsech/ltest)
