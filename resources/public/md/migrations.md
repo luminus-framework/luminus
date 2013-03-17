@@ -2,7 +2,7 @@
 
 By default Luminus doesn't provide any tools for database migration or scheme management.
 Nevertheless, there is a number of data base migration options available for Clojure and
-they can easily integrated into a Luminus project.
+they can be easily integrated into a Luminus project.
 
 Below is a list of all the popular migration libraries currently available:
 
