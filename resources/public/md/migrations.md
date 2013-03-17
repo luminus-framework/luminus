@@ -109,9 +109,9 @@ The last thing we need to do is to update the `handler.clj` file to use our new 
 (defn init
   "runs when the application starts and checks if the database
    schema exists, calls schema/create-tables if not."
-   []
-   (if-not (schema/actualized?)
-     (schema/actualize)))
+  []
+  (if-not (schema/actualized?)
+    (schema/actualize)))
 ```
 
 Now just run your server and your application will automatically run all the pending migrations.
