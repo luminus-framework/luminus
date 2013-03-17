@@ -11,7 +11,7 @@ Below is a list of all the popular migration libraries currently available:
 * [Ragtime](https://github.com/weavejester/ragtime) - Ragtime is a Clojure library for migrating structured data. It defines a common interface for expressing migrations, much like Ring defines a common interface for expression web applications.
 * [Lobos](https://github.com/budu/lobos) - Lobos is a SQL database schema manipulation and migration library written in Clojure. It currently support supports H2, MySQL, PostgreSQL, SQLite and SQL Server.
 
-In this guide we'll see how to integrate the Lobos migration library into a our project. Lobos provides 
+In this guide we'll see how to integrate the Lobos migration library with Luminus. Lobos provides 
 a powerful DSL for writing migrations and makes a nice addition to the Korma SQL syntax.
 
 First, let's generate sample luminus project.
