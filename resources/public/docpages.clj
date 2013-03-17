@@ -8,9 +8,10 @@
  ["sessions_cookies.md" "Sessions and cookies"]
  ["security.md"         "Security"]
  ["database.md"         "Database access"]
- ["logging.md"          "Logging"] 
+ ["migrations.md"       "Database migrations"]
+ ["logging.md"          "Logging"]
  ["i18n.md"             "Internationalization"]
  ["deployment.md"       "Deployment"]
  ["useful_libraries.md" "Useful libraries"]
- ["apps.md"             "Sample applications"]]
-
+ ["apps.md"             "Sample applications"]
+ ]
