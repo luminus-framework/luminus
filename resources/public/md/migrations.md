@@ -1,4 +1,4 @@
-## Migrations
+### Migrations
 
 By default Luminus doesn't provide any tools for database migration or scheme management.
 Nevertheless, there is a number of data base migration options available for Clojure and
