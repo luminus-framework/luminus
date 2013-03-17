@@ -14,7 +14,7 @@ Below is a list of all the popular migration libraries currently available:
 In this guide we'll see how to integrate the Lobos migration library with Luminus. Lobos provides 
 a powerful DSL for writing migrations and makes a nice addition to the Korma SQL syntax.
 
-First, let's generate sample luminus project.
+First, let's generate sample Luminus project.
 
     lein new luminus ltest +site
 
