@@ -20,23 +20,28 @@ First, let's generate sample Luminus project.
 
 We'll then add the Lobos dependency to the `project.clj` file:
 
-    [lobos "1.0.0-beta1"]
+```clojure
+[lobos "1.0.0-beta1"]
+```
 
 Then we need to create a `lobos` directory under the `src` directory of the project.
 There we'll create two files `config.clj` and `migrations.clj` with the following contents:
 
-    (ns lobos.config
-      (:use lobos.connectivity)
-      (:require [ltest.models.schema :as schema]))
-
+```clojure
+(ns lobos.config
+  (:use lobos.connectivity)
+  (:require [ltest.models.schema :as schema]))
     (open-global schema/db-spec)
+```
 
 and
 
-    (ns lobos.migrations
-      (:refer-clojure :exclude
-                      [alter drop bigint boolean char double float time])
-      (:use (lobos [migration :only [defmigration]] core schema config)))
+```clojure
+(ns lobos.migrations
+  (:refer-clojure :exclude
+                  [alter drop bigint boolean char double float time])
+  (:use (lobos [migration :only [defmigration]] core schema config)))
+```
 
 respectively.
 
@@ -44,19 +49,20 @@ Let's create our first migration to convert the `create-users-table` function fr
 clojure jdbc to lobos. This is done by simply removing the `create-users-table` from
 `schema.clj` and adding the following definition to `migations.clj`:
 
-    (defmigration add-users-table
-      (up [] (create
-              (table :users
-                     (varchar :id 20 :primary-key)
-                     (varchar :first_name 30)
-                     (varchar :last_name 30)
-                     (varchar :email 30)
-                     (boolean :admin)
-                     (time    :last_login)
-                     (boolean :is_active)
-                     (varchar :pass 100))))
-
-      (down [] (drop (table :users))))
+```clojure
+(defmigration add-users-table
+  (up [] (create
+          (table :users
+                 (varchar :id 20 :primary-key)
+                 (varchar :first_name 30)
+                 (varchar :last_name 30)
+                 (varchar :email 30)
+                 (boolean :admin)
+                 (time    :last_login)
+                 (boolean :is_active)
+                 (varchar :pass 100))))
+  (down [] (drop (table :users))))
+```
 
 To add other migrations in future just add another `defmigration` definition such as the one above.
 
@@ -64,39 +70,49 @@ To add other migrations in future just add another `defmigration` definition suc
 Now that we have a migration defined, let's take a look at the `schema` namespace and update it
 to use it. First, we'll add the `lobos.migration` dependency to the namespace declaration:
 
-    (ns ltest.models.schema
-      (:use [lobos.core :only (defcommand migrate)])
-      (:require [noir.io :as io]
-                [lobos.migration :as lm]))
+```clojure
+(ns ltest.models.schema
+  (:use [lobos.core :only (defcommand migrate)])
+  (:require [noir.io :as io]
+            [lobos.migration :as lm]))
+```
 
 Then we will define a command to give us a list of pending migrations:
 
-    (defcommand pending-migrations []
-      (lm/pending-migrations db-spec sname))
+```clojure
+(defcommand pending-migrations []
+  (lm/pending-migrations db-spec sname))
+```
 
 Using this info we can figure out state of the database.
 Let's rename the `initialised?` function to `actualized?` and have it return `true`
 if there are no pending migrations:
 
-    (defn actualized?
-      "checks if there are no pending migrations"
-      []
-      (empty? (pending-migrations)))
+```clojure
+(defn actualized?
+  "checks if there are no pending migrations"
+  []
+  (empty? (pending-migrations)))
+```
 
 We'll also replace the `create-tables` function with the `actualize` function which will perform a migration process:
 
-    (def actualize migrate)
+```clojure
+(def actualize migrate)
+```
 
 Basically it's just an alias for an existing `migrate` function from the `lobos.core` namespace.
 
 The last thing we need to do is to update the `handler.clj` file to use our new functions:
 
-    (defn init
-      "runs when the application starts and checks if the database
-       schema exists, calls schema/create-tables if not."
-      []
-      (if-not (schema/actualized?)
-        (schema/actualize)))
+```clojure
+(defn init
+  "runs when the application starts and checks if the database
+   schema exists, calls schema/create-tables if not."
+   []
+   (if-not (schema/actualized?)
+     (schema/actualize)))
+```
 
 Now just run your server and your application will automatically run all the pending migrations.
 
