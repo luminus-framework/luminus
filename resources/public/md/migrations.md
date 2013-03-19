@@ -31,7 +31,8 @@ There we'll create two files `config.clj` and `migrations.clj` with the followin
 (ns lobos.config
   (:use lobos.connectivity)
   (:require [ltest.models.schema :as schema]))
-    (open-global schema/db-spec)
+
+(open-global schema/db-spec)
 ```
 
 and
