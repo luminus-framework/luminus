@@ -14,4 +14,5 @@
  ["deployment.md"       "Deployment"]
  ["useful_libraries.md" "Useful libraries"]
  ["apps.md"             "Sample applications"]
+ ["upgrading.md"        "Upgrading"]  
  ]
