@@ -5,8 +5,7 @@ This is due to the fact that newer versions of dependencies may have breaking ch
 the template will likely have been modified to fit the needs of your site.
 
 The good news is that the Luminus template is fairly stable and there aren't likely to be any major changes down the
-road. The template will continue to grow in two ways however. There will be more profiles added down the road, and
-the dependencies will be updated to the latest stable versions available.
+road. However, there will be more profiles added down the road, and the dependencies will be updated to the latest stable versions.
 
 You could use the following script to keep the dependencies for your project up to date:
 
