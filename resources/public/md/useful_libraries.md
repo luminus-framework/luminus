@@ -88,6 +88,7 @@ to those already included with Luminus.
 * [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - CSRF attack prevention using randomly-generated anti-forgery tokens
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
+* [Validateur](http://clojurevalidations.info/articles/getting_started.html) - a validation library inspired by Ruby's ActiveModel
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
