@@ -12,7 +12,7 @@ It aims to provide good starting defaults via templates on top of which the rest
 All the functionality on top of Ring and Compojure is provided via lib-noir. This library facilitates sessions,
 validation, file uploads, and other common features. This is the core component of the framework.
 
-The [limunus-template](https://github.com/yogthos/luminus-template) project provides a number of templates with basic configuration
+The [luminus-template](https://github.com/yogthos/luminus-template) project provides a number of templates with basic configuration
 already setup. For example, you can use a template to initialize an application with support for ClojureScript or an SQL database. 
 
 The templates take care of generating the boilerplate code, allowing you to focus on writing your application. Of course, you can always
