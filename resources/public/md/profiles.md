@@ -12,6 +12,7 @@ Currently, the following profiles are supported
 * +h2 - adds `models.db` namespace and H2 db dependencies
 * +postgres - adds `models.db` namespace and add PostreSQL dependencies
 * +site - creates an application with registration and authentication setup, uses bootstrap and h2 when database is not specified
+* +dailycred - it adds support for http://www.dailycred.com, when used together with +site it configures the application to authenticate with dailycred
 
 To add a profile simply pass it as an argument after your application name, eg:
 
@@ -19,7 +20,7 @@ To add a profile simply pass it as an argument after your application name, eg:
 lein new luminus myapp +bootstrap
 ```
 
-You can also mix multiple profiles when creating the applicaiton, eg:
+You can also mix multiple profiles when creating the application, eg:
 
 ```
 lein new luminus myapp +site +postgres
