@@ -411,8 +411,14 @@ Finally, we'll create a form to allow users to submit their messages:
 
 ```xml
 <form action="/" method="POST">
-    <p>Name: <input type="text" name="name" value={{name}}></p>
-    <p>Message: <textarea rows="4" cols="50" name="message">{{message}}</textarea></p>
+    <p>
+       Name: 
+       <input type="text" name="name" value={{name}}>
+    </p>
+    <p>
+       Message: 
+       <textarea rows="4" cols="50" name="message">{{message}}</textarea>
+    </p>
     <input type="submit" value="comment">
 </form>
 ```
