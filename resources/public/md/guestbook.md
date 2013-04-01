@@ -385,9 +385,9 @@ We'll update our `content` block to iterate over the messages and print each one
 <ul>
 {% for item in messages %}
   <li>
-      <blockquote>{{item.message}}</blockquote>
-      <p> - {{item.name}}</p>
-      <time>{{item.timestamp}}</time>
+  	  <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
+      <p>{{item.message}}</p>
+      <p> - {{item.name}}</p>      
   </li>
 {% endfor %}
 </ul>
@@ -396,6 +396,7 @@ We'll update our `content` block to iterate over the messages and print each one
 
 As you can see above, we use a for iterator to walk the messages.
 Since each message is a map with the message, name, and timestamp keys, we can access them by name.
+Also, notice the use of the `date` filter to format the timestamps into a human readable form.
 
 Next, we'll add an error block for displaying errors that might be populated by the controller:
 
@@ -411,7 +412,7 @@ Finally, we'll create a form to allow users to submit their messages:
 ```xml
 <form action="/" method="POST">
     <p>Name: <input type="text" name="name" value={{name}}></p>
-    <p>Message: <input type="text" name="message" value={{message}}></p>
+    <p>Message: <textarea rows="4" cols="50" name="message">{{message}}</textarea></p>
     <input type="submit" value="comment">
 </form>
 ```
@@ -425,9 +426,9 @@ Our final `home.html` template should look as follows:
 <ul>
 {% for item in messages %}
   <li>
-      <blockquote>{{item.message}}</blockquote>
-      <p> - {{item.name}}</p>
-      <time>{{item.timestamp}}</time>
+  	  <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
+      <p>{{item.message}}</p>
+      <p> - {{item.name}}</p>      
   </li>
 {% endfor %}
 </ul>
@@ -437,15 +438,35 @@ Our final `home.html` template should look as follows:
 {% endif %}
 
 <form action="/" method="POST">
-    <p>Name: <input type="text" name="name" value={{name}}></p>
-    <p>Message: <input type="text" name="message" value={{message}}></p>
+    <p>
+       Name: 
+       <input type="text" name="name" value={{name}}>
+    </p>
+    <p>
+       Message: 
+       <textarea rows="4" cols="50" name="message">{{message}}</textarea>
+    </p>
     <input type="submit" value="comment">
 </form>
 {% endblock %}
 ```
 
+Finally, we can update the `screen.css` file located in the `resources/public/css` folder to format our form nicer:
+
+```
+form {
+    width: 200px;
+    clear: both;
+}
+form input {
+    width: 50%;
+    clear: both;
+}
+```
+
 Now, if you reload the page in the browser you should be greeted by the guestbook page.
 Try adding a comment in the guestbook to see that it's working correctly.
+
 
 ## Packaging the application
 
