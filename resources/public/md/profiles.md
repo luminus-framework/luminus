@@ -12,7 +12,7 @@ Currently, the following profiles are supported
 * +postgres - adds `models.db` namespace and add PostreSQL dependencies
 * +mysql - adds `models.db` namespace and add MySQL dependencies
 * +site - creates an application with registration and authentication setup, uses bootstrap and h2 when database is not specified
-* +dailycred - it adds support for http://www.dailycred.com, when used together with +site it configures the application to authenticate with dailycred
+* +dailycred - it adds support for [dailycred](http://www.dailycred.com), when used together with +site it configures the application to authenticate with dailycred
 
 To add a profile simply pass it as an argument after your application name, eg:
 
