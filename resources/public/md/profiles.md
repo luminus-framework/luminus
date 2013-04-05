@@ -10,6 +10,7 @@ Currently, the following profiles are supported
 * +cljs - adds ClojureScript support to the project along with an example
 * +h2 - adds `models.db` namespace and H2 db dependencies
 * +postgres - adds `models.db` namespace and add PostreSQL dependencies
+* +mysql - adds `models.db` namespace and add MySQL dependencies
 * +site - creates an application with registration and authentication setup, uses bootstrap and h2 when database is not specified
 * +dailycred - it adds support for http://www.dailycred.com, when used together with +site it configures the application to authenticate with dailycred
 
