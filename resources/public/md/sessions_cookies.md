@@ -56,7 +56,7 @@ and `noir.session/flash-get`, these variables have a lifespan of a single reques
 
 ```clojure
 (session/flash-put! :message "User added!")
-(session/flash-get)
+(session/flash-get :message)
 ```
 
 ## Cookies
