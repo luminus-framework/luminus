@@ -61,14 +61,10 @@ main.init();
 If we use a Js library in our code we must protect the names of any functions we call from it as well. For example, if we wanted to use the [AlbumColors](https://github.com/chengyin/albumcolors) library, we would write the following:
 
 ```clojure
-(defn set-background [style [r g b]]  
-  (set! (.-backgroundColor style)
-        (str "rgb(" r "," g "," b ")")))
-
-(defn ^:export init []
+(defn ^:export init []  
   (.getColors (js/AlbumColors. "/img/foo.jpg") 
     (fn [[background]]
-     (set-background (.-style div) background))))
+     (.log js/console background))))
 ```
 
 However, when the script is compiled with the `:advanced` flag, the `AlbumColors` and `getColors` will be munged.
