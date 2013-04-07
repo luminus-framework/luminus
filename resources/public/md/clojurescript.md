@@ -211,7 +211,7 @@ Now we simply change our response type to EDN in our service route:
 
 ```clojure
 (defroutes fetch-routes  
-  (GET "/all-sketches" [] (response/json (get-sketches))))
+  (GET "/messages" [] (response/edn (get-sketches))))
 ```
 
 
