@@ -55,7 +55,7 @@ It's also possible to create flash variables by using `noir.session/flash-put!`
 and `noir.session/flash-get`, these variables have a lifespan of a single request.
 
 ```clojure
-(session/flash-put! "User added!")
+(session/flash-put! :message "User added!")
 (session/flash-get)
 ```
 
