@@ -128,4 +128,4 @@ There are several libraries available for accessing and modifying DOM elements. 
 
 ### Ajax
 
-A simple way to work with Ajax is by using the `XhrIo` provided by the Google Closure library that ClojureScript depends on. An example is provided with the `+cljs` profile. 
+A simple way to work with Ajax is by using `XhrIo` provided by the Google Closure library that ClojureScript depends on. An example is provided with the `+cljs` profile. 
