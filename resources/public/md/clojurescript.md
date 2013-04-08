@@ -1,5 +1,3 @@
-## Using ClojureScript
-
 ClojureScript is an excellent alternative to JavaScript for client side application logic. Some of the advantages of using ClojureSCript include:
 
 * use the same same language on both the client and the server
@@ -8,7 +6,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 * dependency management via Leiningen
 * immutable data structures  
 
-### Adding ClojureScript
+### Adding ClojureScript Support
 
 The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. This is done by adding the following sections to your `project.clj` file.
 
