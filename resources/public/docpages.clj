@@ -1,6 +1,7 @@
 [["guestbook.md"        "Your first application"]
  ["profiles.md"         "Application profiles"]
  ["html_templating.md"  "HTML templating"]
+  ["clojurescript.md"   "ClojureScript"]
  ["routes.md"           "Defining routes"]
  ["static_resources.md" "Static resources"]
  ["responses.md"        "Response types"]
