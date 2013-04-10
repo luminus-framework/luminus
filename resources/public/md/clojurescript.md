@@ -159,7 +159,8 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
   (.log js/console (str response)))
 
 (defn error-handler [{:keys [status status-text]}]
-  (.log js/console (str "something bad happened: " status " " status-text)))
+  (.log js/console 
+    (str "something bad happened: " status " " status-text)))
 
 (GET "/hello")
 
