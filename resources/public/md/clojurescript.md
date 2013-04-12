@@ -1,4 +1,4 @@
-ClojureScript is an excellent alternative to JavaScript for client side application logic. Some of the advantages of using ClojureSCript include:
+ClojureScript is an excellent alternative to JavaScript for client side application logic. Some of the advantages of using ClojureScript include:
 
 * use the same same language on both the client and the server
 * share common code between the two
