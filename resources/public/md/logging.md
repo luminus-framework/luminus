@@ -14,7 +14,7 @@ The logger is initialized in the `handler/init` function to create a rotating lo
   
   (timbre/set-config!
     [:shared-appender-config :rotor]
-    {:path "{{sanitized}}.log" :max-size (* 512 1024) :backlog 10})
+    {:path "{{sanitized}}.log" :max-size 10000 :backlog 10})
 ```
 
 Timbre can log any Clojure data structures directly.
