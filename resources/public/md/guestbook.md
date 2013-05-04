@@ -305,8 +305,20 @@ Next, we can update the `init` function as follows:
    an app server such as Tomcat
    put any initialization code here"
   []
+  (timbre/set-config!
+    [:appenders :rotor]
+    {:min-level :info
+     :enabled? true
+     :async? false ; should be always false for rotor
+     :max-message-per-msecs nil
+     :fn rotor/append})
+     
+  (timbre/set-config!
+    [:shared-appender-config :rotor]
+    {:path "guestbook.log" :max-size 10000 :backlog 10})
+    
   (if-not (schema/initialized?) (schema/create-tables))
-  (println "guestbook started successfully..."))
+  (timbre/info "guestbook started successfully..."))
 ```
 
 Since we changed the `init` function of our application,
