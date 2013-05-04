@@ -316,8 +316,10 @@ Next, we can update the `init` function as follows:
   (timbre/set-config!
     [:shared-appender-config :rotor]
     {:path "guestbook.log" :max-size 10000 :backlog 10})
-    
+  
+  ;;initialize the database if needed
   (if-not (schema/initialized?) (schema/create-tables))
+  
   (timbre/info "guestbook started successfully..."))
 ```
 
