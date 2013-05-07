@@ -5,7 +5,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 * cleaner and more consistent language
 * dependency management via Leiningen
 * immutable data structures
-* powerful standart library
+* powerful standard library
 
 ### Adding ClojureScript Support
 
