@@ -15,6 +15,20 @@ Currently, the following profiles are supported
 * +dailycred - it adds support for [dailycred](http://www.dailycred.com), when used together with +site it configures the application to authenticate with dailycred
 * +http-kit - adds [HTP Kit](http://http-kit.org/) support to the project
 
+To add a profile simply pass it as an argument after your application name, eg:
+
+```
+lein new luminus myapp +bootstrap
+```
+
+You can also mix multiple profiles when creating the application, eg:
+
+```
+lein new luminus myapp +site +postgres
+```
+
+In case two profiles generate the same files, the latest one will overwrite the files from the preceding profiles.
+
 ### HTTP Kit notes
 
 HTTP Kit is an embedded server that can be used as a drop in replacement for Jetty. Unlike Jetty, HTTP Kit is not supported via `lein-ring`.
@@ -32,17 +46,3 @@ lein ring server
 
 To allow hot code reloading you need to pass the `-dev` option to the server. 
 You can also pass it a number to specify a custom port. By default the server runs on port `8080`.
-
-To add a profile simply pass it as an argument after your application name, eg:
-
-```
-lein new luminus myapp +bootstrap
-```
-
-You can also mix multiple profiles when creating the application, eg:
-
-```
-lein new luminus myapp +site +postgres
-```
-
-In case two profiles generate the same files, the latest one will overwrite the files from the preceding profiles.
