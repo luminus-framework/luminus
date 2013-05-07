@@ -17,7 +17,7 @@ Currently, the following profiles are supported
 
 ### HTTP Kit notes
 
-HTTP Kit is an embedded server that can be swapped in for Jetty. Unlike Jetty, HTTP Kit is not supported via `lein-ring`.
+HTTP Kit is an embedded server that can be used as a drop in replacement for Jetty. Unlike Jetty, HTTP Kit is not supported via `lein-ring`.
 This means that you need to run it using:
 
 ```
