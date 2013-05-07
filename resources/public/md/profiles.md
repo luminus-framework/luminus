@@ -15,6 +15,24 @@ Currently, the following profiles are supported
 * +dailycred - it adds support for [dailycred](http://www.dailycred.com), when used together with +site it configures the application to authenticate with dailycred
 * +http-kit - adds [HTP Kit](http://http-kit.org/) support to the project
 
+### HTTP Kit notes
+
+HTTP Kit is an embedded server that can be swapped in for Jetty. Unlike Jetty, HTTP Kit is not supported via `lein-ring`.
+This means that you need to run it using:
+
+```
+lein run
+```
+
+instead of 
+
+```
+lein ring server
+```
+
+To allow hot code reloading you need to pass the `-dev` option to the server. 
+You can also pass it a number to specify a custom port. By default the server runs on port `8080`.
+
 To add a profile simply pass it as an argument after your application name, eg:
 
 ```
