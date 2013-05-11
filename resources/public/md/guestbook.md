@@ -189,7 +189,8 @@ The project file of the application we've created is found in its root folder an
                :stacktraces? false,
                :auto-reload? false}},
              :dev
-             {:dependencies [[ring-mock "0.1.3"] [ring/ring-devel "1.1.8"]]}}
+             {:dependencies [[ring-mock "0.1.3"] 
+                             [ring/ring-devel "1.1.8"]]}}
   :url
   "http://example.com/FIXME"
   :plugins
@@ -361,7 +362,7 @@ the form posts:
   (cond
 
     (empty? name)
-    (home-page name message "Some dummy who forgot to leave a name")
+    (home-page name message "Somebody forgot to leave a name")
 
     (empty? message)
     (home-page name message "Don't you have something to say?")
@@ -431,7 +432,9 @@ Finally, we'll create a form to allow users to submit their messages:
     </p>
     <p>
        Message: 
-       <textarea rows="4" cols="50" name="message">{{message}}</textarea>
+       <textarea rows="4" cols="50" name="message">
+           {{message}}
+       </textarea>
     </p>
     <input type="submit" value="comment">
 </form>
@@ -464,7 +467,9 @@ Our final `home.html` template should look as follows:
     </p>
     <p>
        Message: 
-       <textarea rows="4" cols="50" name="message">{{message}}</textarea>
+       <textarea rows="4" cols="50" name="message">
+           {{message}}
+       </textarea>
     </p>
     <input type="submit" value="comment">
 </form>
