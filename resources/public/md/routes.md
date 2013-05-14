@@ -189,6 +189,26 @@ our route with `noir.util.route/restricted`:
 (restricted GET "/private/:id" [id] "private!")
 ```
 
+In case we have multiple routes that we'd like to mark as restricted we can use the 
+`def-restricted-routes` macro. This will make all the routes defined inside it restricted:
+
+```clojure
+(def-restricted-routes private-pages
+  (GET "/profile" [] (show-profile)
+  (GET "/my-secret-page" [] (show-secret-page)
+  (GET "/another-secret-page" [] (another-secret-page))
+```
+
+is equivalent to:
+
+```clojure
+(defroutes private-pages
+  (restricted GET "/profile" [] (show-profile)
+  (restricted GET "/my-secret-page" [] (show-secret-page)
+  (restricted GET "/another-secret-page" [] (another-secret-page))
+```
+
+
 All restricted routes will be checked to see if they match at least one of access rules
 passed into `wrap-access-rules`.
 
