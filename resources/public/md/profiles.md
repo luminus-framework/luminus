@@ -38,12 +38,12 @@ This means that you need to run it using:
 lein run
 ```
 
-instead of 
-
-```
-lein ring server
-```
-
 To allow hot code reloading you need to pass the `-dev` option to the server. 
 You can also pass it a number to specify a custom port. By default the server runs on port `8080`.
+
+Build a runnable HTTP Kit jar for production use:
+
+```
+lein uberjar
+```
 
