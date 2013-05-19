@@ -46,3 +46,9 @@ lein ring server
 
 To allow hot code reloading you need to pass the `-dev` option to the server. 
 You can also pass it a number to specify a custom port. By default the server runs on port `8080`.
+
+To package `http-kit` for production use:
+
+```
+lein uberjar
+```
