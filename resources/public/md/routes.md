@@ -166,19 +166,17 @@ Once you've got your rules defined, you can pass them to the `app-handler` using
 `:access-rules` key as follows:
 
 ```clojure
-(def app (-> all-routes
-             (middleware/app-handler
-              :access-rules [[user-page]])))
+(def app (middleware/app-handler all-routes
+          :access-rules [[user-page]]))
 ```
 
 By default, if none of the access rules are matched the request will be redirected to the `/` URI.
 To set a custom redirect URI simply pass in a map with a `:redirect` key set to the URI string:
 
 ```clojure
-(def app 
-  (-> all-routes
-      (middleware/app-handler
-       :access-rules [[{:redirect "/unauthorized"} user-page]])))
+(def app   
+    (middleware/app-handler all-routes
+     :access-rules [[{:redirect "/unauthorized"} user-page]]))
 ```
 
 Finally, when we want to restrict page access to a page, we simply mark 
