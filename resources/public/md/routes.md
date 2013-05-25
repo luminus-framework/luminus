@@ -175,9 +175,10 @@ By default, if none of the access rules are matched the request will be redirect
 To set a custom redirect URI simply pass in a map with a `:redirect` key set to the URI string:
 
 ```clojure
-(def app (-> all-routes
-             (middleware/app-handler
-              :access-rules [[{:redirect "/unauthorized"} user-page]])))
+(def app 
+  (-> all-routes
+      (middleware/app-handler
+       :access-rules [[{:redirect "/unauthorized"} user-page]])))
 ```
 
 Finally, when we want to restrict page access to a page, we simply mark 
@@ -201,9 +202,9 @@ is equivalent to:
 
 ```clojure
 (defroutes private-pages
-  (restricted GET "/profile" [] (show-profile)
-  (restricted GET "/my-secret-page" [] (show-secret-page)
-  (restricted GET "/another-secret-page" [] (another-secret-page))
+  (restricted GET "/profile" [] (show-profile))
+  (restricted GET "/secret-page1" [] "secret page!")
+  (restricted GET "/secret-page2" [] "secret page2!"))
 ```
 
 
