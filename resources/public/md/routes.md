@@ -162,24 +162,22 @@ It's also possible to use the `access-rule` to create whitelists for pages:
 These pages will always be visible regardless of what other rules are defined.
 
 
-Once you've got your rules defined, you need to wrap the handler with the
-`noir.util.middleware/wrap-access-rules` and pass in the rules as parameters.
-In our case we have a single rule, which is the function `user-page`.
+Once you've got your rules defined, you can pass them to the `app-handler` using the 
+`:access-rules` key as follows:
 
 ```clojure
 (def app (-> all-routes
-             (middleware/app-handler)
-             (middleware/wrap-access-rules user-page)))
+             (middleware/app-handler
+              :access-rules [[user-page]])))
 ```
 
-By default `wrap-access-rules` will redirect to the `/` URI if none of the rules return true.
+By default, if none of the access rules are matched the request will be redirected to the `/` URI.
 To set a custom redirect URI simply pass in a map with a `:redirect` key set to the URI string:
 
 ```clojure
 (def app (-> all-routes
-             (middleware/app-handler)
-             (middleware/wrap-access-rules 
-               {:redirect "/unauthorized"} user-page)))
+             (middleware/app-handler
+              :access-rules [[{:redirect "/unauthorized"} user-page]])))
 ```
 
 Finally, when we want to restrict page access to a page, we simply mark 
@@ -209,17 +207,16 @@ is equivalent to:
 ```
 
 
-All restricted routes will be checked to see if they match at least one of access rules
-passed into `wrap-access-rules`.
+All restricted routes will be checked to see if they match at least one of access rules.
 
 
 It's also possible to create access rule groups as follows:
 
 ```clojure
-(-> handler 
-    (wrap-access-rules rule1 rule2)
-    (wrap-access-rules {:redirect "/unauthorized1"} rule3 rule4)
-    (wrap-access-rules {:redirect "/unauthorized2"} rule5)
+(middleware/app-handler
+  :access-rules [[rule1 rule2]
+                 [{:redirect "/unauthorized1"} rule3 rule4]
+                 [{:redirect "/unauthorized2"} rule5]])
 ```
 
 In the above example the first set of rules that fails will cause a redirect to its redirect target.
