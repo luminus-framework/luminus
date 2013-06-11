@@ -179,7 +179,8 @@ The redirect can also be a function that accepts the request map and returns the
 
 ```clojure
 (defn log-and-redirect [req]
-  (taoensso.timbre/info (str"redirecting from " (:uri req)))
+  (taoensso.timbre/info
+    (str"redirecting from " (:uri req)))
   "/unauthorized")
   
 (def app   
