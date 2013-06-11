@@ -348,7 +348,6 @@ Then we'll change the `home-page` controller to look as follows:
                   :name     name
                   :message  message
                   :messages (db/get-messages)}))
-
 ```
 
 All we did here was update it to send some extra parameters to the template, one of them being
