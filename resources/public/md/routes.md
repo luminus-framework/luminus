@@ -103,21 +103,25 @@ You could rewrite that as:
 ```
 
 
-Compojure provides the `routes` function to group multiple route definitions together.
-There's an `noir.util.middleware/app-handler` function in `lib-noir` which will wrap all
-the common routes for you.
+Once all your application routes are defined you can add them to the routes vector in the 
+`noir.util.middleware/app-handler` that's found in the `handler` of your application.
 
-The `app-handler` accepts a vector of routes followed by optional session store. If
-the store is not specified then in-memory store will be used.
+You'll notice that the template already defined the `app` in the `handler` namespace of your
+application. All you have to do is add your new routes there.
 
-You'll notice that the template already defined an `all-routes` vector in the `handler`.
-All you have to do is add your new routes there. The `noir.util.middleware/war-handler`
-function adds additional middleware used needed for running on an application server
-such as Tomcat.
+The `noir.util.middleware/war-handler` function adds additional middleware used needed for 
+running in a servlet container such as Tomcat.
 
 ```clojure
-(def all-routes [auth-routes app-routes])
-(def app (middleware/app-handler all-routes))
+(def app (middleware/app-handler
+           ;;add your application routes here
+           [home-routes app-routes]
+           ;;add custom middleware here
+           :middleware []
+           ;;add access rules here
+           ;;each rule should be a vector
+           :access-rules []))
+
 (def war-handler (middleware/war-handler app))
 ```
 
