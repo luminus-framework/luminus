@@ -82,6 +82,27 @@ a `defroutes` macro which can group several routes together and bind them to a s
   (route/not-found "Not Found"))
 ```
 
+It's also possible to group routes by common path elements using `context`. If you had
+a set of routes that all shared `/user/:id` path as seen below:
+
+```clojure
+(defroutes user-routes
+      (GET "/user/:id/profile" [id] ...)
+      (GET "/user/:id/settings" [id] ...)
+      (GET "/user/:id/change-password [id] ...))
+```
+
+You could rewrite that as:
+
+```clojure
+(def user-routes
+      (context "/user/:id" [id]
+        (GET "/profile" [] ...)
+        (GET "/settings" [] ...)
+        (GET "/change-password" [] ...)))
+```
+
+
 Compojure provides the `routes` function to group multiple route definitions together.
 There's an `noir.util.middleware/app-handler` function in `lib-noir` which will wrap all
 the common routes for you.
