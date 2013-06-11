@@ -110,8 +110,8 @@ page which is only visible if there is a user in the session.
 
 Using the `noir.util.route` namespace from `lib-noir`, we can define rules for restricting 
 access to specific pages. Let's take a look at how to create a private page which is only 
-viewable if the `:user` key in the session matches the name of the page. First, we'll need 
-to reference `noir.util.route` and `noir.session` in the handler.
+viewable if the `:user` key in the session. First, we'll need  to reference `noir.util.route`
+and `noir.session` in the handler.
 
 ```clojure
 (ns myapp.handler
@@ -121,42 +121,36 @@ to reference `noir.util.route` and `noir.session` in the handler.
             [noir.session :as session]))
 ```
 
-Next, we'll write the function which implements the rule we described above. This function 
-must accept three argument which are the method, the url, and the params. The function must 
-return a boolean indicating whether the page satisfies the specified rule.
+Next, we'll write the function that implements the rule we described above. This function 
+must accept the request map as its argument and return a truthy value indicating whether 
+the page satisfies the specified rule.
 
-Here's a function which checks that the URI is of the format "/private/:id" and that the id 
-matches the user in the session.
+Here's a function which checks if there is a user currently in the session. If the user is
+nil then the rule will trigger a redirect.
 
 ```clojure
-(defn user-page [method url params]
-  (and (= url "/private/:id")
-       (= (first params) (session/get :user))))
+(defn user-page [request]
+  (session/get :user))
 ```
 
-You can also use `noir.util.route/access-rule` macro to simplify creation of rules. The
-macro accepts three parameters.
-
-* a URL pattern - rule will only be checked for pages with the matching pattern
-* a parameter vector describing the method, url, and params: `[method url params]`
-* a condition to see if the page satisfies the rule 
-* 
+You can also use `noir.util.route/access-rule` macro to simplify the creation of rules. The
+macro behaves the same way as *defn* except it accepts a URI pattern as its first argument:
 
 If we only wanted the `user-page` rule to only be checked for the URL pattern
 `/private/*` we could rewrite it using `access-rule` helper as follows:
 
 ```clojure
 (def user-page
-  (access-rule "/private/*" [_ _ params]
-    (= (first params) (session/get :user))))
+  (access-rule "/private/*" [request]
+    (session/get :user)))
 ```
 
 It's also possible to use the `access-rule` to create whitelists for pages:
 
 ```clojure
 (def gallery-page
-  (access-rule "/gallery/:id" [_ _ params]
-    (some #{(first params)} 
+  (access-rule "/gallery/:id" [request]
+    (some #{(-> request :route-params :id)} 
           ["photos" "sketches" "misc"])))
 ```
 These pages will always be visible regardless of what other rules are defined.
@@ -167,7 +161,7 @@ Once you've got your rules defined, you can pass them to the `app-handler` using
 
 ```clojure
 (def app (middleware/app-handler all-routes
-          :access-rules [[user-page]]))
+          :access-rules [user-page]))
 ```
 
 By default, if none of the access rules are matched the request will be redirected to the `/` URI.
@@ -176,14 +170,15 @@ To set a custom redirect URI simply pass in a map with a `:redirect` key set to 
 ```clojure
 (def app   
     (middleware/app-handler all-routes
-     :access-rules [[{:redirect "/unauthorized"} user-page]]))
+     :access-rules [{:redirect "/unauthorized"
+                     :rules [user-page]}]))
 ```
 
 Finally, when we want to restrict page access to a page, we simply mark 
-our route with `noir.util.route/restricted`:
+our handler as *restricted* using `noir.util.route/restricted`:
 
 ```clojure
-(restricted GET "/private/:id" [id] "private!")
+(GET "/private/:id" [id] (restricted "private!"))
 ```
 
 In case we have multiple routes that we'd like to mark as restricted we can use the 
@@ -200,22 +195,24 @@ is equivalent to:
 
 ```clojure
 (defroutes private-pages
-  (restricted GET "/profile" [] (show-profile))
-  (restricted GET "/secret-page1" [] "secret page!")
-  (restricted GET "/secret-page2" [] "secret page2!"))
+  (GET "/profile" [] (restricted (show-profile)))
+  (GET "/secret-page1" [] (restricted (show-secret-page)))
+  (GET "/secret-page2" [] (restricted (another-secret-page))))
 ```
 
-
 All restricted routes will be checked to see if they match at least one of access rules.
-
 
 It's also possible to create access rule groups as follows:
 
 ```clojure
 (middleware/app-handler
-  :access-rules [[rule1 rule2]
-                 [{:redirect "/unauthorized1"} rule3 rule4]
-                 [{:redirect "/unauthorized2"} rule5]])
+  :access-rules [rule1 
+                 rule2
+                 {:redirect "/unauthorized1"
+                  :rules [rule3 rule4]}
+                 {:redirect "/unauthorized2"
+                   :rules [rule5]}])
 ```
 
 In the above example the first set of rules that fails will cause a redirect to its redirect target.
+Conversely, if *any* of the rules succeed the route handler will be invoked as normal.
