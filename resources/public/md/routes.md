@@ -11,19 +11,21 @@ says "Hello World!" we could write the following:
   (GET "/" [] "Hello World!"))
 ```
 
-If we want to make a route which responds to POST and accepts some form parameters we'd write:
+If we want to make a route that responds to POST and accepts some form parameters we'd write:
 
 ```clojure
 (POST "/hello" [id] (str "Welcome " id))
 ```
 
-For some routes we'll need to access the request map, this is done by simply declaring it as the second argument to the route.
+For some routes we'll need to access the request map, this is done by simply declaring it as the 
+second argument to the route.
 
 ```clojure
 (GET "/foo" request (interpose ", " (keys request)))
 ```
 
-The above route reads out all the keys from the request map and displays them. The output will look like the following:
+The above route reads out all the keys from the request map and displays them. 
+The output will look like the following:
 
 ```clojure
 :ssl-client-cert, :remote-addr, :scheme, :query-params, :session, :form-params,
@@ -33,13 +35,13 @@ The above route reads out all the keys from the request map and displays them. T
 ```
 
 Compojure also provides some useful functionality for handling the request maps and the form parameters.
-For example, in the guestbook application we created in the last chapter we saw the following route defined:
+For example, in the guestbook application example we saw the following route defined:
 
 ```clojure
 (POST "/"  [name message] (save-message name message))
 ```
 
-This route extracts the name and message form parameters and binds them to variables of the same name.
+This route extracts the name and the message form parameters and binds them to variables of the same name.
 We can now use them as any other declared variable. It's also possible to use the regular Clojure destructuring
 inside the route.
 
