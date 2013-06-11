@@ -174,6 +174,20 @@ To set a custom redirect URI simply pass in a map with a `:redirect` key set to 
                      :rules [user-page]}]))
 ```
 
+The redirect can also be a function that accepts the request map and returns the redirect string, eg:
+
+
+```clojure
+(defn log-and-redirect [req]
+  (taoensso.timbre/info (str"redirecting from " (:uri req)))
+  "/unauthorized")
+  
+(def app   
+    (middleware/app-handler all-routes
+     :access-rules [{:redirect log-and-redirect                                 
+                     :rules [user-page]}]))
+```
+
 Finally, when we want to restrict page access to a page, we simply mark 
 our handler as *restricted* using `noir.util.route/restricted`:
 
