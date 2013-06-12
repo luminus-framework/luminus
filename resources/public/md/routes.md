@@ -160,60 +160,62 @@ nil then the rule will trigger a redirect.
   (session/get :user))
 ```
 
-You can also use `noir.util.route/access-rule` macro to simplify the creation of rules. The
-macro behaves the same way as *defn* except it accepts a URI pattern as its first argument:
+The rules can now be specified by passing either a function representing a single rule or a map representing a group of rules.
 
-If we only wanted the `user-page` rule to only be checked for the URL pattern
-`/private/*` we could rewrite it using `access-rule` helper as follows:
+When specified as a function, the rule must accept a single parameter that is the request map. Such rules will implicitly redirect to the "/" URI.
+
+The rule group map contains the following keys:
+
+* `:redirect` - the URI string or a function to specify where requests will be redirected to if rejected (optional defaults to "/")
+* `:uri` - the URI for which the rules in the map will be activated (optional if none specified applies to all URIs)
+* `:rules` - a vector containing the rule functions associated with the specified `:redirect` and the `:uri`
+
+Let's take a look at an example of how this all works below:
 
 ```clojure
-(def user-page
-  (access-rule "/private/*" [request]
-    (session/get :user)))
+(defroutes app-routes
+ (GET "/restricted" [] (restricted "this page is restricted"))
+ (GET "/restricted1" [] (restricted "this is another restricted page"))
+ (GET "/users/:id" [] (restricted "howdy"))
+ (GET "/denied1" [] "denied")
+ (GET "/denied2" [] "denied differently"))
+
+(def app 
+ (middleware/app-handler 
+   [app-routes]
+   :access-rules 
+   [(fn [req] (session/get :user))
+
+    {:uri "/restricted"
+     :redirect "/denied1"
+     :rules [(fn [req] false)]}
+
+    {:redirect (fn [req] 
+                 (log/info (str "redirecting " (:uri req)))
+                 "/denied2")
+     :uri "/users/*"
+     :rules [(fn [req] false)]}]))
 ```
 
-It's also possible to use the `access-rule` to create whitelists for pages:
+The first rule will be activated for any handler that's marked as restricted. This means that all of the restricted 
+pages will redirect to *"/"* if there is no user in the session and no other rules succeed.
+
+The second rule will only activate if the request URI matches *"/restricted"* and will be ignored for other URIs. 
+The *"/restricted"* route will redirect to the *"/denied1"* URI.
+
+The last rule will match any requests matching the *"/users/"* URI pattern. These requests will be redirected to the 
+*"/denied2"* URI and the URI of the request will be logged.
+
+The `access-rule` macro has been removed in favor of specifying rule groups directly in the handler. 
+This makes it easier to see how all the rules are defined and what routes each set of rules affects.
+
+For example, if we wanted to whitelist some pages we could write the following rule group in addition to the base rule:
 
 ```clojure
-(def gallery-page
-  (access-rule "/gallery/:id" [request]
-    (some #{(-> request :route-params :id)} 
-          ["photos" "sketches" "misc"])))
-```
-These pages will always be visible regardless of what other rules are defined.
-
-
-Once you've got your rules defined, you can pass them to the `app-handler` using the 
-`:access-rules` key as follows:
-
-```clojure
-(def app (middleware/app-handler all-routes
-          :access-rules [user-page]))
-```
-
-By default, if none of the access rules are matched the request will be redirected to the `/` URI.
-To set a custom redirect URI simply pass in a map with a `:redirect` key set to the URI string:
-
-```clojure
-(def app   
-    (middleware/app-handler all-routes
-     :access-rules [{:redirect "/unauthorized"
-                     :rules [user-page]}]))
-```
-
-The redirect can also be a function that accepts the request map and returns the redirect string, eg:
-
-
-```clojure
-(defn log-and-redirect [req]
-  (taoensso.timbre/info
-    (str"redirecting from " (:uri req)))
-  "/unauthorized")
-  
-(def app   
-    (middleware/app-handler all-routes
-     :access-rules [{:redirect log-and-redirect                                 
-                     :rules [user-page]}]))
+:access-rules 
+[(fn [req] (session/get :user))                          
+ {:uri "/public/*"
+  :rules [(fn [req] true)]}]
 ```
 
 Finally, when we want to restrict page access to a page, we simply mark 
@@ -243,18 +245,3 @@ is equivalent to:
 ```
 
 All restricted routes will be checked to see if they match at least one of access rules.
-
-It's also possible to create access rule groups as follows:
-
-```clojure
-(middleware/app-handler
-  :access-rules [rule1 
-                 rule2
-                 {:redirect "/unauthorized1"
-                  :rules [rule3 rule4]}
-                 {:redirect "/unauthorized2"
-                   :rules [rule5]}])
-```
-
-In the above example the first set of rules that fails will cause a redirect to its redirect target.
-Conversely, if *any* of the rules succeed the route handler will be invoked as normal.
