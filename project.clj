@@ -2,11 +2,11 @@
   :description "Documentation site for the Luminus framework"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [lib-noir "0.4.9"]
+                 [lib-noir "0.6.4"]
                  [compojure "1.1.5"]                                 
-                 [ring-server "0.2.7"]                 
-                 [markdown-clj "0.9.19"]
-                 [clj-http "0.6.3"]
+                 [ring-server "0.2.8"]                 
+                 [markdown-clj "0.9.28"]
+                 [clj-http "0.7.3"]
                  [crouton "0.1.1"]]
   :min-lein-version "2.0.0"
   :plugins [[lein-ring "0.8.3"]]  
