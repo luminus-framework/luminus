@@ -189,13 +189,13 @@ Here's a function to check if there is a user currently in the session. If the u
 `nil` then the rule will trigger a redirect. By default rules redirect to the `"/`" URI.
 
 ```clojure
-(defn user-page [request]
+(defn user-access [request]
   (session/get :user))
 
 (def app 
  (middleware/app-handler 
    [app-routes]
-   :access-rules [user-page]))
+   :access-rules [user-access]))
 ```
 
 Now, any restricted handlers will redirect to `"/"` unless there is a `:user` key in the session.
@@ -221,22 +221,22 @@ The `:rules` can be specified in any of the following ways:
 * `:rules {:every [rule1 rule2] :any [rule3 rule4]}`
 
 By default every rule has to pass, the `:any` key specifies that it's sufficient for
-any of the rules to pass. 
+any of the rules to pass. Here's some examples of access rule combinations:
 
 ```clojure
 (defn admin-access [req]
  (session/get :admin))
 
-(wrap-access-rules handler [{:redirect "/access-denied"
-                             :rule user-access}])
+:access-rules [{:redirect "/access-denied"
+                             :rule user-access}]
 
-(wrap-access-rules handler [{:uris ["/user/*" "/private*"]
-                             :rule user-access}])
+:access-rules [{:uris ["/user/*" "/private*"]
+                             :rule user-access}]
 
-(wrap-access-rules handler [{:uri "/admin/*" :rule admin-access}
+:access-rules [{:uri "/admin/*" :rule admin-access}
                             {:uri "/user/*" 
-                             :rules {:any [user-access admin-access]}])
+                             :rules {:any [user-access admin-access]}]
 
-(wrap-access-rules handler [{:on-fail (fn [req] "access restricted")
-                             :rule user-access}])
+:access-rules [{:on-fail (fn [req] "access restricted")
+                             :rule user-access}]
 ```
