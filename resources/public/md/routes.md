@@ -231,12 +231,12 @@ any of the rules to pass. Here's some examples of access rule combinations:
                              :rule user-access}]
 
 :access-rules [{:uris ["/user/*" "/private*"]
-                             :rule user-access}]
+                :rule user-access}]
 
 :access-rules [{:uri "/admin/*" :rule admin-access}
-                            {:uri "/user/*" 
-                             :rules {:any [user-access admin-access]}]
+               {:uri "/user/*" 
+                :rules {:any [user-access admin-access]}]
 
 :access-rules [{:on-fail (fn [req] "access restricted")
-                             :rule user-access}]
+                :rule user-access}]
 ```
