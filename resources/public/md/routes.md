@@ -34,14 +34,14 @@ The output will look like the following:
 :character-encoding, :body, :flash
 ```
 
-Compojure also provides some useful functionality for handling the request maps and the form parameters.
+Compojure also provides some useful functionality for handling the request maps and the form parameters. 
 For example, in the guestbook application example we saw the following route defined:
 
 ```clojure
 (POST "/"  [name message] (save-message name message))
 ```
 
-This route extracts the name and the message form parameters and binds them to variables of the same name.
+This route extracts the name and the message form parameters and binds them to variables of the same name. 
 We can now use them as any other declared variable. It's also possible to use the regular Clojure destructuring
 inside the route.
 
@@ -59,7 +59,7 @@ y -> "bar"
 z -> {:v "baz", :w "qux"}
 ```
 
-Above, parameters x and y have been bound to variables, while parameters v and w remain in a map called z.
+Above, parameters x and y have been bound to variables, while parameters v and w remain in a map called z. 
 Finally, if we need to get at the complete request along with the parameters we can do the following:
 
 ```clojure
@@ -70,7 +70,7 @@ Here we bind the form parameters x an y, and bind the complete request map to th
 
 ## Organizing application routes
 
-It's a good practice to organize your application routes together by functionality. Compojure provides
+It's a good practice to organize your application routes together by functionality. Compojure provides 
 a `defroutes` macro which can group several routes together and bind them to a symbol.
 
 ```clojure
@@ -84,7 +84,7 @@ a `defroutes` macro which can group several routes together and bind them to a s
   (route/not-found "Not Found"))
 ```
 
-It's also possible to group routes by common path elements using `context`. If you had
+It's also possible to group routes by common path elements using `context`. If you had 
 a set of routes that all shared `/user/:id` path as seen below:
 
 ```clojure
@@ -108,7 +108,7 @@ You could rewrite that as:
 Once all your application routes are defined you can add them to the routes vector in the 
 `noir.util.middleware/app-handler` that's found in the `handler` of your application.
 
-You'll notice that the template already defined the `app` in the `handler` namespace of your
+You'll notice that the template already defined the `app` in the `handler` namespace of your 
 application. All you have to do is add your new routes there.
 
 The `noir.util.middleware/war-handler` function adds additional middleware used needed for 
@@ -131,8 +131,8 @@ Further documentation is available on the [official Compojure wiki](https://gith
 
 ## Restricting access
 
-Some pages should only be accessible if specific conditions are met. For example,
-you may wish to define admin pages only visible to the administrator, or a user profile
+Some pages should only be accessible if specific conditions are met. For example, 
+you may wish to define admin pages only visible to the administrator, or a user profile 
 page which is only visible if there is a user in the session.
 
 Using the `noir.util.route` namespace from `lib-noir`, we can define rules for restricting 
@@ -185,7 +185,7 @@ Next, we'll write the function that implements the rule we described above. This
 must accept the request map as its argument and return a truthy value indicating whether 
 the page satisfies the specified rule.
 
-Here's a function to check if there is a user currently in the session. If the user is
+Here's a function to check if there is a user currently in the session. If the user is 
 `nil` then the rule will trigger a redirect. By default rules redirect to the `"/`" URI.
 
 ```clojure
@@ -220,8 +220,7 @@ The `:rules` can be specified in any of the following ways:
 * `:rules {:any [rule1 rule2]}`
 * `:rules {:every [rule1 rule2] :any [rule3 rule4]}`
 
-By default every rule has to pass, the `:any` key specifies that it's sufficient for
-any of the rules to pass. Here's some examples of access rule combinations:
+By default every rule has to pass, the `:any` key specifies that it's sufficient for any of the rules to pass. Here's some examples of access rule combinations:
 
 ```clojure
 (defn admin-access [req]
