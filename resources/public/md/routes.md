@@ -165,7 +165,7 @@ the above is equivalent to:
   (GET "/secret-page2" [] (restricted (another-secret-page))))
 ```
 
-All restricted routes will be checked to see if they match at least one of the access rules.
+By default restricted routes will be checked to see if they match all the access rules that apply.
 
 ### Specifying Access Rules
 
@@ -175,10 +175,9 @@ accessible if the `:user` key is present in the session.
 First, we'll need  to reference `noir.util.route` and `noir.session` in the handler.
 
 ```clojure
-(ns myapp.handler
-  (:use ... 
-        noir.util.route)
-  (:require ...             
+(ns myapp.handler  
+  (:require ... 
+            [noir.util.route :refer [restricted]]
             [noir.session :as session]))
 ```
 
@@ -187,7 +186,7 @@ must accept the request map as its argument and return a truthy value indicating
 the page satisfies the specified rule.
 
 Here's a function to check if there is a user currently in the session. If the user is
-`nil` then the rule will trigger a redirect. By default the rules redirect to the `"/`" URI.
+`nil` then the rule will trigger a redirect. By default rules redirect to the `"/`" URI.
 
 ```clojure
 (defn user-page [request]
@@ -203,60 +202,41 @@ Now, any restricted handlers will redirect to `"/"` unless there is a `:user` ke
 
 ### Access Rule Groups
 
-The rules can also be specified a map representing a group of rules. The rule group map contains the following keys:
+When specifying rules as a map you can provide further directives using the
+following keys:
 
-* `:redirect` - the URI string or a function to specify where requests will be redirected to if rejected (optional defaults to "/")
-* `:uri` - the URI for which the rules in the map will be activated (optional if none specified applies to all URIs)
-* `:rules` - a vector containing the rule functions associated with the specified `:redirect` and the `:uri`
+* `:uri` - the URI pattern to which the rules apply (optional, defaults to any URI)
+* `:uris` - alternative to :uri, allows specifying a collection of URIs (optional)
+* `:redirect` - the redirect target for the rules (optional defaults to "/")
+* `:on-fail` - alternative to redirect, allows specifying a handler function for
+               handling the failure, the function must accept the request as a
+               parameter (optional)
+* `:rule` - a single rule (either :rule or :rules is required)
+* `:rules` - alternative to rule, allows specifying a list of rules
 
-Let's take a look at an example of how this all works below:
+The `:rules` can be specified in any of the following ways:
 
-```clojure
-(defroutes app-routes
- (GET "/restricted" [] (restricted "this page is restricted"))
- (GET "/restricted1" [] (restricted "this is another restricted page"))
- (GET "/users/:id" [] (restricted "howdy"))
- (GET "/denied1" [] "denied")
- (GET "/denied2" [] "denied differently"))
+* `:rules [rule1 rule2]`
+* `:rules {:any [rule1 rule2]}`
+* `:rules {:every [rule1 rule2] :any [rule3 rule4]}`
 
-(def app 
- (middleware/app-handler 
-   [app-routes]
-   :access-rules 
-   [;;global rule tha applies to all restriced routes
-    user-page
-
-    ;;rule group for the "/restricted" URI
-    ;;redirects to "/denied1" URI
-    {:uri "/restricted"
-     :redirect "/denied1"
-     :rules [(fn [req] false)]}
-
-    ;;rule group for the "/users/*" URI pattern
-    ;;redirects to "/denied2" URI
-    {:redirect (fn [req] 
-                 (log/info 
-                   (str "redirecting " (:uri req)))
-                 "/denied2")
-     :uri "/users/*"
-     :rules [(fn [req] false)]}]))
-```
-
-The first rule will be activated for any handler that's marked as restricted. This means that all of the restricted 
-pages will redirect to *"/"* if there is no user in the session and no other rules succeed.
-
-The second rule will only activate if the request URI matches *"/restricted"* and will be ignored for other URIs. 
-The *"/restricted"* route will redirect to the *"/denied1"* URI.
-
-The last rule will match any requests matching the *"/users/"* URI pattern. These requests will be redirected to the 
-*"/denied2"* URI and the URI of the request will be logged.
-
-Rules can also be used to create white lists. For example, if we wanted to ensure that pages under the *"/public/\*"*
-pattern are always visible we could create the following rule group:
+By default every rule has to pass, the `:any` key specifies that it's sufficient for
+any of the rules to pass. 
 
 ```clojure
-:access-rules 
-[(fn [req] (session/get :user))                          
- {:uri "/public/*"
-  :rules [(fn [req] true)]}]
+(defn admin-access [req]
+ (session/get :admin))
+
+(wrap-access-rules handler [{:redirect "/access-denied"
+                             :rule user-access}])
+
+(wrap-access-rules handler [{:uris ["/user/*" "/private*"]
+                             :rule user-access}])
+
+(wrap-access-rules handler [{:uri "/admin/*" :rule admin-access}
+                            {:uri "/user/*" 
+                             :rules {:any [user-access admin-access]}])
+
+(wrap-access-rules handler [{:on-fail (fn [req] "access restricted")
+                             :rule user-access}])
 ```
