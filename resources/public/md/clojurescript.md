@@ -1,10 +1,11 @@
-ClojureScript is an excellent alternative to JavaScript for client side application logic. Some of the advantages of using ClojureSCript include:
+ClojureScript is an excellent alternative to JavaScript for client side application logic. Some of the advantages of using ClojureScript include:
 
-* use the same same language on both the client and the server
-* share common code between the two
-* cleaner and more consistent syntax
+* use the same language on both the client and the server
+* share common code between the front-end and back-end
+* cleaner and more consistent language
 * dependency management via Leiningen
-* immutable data structures  
+* immutable data structures
+* powerful standard library
 
 ### Adding ClojureScript Support
 
@@ -128,4 +129,49 @@ There are several libraries available for accessing and modifying DOM elements. 
 
 ### Ajax
 
-A simple way to work with Ajax is by using `XhrIo` provided by the Google Closure library that ClojureScript depends on. An example is provided with the `+cljs` profile. 
+Luminus uses [cljs-ajax](https://github.com/yogthos/cljs-ajax) for handling Ajax operations. The library provides an easy way to send Ajax queries to the server using `ajax-request`, `GET`, and `POST` functions.
+
+#### ajax-request
+
+The `ajax-request` is the base request function that accepts the following parameters:
+
+* uri - the URI for the request
+* method - a string representing the HTTP request type, eg: "PUT", "DELETE", etc.
+* format - a keyword indicating the response format, can be either `:json` or `:edn`, defaults to `:edn`
+* handler - success handler, a function that accepts the response as a single argument
+* error-handler - error handler, a function that accepts a map representing the error with keys `:status and `:status-text`
+* params - a map of params to be sent to the server
+
+#### GET/POST helpers
+
+The `GET` and `POST` helpers accept a URI followed by a map of options:
+
+* `:handler` - the handler function for successful operation should accept a single parameter which is the deserialized response
+* `:error-handler` - the handler function for errors, should accept a map with keys `:status` and `:status-text`
+* `:format` - the format for the response `:edn` or `:json` defaults to `:edn`
+* `:params` - a map of parameters that will be sent with the request
+
+
+```clojure
+(ns foo
+  (:require [ajax.core :refer [GET POST]]))
+
+(defn handler [response]
+  (.log js/console (str response)))
+
+(defn error-handler [{:keys [status status-text]}]
+  (.log js/console 
+    (str "something bad happened: " status " " status-text)))
+
+(GET "/hello")
+
+(GET "/hello" {:handler handler})
+
+(POST "/hello")
+
+(POST "/send-message" 
+        {:params {:message "Hello World"
+                  :user    "Bob"}
+         :handler handler
+         :error-handler error-handler})
+```

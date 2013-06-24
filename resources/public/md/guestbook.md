@@ -162,17 +162,17 @@ The project file of the application we've created is found in its root folder an
 ```clojure
 (defproject guestbook "0.1.0-SNAPSHOT"
   :dependencies
-  [[org.clojure/clojure "1.5.0"]
-   [lib-noir "0.4.9"]
+  [[org.clojure/clojure "1.5.1"]
+   [lib-noir "0.6.1"]
    [compojure "1.1.5"]
-   [ring-server "0.2.7"]
-   [com.taoensso/timbre "1.5.2"]
-   [com.taoensso/tower "1.2.0"]
-   [markdown-clj "0.9.19"]
+   [ring-server "0.2.8"]
    [clabango "0.5"]
-   [org.clojure/java.jdbc "0.2.3"]
+   [com.taoensso/timbre "2.1.2"]
+   [com.postspectacular/rotor "0.1.0"]
+   [com.taoensso/tower "1.7.1"]
+   [markdown-clj "0.9.26"]
    [com.h2database/h2 "1.3.170"]
-   [korma "0.3.0-RC2"]
+   [korma "0.3.0-RC5"]
    [log4j
     "1.2.15"
     :exclusions
@@ -189,11 +189,12 @@ The project file of the application we've created is found in its root folder an
                :stacktraces? false,
                :auto-reload? false}},
              :dev
-             {:dependencies [[ring-mock "0.1.3"] [ring/ring-devel "1.1.8"]]}}
+             {:dependencies [[ring-mock "0.1.5"] 
+                             [ring/ring-devel "1.1.8"]]}}
   :url
   "http://example.com/FIXME"
   :plugins
-  [[lein-ring "0.8.3"]]
+  [[lein-ring "0.8.5"]]
   :description
   "FIXME: write description"
   :min-lein-version "2.0.0")
@@ -305,8 +306,22 @@ Next, we can update the `init` function as follows:
    an app server such as Tomcat
    put any initialization code here"
   []
+  (timbre/set-config!
+    [:appenders :rotor]
+    {:min-level :info
+     :enabled? true
+     :async? false ; should be always false for rotor
+     :max-message-per-msecs nil
+     :fn rotor/append})
+     
+  (timbre/set-config!
+    [:shared-appender-config :rotor]
+    {:path "guestbook.log" :max-size 10000 :backlog 10})
+  
+  ;;initialize the database if needed
   (if-not (schema/initialized?) (schema/create-tables))
-  (println "guestbook started successfully..."))
+  
+  (timbre/info "guestbook started successfully..."))
 ```
 
 Since we changed the `init` function of our application,
@@ -333,7 +348,6 @@ Then we'll change the `home-page` controller to look as follows:
                   :name     name
                   :message  message
                   :messages (db/get-messages)}))
-
 ```
 
 All we did here was update it to send some extra parameters to the template, one of them being
@@ -347,7 +361,7 @@ the form posts:
   (cond
 
     (empty? name)
-    (home-page name message "Some dummy who forgot to leave a name")
+    (home-page name message "Somebody forgot to leave a name")
 
     (empty? message)
     (home-page name message "Don't you have something to say?")
@@ -417,7 +431,9 @@ Finally, we'll create a form to allow users to submit their messages:
     </p>
     <p>
        Message: 
-       <textarea rows="4" cols="50" name="message">{{message}}</textarea>
+       <textarea rows="4" cols="50" name="message">
+           {{message}}
+       </textarea>
     </p>
     <input type="submit" value="comment">
 </form>
@@ -450,7 +466,9 @@ Our final `home.html` template should look as follows:
     </p>
     <p>
        Message: 
-       <textarea rows="4" cols="50" name="message">{{message}}</textarea>
+       <textarea rows="4" cols="50" name="message">
+           {{message}}
+       </textarea>
     </p>
     <input type="submit" value="comment">
 </form>

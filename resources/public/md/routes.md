@@ -11,19 +11,21 @@ says "Hello World!" we could write the following:
   (GET "/" [] "Hello World!"))
 ```
 
-If we want to make a route which responds to POST and accepts some form parameters we'd write:
+If we want to make a route that responds to POST and accepts some form parameters we'd write:
 
 ```clojure
 (POST "/hello" [id] (str "Welcome " id))
 ```
 
-For some routes we'll need to access the request map, this is done by simply declaring it as the second argument to the route.
+For some routes we'll need to access the request map, this is done by simply declaring it as the 
+second argument to the route.
 
 ```clojure
 (GET "/foo" request (interpose ", " (keys request)))
 ```
 
-The above route reads out all the keys from the request map and displays them. The output will look like the following:
+The above route reads out all the keys from the request map and displays them. 
+The output will look like the following:
 
 ```clojure
 :ssl-client-cert, :remote-addr, :scheme, :query-params, :session, :form-params,
@@ -32,14 +34,14 @@ The above route reads out all the keys from the request map and displays them. T
 :character-encoding, :body, :flash
 ```
 
-Compojure also provides some useful functionality for handling the request maps and the form parameters.
-For example, in the guestbook application we created in the last chapter we saw the following route defined:
+Compojure also provides some useful functionality for handling the request maps and the form parameters. 
+For example, in the guestbook application example we saw the following route defined:
 
 ```clojure
 (POST "/"  [name message] (save-message name message))
 ```
 
-This route extracts the name and message form parameters and binds them to variables of the same name.
+This route extracts the name and the message form parameters and binds them to variables of the same name. 
 We can now use them as any other declared variable. It's also possible to use the regular Clojure destructuring
 inside the route.
 
@@ -57,7 +59,7 @@ y -> "bar"
 z -> {:v "baz", :w "qux"}
 ```
 
-Above, parameters x and y have been bound to variables, while parameters v and w remain in a map called z.
+Above, parameters x and y have been bound to variables, while parameters v and w remain in a map called z. 
 Finally, if we need to get at the complete request along with the parameters we can do the following:
 
 ```clojure
@@ -68,7 +70,7 @@ Here we bind the form parameters x an y, and bind the complete request map to th
 
 ## Organizing application routes
 
-It's a good practice to organize your application routes together by functionality. Compojure provides
+It's a good practice to organize your application routes together by functionality. Compojure provides 
 a `defroutes` macro which can group several routes together and bind them to a symbol.
 
 ```clojure
@@ -82,21 +84,46 @@ a `defroutes` macro which can group several routes together and bind them to a s
   (route/not-found "Not Found"))
 ```
 
-Compojure provides the `routes` function to group multiple route definitions together.
-There's an `noir.util.middleware/app-handler` function in `lib-noir` which will wrap all
-the common routes for you.
-
-The `app-handler` accepts a vector of routes followed by optional session store. If
-the store is not specified then in-memory store will be used.
-
-You'll notice that the template already defined an `all-routes` vector in the `handler`.
-All you have to do is add your new routes there. The `noir.util.middleware/war-handler`
-function adds additional middleware used needed for running on an application server
-such as Tomcat.
+It's also possible to group routes by common path elements using `context`. If you had 
+a set of routes that all shared `/user/:id` path as seen below:
 
 ```clojure
-(def all-routes [auth-routes app-routes])
-(def app (middleware/app-handler all-routes))
+(defroutes user-routes
+      (GET "/user/:id/profile" [id] ...)
+      (GET "/user/:id/settings" [id] ...)
+      (GET "/user/:id/change-password [id] ...))
+```
+
+You could rewrite that as:
+
+```clojure
+(def user-routes
+      (context "/user/:id" [id]
+        (GET "/profile" [] ...)
+        (GET "/settings" [] ...)
+        (GET "/change-password" [] ...)))
+```
+
+
+Once all your application routes are defined you can add them to the routes vector in the 
+`noir.util.middleware/app-handler` that's found in the `handler` of your application.
+
+You'll notice that the template already defined the `app` in the `handler` namespace of your 
+application. All you have to do is add your new routes there.
+
+The `noir.util.middleware/war-handler` function adds additional middleware used needed for 
+running in a servlet container such as Tomcat.
+
+```clojure
+(def app (middleware/app-handler
+           ;;add your application routes here
+           [home-routes app-routes]
+           ;;add custom middleware here
+           :middleware []
+           ;;add access rules here
+           ;;each rule should be a vector
+           :access-rules []))
+
 (def war-handler (middleware/war-handler app))
 ```
 
@@ -104,102 +131,111 @@ Further documentation is available on the [official Compojure wiki](https://gith
 
 ## Restricting access
 
-Some pages should only be accessible if specific conditions are met. For example,
-you may wish to define admin pages only visible to the administrator, or a user profile
+Some pages should only be accessible if specific conditions are met. For example, 
+you may wish to define admin pages only visible to the administrator, or a user profile 
 page which is only visible if there is a user in the session.
 
 Using the `noir.util.route` namespace from `lib-noir`, we can define rules for restricting 
-access to specific pages. Let's take a look at how to create a private page which is only 
-viewable if the `:user` key in the session matches the name of the page. First, we'll need 
-to reference `noir.util.route` and `noir.session` in the handler.
+access to specific pages.
+
+### Marking Routes as Restricted
+
+The `noir.util.route/restricted` macro is used to indicated that access rules apply to the route:
 
 ```clojure
-(ns myapp.handler
-  (:use ... 
-        noir.util.route)
-  (:require ...             
+(GET "/private/:id" [id] (restricted "private!"))
+```
+
+In case we have multiple routes that we'd like to mark as restricted we can use the 
+`def-restricted-routes` macro. This will make all the routes defined inside it restricted:
+
+```clojure
+(def-restricted-routes private-pages
+  (GET "/profile" [] (show-profile)
+  (GET "/my-secret-page" [] (show-secret-page)
+  (GET "/another-secret-page" [] (another-secret-page))
+```
+
+the above is equivalent to:
+
+```clojure
+(defroutes private-pages
+  (GET "/profile" [] (restricted (show-profile)))
+  (GET "/secret-page1" [] (restricted (show-secret-page)))
+  (GET "/secret-page2" [] (restricted (another-secret-page))))
+```
+
+By default restricted routes will be checked to see if they match all the access rules that apply.
+
+### Specifying Access Rules
+
+Let's take a look at how to create a rule to specify that restricted routes should only be 
+accessible if the `:user` key is present in the session. 
+
+First, we'll need  to reference `noir.util.route` and `noir.session` in the handler.
+
+```clojure
+(ns myapp.handler  
+  (:require ... 
+            [noir.util.route :refer [restricted]]
             [noir.session :as session]))
 ```
 
-Next, we'll write the function which implements the rule we described above. This function 
-must accept three argument which are the method, the url, and the params. The function must 
-return a boolean indicating whether the page satisfies the specified rule.
+Next, we'll write the function that implements the rule we described above. This function 
+must accept the request map as its argument and return a truthy value indicating whether 
+the page satisfies the specified rule.
 
-Here's a function which checks that the URI is of the format "/private/:id" and that the id 
-matches the user in the session.
-
-```clojure
-(defn user-page [method url params]
-  (and (= url "/private/:id")
-       (= (first params) (session/get :user))))
-```
-
-You can also use `noir.util.route/access-rule` macro to simplify creation of rules. The
-macro accepts three parameters.
-
-* a URL pattern - rule will only be checked for pages with the matching pattern
-* a parameter vector describing the method, url, and params: `[method url params]`
-* a condition to see if the page satisfies the rule 
-* 
-
-If we only wanted the `user-page` rule to only be checked for the URL pattern
-`/private/*` we could rewrite it using `access-rule` helper as follows:
+Here's a function to check if there is a user currently in the session. If the user is 
+`nil` then the rule will trigger a redirect. By default rules redirect to the `"/`" URI.
 
 ```clojure
-(def user-page
-  (access-rule "/private/*" [_ _ params]
-    (= (first params) (session/get :user))))
+(defn user-access [request]
+  (session/get :user))
+
+(def app 
+ (middleware/app-handler 
+   [app-routes]
+   :access-rules [user-access]))
 ```
 
-It's also possible to use the `access-rule` to create whitelists for pages:
+Now, any restricted handlers will redirect to `"/"` unless there is a `:user` key in the session.
+
+### Access Rule Groups
+
+When specifying rules as a map you can provide further directives using the
+following keys:
+
+* `:uri` - the URI pattern to which the rules apply (optional, defaults to any URI)
+* `:uris` - alternative to :uri, allows specifying a collection of URIs (optional)
+* `:redirect` - the redirect target for the rules (optional defaults to "/")
+* `:on-fail` - alternative to redirect, allows specifying a handler function for
+               handling the failure, the function must accept the request as a
+               parameter (optional)
+* `:rule` - a single rule (either :rule or :rules is required)
+* `:rules` - alternative to rule, allows specifying a list of rules
+
+The `:rules` can be specified in any of the following ways:
+
+* `:rules [rule1 rule2]`
+* `:rules {:any [rule1 rule2]}`
+* `:rules {:every [rule1 rule2] :any [rule3 rule4]}`
+
+By default every rule has to pass, the `:any` key specifies that it's sufficient for any of the rules to pass. Here's some examples of access rule combinations:
 
 ```clojure
-(def gallery-page
-  (access-rule "/gallery/:id" [_ _ params]
-    (some #{(first params)} 
-          ["photos" "sketches" "misc"])))
+(defn admin-access [req]
+ (session/get :admin))
+
+:access-rules [{:redirect "/access-denied"
+                :rule user-access}]
+
+:access-rules [{:uris ["/user/*" "/private*"]
+                :rule user-access}]
+
+:access-rules [{:uri "/admin/*" :rule admin-access}
+               {:uri "/user/*" 
+                :rules {:any [user-access admin-access]}]
+
+:access-rules [{:on-fail (fn [req] "access restricted")
+                :rule user-access}]
 ```
-These pages will always be visible regardless of what other rules are defined.
-
-
-Once you've got your rules defined, you need to wrap the handler with the
-`noir.util.middleware/wrap-access-rules` and pass in the rules as parameters.
-In our case we have a single rule, which is the function `user-page`.
-
-```clojure
-(def app (-> all-routes
-             (middleware/app-handler)
-             (middleware/wrap-access-rules user-page)))
-```
-
-By default `wrap-access-rules` will redirect to the `/` URI if none of the rules return true.
-To set a custom redirect URI simply pass in a map with a `:redirect` key set to the URI string:
-
-```clojure
-(def app (-> all-routes
-             (middleware/app-handler)
-             (middleware/wrap-access-rules 
-               {:redirect "/unauthorized"} user-page)))
-```
-
-Finally, when we want to restrict page access to a page, we simply mark 
-our route with `noir.util.route/restricted`:
-
-```clojure
-(restricted GET "/private/:id" [id] "private!")
-```
-
-All restricted routes will be checked to see if they match at least one of access rules
-passed into `wrap-access-rules`.
-
-
-It's also possible to create access rule groups as follows:
-
-```clojure
-(-> handler 
-    (wrap-access-rules rule1 rule2)
-    (wrap-access-rules {:redirect "/unauthorized1"} rule3 rule4)
-    (wrap-access-rules {:redirect "/unauthorized2"} rule5)
-```
-
-In the above example the first set of rules that fails will cause a redirect to its redirect target.

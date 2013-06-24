@@ -1,8 +1,23 @@
 ## Logging
 
-Luminus template comes with [Timbre](https://github.com/ptaoussanis/timbre) dependency which
-logs to standard out at the debug level by default. Any Clojure data structure can be logged
-directly.
+Luminus template comes with [Timbre](https://github.com/ptaoussanis/timbre) and [Rotor](https://bitbucket.org/postspectacular/rotor) dependencies.
+The logger is initialized in the `handler/init` function to create a rotating log for the application using the following settings:
+
+```clojure
+  (timbre/set-config!
+    [:appenders :rotor]
+    {:min-level :info
+     :enabled? true
+     :async? false ; should be always false for rotor
+     :max-message-per-msecs nil
+     :fn rotor/append})
+  
+  (timbre/set-config!
+    [:shared-appender-config :rotor]
+    {:path "{{sanitized}}.log" :max-size 10000 :backlog 10})
+```
+
+Timbre can log any Clojure data structures directly.
 
 ```clojure
 (ns example

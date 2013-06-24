@@ -70,5 +70,5 @@ The response will default to :found if no type is passed in.
 (require 'noir.response)
 
 (redirect "/foo")
-(redirect :see-other "/bar")
+(redirect "/bar" :see-other)
 ```
