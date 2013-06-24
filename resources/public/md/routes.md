@@ -228,7 +228,7 @@ any of the rules to pass. Here's some examples of access rule combinations:
  (session/get :admin))
 
 :access-rules [{:redirect "/access-denied"
-                             :rule user-access}]
+                :rule user-access}]
 
 :access-rules [{:uris ["/user/*" "/private*"]
                 :rule user-access}]
