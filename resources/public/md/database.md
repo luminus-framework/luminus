@@ -1,6 +1,10 @@
 ## Database access
 
-Luminus uses [SQL Korma](http://sqlkorma.com/) when you select a database profile such as `+postgres`. Adding database support to an existing project is rather simple as well. You will first need to add the Korma dependency
+Luminus uses [SQL Korma](http://sqlkorma.com/) when you select a database profile such as `+postgres`. 
+
+>[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/)
+
+Adding database support to an existing project is rather simple as well. You will first need to add the Korma dependency
 to you `project.clj`:
 
 ```clojure
@@ -75,9 +79,7 @@ You can use the `create-table` function to create the database tables from withi
 The `create-table` call must be wrapped inside `with-connection`, which ensures that the connection
 is cleaned up after the function exists.
 
-### Accessing the Database Using Korma
-
->[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/)
+### Accessing the Database
 
 When using Korma, we first need to to wrap our `db-spec` using `defdb` as follows:
 
