@@ -1,8 +1,6 @@
 ## Database access
 
-Luminus uses [SQL Korma](http://sqlkorma.com/) when you select a database profile such as `+postgres`.
-
-Adding database support to an existing project is rather simple as well. You will first need to add the Korma dependency
+Luminus uses [SQL Korma](http://sqlkorma.com/) when you select a database profile such as `+postgres`. Adding database support to an existing project is rather simple as well. You will first need to add the Korma dependency
 to you `project.clj`:
 
 ```clojure
