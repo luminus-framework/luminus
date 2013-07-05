@@ -1,4 +1,4 @@
-## Databases
+## Configuring the Database
 
 Luminus uses [SQL Korma](http://sqlkorma.com/) when you select a database profile such as `+postgres`. 
 
