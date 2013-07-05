@@ -6,9 +6,6 @@ to you `project.clj`:
 ```clojure
 [korma "0.3.0-RC5"]
 ```
-
-Once included you can create a new namespace for your model, coventionally this namespace would be called `models.db`.
-There you will need to add a reference to `korma.db` and import the driver for the database you will be using.
 The driver has to be present on the classpath, which means you should include it as a dependency in `project.clj` as well.
 
 For example, if you were connecting to PostreSQL, you would have to include the following dependency in your `project.clj`:
@@ -16,6 +13,10 @@ For example, if you were connecting to PostreSQL, you would have to include the 
 ```clojure
 [postgresql/postgresql "9.1-901.jdbc4"]
 ```
+
+
+Once the dependencies are included you can create a new namespace for your model, coventionally this namespace would be called `models.db`.
+There you will need to add a reference to `korma.db`.
 
 
 #### Setting up the database connection
