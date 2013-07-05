@@ -8,7 +8,7 @@ to you `project.clj`:
 ```
 
 Once included you can create a new namespace for your model, coventionally this namespace would be called `models.db`.
-There you will need to add a dependency for `korma.db` and import the driver for the database you will be using.
+There you will need to add a reference to `korma.db` and import the driver for the database you will be using.
 The driver has to be present on the classpath, which means you should include it as a dependency in `project.clj` as well.
 
 For example, if you were connecting to PostreSQL, you would have to include the following dependency in your `project.clj`:
