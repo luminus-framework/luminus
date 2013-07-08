@@ -11,13 +11,13 @@ template below:
 
 ```xml
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>My First Template</title>
-	</head>
-	<body>
-	<h2>Hello {{name}}</h2>
-	</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>My First Template</title>
+    </head>
+    <body>
+        <h2>Hello {{name}}</h2>
+    </body>
 </html>
 ``` 
 
