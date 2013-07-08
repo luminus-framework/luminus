@@ -341,7 +341,7 @@ details on supported syntax.
 
 ## Content caching
 
-lib-noir provides some very basic in-memory content caching via the `cache` macro located in `noir.util.cache`.
+lib-noir provides basic in-memory content caching via the `cache!` macro located in `noir.util.cache`.
 To cache a page you can simply do the following:
 
 ```clojure
@@ -376,7 +376,7 @@ if an item has a lifetime longer than the timeout it will be reloaded.
 ```
 
 Finally, you can limit the total size of the cache using `set-size!`, when the cache
-grows past the specified size the oldest items will be removed to
+grows past the specified size the least recently used items will be removed to
 make room for new items.
 
 ```clojure
