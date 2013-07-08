@@ -25,12 +25,12 @@ You could use the following script to keep the dependencies for your project up 
    "https://raw.github.com/weavejester/ring-mock/master/project.clj"
    "https://raw.github.com/mmcgrana/ring/master/ring-devel/project.clj"
    "https://raw.github.com/korma/Korma/master/project.clj"])
- 
+
 (defn get-project-version [url]
   (let [resp (client/get url)]
     (if (= "text/plain; charset=utf-8" (get (:headers resp) "content-type"))
-      (binding [*read-eval* false]   
-        (-&gt;&gt; resp :body read-string rest (take 2)))
+      (binding [*read-eval* false]
+        (->> resp :body read-string rest (take 2)))
       (println "error fetching project file for" url))))
  
 (defn versions []
