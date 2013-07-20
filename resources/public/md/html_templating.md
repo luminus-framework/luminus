@@ -1,6 +1,20 @@
+## Templating Options
+
+Luminus comes with the [Hiccup](https://github.com/weavejester/hiccup) dependency. If you're familiar with Hiccup then
+you can start using it out of the box.
+
+Hiccup usies standard Clojure data structures to represent its templates. On top of that, Hiccup provides a rich API of 
+helper functions for generating common HTML elements.
+
+Luminus also packages [Clabango](https://github.com/danlarkin/clabango) as it provides a more familiar templating expereince
+for newcomers. 
+
+You can choose to use either templating engine or combine them. Alternatively, you can choose to use a different templating
+engine alltogether. Two popular options are [Enlive](https://github.com/cgrand/enlive) and [Stencil](https://github.com/davidsantiago/stencil).
+
 ## HTML Templating Using Clabango
 
-[Clabango](https://github.com/danlarkin/clabango) is a Clojure implementation of the [Django template language](https://docs.djangoproject.com/en/1.4/topics/templates/).
+Clabango is a Clojure implementation of the [Django template language](https://docs.djangoproject.com/en/1.4/topics/templates/).
 If you're familiar with Django or similar templating languages such as [Smarty](http://www.smarty.net/) or [CheetahTemplate](http://www.cheetahtemplate.org/), you should feel right at home.
 
 ### Creating Templates
