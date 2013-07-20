@@ -3,7 +3,7 @@
 Luminus comes with the [Hiccup](https://github.com/weavejester/hiccup) dependency. If you're familiar with Hiccup then
 you can start using it out of the box.
 
-Hiccup usies standard Clojure data structures to represent its templates. On top of that, Hiccup provides a rich API of 
+Hiccup uses standard Clojure data structures to represent its templates. On top of that, Hiccup provides a rich API of 
 helper functions for generating common HTML elements.
 
 Luminus also packages [Clabango](https://github.com/danlarkin/clabango) as it provides a more familiar templating expereince
