@@ -1,6 +1,6 @@
 ## API Links
 
-* [Clabango](https://github.com/danlarkin/clabango)
+* [Selmer](https://github.com/yogthos/Selmer)
 * [Hiccup](http://weavejester.github.com/hiccup/)
 * [Compojure](http://weavejester.github.com/compojure/)
 * [Ring](http://ring-clojure.github.com/ring/)

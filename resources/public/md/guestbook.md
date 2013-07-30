@@ -139,7 +139,7 @@ The `views` namespace defines the visual layout of the application.
 
 #### guestbook.views.templates
 
-This namespace is reserved for the [Clabango](https://github.com/danlarkin/clabango) templates
+This namespace is reserved for the [Selmer](https://github.com/yogthos/Selmer) templates
 that represent the application pages.
 
 * `about.html` - the about page
@@ -166,7 +166,7 @@ The project file of the application we've created is found in its root folder an
    [lib-noir "0.6.1"]
    [compojure "1.1.5"]
    [ring-server "0.2.8"]
-   [clabango "0.5"]
+   [selmer "0.2.4"]
    [com.taoensso/timbre "2.1.2"]
    [com.postspectacular/rotor "0.1.0"]
    [com.taoensso/tower "1.7.1"]
