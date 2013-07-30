@@ -6,20 +6,20 @@ you can start using it out of the box.
 Hiccup uses standard Clojure data structures to represent its templates. On top of that, Hiccup provides a rich API of 
 helper functions for generating common HTML elements.
 
-Luminus also packages [Clabango](https://github.com/danlarkin/clabango) as it provides a more familiar templating expereince
+Luminus also packages [Selmer](https://github.com/yogthos/Selmer) as it provides a more familiar templating expereince
 for newcomers. 
 
 You can choose to use either templating engine or combine them. Alternatively, you can choose to use a different templating
-engine alltogether. Two popular options are [Enlive](https://github.com/cgrand/enlive) and [Stencil](https://github.com/davidsantiago/stencil).
+engine alltogether. A couple of popular options are [Enlive](https://github.com/cgrand/enlive) and [Stencil](https://github.com/davidsantiago/stencil).
 
-## HTML Templating Using Clabango
+## HTML Templating Using Selmer
 
-Clabango is a Clojure implementation of the [Django template language](https://docs.djangoproject.com/en/1.4/topics/templates/).
+Selmer is a Clojure implementation of the [Django template language](https://docs.djangoproject.com/en/1.4/topics/templates/).
 If you're familiar with Django or similar templating languages such as [Smarty](http://www.smarty.net/) or [CheetahTemplate](http://www.cheetahtemplate.org/), you should feel right at home.
 
 ### Creating Templates
 
-By design, Clabango separates the presentation logic from the program logic. The templates
+By design, Selmer separates the presentation logic from the program logic. The templates
 are simply HTML files with additional template tags. Let's take a look at a an example 
 template below:
 
@@ -35,8 +35,8 @@ template below:
 </html>
 ``` 
 
-The templates are rendered using a context represented by a hashmap. The context contains
-and variables that we'd like to render in our template. Above, we have a template representing 
+The templates are rendered using a context represented by a map of key/value pairs. The context contains
+the variables that we'd like to render in our template at runtime. Above, we have a template representing 
 a page that renders a single variable called `name`. 
 
 There are two functions for rendering templates called `render` and `render-file`. 
@@ -48,7 +48,7 @@ If we saved the template defined above in a file called `index.html` then we cou
 
 ```clojure
 (ns example.routes.home
-  (:use [clabango.parser :only [render-file]]))
+  (:use [selmer.parser :only [render-file]]))
   
 (defn index [request]
   (render-file "example/views/templates/index.html" 
@@ -118,13 +118,41 @@ The following filters are currently available:
 
 `{{items|count}} item{{items|pluralize}}`
 
-*to-json* - renders a Clojure data structure as JSON 
+*json* - renders a Clojure data structure as JSON 
 
 `{{data|to-json}}`
 
+*block.super* - will be replaced with the content from the parent block
+
+`{{block.super}}` - used inside a block to insert the content from the parent block in its place
+
+`{% block foo %} {{block.super}} some content{% endblock %}`
+
+### Defining Custom Filters
+You can easily add your own filters using the `selmer.filters/add-filter!` function.
+The filter function should accept the element and return a value that will replace the
+original value.
+
+```clojure
+(use 'selmer.filters)
+ 
+(add-filter! :embiginate #(.toUpperCase %))
+ (render "{{shout|embiginate}}" {:shout "hello"})
+
+(add-filter! :count count)
+(render "{{foo|count}}" {:foo (range 3)})
+```
+
+Filters can also be chained together as needed:
+
+```clojure
+(add-filter! :empty? empty?)
+(render "{{foo|upper|empty?}}" {:foo "Hello"})
+```
+
 ### Tags
 
-Clabango provides two types of tags. The frist kind are inline tags such as the `extends` 
+Selmer provides two types of tags. The frist kind are inline tags such as the `extends` 
 and `include` tags. These tags are self contained statements and do not require an end tag.
 The other type is the block tags. These tags have a start and an end tag, and operate on a
 block of text. An example of this would be the `if` ... `endif` block.
@@ -162,21 +190,39 @@ Let's take a look at the default tags:
 ### Defining Custom Tags
 
 In addition to tags already provides you can easily define custom tags of your own. This
-is done by using the `deftemplatetag` macro. Let's take a look at a couple of examples to
+is done by using the `deftag` macro. Let's take a look at a couple of examples to
 see how it works:
 
 ```clojure
-(deftemplatetag "image" [nodes context]
-  {:string (str "<img src=" (first (:args (first nodes))) "/>")
-   :context context})
-   
-(render "{% image logo %}" {:logo "http://foo.com/logo.jpg"})   
+(use 'selmer.parser)
+ 
+(deftag :foo
+  (fn [args context-map]
+    (str "foo " (first args))))
+ 
+(render "{% foo quux %} {% foo baz %}" {}) 
+
+
+(deftag :bar
+  (fn [args context-map content]
+    (str content))
+  :baz :endbar)
+ 
+(render "{% bar %} some text {% baz %} some more text {% endbar %}" {})
 ```
 
+As can be seen above, the tag is defined by providing a keyword specifying the tag name followed
+by the handler and any closing tags.
+
+When there are no closing tags the tag will not have any content. The handler for such tags accepts
+the arguments defined in the tag and the context map.
+
+When closing tags are present then the content for each block will be keyed on the opening tags.
+The content will be a map containing the `:args` and `:content` keys associated with each block.
 
 ### Template inheritance
 
-Clabango templates can refer to other templates using the `block` tag. There are two ways
+Selmer templates can refer to other templates using the `block` tag. There are two ways
 to refer to a template. We can either use the `extends` tag or the `include` tag for this.
 
 
@@ -184,7 +230,10 @@ to refer to a template. We can either use the `extends` tag or the `include` tag
 
 When we use the `extends` tag, the current template will use the template it's extending
 as the base. Any blocks in the base template with the names matching the current template will 
-be overwritten. 
+be overwritten.
+
+The content of the child template **must** be encapsulated in blocks. Any content outside the
+blocks present in the parent templates will be ignored.
 
 Let's take a look at a concrete example. First, we'll define our base template and call it
 `base.html`:
@@ -230,8 +279,8 @@ at an example. Let's say we have a `base.html` template that includes templates 
 `home.html`, then defines blocks called `register` and `home`:
 
 ```xml
-{% include "register.html" %}
-{% include "home.html" %}
+
+
 
 <!DOCTYPE html>
 <head>
@@ -242,8 +291,10 @@ at an example. Let's say we have a `base.html` template that includes templates 
 <body>
     <div id="content">
         {% if user %}
-        {% block register %}{% endblock %}
-        {% block home %}{% endblock %}
+        {% include "templates_path/home.html" %}        
+        {% else %}
+        {% include "templates_path/register.html" %}
+        {% endif %}
     </div>
 </body>
 </html>
@@ -269,10 +320,10 @@ and `home.html`:
 {% endblock %}
 ```
 
-When the `base.html` is rendered it will replace the `register` and `home` blocks with the ones from
-these templates.
+When the `base.html` is rendered it will replace the `register` and `home` include tags with the content
+from the templates they are referencing.
 
-For more details please see the [official documentation](https://github.com/danlarkin/clabango).
+For more details please see the [official documentation](https://github.com/yogthos/Selmer).
 
 ## HTML Templating Using Hiccup
 
