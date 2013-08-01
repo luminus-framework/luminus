@@ -86,6 +86,9 @@ If an item happens to be a map, we can access the keys by their name as follows:
 When no special processing is specified in the template then the `.toString` value
 of the paramter will be used.
 
+By default Selmer caches the compiled template. A recompile will be triggered if the last modified timestamp of the files changes.
+ Alternatively you can turn caching on and off calling `(selmer.parser/cache-on!)` and `(selmer.parser/cache-off!)` respectively. 
+
 ### Filters
 
 Filters allow post processing the variables before they are rendered. For example, you
@@ -129,6 +132,7 @@ The following filters are currently available:
 `{% block foo %} {{block.super}} some content{% endblock %}`
 
 ### Defining Custom Filters
+
 You can easily add your own filters using the `selmer.filters/add-filter!` function.
 The filter function should accept the element and return a value that will replace the
 original value.
@@ -190,20 +194,20 @@ Let's take a look at the default tags:
 ### Defining Custom Tags
 
 In addition to tags already provides you can easily define custom tags of your own. This
-is done by using the `deftag` macro. Let's take a look at a couple of examples to
+is done by using the `add-tag!` macro. Let's take a look at a couple of examples to
 see how it works:
 
 ```clojure
 (use 'selmer.parser)
  
-(deftag :foo
+(add-tag! :foo
   (fn [args context-map]
     (str "foo " (first args))))
  
 (render "{% foo quux %} {% foo baz %}" {}) 
 
 
-(deftag :bar
+(add-tag! :bar
   (fn [args context-map content]
     (str content))
   :baz :endbar)
