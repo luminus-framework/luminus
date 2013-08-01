@@ -303,6 +303,7 @@ at an example. Let's say we have a `base.html` template that includes templates 
 </body>
 </html>
 ```
+
 We can now define the content for these blocks in separate template files called `register.html`:
 
 ```xml
