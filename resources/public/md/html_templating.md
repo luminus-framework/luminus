@@ -444,9 +444,9 @@ to the URI. When `servlet-context` key is not present then the original URI is s
 
 `(render "{% style \"/css/screen.css\" %}" {:servlet-context "/myapp"})` => 
 
-```
-"<link href=\"/myapp/css/screen.css\" rel=\"stylesheet\" type=\"text/css\" />"
-```
+
+`"<link href=\"/myapp/css/screen.css\" rel=\"stylesheet\" type=\"text/css\" />"`
+
 
 **style**
 
