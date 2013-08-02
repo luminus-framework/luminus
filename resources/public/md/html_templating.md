@@ -360,15 +360,17 @@ For example, say we have a base template called `base.html` and a child template
 
 ```xml
 <html>
-    <body>
-		{% block foo %}This text can be overridden later{% endblock %}
-	</body>
+  <body>
+  {% block foo %}This text can be overridden later{% endblock %}
+  </body>
 </html>
 ```
 
 ```xml
 {% extends "base.html" %}
-{% block foo %}<p>This text will override the text in the parent</p>{% endblock %}
+{% block foo %}
+  <p>This text will override the text in the parent</p>
+{% endblock %}
 ```
 
 **if**
@@ -452,9 +454,9 @@ The script tag will generate an HTML script tag and prepend the value of the `se
 to the URI. When `servlet-context` key is not present then the original URI is set.
 
 `(render "{% script \"/js/site.js\" %}" {:servlet-context "/myapp"})` => 
-```
-"<script src=\"/myapp/js/site.js\" type=\"text/javascript\"></script>"
-```
+
+`"<script src=\"/myapp/js/site.js\" type=\"text/javascript\"></script>"`
+
 **verbatim**
 
 prevents any tags inside from being parsed:
@@ -469,6 +471,7 @@ injects the specified keys into the context map:
 (render "{% with total=business.employees|count %}{{ total }}{% endwith %}"
          {:business {:employees (range 5)}})
 ``` 
+
 => `"5 employees"`
    
 ### Defining Custom Tags
