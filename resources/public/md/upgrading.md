@@ -14,7 +14,8 @@ You could use the following script to keep the dependencies for your project up 
   (:require [clj-http.client :as client]))
  
 (def projects
-  ["https://raw.github.com/noir-clojure/lib-noir/master/project.clj"
+  ["https://raw.github.com/yogthos/Selmer/master/project.clj"
+   "https://raw.github.com/noir-clojure/lib-noir/master/project.clj"
    "https://raw.github.com/weavejester/compojure/master/project.clj"
    "https://raw.github.com/weavejester/hiccup/master/project.clj"
    "https://raw.github.com/weavejester/lein-ring/master/project.clj"
