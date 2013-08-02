@@ -99,37 +99,194 @@ Filters are specified by using a `|` after the variable name, as can be seen bel
 {{name|upper}}
 ```
 
-The following filters are currently available:
+The following built-in filters are available:
 
-*upper* - converts a string to upper case 
+**add**
 
-`{{name|upper}}`
+`(render "{{add_me|add:2:3:4}}" {:add_me 2})` => `11`
 
-*date* - formats an instance of java.util.Date 
+**addslashes**
 
-`{{my-date|date:"yyyy-MM-dd_HH:mm:ss"}}`
+Nota bene, the slashes aren't actually in the input string, but they *are* going to be in the input. Just trying to write valid Clojure code.
 
-*hash* - computes a hash of the variable (md5, sha, sha256, sha384, sha512) 
+`(render "{{name|addslashes}}" {:name "\"Russian tea is best tea\""})` => `"\"Russian tea is best tea\""`
 
-`{{name|hash:md5}}`
+**capitalize**
 
-*count* - counts the length of the variable 
+`(render "{{name|capitalize}}" {:name "russian tea is best tea"})` => `"Russian tea is best tea"`
 
-`{{name|count}}`
+**center**
 
-*pluralize* - returns pluralization of the word 
+`(render "{{name|center:20}}" {:name "bitemyapp"})` => `"      bitemyapp     "`
 
-`{{items|count}} item{{items|pluralize}}`
+**count**
 
-*json* - renders a Clojure data structure as JSON 
+`(render "{{name|count}}" {:name "Yogthos"})` => `"7"`
 
-`{{data|to-json}}`
+`(render "{{items|count}}" {:items [1 2 3 4]})` => `"4"`
 
-*block.super* - will be replaced with the content from the parent block
 
-`{{block.super}}` - used inside a block to insert the content from the parent block in its place
+**date**
 
-`{% block foo %} {{block.super}} some content{% endblock %}`
+`(render "{{creation-time|date:\"yyyy-MM-dd_HH:mm:ss\"}}" {:created-at (java.util.Date.)})` => `"2013-07-28_20:51:48"`
+
+**default**
+
+`(render "{{name|default:"I <3 ponies"}}" {:name "bitemyapp"})` => `"bitemyapp"`
+
+`(render "{{name|default:"I <3 ponies"}}" {:name nil})` => `"I <3 ponies"`
+
+`(render "{{name|default:"I <3 ponies"}}" {:name []})` => `"[]"`
+
+`(render "{{name|default:"I <3 ponies"}}" {})` => `"I <3 ponies"`
+
+**default-if-empty**
+
+`(render "{{name|default-if-empty:"I <3 ponies"}}" {:name "bitemyapp"})` => `"bitemyapp"`
+
+`(render "{{name|default-if-empty:"I <3 ponies"}}" {:name nil})` => `"I <3 ponies"`
+
+`(render "{{name|default-if-empty:"I <3 ponies"}}" {:name []})` => `"I <3 ponies"`
+
+`(render "{{name|default-if-empty:"I <3 ponies"}}" {})` => `"I <3 ponies"`
+
+**double-format**
+
+`(render "{{tis-a-number|double-format:2}}" {:tis-a-number 10.00001})` => `10.00`
+
+`(render "{{tis-a-number|double-format}}" {:tis-a-number 10.00001})` => `10.0`
+
+**first**
+
+`(render "{{seq-of-some-sort|first}}" {:seq-of-some-sort [:dog :cat :bird :bird :bird :is :the :word]})` => `:dog`
+
+**get-digit**
+
+returns digits from the right, 1 indexing on the last digit
+
+`(render "{{tis-a-number|get-digit:1}}" {:tis-a-number 12.34567})` => `7`
+
+**hash**
+
+available hashes: `md5`, `sha`, `sha256`, `sha384`, `sha512`
+
+`(render "{{domain|hash:\"md5\"}}" {:domain "example.org"})` => `"1bdf72e04d6b50c82a48c7e4dd38cc69"`
+
+
+**join**
+
+`(render "{{sequence|join}}" {:sequence [1 2 3 4]})` => `"1234"`
+
+**json**
+
+by default content will be escaped
+
+`(render "{{data|json}}" {:data [1 2 {:foo 27 :dan "awesome"}]})` => `"[1,2,{&quot;foo&quot;:27,&quot;dan&quot;:&quot;awesome&quot;}]"`
+
+if you wish to render it unescaped use the `safe` filter:
+
+`(render "{{f|json|safe}}" {:f {:foo 27 :dan "awesome"}})`
+
+
+**last**
+
+`(render "{{sequence|last}}" {:sequence 12.34567})` => `7`
+
+`(render "{{sequence|last}}" {:sequence [1 2 3 4]})` => `4`
+
+**length**
+
+`(render "{{sequence|length}}" {:sequence [1 2 3 4]})` => `4`
+
+**length-is**
+
+`(render "{{sequence|length-is:4}}" {:sequence [1 2 3 4]})` => `true`
+
+**linebreaks**
+
+Single newlines become <br />, double newlines mean new paragraph. Contenet will
+be escaped by default.
+
+`(render "{{foo|linebreaks|safe}}" {:foo "\nbar\nbaz"})` => `"<p><br />bar<br />baz</p>"`
+
+**linebreaks-br**
+
+like `linebreaks` but doesn't insert `<p>` tags.
+
+`(render "{{foo|linebreaks-br|safe}}" {:foo "\nbar\nbaz"})` => `"bar<br />baz"`
+
+**linenumbers**
+
+Displays text with line numbers.
+
+`(render "{{foo|linenumbers" {:foo "foo\n\bar\nbaz"})` => `"1. foo\n2. \bar\n3. baz"`
+
+**lower**
+
+`(render "{{foo|lower}}" {:foo "FOOBaR"})` => `"foobar"`
+
+**pluralize**
+
+Returns the correct (English) pluralization based on the variable. This works with many words, but certainly not all (eg. foot/feet, mouse/mice, etc.)
+
+`(render "{{items|count}} item{{items|pluralize}}" {:items []})` => `"0 items"`
+
+`(render "{{items|count}} item{{items|pluralize}}" {:items [1]})` => `"1 item"`
+
+`(render "{{items|count}} item{{items|pluralize}}" {:items [1 2]})` => `"2 items"`
+
+`(render "{{fruit|count}} tomato{{fruit|pluralize:\"es\"}}" {:fruit []})` => `"0 tomatoes"`
+
+`(render "{{people|count}} lad{{people|pluralize:\"y\":\"ies\"}}" {:people [1]})` => `"1 lady"`
+
+`(render "{{people|count}} lad{{people|pluralize:\"y\":\"ies\"}}" {:people [1 2]})` => `"2 ladies"`
+
+
+**rand-nth**
+
+returns rand-nths value from a collection:
+
+`(render "{{foo|rand-nth}}" {:foo [1 2 3]})` => `"2"`
+
+**remove**
+
+removes specified characters from the string:
+
+`(render "{{foo|remove:\"aeiou\"}}" {:foo "abcdefghijklmnop"})` => `"bcdfghjklmnp"`
+
+**remove-tags**
+
+Removes the specified HTML tags from the string:
+
+`(render "{{ value|remove-tags:b:span }}" {:value "<b><span>foobar</span></b>"})` => `"foobar"`
+
+**safe**
+
+By default Selmer will HTML escape all variables, The `safe` filter exempts the variable from being html-escaped:
+
+`(render "{{data}}" {:data "<foo>"})` => `"&lt;foo&gt;"`
+
+`(render "{{data|safe}}" {:data "<foo>"})` => `"<foo>"`
+
+**sort**
+
+`(render "{{ value|sort }}" {:value [1 4 2 3 5]})` => `"(1 2 3 4 5)"`
+
+**sort-by**
+
+`(render "{{ value|sort-by:name }}" {:value [{:name "John"} {:name "Jane"}]})` => `"({:name &quot;Jane&quot;} {:name &quot;John&quot;})"`
+
+**sort-reversed**
+
+same as sort, but in reverse order
+
+**sort-by-reversed**
+
+same as sort-by, but in reverse order
+
+**upper**
+
+`(render "{{shout|upper}}" {:shout "hello"})` => `"HELLO"`
 
 ### Defining Custom Filters
 
@@ -163,34 +320,157 @@ block of text. An example of this would be the `if` ... `endif` block.
 
 Let's take a look at the default tags:
 
-*extends* - used to indicate that the template extends another template
+**include**
 
-`{% extends "base.html" %}`
+replaces itself with the contents of the referenced template
 
-*include* - used to include a block from a different template file
+`{% include "path/to/comments.html" %}`
 
-`{% include "form.html" %}`
+optionally, you can supply default arguments any tags matching these will have the `default` filter applied using the value supplied:
 
-*block/endbock* - used to specify a block that can be overriden by a block from different template with the same name
+`{% include "templates/inheritance/child.html" with name="Jane Doe" greeting="Hello!" %}`
 
-`{% block form %}{% endblock %}`
+**block**
 
-*if/endif* - used to test a condition, the if portion is rendered only if the condition is true
+Allows specifying a block of content that can be overwritten using the template inheritance discussed below.
 
-`{% if error %} <p>An error occurred: {{error}}</p>{% endif %}`
+`{% block foo %}This text can be overridden later{% endblock %}`
 
-*ifequal/endequal* - same as if tag except that it checks that its arguments are equal
+**block.super**
 
-`{% ifequal foo bar %}yes!{% endifequal %}`
+Can be used inside a block to insert the content from the parent block in its place
 
-*else* - can be used inside the `if` and `ifequal` tags to specify the content for the negative case 
+`{% block foo %} {{block.super}} some content{% endblock %}`
+
+**cycle**
+
+Will cycle through the supplied argument.
+
+`(render "{% for i in items %}<li class={% cycle \"blue\" \"white\" %}>{{i}}</li>{% endfor %}" {:items (range 5)})` => `"<li class=\"blue\">0</li><li class=\"white\">1</li><li class=\"blue\">2</li><li class=\"white\">3</li><li class=\"blue\">4</li>"`
+
+**extends**
+
+This tag is used to reference a parent template. The blocks in parents are recursively overridden by
+the blocks from child templates.
+
+* Note: child templates can **only** contain blocks. Any tags or text outside the blocks will be
+ignored!
+
+For example, say we have a base template called `base.html` and a child template `child.thml`:
+
+```xml
+<html>
+    <body>
+		{% block foo %}This text can be overridden later{% endblock %}
+	</body>
+</html>
+```
+
+```xml
+{% extends "base.html" %}
+{% block foo %}<p>This text will override the text in the parent</p>{% endblock %}
+```
+
+**if**
+
+It's an `if` -- only render the body if the conditional is true.
+
+`{% if condition %}yes!{% endif %}`
 
 `{% if condition %}yes!{% else %}no!{% endif %}`
 
-*for/endfor* - used to iterate over collections of items
+filters work for the conditions:
 
-`{% for story in stories %} <h2>{{story.name}}</h2>{% endfor %}`
+```clojure
+(add-filter! :empty? empty?)
+(render "{% if files|empty? %}no files{% else %}files{% endif %}"
+  {:files []})
+```
 
+**ifequal**
+
+Only render the body if the two args are equal (according to clojure.core/=).
+
+`{% ifequal foo bar %}yes!{% endifequal %}`
+
+`{% ifequal foo bar %}yes!{% else %}no!{% endifequal %}`
+
+`{% ifequal foo "this also works" %}yes!{% endifequal %}`
+
+**for/endfor** *block*
+
+**for**
+
+Render the body one time for each element in the list. Each render will introduce the following variables into the context: 
+
+* `forloop.first`
+* `forloop.last`
+* `forloop.counter`
+* `forloop.counter0`
+* `forloop.revcounter`
+* `forloop.revcounter0`
+* `forloop.length`
+
+`{% for x in some-list %}element: {{x}} first? {{forloop.first}} last? {{forloop.last}}{% endfor %}`
+
+you can also iterate over nested data structures, eg:
+
+`{% for item in items %} <tr><td>{{item.name}}</td><td>{{item.age}}</td></tr> {% endfor %}`
+
+**now**
+
+renders current time 
+
+`(render (str "{% now \"" date-format "\"%}") {})` => `"\"01 08 2013\""`
+
+**comment**
+
+ignores any content inside the block
+
+`(render "foo bar {% comment %} baz test {{x}} {% endcomment %} blah" {})` => `"foo bar  baz test  blah"`
+
+**firstof**
+
+renders the first occurance of supplied keys that doesn't resolve to false:
+
+`(render "{% firstof var1 var2 var3 %}" {:var2 "x" :var3 "not me"})` => `"x"`
+
+**script**
+
+The script tag will generate an HTML script tag and prepend the value of the `servlet-context` key
+to the URI. When `servlet-context` key is not present then the original URI is set.
+
+`(render "{% style \"/css/screen.css\" %}" {:servlet-context "/myapp"})` => 
+
+```
+"<link href=\"/myapp/css/screen.css\" rel=\"stylesheet\" type=\"text/css\" />"
+```
+
+**style**
+
+The script tag will generate an HTML script tag and prepend the value of the `servlet-context` key
+to the URI. When `servlet-context` key is not present then the original URI is set.
+
+`(render "{% script \"/js/site.js\" %}" {:servlet-context "/myapp"})` => 
+```
+"<script src=\"/myapp/js/site.js\" type=\"text/javascript\"></script>"
+```
+**verbatim**
+
+prevents any tags inside from being parsed:
+
+`(render "{% verbatim %}{{if dying}}Still alive.{{/if}}{% endverbatim %}" {})` => `"{{if dying}}Still alive.{{/if}}"`
+
+**with**
+
+injects the specified keys into the context map:
+
+```clojure
+(render "{% with total=business.employees|count %}{{ total }}{% endwith %}"
+         {:business {:employees (range 5)}})
+``` 
+=> `"5 employees"`
+   
 ### Defining Custom Tags
 
 In addition to tags already provides you can easily define custom tags of your own. This
