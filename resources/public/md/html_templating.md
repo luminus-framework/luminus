@@ -111,6 +111,12 @@ Nota bene, the slashes aren't actually in the input string, but they *are* going
 
 `(render "{{name|addslashes}}" {:name "\"Russian tea is best tea\""})` => `"\"Russian tea is best tea\""`
 
+**block.super**
+
+Can be used inside a block to insert the content from the parent block in its place
+
+`{% block foo %} {{block.super}} some content{% endblock %}`
+
 **capitalize**
 
 `(render "{{name|capitalize}}" {:name "russian tea is best tea"})` => `"Russian tea is best tea"`
