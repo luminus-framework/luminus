@@ -336,12 +336,6 @@ Allows specifying a block of content that can be overwritten using the template 
 
 `{% block foo %}This text can be overridden later{% endblock %}`
 
-**block.super**
-
-Can be used inside a block to insert the content from the parent block in its place
-
-`{% block foo %} {{block.super}} some content{% endblock %}`
-
 **cycle**
 
 Will cycle through the supplied argument.
