@@ -6,22 +6,23 @@ you can start using it out of the box.
 Hiccup uses standard Clojure data structures to represent its templates. On top of that, Hiccup provides a rich API of 
 helper functions for generating common HTML elements.
 
-Luminus also packages [Selmer](https://github.com/yogthos/Selmer) as it provides a more familiar templating expereince
-for newcomers. 
+Luminus also packages [Selmer](https://github.com/yogthos/Selmer) for more traditional style templating using plain text files
+as templates. 
 
 You can choose to use either templating engine or combine them. Alternatively, you can choose to use a different templating
 engine alltogether. A couple of popular options are [Enlive](https://github.com/cgrand/enlive) and [Stencil](https://github.com/davidsantiago/stencil).
 
 ## HTML Templating Using Selmer
 
-Selmer is a Clojure implementation of the [Django template language](https://docs.djangoproject.com/en/1.4/topics/templates/).
-If you're familiar with Django or similar templating languages such as [Smarty](http://www.smarty.net/) or [CheetahTemplate](http://www.cheetahtemplate.org/), you should feel right at home.
+Selmer is inspired by the [Django template language](https://docs.djangoproject.com/en/1.4/topics/templates/).
+If you're familiar with Django or similar templating languages you should feel right at home.
+
 
 ### Creating Templates
 
 By design, Selmer separates the presentation logic from the program logic. The templates
-are simply HTML files with additional template tags. Let's take a look at a an example 
-template below:
+are simply HTML files with additional template tags for dynamic elements. The dynamc elements
+in the template are resolved during the rendering step. Let's take a look at a an example template below:
 
 ```xml
 <html>
