@@ -17,7 +17,7 @@ Currently, the following profiles are supported
 To add a profile simply pass it as an argument after your application name, eg:
 
 ```
-lein new luminus myapp +bootstrap
+lein new luminus myapp +cljs
 ```
 
 You can also mix multiple profiles when creating the application, eg:
