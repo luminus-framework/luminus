@@ -6,7 +6,6 @@ profile hints for the extended functionality.
 
 Currently, the following profiles are supported
 
-* +bootstrap - adds bootstrap css/js static resources
 * +cljs - adds ClojureScript support to the project along with an example
 * +h2 - adds `models.db` namespace and H2 db dependencies
 * +postgres - adds `models.db` namespace and add PostreSQL dependencies
