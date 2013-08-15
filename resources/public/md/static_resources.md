@@ -8,7 +8,19 @@ You can get the path to public folder of the application by calling `resource-pa
 ### Handling file uploads
 
 Uploading files is handled via `upload-file` in `noir.io` namespace which accepts a
-path relative to the public folder and the file map, eg:
+path relative to the public folder and the file map.
+
+If we had an `upload.html` page with the following form:
+
+```xml
+<h2>Upload a file</h2>
+<form action="/upload" enctype="multipart/form-data" method="POST">
+    <input id="file" name="file" type="file" />
+    <input type="submit" value="upload" />
+</form>
+```
+
+we could then render the page and handle the file upload as follows:
 
 ```clojure
 (ns myapp.upload
@@ -18,12 +30,7 @@ path relative to the public folder and the file map, eg:
             [noir.io :as io]))
 
 (defn upload-page []
-  (layout/common
-    [:h2 "Upload a file"]
-    (form-to {:enctype "multipart/form-data"}
-             [:post "/upload"]
-             (file-upload :file)
-             (submit-button "upload"))))
+  (layout/render "upload.html"))
 
 (defn handle-upload [file]
   (io/upload-file "/" file)
