@@ -239,3 +239,62 @@ By default every rule has to pass, the `:any` key specifies that it's sufficient
 :access-rules [{:on-fail (fn [req] "access restricted")
                 :rule user-access}]
 ```
+
+### Cross Site Request Forgery Protection
+
+CSRF attack involves a third party performing an action on your site using the credentials of a logged-in user.
+This can commonly occur when your site contains malicious a link, a form button, or some JavaScript.
+
+To protect against CSRF attacks use the [Ring-Anti-Forgery](https://github.com/weavejester/ring-anti-forgery).
+
+To do this we will first need to include the `[ring-anti-forgery "0.2.1"]` dependency in your project. Then we'll
+reference the required libraries to the handler namespace definition.
+
+```clojure
+(ns myapp.handler
+  (:require
+    ...
+    [selmer.parser :refer [add-tag!]]
+    [ring.util.anti-forgery :refer [anti-forgery-field]]
+    [ring.middleware.anti-forgery :refer [wrap-anti-forgery]])
+```
+
+Next, we'll add the `wrap-anti-forgery` middleware to our handler:
+
+```clojure
+(def app (middleware/app-handler
+           ;;add your application routes here
+           [home-routes app-routes]
+           ;;add custom middleware here
+           :middleware [wrap-anti-forgery]
+           ;;add access rules here
+           ;;each rule should be a vector
+           :access-rules []))
+```
+
+Once the middleware is added a randomly-generated string will be assigned to the *anti-forgery-token* var.
+Any POST requests coming to the server will have to contain a paremeter called `__anti-forgery-token` with 
+this token.
+
+We can then define a new CSRF tag in our `init` function:
+
+```clojure
+(defn init
+  ...
+  (add-tag! :csrf-token (fn [_ _] (anti-forgery-field)))
+  ...)
+```
+
+and start using it in our templates as follows:
+
+```xml
+<form name="input" action="/login" method="POST">
+  {% csrf-token %}
+  Username: <input type="text" name="user">
+  Password: <input type="password" name="pass">
+<input type="submit" value="Submit">
+</form>
+```
+
+Any POST requests that do not contain the token will be rejected by the middleware. The server will
+respond with a 403 error saying "Invalid anti-forgery token".
