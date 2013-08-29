@@ -90,7 +90,7 @@ to those already included with Luminus.
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
 * [Validateur](http://clojurevalidations.info/articles/getting_started.html) - a validation library inspired by Ruby's ActiveModel
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
-
+* [Pantomime](https://github.com/michaelklishin/pantomime) - a Library For Working With MIME Types
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
  JSON parsing, exception handling, SQL abstractions and other you can find on
