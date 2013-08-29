@@ -37,7 +37,7 @@ For detailed information please refer to the official [Ring documentation](https
 
 ## Useful ring middleware
 
-* [ring-json](https://github.com/ring-clojure/ring-json) - Ring middleware for handling JSON
+* [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format) - Ring middleware for handling different fromats such as JSON and EDN
 * [ring-ratelimit](https://github.com/myfreeweb/ring-ratelimit) - Rate limiting middleware
 * [ring-etag-middleware](https://github.com/mikejs/ring-etag-middleware) - Calculates etags for ring responses and returns 304 responses when appropriate
 * [ring-gzip-middleware](https://github.com/mikejs/ring-gzip-middleware) - Gzips ring responses for user agents which can handle it
