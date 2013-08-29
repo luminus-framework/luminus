@@ -23,6 +23,13 @@ body {
    -webkit-animation: fadein 0.5s; /* Safari and Chrome */
    -o-animation: fadein 0.5s; /* Opera */
 }
+
+.bookimage {
+	width: 150px;
+    display: block;
+    margin-left: 10px;
+}
+
 @keyframes reset {
 0% {
    opacity: 0;
