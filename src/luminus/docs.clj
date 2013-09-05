@@ -33,7 +33,7 @@
            (doc-page-links doc-titles doc)
            [:div [:h3 "Books"]
             [:a.booklink {:href "http://pragprog.com/book/dswdcloj/web-development-with-clojure"}
-            (image {:class "bookimage"} "img/wdwc.png")]]]]]))))
+            (image {:class "bookimage"} "/img/wdwc.png")]]]]]))))
 
 (defroutes doc-routes
   (GET "/docs" [] (doc-page "guestbook.md"))
