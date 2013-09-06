@@ -44,6 +44,25 @@ There are helpers available for XML, JSON, and JSONP responses:
 (GET "/edn" [] (edn {:foo 1 :bar 2}))
 ```
 
+In addition to setting the response type you may also wish to enable the corresponding
+middleware in the `noir.util.middleware/app-handler` that's found in the `handler` namespace
+of the application. This is done by specifying the `:formats` key and providing a vector of
+formats:
+
+```clojure
+(app-handler routes :formats [:json])
+```
+
+The available formats are:
+
+* :json - JSON with string keys in :params and :body-params
+* :json-kw - JSON with keywodized keys in :params and :body-params
+* :edn - native Clojure format.
+* :yaml - YAML format
+* :yaml-kw - YAML format with keywodized keys in :params and :body-params
+* :yaml-in-html - yaml in a html page
+
+
 ### Setting custom status
 
 Setting a custom status is accomplished by passing the content to the `status` function:
