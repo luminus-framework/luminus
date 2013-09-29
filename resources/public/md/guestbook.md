@@ -399,7 +399,7 @@ We'll update our `content` block to iterate over the messages and print each one
 <ul>
 {% for item in messages %}
   <li>
-  	  <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
+      <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
       <p>{{item.message}}</p>
       <p> - {{item.name}}</p>      
   </li>
