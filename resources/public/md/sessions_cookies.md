@@ -18,7 +18,7 @@ Note that the store is specified independently for both the `app-handler`
 and the `war-handler`.
 
 ```clojure
-(def app (middleware/app-handler all-routes (monger-store "sessions")))
+(def app (middleware/app-handler all-routes :store (monger-store "sessions")))
 ```
 
 ### Accessing the session
