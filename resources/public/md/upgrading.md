@@ -7,7 +7,9 @@ the template will likely have been modified to fit the needs of your site.
 The good news is that the Luminus template is fairly stable and there aren't likely to be any major changes down the
 road. However, there will be more profiles added down the road, and the dependencies will be updated to the latest stable versions.
 
-You could use the following script to keep the dependencies for your project up to date:
+One option is to use the [lein-ancient](https://github.com/xsc/lein-ancient) plugin to find outdated dependencies.
+
+Alternatively, you could use the following script to check if any of the dependencies are out of date:
 
 ```clojure
 (ns version-checker
