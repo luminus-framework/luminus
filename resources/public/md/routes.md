@@ -111,9 +111,6 @@ Once all your application routes are defined you can add them to the routes vect
 You'll notice that the template already defined the `app` in the `handler` namespace of your 
 application. All you have to do is add your new routes there.
 
-The `noir.util.middleware/war-handler` function adds additional middleware used needed for 
-running in a servlet container such as Tomcat.
-
 ```clojure
 (def app (middleware/app-handler
            ;;add your application routes here
@@ -123,8 +120,6 @@ running in a servlet container such as Tomcat.
            ;;add access rules here
            ;;each rule should be a vector
            :access-rules []))
-
-(def war-handler (middleware/war-handler app))
 ```
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
