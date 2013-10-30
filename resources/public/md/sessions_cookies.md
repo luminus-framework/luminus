@@ -1,24 +1,23 @@
 ## Sessions
 
 Session management is provided by the `noir.session` namespace from [lib-noir](https://github.com/noir-clojure/lib-noir).
-The sessions are provided via middleware handlers both `app-handler`
-and `war-handler` functions in `noir.util.middleware` default to memory session
-store. This can be overriden by passing in a second argument which specifies a
-specific store you'd like to use.
+The `noir.util.middleware/app-handler` function default will default to using a memory session
+store. This can be overriden by passing in a second argument which specifies a specific store you'd like to use.
 
 This following creates an in-memory session store.
 
 ```clojure
-(def app (middleware/app-handler all-routes))
-(def war-handler (middleware/war-handler all-routes))
+(def app (middleware/app-handler [home-routes app-routes]))
 ```
 
-Here we specify the `monger-store` as our session store instead.
-Note that the store is specified independently for both the `app-handler`
-and the `war-handler`.
+Below, we explicitly specify the `cookie-store` as our session store using the `:session-options` key instead.
 
 ```clojure
-(def app (middleware/app-handler all-routes :store (monger-store "sessions")))
+(def app
+  (middleware/app-handler
+    [home-routes app-routes]
+    :session-options {:cookie-name "example-app-session"
+                      :store (cookie-store)}))
 ```
 
 ### Accessing the session
