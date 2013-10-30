@@ -163,10 +163,10 @@ The project file of the application we've created is found in its root folder an
 (defproject guestbook "0.1.0-SNAPSHOT"
   :dependencies
   [[org.clojure/clojure "1.5.1"]
-   [lib-noir "0.7.0"]
+   [lib-noir "0.7.4"]
    [compojure "1.1.5"]
    [ring-server "0.3.0"]
-   [selmer "0.4.3"]
+   [selmer "0.5.1"]
    [com.taoensso/timbre "2.6.2"]
    [com.postspectacular/rotor "0.1.0"]
    [com.taoensso/tower "1.7.1"]
@@ -180,7 +180,7 @@ The project file of the application we've created is found in its root folder an
      javax.jms/jms
      com.sun.jdmk/jmxtools
      com.sun.jmx/jmxri]]]
-  :ring {:handler guestbook.handler/war-handler,
+  :ring {:handler guestbook.handler/app,
          :init guestbook.handler/init,
          :destroy guestbook.handler/destroy}
   :profiles {:production
