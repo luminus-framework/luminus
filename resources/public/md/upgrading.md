@@ -5,41 +5,8 @@ This is due to the fact that newer versions of dependencies may have breaking ch
 the template will likely have been modified to fit the needs of your site.
 
 The good news is that the Luminus template is fairly stable and there aren't likely to be any major changes down the
-road. However, there will be more profiles added down the road, and the dependencies will be updated to the latest stable versions.
+road.
 
-One option is to use the [lein-ancient](https://github.com/xsc/lein-ancient) plugin to find outdated dependencies.
+The best way to keep your dependencies up to date is to use the [lein-ancient](https://github.com/xsc/lein-ancient) plugin.
+It will help you easily discover what libraries are out of date and their latest versions.
 
-Alternatively, you could use the following script to check if any of the dependencies are out of date:
-
-```clojure
-(ns version-checker
-  (:require [clj-http.client :as client]))
- 
-(def projects
-  ["https://raw.github.com/yogthos/Selmer/master/project.clj"
-   "https://raw.github.com/noir-clojure/lib-noir/master/project.clj"
-   "https://raw.github.com/weavejester/compojure/master/project.clj"
-   "https://raw.github.com/weavejester/hiccup/master/project.clj"
-   "https://raw.github.com/weavejester/lein-ring/master/project.clj"
-   "https://raw.github.com/ptaoussanis/timbre/master/project.clj"
-   "https://raw.github.com/ptaoussanis/tower/master/project.clj"
-   "https://raw.github.com/yogthos/markdown-clj/master/project.clj"
-   "https://raw.github.com/weavejester/lein-ring/master/project.clj"
-   "https://raw.github.com/weavejester/ring-mock/master/project.clj"
-   "https://raw.github.com/mmcgrana/ring/master/ring-devel/project.clj"
-   "https://raw.github.com/korma/Korma/master/project.clj"])
-
-(defn get-project-version [url]
-  (let [resp (client/get url)]
-    (if (= "text/plain; charset=utf-8" (get (:headers resp) "content-type"))
-      (binding [*read-eval* false]
-        (->> resp :body read-string rest (take 2)))
-      (println "error fetching project file for" url))))
- 
-(defn versions []
-  (for [url projects]
-    (get-project-version url)))
- 
-(doseq [[id version] (versions)]
-  (println id version))
-````
