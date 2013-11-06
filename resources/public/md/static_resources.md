@@ -8,7 +8,7 @@ You can get the path to public folder of the application by calling `resource-pa
 ### Handling file uploads
 
 Uploading files is handled via `upload-file` in `noir.io` namespace which accepts a
-path relative to the public folder and the file map.
+file-system path and the file map.
 
 If we had an `upload.html` page with the following form:
 
