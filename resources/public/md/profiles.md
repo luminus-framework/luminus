@@ -12,7 +12,7 @@ Currently, the following profiles are supported
 * +mysql - adds `models.db` namespace and add MySQL dependencies
 * +site - creates an application with registration and authentication setup, uses bootstrap and h2 when database is not specified
 * +dailycred - it adds support for [dailycred](http://www.dailycred.com), when used together with +site it configures the application to authenticate with dailycred
-* +http-kit - adds [HTP Kit](http://http-kit.org/) support to the project
+* +http-kit - adds [HTTP Kit](http://http-kit.org/) support to the project
 
 To add a profile simply pass it as an argument after your application name, eg:
 
