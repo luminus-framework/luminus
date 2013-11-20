@@ -35,7 +35,7 @@
   [:div#footer-bottom
    [:div.bottom-left
     [:p "Luminus framework is released under the "
-     (link-to "http://www.eclipse.org/legal/epl-v10.html" "Eclipse Public License")]
+     (link-to "http://opensource.org/licenses/MIT" "MIT License")]
     [:p "Copyright &copy; 2013 "
      [:strong (link-to "http://yogthos.net" "Dmitri Sotnikov")] "&nbsp; &nbsp; &nbsp;
    Design by " (link-to "http://www.styleshout.com/" "styleshout") "&nbsp; &nbsp; &nbsp; "
