@@ -91,11 +91,19 @@ test
 resources
   └ public
        └ css
-           └ screen.css
-             img
-             js
-             md
-              └ docs.md
+           └ bootstrap-theme.min.css
+             bootstrap.min.css
+             screen.css     
+         fonts
+          └ glyphicons-halflings-regular.eot 
+            glyphicons-halflings-regular.svg 
+            glyphicons-halflings-regular.ttf
+            glyphicons-halflings-regular.woff
+         img
+         js
+          └ bootstrap.min.css
+         md
+          └ docs.md
 ```
 
 Let's take a look at what the files in the root folder of the application do:
@@ -318,15 +326,17 @@ Next, we can update the `init` function as follows:
      :async? false ; should be always false for rotor
      :max-message-per-msecs nil
      :fn rotor/append})
-     
+
   (timbre/set-config!
     [:shared-appender-config :rotor]
-    {:path "guestbook.log" :max-size 10000 :backlog 10})
+    {:path "guestbook.log" :max-size (* 512 1024) :backlog 10})
+
+  (if (env :selmer-dev) (parser/cache-off!))
   
   ;;initialize the database if needed
   (if-not (schema/initialized?) (schema/create-tables))
   
-  (timbre/info "guestbook started successfully..."))
+  (timbre/info "guestbook started successfully"))
 ```
 
 Since we changed the `init` function of our application,
@@ -391,26 +401,45 @@ Currenlty, simply renders the contents of the `content` variable inside the cont
 
 ```xml
 {% extends "guestbook/views/templates/base.html" %}
-
 {% block content %}
-{{content}}
+ <div class="jumbotron">
+    <h1>Welcome to guestbook</h1>
+    <p>Time to start building your site!</p>
+    <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
+ </div>
+
+ <div class="row-fluid">
+    <div class="span8">
+    {{content|safe}}
+    </div>
+ </div>
 {% endblock %}
 ```
 
 We'll update our `content` block to iterate over the messages and print each one in a list:
 
 ```xml
+{% extends "guestbook/views/templates/base.html" %}
 {% block content %}
-<ul>
-{% for item in messages %}
-  <li>
-      <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
-      <p>{{item.message}}</p>
-      <p> - {{item.name}}</p>      
-  </li>
-{% endfor %}
-</ul>
+ <div class="jumbotron">
+    <h1>Welcome to guestbook</h1> 
+ </div>
+
+ <div class="row-fluid">
+    <div class="span8">    
+      <ul>
+      {% for item in messages %}
+        <li>
+          <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
+          <p>{{item.message}}</p>
+          <p> - {{item.name}}</p>      
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+ </div>
 {% endblock %}
+
 ```
 
 As you can see above, we use a for iterator to walk the messages.
@@ -421,7 +450,7 @@ Next, we'll add an error block for displaying errors that might be populated by 
 
 ```xml
 {% if error %}
-<p>{{error}}</p>
+<p class="error">{{error}}</p>
 {% endif %}
 ```
 
@@ -448,35 +477,43 @@ Our final `home.html` template should look as follows:
 
 ```xml
 {% extends "guestbook/views/templates/base.html" %}
-
 {% block content %}
-<ul>
-{% for item in messages %}
-  <li>
-  	  <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
-      <p>{{item.message}}</p>
-      <p> - {{item.name}}</p>      
-  </li>
-{% endfor %}
-</ul>
+ <div class="jumbotron">
+    <h1>Welcome to guestbook</h1> 
+ </div>
 
-{% if error %}
-<p>{{error}}</p>
-{% endif %}
-
-<form action="/" method="POST">
-    <p>
-       Name: 
-       <input type="text" name="name" value={{name}}>
-    </p>
-    <p>
-       Message: 
-       <textarea rows="4" cols="50" name="message">
+ <div class="row-fluid">
+    <div class="span8">    
+      <ul>
+      {% for item in messages %}
+        <li>
+          <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
+          <p>{{item.message}}</p>
+          <p> - {{item.name}}</p>      
+        </li>
+      {% endfor %}
+      </ul>
+        
+      {% if error %}
+        <p class="error">{{error}}</p>
+      {% endif %}
+    </div>
+    <div class="span8">
+      <form action="/" method="POST">
+        <p>
+         Name: 
+         <input type="text" name="name" value={{name}}>
+        </p>
+        <p>
+         Message: 
+         <textarea rows="4" cols="50" name="message">
            {{message}}
-       </textarea>
-    </p>
-    <input type="submit" value="comment">
-</form>
+         </textarea>
+        </p>
+        <input type="submit" value="comment">
+      </form>        
+    </div>    
+ </div>
 {% endblock %}
 ```
 
