@@ -25,7 +25,7 @@ lein self-install
 
 ### Creating a new application
 
-Once you have Leiningen installed you can run the following comman in your terminal to 
+Once you have Leiningen installed you can run the following command in your terminal to 
 initialize your application:
 
 
@@ -119,7 +119,7 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 
 #### guestbook
 
-* `handler.clj` - defines the base routes for the application, this is the entry point into the application
+* `handler.clj` - defines the base routes for the application, this is the entry point into the application 
 and any pages we define will have to have their routes added here
 * `repl.clj` - provides functions to start and stop the application from the REPL
 * `util.clj` - used for general helper functions, it comes prepopulated with the `md->html` helper
@@ -345,7 +345,7 @@ let's restart it by hitting `CTRL+C` and running `lein ring server` again.
 ### Creating Pages and Handling Form Input
 
 Our routes are defined in the `guestbook.routes.home` namespace. Let's open it up and add the logic for
-rendering the messages from the databse. We'll first need to add a reference to our `db` namespace:
+rendering the messages from the database. We'll first need to add a reference to our `db` namespace:
 
 ```clojure
 (ns guestbook.routes.home
