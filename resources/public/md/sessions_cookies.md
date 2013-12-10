@@ -10,7 +10,7 @@ This following creates an in-memory session store.
 (def app (middleware/app-handler [home-routes app-routes]))
 ```
 
-Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` as our session store using the `:session-options` key instead:
+Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` with the name `example-app-session` as our session store using the `:session-options` key instead:
 
 ```clojure
 (def app
