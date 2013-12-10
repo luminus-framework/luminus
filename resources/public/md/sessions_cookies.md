@@ -10,13 +10,23 @@ This following creates an in-memory session store.
 (def app (middleware/app-handler [home-routes app-routes]))
 ```
 
-Below, we explicitly specify the `cookie-store` as our session store using the `:session-options` key instead.
+Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` as our session store using the `:session-options` key instead:
 
 ```clojure
 (def app
   (middleware/app-handler
     [home-routes app-routes]
     :session-options {:cookie-name "example-app-session"
+                      :store (cookie-store)}))
+```
+
+We can also specify the maximum age for our session cookies using the `:max-age` key:
+
+```clojure
+(def app
+  (middleware/app-handler
+    [home-routes app-routes]
+    :session-options {:cookie-attrs {:max-age 10}
                       :store (cookie-store)}))
 ```
 
