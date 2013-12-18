@@ -42,6 +42,8 @@ we could then render the page and handle the file upload as follows:
   (POST "/upload" [file] (handle-upload file)))
 ```
 
+If you're fronting with Nginx then you can easily support file upload progress using its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
+
 ### Serving static resources
 
 You can load a static resource relative to the public folder using `get-resource`
