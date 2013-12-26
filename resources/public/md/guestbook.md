@@ -502,15 +502,13 @@ Our final `home.html` template should look as follows:
       <form action="/" method="POST">
         <p>
          Name: 
-         <input type="text" name="name" value={{name}}>
+         <input type="text" name="name" value="{{name}}" />
         </p>
         <p>
          Message: 
-         <textarea rows="4" cols="50" name="message">
-           {{message}}
-         </textarea>
+         <textarea rows="4" cols="50" name="message" />{{message}}</textarea>
         </p>
-        <input type="submit" value="comment">
+        <input type="submit" value="comment" />
       </form>        
     </div>    
  </div>
