@@ -15,8 +15,6 @@ A middleware is simply a function which accepts an existing handler with some op
   (fn [request]
      (let [response (handler request)]
         (assoc-in response [:headers  "Pragma"] "no-cache"))))
-
-(def app (wrap-nocache handler))
 ```
 
 As you can see the wrapper accepts the handler and returns a function which in turn accepts the request. Since the returned function was defined in the scope where the handler exists, it can use it internally. When called, it will call the handler with the request and add Pragma: no-cache to the response map.
