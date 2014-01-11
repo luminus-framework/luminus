@@ -518,13 +518,123 @@ Our final `home.html` template should look as follows:
 Finally, we can update the `screen.css` file located in the `resources/public/css` folder to format our form nicer:
 
 ```
-form {
-    width: 200px;
-    clear: both;
+body {
+	height: 100%;
+	padding-top: 70px;  
+	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	line-height: 1.4em;
+	background: #eaeaea;
+	color: #4d4d4d;
+	width: 550px;
+	margin: 0 auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-ms-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	font-smoothing: antialiased;
 }
+
+input[type=submit] {
+	margin: 0;
+	padding: 0;
+	border: 0;
+  line-height: 1.4em;
+	background: none;	
+	vertical-align: baseline;		
+}
+
+input[type=submit], textarea {
+	font-size: 24px;
+	font-family: inherit;	
+	border: 0;
+	padding: 6px;
+	border: 1px solid #999;
+	box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;	
+}
+
+input[type=submit]:hover {
+	background: rgba(0, 0, 0, 0.15);
+	box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+textarea {
+	position: relative;
+	line-height: 1em;
+	width: 100%;	
+}
+
+.error {
+  font-weight: bold;
+	color: red;  
+}
+
+.jumbotron {
+	position: relative;
+	background: white;
+	z-index: 2;
+	border-top: 1px dotted #adadad;
+}
+
+h1 {
+	width: 100%;
+	font-size: 70px;
+	font-weight: bold;
+	text-align: center;		
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+li {
+	position: relative;
+	font-size: 16px;
+	padding: 5px;
+	border-bottom: 1px dotted #ccc;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
+	            0 25px 50px 0 rgba(0, 0, 0, 0.15);
+}
+
+li:last-child {
+	border-bottom: none;  
+}
+
+li time {
+	font-size: 12px;  
+	padding-bottom: 20px;			
+}
+
+form:before, .error:before {  
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 15px;	 
+	border-bottom: 1px solid #6c615c;
+	background: #8d7d77;	
+}
+
+form, .error {
+	width: 520px;
+	padding: 30px;
+	margin-bottom: 50px;
+	background: #fff;	
+	border: 1px solid #ccc;
+	position: relative;
+	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
+	            0 25px 50px 0 rgba(0, 0, 0, 0.15);
+}
+
 form input {
-    width: 50%;
-    clear: both;
+	width: 50%;
+	clear: both;
 }
 ```
 
