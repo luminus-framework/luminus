@@ -24,22 +24,22 @@ we could then render the page and handle the file upload as follows:
 
 ```clojure
 (ns myapp.upload
-  ...
-  (:require [upload-test.views.layout :as layout]
+  (:use compojure.core)
+  (:require [myapp.views.layout :as layout]
+            [noir.io :as io]
             [noir.response :as response]
-            [noir.io :as io]))
+            [ring.util.response :refer [file-response]]))
 
-(defn upload-page []
-  (layout/render "upload.html"))
+(defroutes home-routes
+  (GET "/upload" [] (layout/render "upload.html"))
 
-(defn handle-upload [file]
-  (io/upload-file "/" file)
-  (response/redirect
-    (str "/" (:filename file))))
+  (POST "/upload" [file]
+       (io/upload-file "/var/tmp/" file)
+       (response/redirect
+         (str "/files/" (:filename file))))
 
-(defroutes upload-routes
-  (GET "/upload" [] (upload-page))
-  (POST "/upload" [file] (handle-upload file)))
+  (GET "/files/:filename" [filename]
+       (file-response (str "/var/tmp/" filename))))  
 ```
 
 If you're fronting with Nginx then you can easily support file upload progress using its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
