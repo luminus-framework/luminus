@@ -31,7 +31,8 @@ we could then render the page and handle the file upload as follows:
             [ring.util.response :refer [file-response]]))
 
 (defroutes home-routes
-  (GET "/upload" [] (layout/render "upload.html"))
+  (GET "/upload" []
+       (layout/render "upload.html"))
 
   (POST "/upload" [file]
        (io/upload-file "/var/tmp/" file)
