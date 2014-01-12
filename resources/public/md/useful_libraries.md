@@ -39,6 +39,7 @@ to those already included with Luminus.
 * [Widje](https://github.com/Flamefork/widje) - Templating for ClojureScript
 * [Cloact](http://holmsand.github.io/cloact/) - a minimalistic interface between ClojureScript and React
 * [Om](https://github.com/swannodette/om) - A ClojureScript interface to Facebook's React
+
 ## Database clients
 
 * [CongoMongo](https://github.com/aboekhoff/congomongo) - Wrapper for the mongo-db java api
