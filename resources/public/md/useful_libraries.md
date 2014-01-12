@@ -30,6 +30,8 @@ to those already included with Luminus.
 
 ## ClojureScript
 
+* [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
+* [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
 * [Domina](https://github.com/levand/domina) - A jQuery inspired DOM manipulation library
 * [Dommy](https://github.com/Prismatic/dommy) - A no-nonsense templating and (soon) dom manipulation library
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
