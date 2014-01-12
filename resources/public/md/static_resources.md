@@ -30,17 +30,19 @@ we could then render the page and handle the file upload as follows:
             [noir.response :as response]
             [ring.util.response :refer [file-response]]))
 
+(def resource-path "/tmp/")
+
 (defroutes home-routes
   (GET "/upload" []
        (layout/render "upload.html"))
 
   (POST "/upload" [file]
-       (io/upload-file "/var/tmp/" file)
+       (io/upload-file resource-path file)
        (response/redirect
          (str "/files/" (:filename file))))
 
   (GET "/files/:filename" [filename]
-       (file-response (str "/var/tmp/" filename))))  
+       (file-response (str resource-path filename))))  
 ```
 
 If you're fronting with Nginx then you can easily support file upload progress using its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
