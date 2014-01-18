@@ -17,4 +17,5 @@
  ["useful_libraries.md" "Useful libraries"]
  ["apps.md"             "Sample applications"]
  ["upgrading.md"        "Upgrading"]
+ ["learning_clojure.md" "Clojure Resources"]
  ]
