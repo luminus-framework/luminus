@@ -5,6 +5,8 @@ The guestbook allows users to leave a message and to view a list of messages lef
 The application will demonstrate the basics of HTML templating, database access, and 
 project architecture. 
 
+If you don't have a preferred Clojure editor already, then it's recommended that you use [Light Table](http://www.lighttable.com/) to follow along with this tutorial.
+
 ### Installing Leiningen
 
 You need to have [Leiningen](http://leiningen.org/) installed in
@@ -27,7 +29,6 @@ lein self-install
 
 Once you have Leiningen installed you can run the following command in your terminal to 
 initialize your application:
-
 
 ```
 lein new luminus guestbook +h2
