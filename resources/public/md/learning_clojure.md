@@ -1,5 +1,3 @@
-## Getting Started with Clojure
-
 This section provides links to online resources, books, and development environments for getting started Clojure.
 
 ### Online Clojure Guides
