@@ -30,6 +30,20 @@ We can also specify the maximum age for our session cookies using the `:max-age`
                       :store (cookie-store)}))
 ```
 
+You may also wish to take a look at [Redis](http://redis.io/) for use a database session store. Creating Redis sessions is easy thanks to [Carmine](https://github.com/ptaoussanis/carmine). In this case you would simply define a connection and use the `taoensso.carmine.ring/carmine-store` with it:
+
+```clojure
+
+(def redis-conn {:pool {<opts>} :spec {<opts>}}) 
+
+(def app
+  (middleware/app-handler
+    [home-routes app-routes]
+    :session-options {:store (carmine-store redis-conn)}))
+```
+
+For further information, please see the [official API documentation](http://ptaoussanis.github.io/carmine/taoensso.carmine.ring.html).
+
 ### Accessing the session
 
 The sessions can be accessed from within any function within the scope of the request,
