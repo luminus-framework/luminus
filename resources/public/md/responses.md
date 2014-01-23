@@ -6,7 +6,7 @@ By default `ring-middleware-format` middleware is used to infer the response typ
 (GET "/json" [] {:body {:foo "bar"}})
 ```
 
-The formats are controlled by the `:formats` key in the `handler` namespace of your application:
+The formats are controlled by the `:formats` key found under the `app` definition in the `handler` namespace of your application:
 
 ```clojure
 (def app (middleware/app-handler
