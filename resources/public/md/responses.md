@@ -1,6 +1,14 @@
 ## Responses
 
-There is a number of helper functions availble in `noir.response` for
+By default `ring-middleware-format` middleware is used to infer the response type when a route returns a map with a `:body` key:
+
+```clojure
+(GET "/json" [] {:body {:foo "bar"}})
+```
+
+When no format is supplied in the `Accept` header or the format specified is unknown, the first format from the `:formats` vector in the handler will be used (JSON by default).
+
+Alternatively, there are a number of helper functions availble in `noir.response` for
 returning customized responses to the client.
 
 ### Setting headers
