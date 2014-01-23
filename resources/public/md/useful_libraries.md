@@ -99,7 +99,7 @@ to those already included with Luminus.
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
- JSON parsing, exception handling, SQL abstractions and other you can find on
+ JSON parsing, exception handling, SQL abstractions and other can be found on
 [The Clojure Toolbox](http://www.clojure-toolbox.com/),
 [ClojureSphere](http://www.clojuresphere.com/) and
 [ClojureWerkz](http://clojurewerkz.org/) websites.
