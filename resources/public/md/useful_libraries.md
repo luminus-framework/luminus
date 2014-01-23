@@ -10,7 +10,7 @@ to those already included with Luminus.
 
 ## Assets
 
-* [Dieter](https://github.com/edgecase/dieter) - Asset pipeline ring middleware
+* [Stefon](https://github.com/circleci/stefon) - Asset pipeline ring middleware
 
 ## Async HTTP
 
