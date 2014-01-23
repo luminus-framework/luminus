@@ -1,6 +1,6 @@
 ## Responses
 
-By default `ring-middleware-format` middleware is used to infer the response type when a route returns a map containing a `:body` key:
+By default `ring-middleware-format` middleware is used to infer the response type when a route returns a map containing the`:body` key:
 
 ```clojure
 (GET "/json" [] {:body {:foo "bar"}})
