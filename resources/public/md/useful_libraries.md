@@ -39,7 +39,7 @@ to those already included with Luminus.
 * [Shoreleave](https://github.com/shoreleave) - A smarter client-side with ClojureScript
 * [Webfui](https://github.com/drcode/webfui) - Client-Side Web Framework
 * [Widje](https://github.com/Flamefork/widje) - Templating for ClojureScript
-* [Cloact](http://holmsand.github.io/cloact/) - a minimalistic interface between ClojureScript and React
+* [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
 * [Om](https://github.com/swannodette/om) - A ClojureScript interface to Facebook's React
 
 ## Database clients
