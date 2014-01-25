@@ -61,6 +61,12 @@ to those already included with Luminus.
 * [Migratus](https://github.com/pjstadig/migratus) - A general migration framework
 * [Ragtime](https://github.com/weavejester/ragtime) - Database-independent migration library
 
+## SQL Libraries
+
+* [Yesql](https://github.com/krisajenkins/yesql) - a library for loading SQL queries from files
+* [Honey SQL](https://github.com/jkk/honeysql) - a Korma alternative DSL for building SQL queries
+* [clojure.java.jdbc](https://github.com/clojure/java.jdbc) - a low level wrapper for Java JDBC
+
 ## Email Sending
 
 * [Mailer](https://github.com/clojurewerkz/mailer) - An ActionMailer-inspired mailer library
