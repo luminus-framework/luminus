@@ -39,12 +39,14 @@ The scripts are applied in alphanumeric order and a simple way to keep them orde
 Let's create two scripts, one for the migration and the other for the rollback:
 
 
-* migrations/2014-13-57-30-create-tables.up.sql
+`migrations/2014-13-57-30-create-tables.up.sql`
+
 ```
 CREATE TABLE users (id INT, name VARCHAR(25));
 ```
 
-* migrations/2014-13-57-30-create-tables.down.sql
+`migrations/2014-13-57-30-create-tables.down.sql`
+
 ```
 DROP TABLE users;
 ```
