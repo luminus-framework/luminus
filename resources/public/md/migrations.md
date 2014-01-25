@@ -1,4 +1,4 @@
-### Migrations
+## Migrations
 
 By default Luminus doesn't provide any tools for database migration or scheme management.
 Nevertheless, there is a number of data base migration options available for Clojure and
@@ -13,7 +13,7 @@ Below is a list of all the popular migration libraries currently available:
 
 
 
-## Migrations with Ragtime
+### Migrations with Ragtime
 
 Ragtime is invoked using a Leiningen plugin. We will first need to add it to our `:plugins` vector in the `project.clj`.
 
@@ -61,7 +61,7 @@ lein ragtime rollback
 ```
 
 
-## Migrations with Lobos
+### Migrations with Lobos
 
 Lobos provides  a powerful DSL for writing migrations and makes a nice addition to the Korma SQL syntax.
 
