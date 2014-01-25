@@ -49,6 +49,7 @@ CREATE TABLE users (id INT, name VARCHAR(25));
 DROP TABLE users;
 ```
 
+
 The migrations can now be invoked by running:
 
 ```
