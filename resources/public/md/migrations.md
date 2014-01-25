@@ -7,10 +7,11 @@ they can be easily integrated into a Luminus project.
 Below is a list of all the popular migration libraries currently available:
 
 * [Drift](https://github.com/macourtney/drift) - Drift is a migration library written in Clojure. Drift works much like Rails migrations where a directory in your project contains all of the migration files. Drift will detect which migration files need to be run and run them as appropriate.
+* [Lobos](https://github.com/budu/lobos) - Lobos is a SQL database schema manipulation and migration library written in Clojure. It currently support supports H2, MySQL, PostgreSQL, SQLite and SQL Server.
 * [Migratus](https://github.com/pjstadig/migratus) - A general migration framework, with an implementation for database migrations.
 * [Ragtime](https://github.com/weavejester/ragtime) - Ragtime is a Clojure library for migrating structured data. It defines a common interface for expressing migrations, much like Ring defines a common interface for expression web applications.
-* [Lobos](https://github.com/budu/lobos) - Lobos is a SQL database schema manipulation and migration library written in Clojure. It currently support supports H2, MySQL, PostgreSQL, SQLite and SQL Server.
 
+We'll take a look at using Ragtime and Lobos migration libraries below.
 
 
 ### Migrations with Ragtime
