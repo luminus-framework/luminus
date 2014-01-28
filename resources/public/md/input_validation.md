@@ -7,7 +7,7 @@ as such we'll first have to include it in our namespace declaration to use them.
 ```
 
 The `rule` helper is used to set errors on fields when a given condition is not satisfied. It accepts
-a condition function and a vector containing the key for the field being tested and the error to be set.
+a condition function and a vector containing the key for the field being tested followed by the error to be set.
 The condition should return `true` when the rule is satisfied and `false` otherwise.
 
 The following helpers are already available for validation:
