@@ -46,7 +46,7 @@ same field to set multiple errors.
 
 
 Once the validation rules have executed, we can check if any errors have been set by calling the `errors?` function.
-When called with no arguments it will check if `noir.validation/*errors*` is not empty, otherwise it will check the
+When called with no arguments it will check that `noir.validation/*errors*` is not empty, otherwise it will check the
 errors for the specific key that was passed in.
 
 ```clojure
