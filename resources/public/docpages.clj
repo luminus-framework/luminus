@@ -8,6 +8,7 @@
  ["responses.md"        "Response types"]
  ["middleware.md"       "Custom middleware"]
  ["sessions_cookies.md" "Sessions and cookies"]
+ ["input_validation.md" "Input Validation"]
  ["security.md"         "Security"]
  ["database.md"         "Database access"]
  ["migrations.md"       "Database migrations"]
