@@ -10,7 +10,7 @@ to those already included with Luminus.
 
 ## Assets
 
-* [Dieter](https://github.com/edgecase/dieter) - Asset pipeline ring middleware
+* [Stefon](https://github.com/circleci/stefon) - Asset pipeline ring middleware
 
 ## Async HTTP
 
@@ -39,7 +39,7 @@ to those already included with Luminus.
 * [Shoreleave](https://github.com/shoreleave) - A smarter client-side with ClojureScript
 * [Webfui](https://github.com/drcode/webfui) - Client-Side Web Framework
 * [Widje](https://github.com/Flamefork/widje) - Templating for ClojureScript
-* [Cloact](http://holmsand.github.io/cloact/) - a minimalistic interface between ClojureScript and React
+* [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
 * [Om](https://github.com/swannodette/om) - A ClojureScript interface to Facebook's React
 
 ## Database clients
@@ -60,6 +60,12 @@ to those already included with Luminus.
 * [Lobos](http://budu.github.com/lobos/) - Lobos is a library to help you create and modify database schemas
 * [Migratus](https://github.com/pjstadig/migratus) - A general migration framework
 * [Ragtime](https://github.com/weavejester/ragtime) - Database-independent migration library
+
+## SQL Libraries
+
+* [Yesql](https://github.com/krisajenkins/yesql) - a library for loading SQL queries from files
+* [Honey SQL](https://github.com/jkk/honeysql) - a Korma alternative DSL for building SQL queries
+* [clojure.java.jdbc](https://github.com/clojure/java.jdbc) - a low level wrapper for Java JDBC
 
 ## Email Sending
 
@@ -99,7 +105,7 @@ to those already included with Luminus.
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
- JSON parsing, exception handling, SQL abstractions and other you can find on
+ JSON parsing, exception handling, SQL abstractions and other can be found on
 [The Clojure Toolbox](http://www.clojure-toolbox.com/),
 [ClojureSphere](http://www.clojuresphere.com/) and
 [ClojureWerkz](http://clojurewerkz.org/) websites.

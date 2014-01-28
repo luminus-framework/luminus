@@ -1,6 +1,39 @@
 ## Responses
 
-There is a number of helper functions availble in `noir.response` for
+By default `ring-middleware-format` middleware is used to infer the response type when a route returns a map containing the`:body` key:
+
+```clojure
+(GET "/json" [] {:body {:foo "bar"}})
+```
+
+The formats are controlled by the `:formats` key found under the `app` definition in the `handler` namespace of your application:
+
+```clojure
+(def app (middleware/app-handler
+           ;; add your application routes here
+           [home-routes app-routes]
+           ;; add custom middleware here
+           :middleware [template-error-page]
+           ;; add access rules here
+           :access-rules []
+           ;; serialize/deserialize the following data formats
+           ;; available formats:
+           ;; :json :json-kw :yaml :yaml-kw :edn :yaml-in-html
+           :formats [:json-kw :edn]))
+```           
+
+The available formats are:
+
+* :json - JSON with string keys in :params and :body-params
+* :json-kw - JSON with keywodized keys in :params and :body-params
+* :edn - native Clojure format.
+* :yaml - YAML format
+* :yaml-kw - YAML format with keywodized keys in :params and :body-params
+* :yaml-in-html - yaml in a html page
+
+When no format is supplied in the `Accept` header or the format specified is unknown, the first format from the `:formats` vector in the handler will be used (JSON by default).
+
+Alternatively, there are a number of helper functions availble in `noir.response` for
 returning customized responses to the client.
 
 ### Setting headers
@@ -43,25 +76,6 @@ There are helpers available for XML, JSON, and JSONP responses:
 
 (GET "/edn" [] (edn {:foo 1 :bar 2}))
 ```
-
-In addition to setting the response type you may also wish to enable the corresponding
-middleware in the `noir.util.middleware/app-handler` that's found in the `handler` namespace
-of the application. This is done by specifying the `:formats` key and providing a vector of
-formats:
-
-```clojure
-(app-handler routes :formats [:json])
-```
-
-The available formats are:
-
-* :json - JSON with string keys in :params and :body-params
-* :json-kw - JSON with keywodized keys in :params and :body-params
-* :edn - native Clojure format.
-* :yaml - YAML format
-* :yaml-kw - YAML format with keywodized keys in :params and :body-params
-* :yaml-in-html - yaml in a html page
-
 
 ### Setting custom status
 
