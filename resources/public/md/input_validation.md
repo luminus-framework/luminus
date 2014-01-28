@@ -26,8 +26,10 @@ The following helpers are already available for validation:
 * `equal-to?` args: `[v n]` - returns true if the string represents a number = given
 
 
+<p>
 For example, if we wanted to check whether the field `id` and `pass` fields have values then we could create
 the following rules.
+</p>
 
 ```clojure
 (v/rule (has-value? id)
