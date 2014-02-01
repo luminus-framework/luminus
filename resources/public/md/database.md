@@ -62,10 +62,12 @@ This option is useful if you wish to specify any driver specific parameters dire
 
 #### Creating tables
 
-Korma depends on [clojure.java.jdbc](https://github.com/clojure/java.jdbc). This library provides 
-the ability to manipulate tables with DDL.
+By default tables are managed using the SQL migration files found in the `migrations` directory of the application.
+Please refer to the [migrations section](http://www.luminusweb.net/docs/migrations.md) for further documentation on this topic.
 
-You can use the `create-table` function to create the database tables from within the application.
+It's also possible to use the [clojure.java.jdbc](https://github.com/clojure/java.jdbc) to manipulate tables directly with DDL. This library is already included in Luminus via the Korma dependency.
+
+To create new tables simply use the `create-table` function from within the application.
 
 ```clojure
 (defn create-users-table []
