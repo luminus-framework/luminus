@@ -21,6 +21,11 @@ For example, if you were connecting to PostreSQL, you would have to include the 
 Once the dependencies are included you can create a new namespace for your model, coventionally this namespace would be called `models.db`.
 There you will need to add a reference to `korma.db`.
 
+```clojure
+(ns myapp.models.db
+  (:use korma.core
+        [korma.db :only (defdb)]))
+```
 
 #### Setting up the database connection
 
