@@ -68,7 +68,7 @@ This option is useful if you wish to specify any driver specific parameters dire
 #### Creating tables
 
 By default tables are managed using the SQL migration files found in the `migrations` directory of the application.
-Please refer to the [migrations section](http://www.luminusweb.net/docs/migrations.md) for further documentation on this topic.
+Please refer to the [migrations section](/docs/migrations.md) for further documentation on this topic.
 
 It's also possible to use the [clojure.java.jdbc](https://github.com/clojure/java.jdbc) to manipulate tables directly with DDL. This library is already included in Luminus via the Korma dependency.
 
