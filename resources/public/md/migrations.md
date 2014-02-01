@@ -1,6 +1,6 @@
 ## Migrations
 
-By default Luminus uses [Ragtime](https://github.com/weavejester/ragtime) for database migration and schema management. When you select the `+mysql`, or `+postgres` profiles a migrations configuration will be added to the `project.clj` file in your application. 
+By default Luminus uses the [Ragtime](https://github.com/weavejester/ragtime) library for database migration and schema management. When you select the `+mysql`, or `+postgres` profiles a migrations configuration will be added to the `project.clj` file in your application. 
 
 ### Migrations with Ragtime
 
