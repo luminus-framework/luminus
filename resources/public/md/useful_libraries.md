@@ -66,6 +66,7 @@ to those already included with Luminus.
 * [Yesql](https://github.com/krisajenkins/yesql) - a library for loading SQL queries from files
 * [Honey SQL](https://github.com/jkk/honeysql) - a Korma alternative DSL for building SQL queries
 * [clojure.java.jdbc](https://github.com/clojure/java.jdbc) - a low level wrapper for Java JDBC
+* [blackwater](https://github.com/bitemyapp/blackwater) - a library for logging SQL queries and the time they took for Korma and clojure.java.jdbc
 
 ## Email Sending
 
