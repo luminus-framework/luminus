@@ -7,6 +7,7 @@ profile hints for the extended functionality.
 Currently, the following profiles are supported
 
 * +cljs - adds ClojureScript support to the project along with an example
+* +cucumber - a profile for cucumber with clj-webdriver
 * +h2 - adds `models.db` namespace and H2 db dependencies
 * +postgres - adds `models.db` namespace and add PostreSQL dependencies
 * +mysql - adds `models.db` namespace and add MySQL dependencies
