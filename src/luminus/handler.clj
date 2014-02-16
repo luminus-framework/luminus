@@ -2,7 +2,7 @@
   (:use compojure.core
         hiccup.element
         luminus.docs)
-  (:require [noir.util.middleware :as middleware]
+  (:require [noir.util.middleware :refer [app-handler]]
             [compojure.route :as route]
             [noir.response :as response]
             [noir.util.cache :as cache]
@@ -57,6 +57,4 @@ With Luminus you can focus on developing your app the way you want without any d
 (defn destroy []
   (println "shutting down!"))
 
-(def all-routes [doc-routes app-routes])
-(def app (middleware/app-handler all-routes))
-(def war-handler (middleware/war-handler app))
+(def app (app-handler [doc-routes app-routes]))
