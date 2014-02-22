@@ -85,7 +85,7 @@ If an item happens to be a map, we can access the keys by their name as follows:
 ```
 
 When no special processing is specified in the template then the `.toString` value
-of the paramter will be used.
+of the parameter will be used.
 
 By default Selmer caches the compiled template. A recompile will be triggered if the last modified timestamp of the files changes.
  Alternatively you can turn caching on and off calling `(selmer.parser/cache-on!)` and `(selmer.parser/cache-off!)` respectively. 
