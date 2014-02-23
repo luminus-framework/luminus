@@ -1,6 +1,6 @@
 ## Logging
 
-Luminus template comes with [Timbre](https://github.com/ptaoussanis/timbre) and [Rotor](https://bitbucket.org/postspectacular/rotor) dependencies.
+Luminus template uses the [Timbre](https://github.com/ptaoussanis/timbre) for logging.
 The logger is initialized in the `handler/init` function to create a rotating log for the application using the following settings:
 
 ```clojure
