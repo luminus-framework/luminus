@@ -19,4 +19,4 @@ The `encrypt` function allows specifying the salt, or it will generate one if it
 (encrypt raw)
 ```
 
-For a more comprehensive security solution you may wish to check out the [friend](https://github.com/cemerick/friend) library.
+For a more comprehensive security solution you may wish to check out the [Friend](https://github.com/cemerick/friend) library.
