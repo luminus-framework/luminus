@@ -1,6 +1,6 @@
 ## Logging
 
-Luminus template uses the [Timbre](https://github.com/ptaoussanis/timbre) for logging.
+By default, logging functionality is provided by the [Timbre](https://github.com/ptaoussanis/timbre) library.
 The logger is initialized in the `handler/init` function to create a rotating log for the application using the following settings:
 
 ```clojure
