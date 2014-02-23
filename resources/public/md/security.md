@@ -19,4 +19,6 @@ The `encrypt` function allows specifying the salt, or it will generate one if it
 (encrypt raw)
 ```
 
+For information on restricting access to specific routes, please refer to the [routing section](/docs/routes.md#marking_routes_as_restricted).
+
 For a more comprehensive security solution you may wish to check out the [Friend](https://github.com/cemerick/friend) library.
