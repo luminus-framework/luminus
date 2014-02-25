@@ -72,8 +72,7 @@ to those already included with Luminus.
 
 * [Mailer](https://github.com/clojurewerkz/mailer) - An ActionMailer-inspired mailer library
 * [Postal](https://github.com/drewr/postal) - Clojure email support
-* [clj-mail](https://github.com/MayDaniel/clj-mail) - Send and receive emails from Clojure
- 
+
 ## SVG
 
 * [Analemma](http://liebke.github.com/analemma/) - a Clojure-based SVG DSL and charting library
