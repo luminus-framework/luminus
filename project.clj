@@ -3,7 +3,7 @@
   :url "http://www.luminusweb.net/"
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[org.clojure/clojure "1.6.0"]
                  [lib-noir "0.8.1"]
                  [compojure "1.1.6"]
                  [ring-server "0.3.1"]
