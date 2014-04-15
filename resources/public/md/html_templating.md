@@ -10,7 +10,7 @@ Luminus also packages [Selmer](https://github.com/yogthos/Selmer) for more tradi
 as templates. 
 
 You can choose to use either templating engine or combine them. Alternatively, you can choose to use a different templating
-engine alltogether. A couple of popular options are [Enlive](https://github.com/cgrand/enlive) and [Stencil](https://github.com/davidsantiago/stencil).
+engine altogether. A couple of popular options are [Enlive](https://github.com/cgrand/enlive) and [Stencil](https://github.com/davidsantiago/stencil).
 
 ## HTML Templating Using Selmer
 
