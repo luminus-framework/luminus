@@ -4,12 +4,12 @@
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [lib-noir "0.8.1"]
+                 [lib-noir "0.8.2"]
                  [compojure "1.1.6"]
                  [ring-server "0.3.1"]
-                 [markdown-clj "0.9.41"]
+                 [markdown-clj "0.9.43"]
                  [clj-http "0.9.1"]
-                 [crouton "0.1.1"]]
+                 [crouton "0.1.2"]]
   :min-lein-version "2.0.0"
   :plugins [[lein-ring "0.8.10"]]
   :profiles {:production
