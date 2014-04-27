@@ -52,12 +52,12 @@ If we saved the template defined above in a file called `index.html` then we cou
   (:use [selmer.parser :only [render-file]]))
   
 (defn index [request]
-  (render-file "example/views/templates/index.html" 
+  (render-file "templates/index.html" 
                {:name "John"}))  
 ``` 
 
 The `render-file` function expects the templates to be found at a path relative 
-to the `src` folder of the application.
+to the `resources` folder of the application.
 
 Above, we passed in a string as the value for the variable `name`. 
 However, we're not restricted to strings and can pass in any type we like. 
@@ -72,7 +72,7 @@ For example, if we pass in a collection we can iterate it using the `for` tag:
 ```
 
 ```clojure
-(render-file "/example/views/templates/items.html 
+(render-file "templates/items.html 
              {:items (range 10)})
 ```
 
