@@ -81,15 +81,15 @@ src
            └ home.clj
           views
            └ layout.clj
-           └ templates
-              └ about.html
-                base.html
-                home.html
 test
   └ guestbook
        └ test
            └ handler.clj
 resources
+  └ templates
+       └ about.html
+         base.html
+         home.html
   └ public
        └ css
            └ bootstrap-theme.min.css
@@ -146,15 +146,6 @@ The `views` namespace defines the visual layout of the application.
 
 * `layout.clj` - a namespace for the layout helpers
 
-#### guestbook.views.templates
-
-This namespace is reserved for the [Selmer](https://github.com/yogthos/Selmer) templates
-that represent the application pages.
-
-* `about.html` - the about page
-* `base.html` - the base layout for the site
-* `home.html` - the home page
-
 ### The Test Directory
 
 Here is where we put tests for our application, a couple of sample tests have already been defined for us.
@@ -162,6 +153,16 @@ Here is where we put tests for our application, a couple of sample tests have al
 ### The Resources Directory
 
 This is where we put all the static resoruces for our application. We have folders for CSS, JavaScript, images, and markdown already defined.
+
+#### HTML templates
+
+The templates directory is reserved for the [Selmer](https://github.com/yogthos/Selmer) templates
+that represent the application pages.
+
+* `about.html` - the about page
+* `base.html` - the base layout for the site
+* `home.html` - the home page
+
 
 ### Adding Dependencies
 
@@ -403,7 +404,7 @@ Now that we have our controllers setup, let's open the `home.html` template loca
 Currenlty, simply renders the contents of the `content` variable inside the content block:
 
 ```xml
-{% extends "guestbook/views/templates/base.html" %}
+{% extends "templates/base.html" %}
 {% block content %}
  <div class="jumbotron">
     <h1>Welcome to guestbook</h1>
@@ -422,7 +423,7 @@ Currenlty, simply renders the contents of the `content` variable inside the cont
 We'll update our `content` block to iterate over the messages and print each one in a list:
 
 ```xml
-{% extends "guestbook/views/templates/base.html" %}
+{% extends "templates/base.html" %}
 {% block content %}
  <div class="jumbotron">
     <h1>Welcome to guestbook</h1> 
@@ -479,7 +480,7 @@ Finally, we'll create a form to allow users to submit their messages:
 Our final `home.html` template should look as follows:
 
 ```xml
-{% extends "guestbook/views/templates/base.html" %}
+{% extends "templates/base.html" %}
 {% block content %}
  <div class="jumbotron">
     <h1>Welcome to guestbook</h1> 
