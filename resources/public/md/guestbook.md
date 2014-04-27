@@ -400,8 +400,7 @@ Finally, we'll add a route for this controller to our `home-routes` definition:
   (GET "/about" [] (about-page)))
 ```
 
-Now that we have our controllers setup, let's open the `home.html` template located under the `guestbook.views.templates` namespace.
-Currenlty, simply renders the contents of the `content` variable inside the content block:
+Now that we have our controllers setup, let's open the `home.html` template located under the `resources/templates` directory. Currenlty, simply renders the contents of the `content` variable inside the content block:
 
 ```xml
 {% extends "templates/base.html" %}
