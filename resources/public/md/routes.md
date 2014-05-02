@@ -135,7 +135,7 @@ access to specific pages.
 
 ### Marking Routes as Restricted
 
-The `noir.util.route/restricted` macro is used to indicated that access rules apply to the route:
+The `noir.util.route/restricted` macro is used to indicate that access rules apply to the route:
 
 ```clojure
 (GET "/private/:id" [id] (restricted "private!"))
