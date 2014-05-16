@@ -103,6 +103,7 @@ to those already included with Luminus.
 * [Schema](https://github.com/prismatic/schema) - a Clojure(Script) library for declarative data description and validation. 
 * [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
 * [Validateur](http://clojurevalidations.info/articles/getting_started.html) - a validation library inspired by Ruby's ActiveModel
+* [Throttler](https://github.com/brunoV/throttler) Uses the token bucket algorithm to control both the overall rate as well as the burst rate for incoming requests
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
