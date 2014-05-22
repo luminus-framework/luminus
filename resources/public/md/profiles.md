@@ -8,10 +8,10 @@ Currently, the following profiles are supported
 
 * +cljs - adds ClojureScript support to the project along with an example
 * +cucumber - a profile for cucumber with clj-webdriver
-* +h2 - adds `models.db` namespace and H2 db dependencies
-* +postgres - adds `models.db` namespace and add PostreSQL dependencies
-* +mysql - adds `models.db` namespace and add MySQL dependencies
-* +mongodb - adds `models.db` namespace and MongoDB dependencies
+* +h2 - adds `db.core` namespace and H2 db dependencies
+* +postgres - adds `db.core` namespace and add PostreSQL dependencies
+* +mysql - adds `db.core` namespace and add MySQL dependencies
+* +mongodb - adds `db.core` namespace and MongoDB dependencies
 * +site - creates an application with registration and authentication setup, uses bootstrap and h2 when database is not specified
 * +dailycred - it adds support for [dailycred](http://www.dailycred.com), when used together with +site it configures the application to authenticate with dailycred
 * +http-kit - adds [HTTP Kit](http://http-kit.org/) support to the project

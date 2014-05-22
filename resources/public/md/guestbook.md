@@ -72,15 +72,15 @@ src
   └ log4j.xml
     guestbook
        └ handler.clj
+         layout.clj
+         middleware.clj
          util.clj
          repl.clj
-         models
-           └ db.clj
+         db
+           └ core.clj
              schema.clj
           routes
            └ home.clj
-          views
-           └ layout.clj
 test
   └ guestbook
        └ test
@@ -121,16 +121,17 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 #### guestbook
 
 * `handler.clj` - defines the base routes for the application, this is the entry point into the application 
-and any pages we define will have to have their routes added here
-* `repl.clj` - provides functions to start and stop the application from the REPL
+* `layout.clj` - a namespace for the layout helpers and any pages we define will have to have their routes added here
+* `middleware.clj` - a namespace that contains custom middleware for the application
 * `util.clj` - used for general helper functions, it comes prepopulated with the `md->html` helper
+* `repl.clj` - provides functions to start and stop the application from the REPL
 * `log4j.xml` - logging configuration for [Korma](http://sqlkorma.com/)
 
-#### guestbook.models
+#### guestbook.db
 
-The `models` namespace is used to define the model for the application and handle the persistence layer.
+The `db` namespace is used to define the model for the application and handle the persistence layer.
 
-* `db.clj` - used to house the functions for interacting with the database
+* `core.clj` - used to house the functions for interacting with the database
 * `schema.clj` - used to define the connection parameters and the database tables
 
 #### guestbook.routes
@@ -139,12 +140,6 @@ The `routes` namespace is where the routes and controllers for our homepage are 
 such as authentication, or specific workflows you should create namespaces for them here.
 
 * `home.clj` - a namespace that defines the home and about pages of the application
-
-#### guestbook.views
-
-The `views` namespace defines the visual layout of the application.
-
-* `layout.clj` - a namespace for the layout helpers
 
 ### The Test Directory
 
@@ -224,7 +219,7 @@ If you need to add any custom dependencies simply append them to the `:dependenc
 ### Accessing the Database
 
 First, we will create a model for our application, to do that we'll open up the `schema.clj` file located
-under the `src/guestbook/models` folder.
+under the `src/guestbook/db` folder.
 
 
 Here, we can see that we already have the definition for our database connection.
@@ -246,15 +241,15 @@ We'll replace this function with a `create-guestbook-table` function instead:
 
 ```clojure
 (defn create-guestbook-table []
-  (sql/with-connection
+  (sql/db-do-commands
     db-spec
-    (sql/create-table
+    (sql/create-table-ddl
       :guestbook
       [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp]
       [:name "varchar(30)"]
       [:message "varchar(200)"])
-    (sql/do-commands
+    (sql/db-do-prepared
       "CREATE INDEX timestamp_index ON guestbook (timestamp)")))
 ```
 
@@ -275,10 +270,10 @@ Let's open the `db.clj` file and add them there. Again, we see that there's alre
 here to work with the `users` table. We'll replace it with the following code instead:
 
 ```clojure
-(ns guestbook.models.db
+(ns guestbook.db.core
   (:use korma.core
         [korma.db :only (defdb)])
-  (:require [guestbook.models.schema :as schema]))
+  (:require [guestbook.db.schema :as schema]))
 
 (defdb db schema/db-spec)
 
@@ -311,7 +306,7 @@ from there.
 (ns guestbook.handler
   (:use ...)
   (:require ...
-            [guestbook.models.schema :as schema]))
+            [guestbook.db.schema :as schema]))
 ```
 
 Next, we can update the `init` function as follows:
@@ -355,7 +350,7 @@ rendering the messages from the database. We'll first need to add a reference to
 (ns guestbook.routes.home
   (:use ...)
   (:require ...
-            [guestbook.models.db :as db]))
+            [guestbook.db.core :as db]))
 ```
 
 Then we'll change the `home-page` controller to look as follows:

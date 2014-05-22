@@ -25,7 +25,7 @@ we could then render the page and handle the file upload as follows:
 ```clojure
 (ns myapp.upload
   (:use compojure.core)
-  (:require [myapp.views.layout :as layout]
+  (:require [myapp.layout :as layout]
             [noir.io :as io]
             [noir.response :as response]
             [ring.util.response :refer [file-response]]))

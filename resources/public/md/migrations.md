@@ -72,7 +72,7 @@ There we'll create two files `config.clj` and `migrations.clj` with the followin
 ```clojure
 (ns lobos.config
   (:use lobos.connectivity)
-  (:require [ltest.models.schema :as schema]))
+  (:require [ltest.db.schema :as schema]))
 
 (open-global schema/db-spec)
 ```
@@ -114,7 +114,7 @@ Now that we have a migration defined, let's take a look at the `schema` namespac
 to use it. First, we'll add the `lobos.migration` dependency to the namespace declaration:
 
 ```clojure
-(ns ltest.models.schema
+(ns ltest.db.schema
   (:use [lobos.core :only (defcommand migrate)])
   (:require [noir.io :as io]
             [lobos.migration :as lm]))

@@ -18,11 +18,11 @@ For example, if you were connecting to PostreSQL, you would have to include the 
 ```
 
 
-Once the dependencies are included you can create a new namespace for your model, coventionally this namespace would be called `models.db`.
+Once the dependencies are included you can create a new namespace for your model, coventionally this namespace would be called `db.core`.
 There you will need to add a reference to `korma.db`.
 
 ```clojure
-(ns myapp.models.db
+(ns myapp.db.core
   (:use korma.core
         [korma.db :only (defdb)]))
 ```
@@ -72,18 +72,18 @@ Please refer to the [migrations section](/docs/migrations.md) for further docume
 
 It's also possible to use the [clojure.java.jdbc](https://github.com/clojure/java.jdbc) to manipulate tables directly with DDL. This library is already included in Luminus via the Korma dependency.
 
-To create new tables simply use the `create-table` function from within the application.
+To create new tables simply use the `create-table-ddl` function from within the application.
 
 ```clojure
 (defn create-users-table []
-  (sql/with-connection db-spec
-    (sql/create-table
+  (sql/db-do-commands db-spec
+    (sql/create-table-ddl
       :users
       [:id "varchar(32)"]
       [:pass "varchar(100)"])))
 ```
 
-The `create-table` call must be wrapped inside `with-connection`, which ensures that the connection
+The `create-table-ddl` call must be wrapped inside `db-do-commands`, which ensures that the connection
 is cleaned up after the function exists.
 
 ### Accessing the Database
