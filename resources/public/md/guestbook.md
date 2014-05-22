@@ -265,7 +265,7 @@ We'll also update the `create-tables` function to call it:
 ```
 
 With the table created we can write functions to read and write the messages in our guestbook.
-Let's open the `db.clj` file and add them there. Again, we see that there's already some code
+Let's open the `src/guestbook/db/core.clj` file and add them there. Again, we see that there's already some code
 here to work with the `users` table. We'll replace it with the following code instead:
 
 ```clojure
