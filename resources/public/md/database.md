@@ -8,7 +8,7 @@ Adding database support to an existing project is rather simple as well. You wil
 to you `project.clj`:
 
 ```clojure
-[korma "0.3.0-RC6"]
+[korma "0.3.1"]
 ```
 The driver has to be present on the classpath, which means you should include it as a dependency in `project.clj` as well.
 For example, if you were connecting to PostreSQL, you would have to include the following dependency in your `project.clj`:
@@ -33,9 +33,9 @@ The first thing we'll need to do is to define our database connection, this can 
 
 ```clojure
 (def db-spec {:subprotocol "postgresql"
-         :subname "//localhost/my_website"
-         :user "admin"
-         :password "admin"})
+              :subname "//localhost/my_website"
+              :user "admin"
+              :password "admin"})
 ```
 
 Another approach is to specify the JNDI name for a connection managed by the application server:
@@ -55,10 +55,10 @@ Finally, you can provide a JDBC data source, which you configure manually:
 (def db-spec
   {:datasource
     (doto (new PGPoolingDataSource)
-     (.setServerName   "localhost")
-     (.setDatabaseName "my_website")
-     (.setUser         "admin")
-     (.setPassword     "admin")
+     (.setServerName     "localhost")
+     (.setDatabaseName   "my_website")
+     (.setUser           "admin")
+     (.setPassword       "admin")
      (.setMaxConnections 10))})
 ```
 
