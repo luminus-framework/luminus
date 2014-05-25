@@ -247,9 +247,9 @@ We'll replace this function with a `create-guestbook-table` function instead:
       [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp]
       [:name "varchar(30)"]
-      [:message "varchar(200)"])
-    (sql/db-do-prepared
-      "CREATE INDEX timestamp_index ON guestbook (timestamp)")))
+      [:message "varchar(200)"]))
+  (sql/db-do-prepared db-spec
+      "CREATE INDEX timestamp_index ON guestbook (timestamp)"))
 ```
 
 The guestbook table will store all the fields describing the message, such as the name of the
