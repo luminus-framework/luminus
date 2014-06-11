@@ -41,19 +41,17 @@ the variables that we'd like to render in our template at runtime. Above, we hav
 a page that renders a single variable called `name`. 
 
 There are two functions for rendering templates called `render` and `render-file`. 
-The `render` function accepts a string representing the template.
-The `render-file` function accepts a string representing the path to the file containing the template. 
+The `render` function accepts a string representing the template, while
+the `render-file` function accepts a string representing the path to the file containing the template. 
 
 
 If we saved the template defined above in a file called `index.html` then we could render it as follows:
 
 ```clojure
 (ns example.routes.home
-  (:use [selmer.parser :only [render-file]]))
+  (:require [selmer.parser :refer [render-file]]))
   
-(defn index [request]
-  (render-file "templates/index.html" 
-               {:name "John"}))  
+(render-file "templates/index.html" {:name "John"})
 ``` 
 
 The `render-file` function expects the templates to be found at a path relative 
@@ -72,8 +70,7 @@ For example, if we pass in a collection we can iterate it using the `for` tag:
 ```
 
 ```clojure
-(render-file "templates/items.html 
-             {:items (range 10)})
+(render-file "templates/items.html {:items (range 10)})
 ```
 
 If an item happens to be a map, we can access the keys by their name as follows:
