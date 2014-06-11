@@ -70,7 +70,7 @@ For example, if we pass in a collection we can iterate it using the `for` tag:
 ```
 
 ```clojure
-(render-file "templates/items.html {:items (range 10)})
+(render-file "templates/items.html" {:items (range 10)})
 ```
 
 If an item happens to be a map, we can access the keys by their name as follows:
