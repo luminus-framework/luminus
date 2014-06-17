@@ -10,6 +10,19 @@ This following creates an in-memory session store.
 (def app (middleware/app-handler [home-routes app-routes]))
 ```
 
+Additional session options can be passed in via the `:session-options` key. For example, a default session timeout can be set by adding the `:timeout` and `:timeout-response` keys as follows.
+
+```clojure
+(def app
+  (middleware/app-handler
+    [home-routes app-routes]
+    :session-options {:timeout (* 30 60)
+                      :timeout-response (response/redirect "/")}))
+```
+
+The above will force sessions to timeout after 30 minutes of inactivity. The timed out sessions will be redirected to the "/" URI.
+
+
 Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` with the name `example-app-session` as our session store using the `:session-options` key instead:
 
 ```clojure
