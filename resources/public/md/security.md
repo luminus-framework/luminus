@@ -22,3 +22,45 @@ The `encrypt` function allows specifying the salt, or it will generate one if it
 For information on restricting access to specific routes, please refer to the [routing section](/docs/routes.md#marking_routes_as_restricted).
 
 For a more comprehensive security solution you may wish to check out the [Friend](https://github.com/cemerick/friend) library.
+
+## LDAP Authentication
+
+The following example demonstrates how to authenticate with the `sAMAccountName` using the [clj-ldap](https://github.com/pauldorman/clj-ldap) library.
+
+First, we'll add the following dependency to your `project.clj`.
+
+```clojure
+[org.clojars.pntblnk/clj-ldap "0.0.7"]
+```
+
+Next, we'll need to require the LDAP client in the authentication namespace.
+
+```clojure
+(ns ldap-auth  
+  (:require [clj-ldap.client :as client]))
+```
+
+We can then define our LDAP host as follows, note that the `host` key points to a vector of LDAP servers.
+
+```clojure
+(def host
+  {:host
+    [{:address "my-ldap-server.ca"
+      :port 389
+      :connect-timeout (* 1000 5)
+      :timeout (* 1000 30)}]})
+```
+
+Finally, we'll write a function to authenticate the user using the above host definition.
+
+```clojure
+  (defn authenticate [username password & [attributes]]
+    (let [server (client/connect host)
+          qualified-name (str username "@" (-> host :host first :address))]
+      (if (client/bind? server qualified-name  password)
+      (first (client/search server "OU=UHNPeople,DC=uhn,DC=ca"
+                     {:filter (str "sAMAccountName=" username)
+                      :attributes (or attributes [])})))))
+``` 
+
+The `attributes` vector can be used to filter the keys that are returned, an empty vector will return all the keys associated with the account.
