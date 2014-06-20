@@ -20,6 +20,7 @@ to those already included with Luminus.
 ## Authentication
 
 * [Friend](https://github.com/cemerick/friend) - An extensible authentication and authorization library
+* [clj-ldap](https://github.com/pauldorman/clj-ldap) - A library for talking to LDAP servers
 * [Sandbar](https://github.com/brentonashworth/sandbar) - A web application library with higher level abstractions for Compojure, Ring
 * [ring-basic-authentication](https://github.com/remvee/ring-basic-authentication) - Ring middleware to enforce basic authentication
 
