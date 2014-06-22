@@ -20,7 +20,7 @@ A middleware is simply a function which accepts an existing handler with some op
 As you can see the wrapper accepts the handler and returns a function which in turn accepts the request. Since the returned function was defined in the scope where the handler exists, it can use it internally. When called, it will call the handler with the request and add Pragma: no-cache to the response map. For detailed information please refer to the official [Ring documentation](https://github.com/ring-clojure/ring/wiki).
 
 
-The middleware is added in the `middleware` namespace of your project. Any development middleware, such as middleware for showing stacktraces, should be added to the `development-middleware` vector.It will only be invoked when the `:dev` envrionment key is set. Only add middleware that you also wish to use in production to the `production-middleware` vector.
+The middleware is added in the `middleware` namespace of your project. Any development middleware, such as middleware for showing stacktraces, should be added to the `development-middleware` vector. It will only be invoked when the `:dev` envrionment key is set. Only add middleware that you also wish to use in production to the `production-middleware` vector.
 
 ```clojure
 (def development-middleware
