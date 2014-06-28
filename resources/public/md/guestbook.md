@@ -92,9 +92,7 @@ resources
          home.html
   └ public
        └ css
-           └ bootstrap-theme.min.css
-             bootstrap.min.css
-             screen.css     
+           └ screen.css     
          fonts
           └ glyphicons-halflings-regular.eot 
             glyphicons-halflings-regular.svg 
@@ -102,7 +100,6 @@ resources
             glyphicons-halflings-regular.woff
          img
          js
-          └ bootstrap.min.css
          md
           └ docs.md
 ```
