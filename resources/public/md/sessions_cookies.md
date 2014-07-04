@@ -113,5 +113,5 @@ cookies works exactly the same as with session variables described above:
 (cookies/put! :track
               {:value (str (java.util.UUID/randomUUID))
               :path "/"
-              :expires 1})
+              :expires "1"})
 ```
