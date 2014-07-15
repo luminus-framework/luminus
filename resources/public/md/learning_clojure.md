@@ -7,6 +7,12 @@ This section provides links to online resources, books, and development environm
 * [Clojure Documentation](http://clojure-doc.org/) - a collection of Clojure guides and tutorials.
 * [4Cloure](http://www.4clojure.com/) - a site for practicing Clojure by solving interactive problems.
 
+### Clojure Reference
+
+* [Grimoire API reference](http://grimoire.arrdem.com/)
+* [Clojure cheatsheet](http://clojure.org/cheatsheet)
+* [Clojure style guide](https://github.com/bbatsov/clojure-style-guide)
+
 ### Clojure Books
 
 * [Clojure Programming](http://www.clojurebook.com/)
