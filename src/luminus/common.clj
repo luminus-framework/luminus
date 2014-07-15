@@ -41,25 +41,24 @@
    Design by " (link-to "http://www.styleshout.com/" "styleshout") "&nbsp; &nbsp; &nbsp; "
      (link-to "http://clojure.org"
        (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
-       " powered by Clojure")]]])
+       " powered by Clojure")]]
+   (include-css "/css/shCore.css"
+                "/css/screen.css")
+   (include-js "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"
+               "/js/shCore.js"
+               "/js/brushes/shBrushBash.js"
+               "/js/brushes/shBrushCss.js"
+               "/js/brushes/shBrushJava.js"
+               "/js/brushes/shBrushJScript.js"
+               "/js/brushes/shBrushPlain.js"
+               "/js/brushes/shBrushXml.js"
+               "/js/brushes/shBrushClojure.js"
+               "/js/site.js")])
 
 (defn base [page-id & content]
   (html5
-    [:head [:title "Luminus - A Clojure Web Framework"]
-     (include-css "/css/screen.css"
-       "/css/shCore.css")
-     (include-js "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"       
-                 "/js/shCore.js"
-                 "/js/brushes/shBrushClojure.js"
-                 "/js/brushes/shBrushBash.js"
-                 "/js/brushes/shBrushCss.js"
-                 "/js/brushes/shBrushJava.js"
-                 "/js/brushes/shBrushJScript.js"
-                 "/js/brushes/shBrushPlain.js"
-                 "/js/brushes/shBrushXml.js"
-                 "/js/site.js")]
+    [:head [:title "Luminus - A Clojure Web Framework"]]
     [:body
-     #_github-ribbon
      [:div#wrap
       (header page-id)
       content

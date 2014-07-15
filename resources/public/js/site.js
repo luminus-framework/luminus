@@ -1,5 +1,5 @@
-$(document).ready(function(){	    
-	SyntaxHighlighter.config.tagName = "code";
-	SyntaxHighlighter.defaults.gutter = false;   
-	SyntaxHighlighter.all();    
+$(document).ready(function(){
+    SyntaxHighlighter.config.tagName = "pre";
+    SyntaxHighlighter.defaults.gutter = false;
+    SyntaxHighlighter.all();
 });

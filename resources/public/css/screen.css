@@ -5,6 +5,16 @@
 @import url("FreshPick.css");
 /* end import/hide */
 
+pre {
+    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-size: 9pt !important;
+    background: #FFFFFF; !important;
+    border: none;
+    padding: 15px 30px 15px 30px;
+}
+
 .toolbar {
 	visibility:hidden;
 }
@@ -31,14 +41,13 @@ body {
 }
 
 @keyframes reset {
-0% {
-   opacity: 0;
+    0% {
+       opacity: 0;
+    }
+    100% {
+       opacity: 0;
+    }
 }
-100% {
-   opacity: 0;
-}
-}
-
 
 @keyframes fadein {
    from {
@@ -64,11 +73,12 @@ body {
        opacity:1;
    }
 }
-@-o-keyframes fadein { /* Opera */
-   from {
-       opacity:0;
-   }
-   to {
-       opacity: 1;
-   }
-}​
+@-o-keyframes fadein {
+    /* Opera */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
