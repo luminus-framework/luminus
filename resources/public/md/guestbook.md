@@ -144,7 +144,7 @@ Here is where we put tests for our application, a couple of sample tests have al
 
 ### The Resources Directory
 
-This is where we put all the static resoruces for our application. We have folders for CSS, JavaScript, images, and markdown already defined.
+This is where we put all the static resources for our application. We have folders for CSS, JavaScript, images, and markdown already defined.
 
 #### HTML templates
 
