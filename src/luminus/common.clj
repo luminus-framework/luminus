@@ -50,7 +50,7 @@
   (html5
     [:head [:title "Luminus - A Clojure Web Framework"]
      (include-css "/css/highlight.css"
-                  "/css/magula.css"
+                  "/css/codestyle.css"
                   "/css/screen.css")]
     [:body
      [:div#wrap
