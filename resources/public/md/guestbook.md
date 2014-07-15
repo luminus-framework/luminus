@@ -384,7 +384,7 @@ the form posts:
 
 Finally, we'll add a route for this controller to our `home-routes` definition:
 
-````clojure
+```clojure
 (defroutes home-routes
   (GET "/" [] (home-page))
   (POST "/" [name message] (save-message name message))
