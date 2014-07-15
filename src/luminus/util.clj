@@ -14,13 +14,12 @@
 (defn md->html
   "reads a markdown file from public/md and returns an HTML string"
   [filename]
-  (->>
-    (io/slurp-resource (str "/md/" filename))
-    (md/md-to-html-string)))
+  (->> (io/slurp-resource (str "/md/" filename))
+       (md/md-to-html-string)))
 
 (defn fetch-doc-pages []
   (with-open
-    [r (->> "https://raw.github.com/yogthos/luminus/master/resources/public/docpages.clj"         
+    [r (->> "https://raw.github.com/yogthos/luminus/master/resources/public/docpages.clj"
          client/get
          :body
          java.io.StringReader.
@@ -34,7 +33,8 @@
       (str "https://raw.github.com/yogthos/luminus/master/resources/public/md/")
       (client/get)
       :body)
-    :heading-anchors true))
+    :heading-anchors true
+    :code-style #(str "class=\"" % "\"")))
 
 (defn get-headings [content]
   (reduce
