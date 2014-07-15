@@ -54,13 +54,13 @@ We can then define our LDAP host as follows, note that the `host` key points to 
 Finally, we'll write a function to authenticate the user using the above host definition.
 
 ```clojure
-  (defn authenticate [username password & [attributes]]
-    (let [server (client/connect host)
-          qualified-name (str username "@" (-> host :host first :address))]
-      (if (client/bind? server qualified-name  password)
-        (first (client/search server "OU=UHNPeople,DC=uhn,DC=ca"
-                              {:filter (str "sAMAccountName=" username)
-                               :attributes (or attributes [])})))))
+(defn authenticate [username password & [attributes]]
+  (let [server (client/connect host)
+        qualified-name (str username "@" (-> host :host first :address))]
+    (if (client/bind? server qualified-name  password)
+      (first (client/search server "OU=UHNPeople,DC=uhn,DC=ca"
+                            {:filter (str "sAMAccountName=" username)
+                             :attributes (or attributes [])})))))
 ``` 
 
 The `attributes` vector can be used to filter the keys that are returned, an empty vector will return all the keys associated with the account.
