@@ -10,6 +10,7 @@ to you `project.clj`:
 ```clojure
 [korma "0.3.1"]
 ```
+
 The driver has to be present on the classpath, which means you should include it as a dependency in `project.clj` as well.
 For example, if you were connecting to PostreSQL, you would have to include the following dependency in your `project.clj`:
 

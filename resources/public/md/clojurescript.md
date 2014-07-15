@@ -81,6 +81,7 @@ To protect them we have to create a Js file with the names we'd like to protect 
 var AlbumColors = {};
 AlbumColors.getColors = function() {};
 ```
+
 If we put the above code in a file called `externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows: 
 
 ```clojure
