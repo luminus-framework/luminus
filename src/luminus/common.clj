@@ -42,8 +42,6 @@
      (link-to "http://clojure.org"
        (image {:id "clojure-logo" :width "20" :height "20"} "http://clojure.org/space/showimage/clojure-icon.gif")
        " powered by Clojure")]]
-   (include-css "/css/shCore.css"
-                "/css/screen.css")
    (include-js "//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"
                "/js/shCore.js"
                "/js/brushes/shBrushBash.js"
@@ -57,7 +55,9 @@
 
 (defn base [page-id & content]
   (html5
-    [:head [:title "Luminus - A Clojure Web Framework"]]
+    [:head [:title "Luminus - A Clojure Web Framework"]
+     (include-css "/css/shCore.css"
+                  "/css/screen.css")]
     [:body
      [:div#wrap
       (header page-id)
