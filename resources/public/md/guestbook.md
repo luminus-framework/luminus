@@ -64,7 +64,7 @@ lein ring server-headless 8000
 
 The newly created application has the following structure
 
-<pre><code class="no-highlight">
+```
 Procfile
 README.md
 project.clj
@@ -102,7 +102,7 @@ resources
          js
          md
           └ docs.md
-</code></pre>
+```
 
 Let's take a look at what the files in the root folder of the application do:
 
