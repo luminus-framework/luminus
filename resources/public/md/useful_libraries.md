@@ -74,10 +74,10 @@ to those already included with Luminus.
 * [Mailer](https://github.com/clojurewerkz/mailer) - An ActionMailer-inspired mailer library
 * [Postal](https://github.com/drewr/postal) - Clojure email support
 
-## SVG
+## Graphics
 
 * [Analemma](http://liebke.github.com/analemma/) - a Clojure-based SVG DSL and charting library
-
+* [Monet](https://github.com/rm-hull/monet) - a small ClojureScript library to make it easier (and performant) to work with canvas 
 ## Template Languages
 
 * [Basil](https://github.com/kumarshantanu/basil) - A general purpose template library
