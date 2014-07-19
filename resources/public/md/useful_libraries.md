@@ -78,6 +78,7 @@ to those already included with Luminus.
 
 * [Analemma](http://liebke.github.com/analemma/) - a Clojure-based SVG DSL and charting library
 * [Monet](https://github.com/rm-hull/monet) - a small ClojureScript library to make it easier (and performant) to work with canvas 
+
 ## Template Languages
 
 * [Basil](https://github.com/kumarshantanu/basil) - A general purpose template library
@@ -97,6 +98,7 @@ to those already included with Luminus.
 ## Miscellaneous
 
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
+* [asset-minifier](https://github.com/yogthos/asset-minifier) - a library to minify CSS and Js assets
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
 * [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - CSRF attack prevention using randomly-generated anti-forgery tokens
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
