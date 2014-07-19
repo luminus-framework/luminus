@@ -11,6 +11,7 @@ to those already included with Luminus.
 ## Assets
 
 * [Stefon](https://github.com/circleci/stefon) - Asset pipeline ring middleware
+* [asset-minifier](https://github.com/yogthos/asset-minifier) - a library to minify CSS and Js assets
 
 ## Async HTTP
 
@@ -31,17 +32,17 @@ to those already included with Luminus.
 
 ## ClojureScript
 
+* [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
+* [Om](https://github.com/swannodette/om) - A ClojureScript interface to Facebook's React
 * [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
 * [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
-* [Domina](https://github.com/levand/domina) - A jQuery inspired DOM manipulation library
 * [Dommy](https://github.com/Prismatic/dommy) - A no-nonsense templating and (soon) dom manipulation library
+* [Domina](https://github.com/levand/domina) - A jQuery inspired DOM manipulation library
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
 * [Fetch](https://github.com/ibdknox/fetch) - A library for Client/Server interaction
 * [Shoreleave](https://github.com/shoreleave) - A smarter client-side with ClojureScript
 * [Webfui](https://github.com/drcode/webfui) - Client-Side Web Framework
 * [Widje](https://github.com/Flamefork/widje) - Templating for ClojureScript
-* [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
-* [Om](https://github.com/swannodette/om) - A ClojureScript interface to Facebook's React
 
 ## Database clients
 
@@ -82,11 +83,11 @@ to those already included with Luminus.
 ## Template Languages
 
 * [Basil](https://github.com/kumarshantanu/basil) - A general purpose template library
+* [Stencil](https://github.com/davidsantiago/stencil) - A fast, compliant implementation of Mustache
 * [Clostache](https://github.com/fhd/clostache) - {{ mustache }} for Clojure
 * [Enlive](https://github.com/cgrand/enlive) - A selector-based (à la CSS) templating and transformation system
 * [Fleet](https://github.com/Flamefork/fleet) - Templating System for Clojure
 * [Laser](https://github.com/Raynes/laser) - HTML transformation/templating
-* [Stencil](https://github.com/davidsantiago/stencil) - A fast, compliant implementation of Mustache
 * [Tinsel](https://github.com/davidsantiago/tinsel) - Selector-based templates with Hiccup
 
 ## Web Services 
@@ -98,7 +99,6 @@ to those already included with Luminus.
 ## Miscellaneous
 
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
-* [asset-minifier](https://github.com/yogthos/asset-minifier) - a library to minify CSS and Js assets
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
 * [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - CSRF attack prevention using randomly-generated anti-forgery tokens
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
