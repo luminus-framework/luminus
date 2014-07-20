@@ -36,6 +36,7 @@ to those already included with Luminus.
 * [Om](https://github.com/swannodette/om) - ClojureScript interface to Facebook's React
 * [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
 * [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
+* [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
 * [Domina](https://github.com/levand/domina) - a jQuery inspired DOM manipulation library
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
