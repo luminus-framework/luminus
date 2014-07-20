@@ -10,58 +10,58 @@ to those already included with Luminus.
 
 ## Assets
 
-* [Stefon](https://github.com/circleci/stefon) - Asset pipeline ring middleware
+* [Stefon](https://github.com/circleci/stefon) - asset pipeline ring middleware
 * [asset-minifier](https://github.com/yogthos/asset-minifier) - a library to minify CSS and Js assets
 
 ## Async HTTP
 
-* [Aleph](https://github.com/ztellman/aleph) - Asynchronous communication
-* [http-kit](https://github.com/http-kit/http-kit) - High-performance event-driven HTTP client/server
+* [Aleph](https://github.com/ztellman/aleph) - asynchronous communication
+* [http-kit](https://github.com/http-kit/http-kit) - high-performance event-driven HTTP client/server
 
 ## Authentication
 
-* [Friend](https://github.com/cemerick/friend) - An extensible authentication and authorization library
-* [clj-ldap](https://github.com/pauldorman/clj-ldap) - A library for talking to LDAP servers
-* [Sandbar](https://github.com/brentonashworth/sandbar) - A web application library with higher level abstractions for Compojure, Ring
+* [Friend](https://github.com/cemerick/friend) - an extensible authentication and authorization library
+* [clj-ldap](https://github.com/pauldorman/clj-ldap) - a library for talking to LDAP servers
+* [Sandbar](https://github.com/brentonashworth/sandbar) - a web application library with higher level abstractions for Compojure, Ring
 * [ring-basic-authentication](https://github.com/remvee/ring-basic-authentication) - Ring middleware to enforce basic authentication
 
 ## Caching
 
-* [Spyglass](https://github.com/clojurewerkz/spyglass) - A Memcached client (also: Couchbase, Kestrel)
-* [core.cache](https://github.com/clojure/core.cache) - A caching library implementing various cache strategies
+* [Spyglass](https://github.com/clojurewerkz/spyglass) - a Memcached client (also: Couchbase, Kestrel)
+* [core.cache](https://github.com/clojure/core.cache) - a caching library implementing various cache strategies
 
 ## ClojureScript
 
 * [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
-* [Om](https://github.com/swannodette/om) - A ClojureScript interface to Facebook's React
+* [Om](https://github.com/swannodette/om) - ClojureScript interface to Facebook's React
 * [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
 * [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
-* [Dommy](https://github.com/Prismatic/dommy) - A no-nonsense templating and (soon) dom manipulation library
-* [Domina](https://github.com/levand/domina) - A jQuery inspired DOM manipulation library
+* [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
+* [Domina](https://github.com/levand/domina) - a jQuery inspired DOM manipulation library
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
-* [Fetch](https://github.com/ibdknox/fetch) - A library for Client/Server interaction
-* [Shoreleave](https://github.com/shoreleave) - A smarter client-side with ClojureScript
+* [Fetch](https://github.com/ibdknox/fetch) - a library for Client/Server interaction
+* [Shoreleave](https://github.com/shoreleave) - a smarter client-side with ClojureScript
 * [Webfui](https://github.com/drcode/webfui) - Client-Side Web Framework
-* [Widje](https://github.com/Flamefork/widje) - Templating for ClojureScript
+* [Widje](https://github.com/Flamefork/widje) - templating for ClojureScript
 
 ## Database clients
 
 * [CongoMongo](https://github.com/aboekhoff/congomongo) - Wrapper for the mongo-db java api
-* [Monger](http://clojuremongodb.info/) - Monger, a client for MongoDB
-* [Clutch](https://github.com/clojure-clutch/clutch) - A library for Apache CouchDB
-* [Neocons](https://github.com/michaelklishin/neocons) - A feature rich idiomatic client for the Neo4J REST API
-* [Welle](http://clojureriak.info/) - An expressive client for Riak
+* [Monger](http://clojuremongodb.info/) - a client for MongoDB
+* [Clutch](https://github.com/clojure-clutch/clutch) - a library for Apache CouchDB
+* [Neocons](https://github.com/michaelklishin/neocons) - a feature rich idiomatic client for the Neo4J REST API
+* [Welle](http://clojureriak.info/) - an expressive client for Riak
 * [Cassaforte](https://github.com/clojurewerkz/cassaforte) - A young client for Apache Cassandra 1.2+
 * [Rotary](https://github.com/weavejester/rotary) - DynamoDB API
-* [Rummage](https://github.com/cemerick/rummage) - A client library for Amazon's SimpleDB (SDB)
+* [Rummage](https://github.com/cemerick/rummage) - a client library for Amazon's SimpleDB (SDB)
 * [Carmine](https://github.com/ptaoussanis/carmine) - Clojure Redis client & message queue
 
 ## Database Migrations
 
-* [Drift](https://github.com/macourtney/drift) - A migration library
+* [Drift](https://github.com/macourtney/drift) - a migration library
 * [Lobos](http://budu.github.com/lobos/) - Lobos is a library to help you create and modify database schemas
-* [Migratus](https://github.com/pjstadig/migratus) - A general migration framework
-* [Ragtime](https://github.com/weavejester/ragtime) - Database-independent migration library
+* [Migratus](https://github.com/pjstadig/migratus) - a general migration framework
+* [Ragtime](https://github.com/weavejester/ragtime) - database-independent migration library
 
 ## SQL Libraries
 
@@ -72,7 +72,7 @@ to those already included with Luminus.
 
 ## Email Sending
 
-* [Mailer](https://github.com/clojurewerkz/mailer) - An ActionMailer-inspired mailer library
+* [Mailer](https://github.com/clojurewerkz/mailer) - an ActionMailer-inspired mailer library
 * [Postal](https://github.com/drewr/postal) - Clojure email support
 
 ## Graphics
@@ -82,13 +82,14 @@ to those already included with Luminus.
 
 ## Template Languages
 
-* [Basil](https://github.com/kumarshantanu/basil) - A general purpose template library
-* [Stencil](https://github.com/davidsantiago/stencil) - A fast, compliant implementation of Mustache
+* [Cuma](https://github.com/liquidz/cuma) - extensible micro template engine for Clojure.
+* [Basil](https://github.com/kumarshantanu/basil) - a general purpose template library
+* [Stencil](https://github.com/davidsantiago/stencil) - a fast, compliant implementation of Mustache
 * [Clostache](https://github.com/fhd/clostache) - {{ mustache }} for Clojure
-* [Enlive](https://github.com/cgrand/enlive) - A selector-based (à la CSS) templating and transformation system
-* [Fleet](https://github.com/Flamefork/fleet) - Templating System for Clojure
+* [Enlive](https://github.com/cgrand/enlive) - a selector-based (à la CSS) templating and transformation system
+* [Fleet](https://github.com/Flamefork/fleet) - templating System for Clojure
 * [Laser](https://github.com/Raynes/laser) - HTML transformation/templating
-* [Tinsel](https://github.com/davidsantiago/tinsel) - Selector-based templates with Hiccup
+* [Tinsel](https://github.com/davidsantiago/tinsel) - selector-based templates with Hiccup
 
 ## Web Services 
 
@@ -107,7 +108,7 @@ to those already included with Luminus.
 * [Schema](https://github.com/prismatic/schema) - a Clojure(Script) library for declarative data description and validation. 
 * [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
 * [Validateur](http://clojurevalidations.info/articles/getting_started.html) - a validation library inspired by Ruby's ActiveModel
-* [Throttler](https://github.com/brunoV/throttler) Uses the token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
+* [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
