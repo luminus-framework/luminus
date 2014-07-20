@@ -38,12 +38,8 @@ to those already included with Luminus.
 * [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
 * [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
-* [Domina](https://github.com/levand/domina) - a jQuery inspired DOM manipulation library
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
 * [Fetch](https://github.com/ibdknox/fetch) - a library for Client/Server interaction
-* [Shoreleave](https://github.com/shoreleave) - a smarter client-side with ClojureScript
-* [Webfui](https://github.com/drcode/webfui) - Client-Side Web Framework
-* [Widje](https://github.com/Flamefork/widje) - templating for ClojureScript
 
 ## Database clients
 
@@ -86,11 +82,7 @@ to those already included with Luminus.
 * [Cuma](https://github.com/liquidz/cuma) - extensible micro template engine for Clojure.
 * [Basil](https://github.com/kumarshantanu/basil) - a general purpose template library
 * [Stencil](https://github.com/davidsantiago/stencil) - a fast, compliant implementation of Mustache
-* [Clostache](https://github.com/fhd/clostache) - {{ mustache }} for Clojure
 * [Enlive](https://github.com/cgrand/enlive) - a selector-based (à la CSS) templating and transformation system
-* [Fleet](https://github.com/Flamefork/fleet) - templating System for Clojure
-* [Laser](https://github.com/Raynes/laser) - HTML transformation/templating
-* [Tinsel](https://github.com/davidsantiago/tinsel) - selector-based templates with Hiccup
 
 ## Web Services 
 
@@ -110,7 +102,8 @@ to those already included with Luminus.
 * [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
 * [Validateur](http://clojurevalidations.info/articles/getting_started.html) - a validation library inspired by Ruby's ActiveModel
 * [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
-
+* [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
+* 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
  JSON parsing, exception handling, SQL abstractions and other can be found on
