@@ -39,7 +39,6 @@ to those already included with Luminus.
 * [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
-* [Fetch](https://github.com/ibdknox/fetch) - a library for Client/Server interaction
 
 ## Database clients
 
