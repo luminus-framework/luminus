@@ -145,6 +145,48 @@ For examples of ClojureScript synonyms of common JavaScript operations see the [
 
 Reagent provides a standard way to define UI components using Hiccup style syntax for DOM representation. Each UI component is a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable UI components simple and intuitive.
 
+### Client Side Routing
+
+[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure inspired syntax for route definitions. To use the librry, We'll add the dependency to your project, if you created the project using the `+cljs` template then it will be included by default.
+
+```clojure
+[secretary "1.2.0"]
+```
+
+Next, we have to reference the library in our ClojureScript namespace to use it.
+
+```clojure
+(ns app
+  (:require [secretary.core :as secretary :include-macros true :refer [defroute]]
+            [goog.events :as events])
+  (:import goog.History
+           goog.history.EventType))
+```
+
+With the library imported we can create routes that will set the content of the specified DOM element when triggered.
+
+```clojure
+(defn home []
+  [:div [:h1 "Home"]])
+
+(defn info []
+  [:div [:h1 "About this app"]])
+
+(defn not-found []
+  [:div [:h1 "404: Page doesn't exist"]])
+
+(defn page [page-component]
+  (reagent/render-component
+    [page-component]
+    (.getElementById js/document "appContainer")))
+    
+(defroute home-path "/" [] (page home))
+(defroute home-path "/about" [] (page info))
+(defroute "*" [] (page not-found))
+```
+
+Please refer to the [official documentation](https://github.com/gf3/secretary) for further details.
+
 ### Working With the DOM directly
 
 There are several libraries available for accessing and modifying DOM elements. In particular, you may wish  to take a look at the [Domina](https://github.com/levand/domina) and [Dommy](https://github.com/Prismatic/dommy). Domina is a lightweight library for selecting and manipulating DOM elements as well as handling events. Dommy is a templating library similar to Hiccup.
