@@ -157,7 +157,9 @@ Next, we have to reference the library in our ClojureScript namespace to use it.
 
 ```clojure
 (ns app
-  (:require [secretary.core :as secretary :include-macros true :refer [defroute]]
+  (:require [secretary.core :as secretary
+             :include-macros true
+             :refer [defroute]]
             [goog.events :as events])
   (:import goog.History
            goog.history.EventType))
