@@ -35,7 +35,7 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
          :closure-warnings {:non-standard-jsdoc :off}}}]}   
 ```
 
-The above will add the `cljsbuild` plugin and hook for your project as well as the build configuration.
+The above will add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and hook for your project as well as the build configuration.
 
 All the ClojureScript namespaces should live in the `src-cljs` directory under the root of your project. Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
 
