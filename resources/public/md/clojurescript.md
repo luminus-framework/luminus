@@ -13,19 +13,33 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
 
 ```clojure
 :plugins [...
-          [lein-cljsbuild "0.3.0"]]  
+          [lein-cljsbuild "1.0.3"]]  
 
 :hooks [... leiningen.cljsbuild]
 
 :cljsbuild
-{:builds [{:source-paths ["src-cljs"] 
-           :compiler {:output-to "resources/public/js/site.js"
-                      :optimizations :advanced}}]}   
+{:builds
+     [{:id "dev"
+       :source-paths ["src-cljs"]
+       :compiler
+        {:optimizations :none
+         :output-to "resources/public/js/app.js"
+         :output-dir "resources/public/js/"
+         :pretty-print true
+         :source-map true}}
+      {:id "release"
+       :source-paths ["src-cljs"]
+       :compiler
+        {:output-to "resources/public/js/app.js"
+         :optimizations :advanced
+         :pretty-print false
+         :output-wrapper false
+         :closure-warnings {:non-standard-jsdoc :off}}}]}   
 ```
 
 The above will add the `cljsbuild` plugin and hook for your project as well as the build configuration.
 
-All the namespaces should live in the `src-cljs` directory under the root of your project. Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
+All the ClojureScript namespaces should live in the `src-cljs` directory under the root of your project. Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
 
 ### Using Libraries
 
@@ -36,13 +50,13 @@ One advantage of using ClojureScript is that it allows managing your client-side
 The easiest way to develop ClojureScript applications is to run the compiler in `auto` mode. This way any changes you make in your namespaces will be recompiled automatically and become immediately available on the page. To start the compiler in this mode simply run:
 
 ```
-lein cljsbuild auto
+lein cljsbuild auto dev
 ```
 
 To compile the application for production use the `once` options. This will compile all the scripts into a single `Js` output file that will be included in your project:
 
 ```
-lein cljsbuild once
+lein cljsbuild once release
 ```
 
 ### Advanced Compilation and Exports
@@ -85,13 +99,16 @@ AlbumColors.getColors = function() {};
 If we put the above code in a file called `externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows: 
 
 ```clojure
-{:source-paths ["src-cljs"]
-     :compiler
-     {:pretty-print false
-      :output-to "resources/public/js/site.js"
-      ;;specify the externs file to protect function names
-      :externs ["resources/externs.js"]
-      :optimizations :advanced}}
+{:id "release"
+ :source-paths ["src-cljs"]
+ :compiler
+ {:output-to "resources/public/js/app.js"
+  :optimizations :advanced
+  :pretty-print false
+  :output-wrapper false
+  ;;specify the externs file to protect function names
+  :externs ["resources/externs.js"]
+  :closure-warnings {:non-standard-jsdoc :off}}}
 ```
 
 ### Interacting with JavaScript
@@ -124,7 +141,13 @@ All the global JavaScript functions and variables are available via the `js` nam
 
 For examples of ClojureScript synonyms of common JavaScript operations see the [Himera documentation](http://himera.herokuapp.com/synonym.html).
 
-### Working With the DOM
+### Using Reagent
+
+[Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+cljs` profile in Luminus will create an application with it configured.
+
+Reagent provides a standard way to define UI components using Hiccup style syntax for DOM representation. Each UI component is a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable UI components simple and intuitive.
+
+### Working With the DOM directly
 
 There are several libraries available for accessing and modifying DOM elements. In particular, you may wish  to take a look at the [Domina](https://github.com/levand/domina) and [Dommy](https://github.com/Prismatic/dommy). Domina is a lightweight library for selecting and manipulating DOM elements as well as handling events. Dommy is a templating library similar to Hiccup.
 
@@ -176,3 +199,4 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
          :handler handler
          :error-handler error-handler})
 ```
+
