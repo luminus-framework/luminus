@@ -189,7 +189,11 @@ Please refer to the [official documentation](https://github.com/gf3/secretary) f
 
 ### Working With the DOM directly
 
-There are several libraries available for accessing and modifying DOM elements. In particular, you may wish  to take a look at the [Domina](https://github.com/levand/domina) and [Dommy](https://github.com/Prismatic/dommy). Domina is a lightweight library for selecting and manipulating DOM elements as well as handling events. Dommy is a templating library similar to Hiccup.
+#### Warning
+
+Since Reagent uses a virtual DOM and renders components as necessary, direct manpipulation of the DOM is highly discouraged. Updating DOM elements outside the Reagent components can result in unpredictable behavior.
+
+That said, there are several libraries available for accessing and modifying DOM elements. In particular, you may wish  to take a look at the [Domina](https://github.com/levand/domina) and [Dommy](https://github.com/Prismatic/dommy). Domina is a lightweight library for selecting and manipulating DOM elements as well as handling events. Dommy is a templating library similar to Hiccup.
 
 ### Ajax
 
