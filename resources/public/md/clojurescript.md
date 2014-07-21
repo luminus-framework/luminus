@@ -12,9 +12,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. This is done by adding the following sections to your `project.clj` file.
 
 ```clojure
-:plugins [...
-          [lein-cljsbuild "1.0.3"]]  
-
+:plugins [... [lein-cljsbuild "1.0.3"]]  
 :hooks [... leiningen.cljsbuild]
 
 :cljsbuild
