@@ -143,7 +143,7 @@ For examples of ClojureScript synonyms of common JavaScript operations see the [
 
 [Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+cljs` profile in Luminus will create an application with it configured.
 
-Reagent provides a standard way to define UI components using Hiccup style syntax for DOM representation. Each UI component is a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable UI components simple and intuitive.
+Reagent provides a standard way to define UI components using [Hiccup](https://github.com/weavejester/hiccup) style syntax for DOM representation. Each UI component is a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable UI components simple and intuitive.
 
 ### Client Side Routing
 
