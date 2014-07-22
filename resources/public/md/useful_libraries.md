@@ -11,7 +11,7 @@ to those already included with Luminus.
 ## Assets
 
 * [Stefon](https://github.com/circleci/stefon) - asset pipeline ring middleware
-* [asset-minifier](https://github.com/yogthos/asset-minifier) - a library to minify CSS and Js assets
+* [lein-asset-minifier](https://github.com/yogthos/lein-asset-minifier) - a Leiningen plugin to minify CSS and Js assets
 
 ## Async HTTP
 
