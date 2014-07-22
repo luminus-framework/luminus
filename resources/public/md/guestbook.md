@@ -320,7 +320,7 @@ Next, we can update the `init` function as follows:
      :enabled? true
      :async? false ; should be always false for rotor
      :max-message-per-msecs nil
-     :fn rotor/append})
+     :fn rotor/appender-fn})
 
   (timbre/set-config!
     [:shared-appender-config :rotor]
