@@ -147,7 +147,7 @@ Reagent provides a standard way to define UI components using [Hiccup](https://g
 
 ### Client Side Routing
 
-[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure inspired syntax for route definitions. To use the librry, We'll add the dependency to your project, if you created the project using the `+cljs` template then it will be included by default.
+[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure inspired syntax for route definitions. To use the library, We'll add the dependency to your project, if you created the project using the `+cljs` template then it will be included by default.
 
 ```clojure
 [secretary "1.2.0"]
@@ -193,7 +193,7 @@ Please refer to the [official documentation](https://github.com/gf3/secretary) f
 
 #### Warning
 
-Since Reagent uses a virtual DOM and renders components as necessary, direct manpipulation of the DOM is highly discouraged. Updating DOM elements outside the Reagent components can result in unpredictable behavior.
+Since Reagent uses a virtual DOM and renders components as necessary, direct manipulation of the DOM is highly discouraged. Updating DOM elements outside the Reagent components can result in unpredictable behavior.
 
 That said, there are several libraries available for accessing and modifying DOM elements. In particular, you may wish  to take a look at the [Domina](https://github.com/levand/domina) and [Dommy](https://github.com/Prismatic/dommy). Domina is a lightweight library for selecting and manipulating DOM elements as well as handling events. Dommy is a templating library similar to Hiccup.
 
