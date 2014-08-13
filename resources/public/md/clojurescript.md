@@ -143,7 +143,7 @@ For more examples of ClojureScript synonyms of common JavaScript operations see 
 
 [Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+cljs` profile in Luminus will create an application with it configured.
 
-Reagent is backed by [React](http://facebook.github.io/react/) and provides an extremely efficient way to manipulate the DOM using [Hiccup](https://github.com/weavejester/hiccup) style syntax. In Reagetn, each UI component is simply a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable UI components simple and intuitive.
+Reagent is backed by [React](http://facebook.github.io/react/) and provides an extremely efficient way to manipulate the DOM using [Hiccup](https://github.com/weavejester/hiccup) style syntax. In Reagent, each UI component is simply a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable components simple and intuitive.
 
 A simple Reagent component looks as follows:
 
@@ -158,7 +158,7 @@ Components can also be functions:
   [:label text])
 ```
 
-The values of the components are stored in Reagent atoms. These atoms behave just like regular Clojure atoms, except one important property. When an atom is updated it causes any components that dereference it to be updated. Let's take a look at an example.
+The values of the components are stored in Reagent atoms. These atoms behave just like regular Clojure atoms, except for one important property. When an atom is updated it causes any components that dereference it to be repainted. Let's take a look at an example.
 
 **important** make sure that you require Reagent atom in the namespace, otherwise regular Clojure atoms will be used and components will not be repainted on change.
 
