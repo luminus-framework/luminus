@@ -137,13 +137,84 @@ All the global JavaScript functions and variables are available via the `js` nam
 (set! (.-color (.-style div) "#234567"))
 ```
 
-For examples of ClojureScript synonyms of common JavaScript operations see the [Himera documentation](http://himera.herokuapp.com/synonym.html).
+For more examples of ClojureScript synonyms of common JavaScript operations see the [Himera documentation](http://himera.herokuapp.com/synonym.html).
 
-### Using Reagent
+### Reagent
 
 [Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+cljs` profile in Luminus will create an application with it configured.
 
-Reagent provides a standard way to define UI components using [Hiccup](https://github.com/weavejester/hiccup) style syntax for DOM representation. Each UI component is a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable UI components simple and intuitive.
+Reagent is backed by [React](http://facebook.github.io/react/) and provides an extremely efficient way to manipulate the DOM using [Hiccup](https://github.com/weavejester/hiccup) style syntax. In Reagetn, each UI component is simply a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable UI components simple and intuitive.
+
+A simple Reagent component looks as follows:
+
+```clojure
+[:label "Hello World"]
+```
+
+Components can also be functions:
+
+```clojure
+(defn label [text]
+  [:label text])
+```
+
+The values of the components are stored in Reagent atoms. These atoms behave just like regular Clojure atoms, except one important property. When an atom is updated it causes any components that dereference it to be updated. Let's take a look at an example.
+
+**important** make sure that you require Reagent atom in the namespace, otherwise regular Clojure atoms will be used and components will not be repainted on change.
+
+```clojure
+(ns myapp
+  (:require [reagent.core :as reagent :refer [atom]]))
+  
+(def state (atom nil))
+
+(defn input-field [label-text]
+  [:div
+    [label label-text]
+    [:input {:type "text"
+             :value @state
+             :on-change #(reset! state (-> % .-target .-value))}]])
+```
+
+Above, the `input-field` component consists of a `label` component we defined earlier and an `:input` component. The input will update the `state` atom and render it as its value.
+
+Notice that even though `label` is a function we're not calling it, but instead we're putting it in a vector. The reason for this is that we're specifying the component hierarchy. The components will be run by Reagent when they need to be rendered.
+
+This is behavior makes it trivial to implements the [React Flux](http://facebook.github.io/react/docs/flux-overview.html) pattern.
+
+```
+Views ---> (actions) ----> Dispatcher ---> (registered callback) ---> Stores -------+
+Ʌ                                                                                   |
+|                                                                                   V
++-- (Controller-Views "change" event handlers) ---- (Stores emit "change" events) --+
+```
+
+Our view components dispatch updates to the atoms, which represent the stores. The atoms in turn notify any components that dereference them when their state changes.
+
+In the previous example, we used a global atom to hold the state. While it's convenient for small applications this approach doesn't scale well. Fortunately, Reagent allows us to have localized states in our components. Let's take a look at how this works.
+
+```clojure
+(defn input-field [label-text id]
+  (let [value (atom nil)]
+    (fn []
+      [:div
+        [label "The value is: " @value]
+        [:input {:type "text"
+                 :value @value
+                 :on-change #(reset! value (-> % .-target .-value))}]])))
+```
+
+All we have to do is create a local binding for the atom inside a closure. The returned function is what's going to be called by reagent when the value of the atom changes.
+
+Finally, rendering components is accomplished by calling the `render-component` function:
+
+```clojure
+(defn render-simple []
+  (reagent/render-component [input-field]
+                            (.-body js/document))
+```
+
+A working sample project can be found [here](https://github.com/yogthos/reagent-example). For a real world application using reagent see the [Yuggoth blog engine](https://github.com/yogthos/yuggoth).
 
 ### Client Side Routing
 
