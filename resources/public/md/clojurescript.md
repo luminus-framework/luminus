@@ -183,10 +183,10 @@ Notice that even though `label` is a function we're not calling it, but instead 
 This is behavior makes it trivial to implements the [React Flux](http://facebook.github.io/react/docs/flux-overview.html) pattern.
 
 ```
-Views ---> (actions) ----> Dispatcher ---> (registered callback) ---> Stores -------+
-Ʌ                                                                                   |
-|                                                                                   V
-+-- (Controller-Views "change" event handlers) ---- (Stores emit "change" events) --+
+Views--->(actions) --> Dispatcher-->(callback)--> Stores---+
+Ʌ                                                          |
+|                                                          V
++--(event handlers update)--(Stores emit "change" events)--+
 ```
 
 Our view components dispatch updates to the atoms, which represent the stores. The atoms in turn notify any components that dereference them when their state changes.
