@@ -214,7 +214,7 @@ Finally, rendering components is accomplished by calling the `render-component` 
                             (.-body js/document))
 ```
 
-A working sample project can be found [here](https://github.com/yogthos/reagent-example). For a real world application using reagent see the [Yuggoth blog engine](https://github.com/yogthos/yuggoth).
+A working sample project can be found [here](https://github.com/yogthos/reagent-example). For a real world application using Reagent see the [Yuggoth blog engine](https://github.com/yogthos/yuggoth).
 
 ### Client Side Routing
 
