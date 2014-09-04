@@ -7,7 +7,7 @@ This section provides links to online resources, books, and development environm
 * [Clojure Documentation](http://clojure-doc.org/) - a collection of Clojure guides and tutorials
 * [4Cloure](http://www.4clojure.com/) - a site for practicing Clojure by solving interactive problems
 * [ClojureScript in 15 minutes](https://github.com/shaunlebron/ClojureScript-Syntax-in-15-minutes) - concise guide to ClojureScript
-* 
+
 ### Clojure Reference
 
 * [Grimoire API reference](http://grimoire.arrdem.com/)
