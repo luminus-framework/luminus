@@ -1,27 +1,44 @@
-Luminus uses Compojure to define application routes.
-A route is defined by its HTTP request method and accepts the URI, parameters, and the handler.
-Compojure defines routes for all the standard HTTP requests such as
-ANY, DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.
+Luminus uses Compojure to define application routes. The routes are the entry points to your application and are used to establish a communiction protocol between the server and the client.
 
-For example, if we wanted to define an application with a single route pointing to / which
-says "Hello World!" we could write the following:
+### Routes
+
+In Compojure, each route is an HTTP method paired with a URL-matching pattern,
+an argument list, and a body.
 
 ```clojure
-(defroutes app-routes
-  (GET "/" [] "Hello World!"))
+(defroutes myapp
+  (GET "/" [] "Show something")
+  (POST "/" [] "Create something")
+  (PUT "/" [] "Replace something")
+  (PATCH "/" [] "Modify Something")
+  (DELETE "/" [] "Annihilate something")
+  (OPTIONS "/" [] "Appease something")
+  (HEAD "/" [] "Preview something"))
 ```
 
-If we want to make a route that responds to POST and accepts some form parameters we'd write:
+Compojure route definitions are just functions that
+[accept request maps and return response maps](https://github.com/mmcgrana/ring/blob/master/SPEC):
 
 ```clojure
-(POST "/hello" [id] (str "Welcome " id))
+(myapp {:uri "/" :request-method :post})
+; => {:status 200
+;     :headers {"Content-Type" "text/html; charset=utf-8}
+;     :body "Create Something"}
 ```
 
-For some routes we'll need to access the request map, this is done by simply declaring it as the 
-second argument to the route.
+The body may be a function, which must accept the request as a parameter:
 
 ```clojure
-(GET "/foo" request (interpose ", " (keys request)))
+(defroutes myapp
+  (GET "/" [] (fn [req] "Do something with req")))
+```
+
+Or, we can just use the request directly by declaring it as the 
+second argument to the route:
+
+```clojure
+(defroutes myapp
+ (GET "/foo" request (interpose ", " (keys request))))
 ```
 
 The above route reads out all the keys from the request map and displays them. 
@@ -34,15 +51,59 @@ The output will look like the following:
 :character-encoding, :body, :flash
 ```
 
-Compojure also provides some useful functionality for handling the request maps and the form parameters. 
-For example, in the guestbook application example we saw the following route defined:
+Route patterns may include named parameters:
+
+```clojure
+(defroutes myapp
+  (GET "/hello/:name" [name] (str "Hello " name)))
+```
+
+We can adjust what each parameter matches by supplying a regex:
+
+```clojure
+(defroutes myapp
+  (GET ["/file/:name.:ext" :name #".*", :ext #".*"] [name ext]
+    (str "File: " name ext)) 
+```
+
+Handlers may utilize query parameters:
+
+```clojure
+(defroutes myapp
+  (GET "/posts" []
+    (fn [req]
+      (let [title (get (:params req) "title")
+            author (get (:params req) "title")]
+        " Do something with title and author"))))
+```
+
+Or, for POST and PUT requests, form parameters:
+
+```clojure
+(defroutes myapp
+  (POST "/posts" []
+    (fn [req]
+      (let [title (get (:params req) "title")
+            author (get (:params req) "title")]
+        "Do something with title and author"))))
+```
+
+Compojure also provides syntax sugar for accessing the form parameters as seen below:
+
+```clojure
+(POST "/hello" [id] (str "Welcome " id))
+```
+
+In the guestbook application example we saw the following route defined:
 
 ```clojure
 (POST "/"  [name message] (save-message name message))
 ```
 
 This route extracts the name and the message form parameters and binds them to variables of the same name. 
-We can now use them as any other declared variable. It's also possible to use the regular Clojure destructuring
+We can now use them as any other declared variable.
+
+It's also possible to use the regular Clojure destructuring
 inside the route.
 
 ```clojure
@@ -50,7 +111,7 @@ inside the route.
   (str "Foo = " foo))
 ```
 
-Furthermore, Compojure also allows destructuring a subset of form parameters and creating a map from the rest.
+Furthermore, Compojure allows destructuring a subset of form parameters and creating a map from the rest.
 
 ```clojure
 [x y & z]
@@ -67,6 +128,39 @@ Finally, if we need to get at the complete request along with the parameters we 
 ```
 
 Here we bind the form parameters x an y, and bind the complete request map to the variable r.
+
+### Return values
+
+The return value of a route block determines at least the response body
+passed on to the HTTP client, or at least the next middleware in the
+ring stack. Most commonly, this is a string, as in the above examples.
+But, we may also return a [response map](https://github.com/mmcgrana/ring/blob/master/SPEC):
+
+```clojure
+(defroutes myapp
+  (GET "/" []
+    {:status 200 :body "Hello World"})
+  (GET "/is-403" []
+    {:status 403 :body ""})
+  (GET "/is-json" []
+    {:status 200 :headers {"Content-Type" "application/json"} :body "{}"}))
+```
+
+### Static Files
+
+To serve up static files, use `compojure.route.resources`.
+Resources will be served from your project's `resources/` folder.
+
+```clojure
+(require '[compojure.route :as route])
+
+(defroutes myapp
+  (GET "/")
+  (route/resources "/")) ; Serve static resources at the root path
+
+(myapp {:uri "/js/script.js" :request-method :get})
+; => Contents of resources/public/js/script.js
+```
 
 ## Organizing application routes
 
@@ -94,7 +188,7 @@ a set of routes that all shared `/user/:id` path as seen below:
       (GET "/user/:id/change-password [id] ...))
 ```
 
-You could rewrite that as:
+We could rewrite that as:
 
 ```clojure
 (def user-routes
