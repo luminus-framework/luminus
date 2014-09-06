@@ -387,3 +387,4 @@ and start using it in our templates as follows:
 
 Any POST requests that do not contain the token will be rejected by the middleware. The server will
 respond with a 403 error saying "Invalid anti-forgery token".
+
