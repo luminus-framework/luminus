@@ -19,10 +19,10 @@ Compojure route definitions are just functions that
 [accept request maps and return response maps](https://github.com/mmcgrana/ring/blob/master/SPEC):
 
 ```clojure
-(myapp {:uri "/" :request-method :post})
-; => {:status 200
-;     :headers {"Content-Type" "text/html; charset=utf-8}
-;     :body "Create Something"}
+(defn handler [request]
+  {:status  200
+   :headers {"Content-Type" "text/plain"}
+   :body    "Hello World"})
 ```
 
 The body may be a function, which must accept the request as a parameter:
