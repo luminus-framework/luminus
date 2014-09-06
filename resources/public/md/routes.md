@@ -6,14 +6,13 @@ In Compojure, each route is an HTTP method paired with a URL-matching pattern,
 an argument list, and a body.
 
 ```clojure
-(defroutes myapp
-  (GET "/" [] "Show something")
-  (POST "/" [] "Create something")
-  (PUT "/" [] "Replace something")
-  (PATCH "/" [] "Modify Something")
-  (DELETE "/" [] "Annihilate something")
-  (OPTIONS "/" [] "Appease something")
-  (HEAD "/" [] "Preview something"))
+(GET "/" [] "Show something")
+(POST "/" [] "Create something")
+(PUT "/" [] "Replace something")
+(PATCH "/" [] "Modify Something")
+(DELETE "/" [] "Annihilate something")
+(OPTIONS "/" [] "Appease something")
+(HEAD "/" [] "Preview something")
 ```
 
 Compojure route definitions are just functions that
@@ -29,16 +28,14 @@ Compojure route definitions are just functions that
 The body may be a function, which must accept the request as a parameter:
 
 ```clojure
-(defroutes myapp
-  (GET "/" [] (fn [req] "Do something with req")))
+(GET "/" [] (fn [req] "Do something with req"))
 ```
 
 Or, we can just use the request directly by declaring it as the 
 second argument to the route:
 
 ```clojure
-(defroutes myapp
- (GET "/foo" request (interpose ", " (keys request))))
+(GET "/foo" request (interpose ", " (keys request)))
 ```
 
 The above route reads out all the keys from the request map and displays them. 
@@ -54,38 +51,34 @@ The output will look like the following:
 Route patterns may include named parameters:
 
 ```clojure
-(defroutes myapp
-  (GET "/hello/:name" [name] (str "Hello " name)))
+(GET "/hello/:name" [name] (str "Hello " name))
 ```
 
 We can adjust what each parameter matches by supplying a regex:
 
 ```clojure
-(defroutes myapp
-  (GET ["/file/:name.:ext" :name #".*", :ext #".*"] [name ext]
-    (str "File: " name ext)) 
+(GET ["/file/:name.:ext" :name #".*", :ext #".*"] [name ext]
+    (str "File: " name ext))
 ```
 
 Handlers may utilize query parameters:
 
 ```clojure
-(defroutes myapp
-  (GET "/posts" []
-    (fn [req]
-      (let [title (get (:params req) "title")
-            author (get (:params req) "title")]
-        " Do something with title and author"))))
+(GET "/posts" []
+  (fn [req]
+    (let [title (get (:params req) "title")
+          author (get (:params req) "title")]
+      " Do something with title and author")))
 ```
 
 Or, for POST and PUT requests, form parameters:
 
 ```clojure
-(defroutes myapp
-  (POST "/posts" []
-    (fn [req]
-      (let [title (get (:params req) "title")
-            author (get (:params req) "title")]
-        "Do something with title and author"))))
+(POST "/posts" []
+  (fn [req]
+    (let [title (get (:params req) "title")
+          author (get (:params req) "title")]
+      "Do something with title and author")))
 ```
 
 Compojure also provides syntax sugar for accessing the form parameters as seen below:
@@ -137,13 +130,14 @@ ring stack. Most commonly, this is a string, as in the above examples.
 But, we may also return a [response map](https://github.com/mmcgrana/ring/blob/master/SPEC):
 
 ```clojure
-(defroutes myapp
-  (GET "/" []
+(GET "/" []
     {:status 200 :body "Hello World"})
-  (GET "/is-403" []
+    
+(GET "/is-403" []
     {:status 403 :body ""})
-  (GET "/is-json" []
-    {:status 200 :headers {"Content-Type" "application/json"} :body "{}"}))
+
+(GET "/is-json" []
+    {:status 200 :headers {"Content-Type" "application/json"} :body "{}"})
 ```
 
 ### Static Files
@@ -154,18 +148,14 @@ Resources will be served from your project's `resources/` folder.
 ```clojure
 (require '[compojure.route :as route])
 
-(defroutes myapp
-  (GET "/")
-  (route/resources "/")) ; Serve static resources at the root path
+(route/resources "/")) ; Serve static resources at the root path
 
-(myapp {:uri "/js/script.js" :request-method :get})
-; => Contents of resources/public/js/script.js
 ```
 
 ## Organizing application routes
 
 It's a good practice to organize your application routes together by functionality. Compojure provides 
-a `defroutes` macro which can group several routes together and bind them to a symbol.
+the `defroutes` macro which can group several routes together and bind them to a symbol.
 
 ```clojure
 (defroutes auth-routes
