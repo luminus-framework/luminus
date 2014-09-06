@@ -164,19 +164,19 @@ a set of routes that all shared `/user/:id` path as seen below:
 
 ```clojure
 (defroutes user-routes
-      (GET "/user/:id/profile" [id] ...)
-      (GET "/user/:id/settings" [id] ...)
-      (GET "/user/:id/change-password [id] ...))
+  (GET "/user/:id/profile" [id] ...)
+  (GET "/user/:id/settings" [id] ...)
+  (GET "/user/:id/change-password [id] ...))
 ```
 
 We could rewrite that as:
 
 ```clojure
 (def user-routes
-      (context "/user/:id" [id]
-        (GET "/profile" [] ...)
-        (GET "/settings" [] ...)
-        (GET "/change-password" [] ...)))
+  (context "/user/:id" [id]
+    (GET "/profile" [] ...)
+    (GET "/settings" [] ...)
+    (GET "/change-password" [] ...)))
 ```
 
 
