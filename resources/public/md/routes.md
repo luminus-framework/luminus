@@ -2,7 +2,8 @@ Luminus uses Compojure to define application routes. The routes are the entry po
 
 ### Routes
 
-In Compojure, each route is an HTTP method paired with a URL-matching pattern,
+Compojure route definitions are just functions that
+[accept request maps and return response maps](https://github.com/mmcgrana/ring/blob/master/SPEC). Each route is an HTTP method paired with a URL-matching pattern,
 an argument list, and a body.
 
 ```clojure
@@ -15,17 +16,7 @@ an argument list, and a body.
 (HEAD "/" [] "Preview something")
 ```
 
-Compojure route definitions are just functions that
-[accept request maps and return response maps](https://github.com/mmcgrana/ring/blob/master/SPEC):
-
-```clojure
-(defn handler [request]
-  {:status  200
-   :headers {"Content-Type" "text/plain"}
-   :body    "Hello World"})
-```
-
-The body may be a function, which must accept the request as a parameter:
+The body may be a function, that must accept the request as a parameter:
 
 ```clojure
 (GET "/" [] (fn [req] "Do something with req"))
