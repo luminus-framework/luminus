@@ -63,10 +63,11 @@
       (make-links)))
 
 (defn refresh-docs! []
-  (let [pages (fetch-doc-pages)]
+  (when-let [pages (try (fetch-doc-pages) (catch Exception _))]
     (swap! docs assoc :pages pages)
     (doseq [id (map first pages)]
-      (swap! docs assoc id (fetch-doc id))
+      (when-let [doc (try (fetch-doc id) (catch Exception _))]
+        (swap! docs assoc id doc))
       (Thread/sleep 1000))))
 
 

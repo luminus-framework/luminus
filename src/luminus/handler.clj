@@ -52,7 +52,7 @@ With Luminus you can focus on developing your app the way you want without any d
 
 (defn init []
   (.start
-    (doto (Thread. #(while true (util/refresh-docs!) (Thread/sleep 120000)))
+    (doto (Thread. #(while true (util/refresh-docs!) (Thread/sleep 600000)))
       (.setDaemon true))))
 
 (defn destroy []
