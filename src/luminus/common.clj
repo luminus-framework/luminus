@@ -4,12 +4,6 @@
         [hiccup.util :only [to-uri]]
         [hiccup.def]))
 
-(def github-ribbon
-  (link-to "https://github.com/yogthos/luminus-template"
-    (image {:style "position: absolute; top: 0; right: 30px; border: 0; background: none; padding: 0;"
-            :alt "Fork me on GitHub"}
-           "https://github.com/jamesflorentino/fork-ribbons/raw/master/ribbons/blue-white.png")))
-
 (defn nav-link
   ([page-id url name]
     (nav-link page-id url name {}))
@@ -27,9 +21,7 @@
      (nav-link page-id "/api" "API")
      (nav-link page-id "/contribute" "Get involved")
      (nav-link page-id "/about" "About")
-     ]]
-   ;[:div#header-image]
-   ])
+     ]]])
 
 (defn footer []
   [:div#footer-bottom
