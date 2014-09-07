@@ -49,21 +49,32 @@ If you're fronting with Nginx then you can easily support file upload progress u
 
 ### Serving static resources
 
-You can load a static resource relative to the public folder using `get-resource`
-with the relative path supplied as individual strings, eg:
+By default, any resources located under the `resources/public` directory will be available to the clients. This is handled by the default routes found in the `handler` namespace of your application:
+
+```clojure
+(defroutes base-routes
+  (route/resources "/")
+  (route/not-found "Not Found"))
+```
+
+The `noir.io/get-resource` function can be used to load any static resource relative to the public folder
+with the relative path supplied as a string:
 
 ```clojure
 (get-resource "/md/outline.md")
 ```
 
-The above will return clojure.java.io/resource for `screen.css` located at public/md/outline.md path.
+The above will return clojure.java.io/resource for `screen.css` located at `public/md/outline.md` path.
 
-Finally, there's `slurp-resource` which will read the contents of the file and
-return a string, eg:
+Finally, there's `noir.io/slurp-resource` that will read the contents of the file and
+return them a string:
 
 ```clojure
 (slurp-resource "/md/outline.md")
 ```
+
+This can be useful if you need to get access to the files from within the application. For example, you may wish
+to load a Markdown file and convert it to HTML before serving it.
 
 
 
