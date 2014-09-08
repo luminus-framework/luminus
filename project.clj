@@ -4,8 +4,8 @@
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [lib-noir "0.8.6"]
-                 [compojure "1.1.8"]
+                 [lib-noir "0.8.8"]
+                 [compojure "1.1.9"]
                  [ring-server "0.3.1"]
                  [markdown-clj "0.9.47"]
                  [clj-http "1.0.0"]
