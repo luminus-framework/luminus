@@ -30,6 +30,10 @@ to those already included with Luminus.
 * [Spyglass](https://github.com/clojurewerkz/spyglass) - a Memcached client (also: Couchbase, Kestrel)
 * [core.cache](https://github.com/clojure/core.cache) - a caching library implementing various cache strategies
 
+## Configuration
+
+* [edn-config](https://github.com/yogthos/edn-config) - a library for managing environment variables in Clojure using EDN configuration files
+
 ## ClojureScript
 
 * [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
@@ -39,6 +43,7 @@ to those already included with Luminus.
 * [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
 * [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
+* [json-html](https://github.com/yogthos/json-html) - generates human representation of the JSON/EDN encoded data
 
 ## Database clients
 
@@ -66,7 +71,7 @@ to those already included with Luminus.
 * [clojure.java.jdbc](https://github.com/clojure/java.jdbc) - a low level wrapper for Java JDBC
 * [blackwater](https://github.com/bitemyapp/blackwater) - a library for logging SQL queries and the time they took for Korma and clojure.java.jdbc
 
-## Email Sending
+## Email
 
 * [Mailer](https://github.com/clojurewerkz/mailer) - an ActionMailer-inspired mailer library
 * [Postal](https://github.com/drewr/postal) - Clojure email support
@@ -85,7 +90,8 @@ to those already included with Luminus.
 
 ## Web Services 
 
-* [compojure-api](https://github.com/metosin/compojure-api) - a library for writing [Swagger](https://github.com/wordnik/swagger-spec) REST APIs
+* [compojure-api](https://github.com/metosin/compojure-api) - a library for writing
+* [Swagger](https://github.com/wordnik/swagger-spec) REST APIs
 * [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
 * [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
 
