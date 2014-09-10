@@ -90,8 +90,7 @@ to those already included with Luminus.
 
 ## Web Services 
 
-* [compojure-api](https://github.com/metosin/compojure-api) - a library for writing
-* [Swagger](https://github.com/wordnik/swagger-spec) REST APIs
+* [compojure-api](https://github.com/metosin/compojure-api) - a library for writing [Swagger](https://github.com/wordnik/swagger-spec) REST APIs
 * [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
 * [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
 
