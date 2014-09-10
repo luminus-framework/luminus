@@ -38,11 +38,12 @@ to those already included with Luminus.
 
 * [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
 * [Om](https://github.com/swannodette/om) - ClojureScript interface to Facebook's React
+* [Kioo](https://github.com/ckirkendall/kioo) - DOM manipulation and templating library for Reagent/Om
+* [Hickory](https://github.com/davidsantiago/hickory) -  parses HTML into Clojure data structures
 * [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
 * [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
 * [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
-* [Enfocus](https://github.com/ckirkendall/enfocus) - DOM manipulation and templating library inspired by Enlive
 * [json-html](https://github.com/yogthos/json-html) - generates human representation of the JSON/EDN encoded data
 
 ## Database clients
