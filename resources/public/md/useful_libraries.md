@@ -41,6 +41,7 @@ to those already included with Luminus.
 * [Kioo](https://github.com/ckirkendall/kioo) - DOM manipulation and templating library for Reagent/Om
 * [Hickory](https://github.com/davidsantiago/hickory) -  parses HTML into Clojure data structures
 * [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
+* [Datascript](https://github.com/tonsky/datascript) - central, uniform approach to manage all application state
 * [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
 * [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
