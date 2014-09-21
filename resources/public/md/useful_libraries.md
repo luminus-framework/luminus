@@ -110,9 +110,11 @@ to those already included with Luminus.
 * [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
 * [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
 * [cronj](http://docs.caudate.me/cronj/) - a library for scheduling tasks 
-* [Jetty 9 Ring adapter](https://github.com/sunng87/ring-jetty9-adapter)
-* [Jetty 9 client/server](https://github.com/mpenet/jet)
-* 
+
+## Web Sockets
+* [ring-jetty9-adapter](https://github.com/sunng87/ring-jetty9-adapter) - a Ring adapter for Jetty 9
+* [jet](https://github.com/mpenet/jet) - Jetty 9 client/server
+
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
  JSON parsing, exception handling, SQL abstractions and other can be found on
