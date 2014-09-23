@@ -90,12 +90,6 @@ to those already included with Luminus.
 * [Stencil](https://github.com/davidsantiago/stencil) - a fast, compliant implementation of Mustache
 * [Enlive](https://github.com/cgrand/enlive) - a selector-based (à la CSS) templating and transformation system
 
-## Web Services 
-
-* [compojure-api](https://github.com/metosin/compojure-api) - a library for writing [Swagger](https://github.com/wordnik/swagger-spec) REST APIs
-* [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
-* [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
-
 ## Miscellaneous
 
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
@@ -110,6 +104,12 @@ to those already included with Luminus.
 * [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
 * [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
 * [cronj](http://docs.caudate.me/cronj/) - a library for scheduling tasks 
+
+## Web Services 
+
+* [compojure-api](https://github.com/metosin/compojure-api) - a library for writing [Swagger](https://github.com/wordnik/swagger-spec) REST APIs
+* [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
+* [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
 
 ## Web Sockets
 * [ring-jetty9-adapter](https://github.com/sunng87/ring-jetty9-adapter) - a Ring adapter for Jetty 9
