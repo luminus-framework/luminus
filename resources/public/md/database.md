@@ -1,6 +1,6 @@
 ## Configuring the Database
 
-Luminus uses [SQL Korma](http://sqlkorma.com/) when you select a database profile such as `+postgres`. 
+Luminus uses [SQL Korma](https://github.com/korma/Korma) when you select a database profile such as `+postgres`. 
 
 >[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/)
 
@@ -8,14 +8,14 @@ Adding database support to an existing project is rather simple as well. You wil
 to you `project.clj`:
 
 ```clojure
-[korma "0.3.1"]
+[korma "0.4.0"]
 ```
 
 The driver has to be present on the classpath, which means you should include it as a dependency in `project.clj` as well.
 For example, if you were connecting to PostreSQL, you would have to include the following dependency in your `project.clj`:
 
 ```clojure
-[postgresql/postgresql "9.1-901.jdbc4"]
+[postgresql/postgresql "9.3-1102-jdbc41"]
 ```
 
 
