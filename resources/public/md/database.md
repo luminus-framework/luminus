@@ -1,10 +1,13 @@
 ## Configuring the Database
 
+### SQL Korma
+
 Luminus uses [SQL Korma](https://github.com/korma/Korma) when you select a database profile such as `+postgres`. 
 
 >[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/)
 
-Adding database support to an existing project is rather simple as well. You will first need to add the Korma dependency
+
+Adding Korma support to an existing project is rather simple as well. You will first need to add the Korma dependency
 to you `project.clj`:
 
 ```clojure
@@ -123,3 +126,47 @@ The get user query would then be rewritten as:
 ```
 
 For further documentation on Korma and its features please refer to the [official documentation page](http://sqlkorma.com/docs).
+
+### Yesql
+
+While Korma provides a Clojure DSL for working with SQL, [Yesql](https://github.com/krisajenkins/yesql) is a great alternative that allows to work with SQL directly.
+
+To use Yesql, you'll first have to add the following dependency to your project:
+
+```clojure
+[yesql "0.4.0"]
+```
+
+Then you simply create a SQL file with the queries that's located somewhere on the `classpath`, such as `resources/queries.sql`. The format for the file is `(<name tag> [docstring comments] <the query>)*` as seen below:
+
+```clojure
+-- name: find-users
+-- Find the users with the given ID(s).
+SELECT *
+FROM user
+WHERE user_id IN (:id)
+AND age > :min_age
+
+-- name: user-count
+-- Counts all the users.
+SELECT count(*) AS count
+FROM user
+```
+
+With the file created, you will have to require `yesql.core/defqueries` in your namespace and call it:
+
+```clojure
+(ns myapp.db.core
+  (:require [yesql.core :refer [defqueries]]))
+  
+(defqueries "resources/queries.sql")  
+```
+
+Each query can now be called by its name like a regular function:
+
+```clojure
+(find-users db-spec [1001 1003 1005] 18)
+```
+
+See the [official documentation](https://github.com/krisajenkins/yesql) for more details.
+
