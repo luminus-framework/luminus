@@ -90,7 +90,7 @@ To create new tables simply use the `create-table-ddl` function from within the 
 The `create-table-ddl` call must be wrapped inside `db-do-commands`, which ensures that the connection
 is cleaned up after the function exists.
 
-### Accessing the Database
+#### Accessing the Database
 
 When using Korma, we first need to to wrap our `db-spec` using `defdb` as follows:
 
