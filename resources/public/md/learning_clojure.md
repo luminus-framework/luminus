@@ -2,7 +2,7 @@ This section provides links to online resources, books, and development environm
 
 ### Online Clojure Guides
 
-* [Clojure Distilled](https://rawgit.com/yogthos/yogthos.github.com/master/ClojureDistilled.html) - introduction to core Clojure concepts
+* [Clojure Distilled](http://yogthos.github.io/ClojureDistilled.html) - introduction to core Clojure concepts
 * [Clojure - Functional Programming for the JVM](http://java.ociweb.com/mark/clojure/article.html) - a detailed Clojure primer aimed at Java developers
 * [Clojure for the Brave and True](http://www.braveclojure.com/) - an excellent and humorous introduction to the language
 * [Clojure Documentation](http://clojure-doc.org/) - a collection of Clojure guides and tutorials
