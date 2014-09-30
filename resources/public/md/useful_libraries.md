@@ -41,6 +41,7 @@ to those already included with Luminus.
 * [Kioo](https://github.com/ckirkendall/kioo) - DOM manipulation and templating library for Reagent/Om
 * [Hickory](https://github.com/davidsantiago/hickory) -  parses HTML into Clojure data structures
 * [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
+* [Sente](https://github.com/ptaoussanis/sente) - bidirectional a/sync comms over both WebSockets and Ajax (auto-fallback)
 * [Datascript](https://github.com/tonsky/datascript) - central, uniform approach to manage all application state
 * [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
 * [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
@@ -101,6 +102,7 @@ to those already included with Luminus.
 * [Schema](https://github.com/prismatic/schema) - a Clojure(Script) library for declarative data description and validation. 
 * [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
 * [Validateur](http://clojurevalidations.info/articles/getting_started.html) - a validation library inspired by Ruby's ActiveModel
+* [aging-session](https://github.com/diligenceengine/aging-session) - a memory based ring session store that has a concept of time
 * [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
 * [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
 * [cronj](http://docs.caudate.me/cronj/) - a library for scheduling tasks 
