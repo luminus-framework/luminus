@@ -500,7 +500,7 @@ Our final `home.html` template should look as follows:
         </p>
         <p>
          Message: 
-         <textarea rows="4" cols="50" name="message" />{{message}}</textarea>
+         <textarea rows="4" cols="50" name="message">{{message}}</textarea>
         </p>
         <input type="submit" value="comment" />
       </form>        
