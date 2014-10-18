@@ -46,6 +46,105 @@ cp target/myapp-0.1.0-SNAPSHOT-standalone.war ~/tomcat/webapps/myapp.war
 Your app will now be avaliable at the context `/myapp` when Tomcat starts. To deploy the app
 at root context, simply copy it to `webapp` as `ROOT.war`.
 
+## VPS Deployment
+
+Virtual Private Servers (VPS) such as [DigitalOcean](https://www.digitalocean.com/) provide a cheap hosting option for Clojure applications. 
+
+Follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-create-your-first-digitalocean-droplet-virtual-server) in order to setup your DigitalOcean server. Once the server is created you can install Ubuntu [as described here](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-12-04). Finally, install Java on your Ubuntu instance by following [these instructions](https://help.ubuntu.com/community/Java).
+
+You're now ready to deploy your application to the server. The most common approach is to run the `uberjar` and front it using [Nginx](http://wiki.nginx.org/Main).
+
+
+Create a directory for your application on the server such as `/var/myapp` then upload your application to the server using `scp`:
+
+```
+$ scp myapp.jar user@<domain>:/var/myapp/
+```
+
+You should now test that you're able to run the application. Connect to the server using `ssh` and run the application:
+
+```
+java -jar /var/myapp/myapp.jar
+```
+
+If everything went well then your application should now be accessible on the server at `http://<domain>:3000`. If your application is not accessible make sure that the firewall is configured to allow access to the port.
+
+Let's stop the application instance and create a an `upstart` configuration to manage its lifecycle. To do this you will need to create a file called `/etc/init/myapp.conf` and put the following settings there:
+
+```
+description "Run my app"
+
+setuid deploy
+setgid deploy
+
+start on runlevel startup
+stop on runlevel shutdown
+
+respawn
+
+chdir /var/myapp
+
+script
+        exec java -jar /var/myapp/myapp.jar
+end script        
+```
+
+You should now be able to start the application by running:
+
+```
+$ start myapp
+```
+
+Test that the application starts up correctly by navigating to its URL `http://<domain>:3000`.
+
+Finally, you will need to install and configure Nginx to front the application on port `80`. Install Nginx using the following command:
+
+```
+$ sudo apt-get install nginx
+```
+
+Next, creat a configuration file for the application such as `/etc/nginx/sites-available/myapp` and put the following settings there:
+
+```
+server{
+  listen 0.0.0.0:80;
+  server_name mydomain.com www.mydomain.com;
+
+  access_log /var/log/myapp_access.log;
+  error_log /var/log/myapp_error.log;
+
+  location / {
+    proxy_pass http://localhost:3000/;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme
+    proxy_redirect  off;
+  }
+}
+```
+
+Restart Nginx and test that the application is available at `http://<domain>` then disable access to port `3000` by running the following command:
+
+```
+$ sudo ufw deny 3000
+```
+
+Optionally, you can configure Nginx to serve static resources for the application. In order to do that you will need to ensure that all static resources are served using a common prefix such as `static`. Next, upload the `resources/public/static` folder from your application to the server to a location such as `/var/myapp/static` by running the following command from the project folder:
+
+```
+scp -r resources/public/static user@<domain>:/var/myapp/static
+```
+
+Now add the following additional configuration option under the `server` section of the Ngnix configuration above:
+
+```
+location /static/ {
+    alias /var/myapp/static/;
+  }
+```
+
+This will cause Nginx to bypass your application for any requests to `http://<domain>/static` and serve them directly instead.
+
 ## Heroku Deployment
 
 First, make sure you have [git](http://git-scm.com/downloads) and [Heroku toolbelt](https://toolbelt.heroku.com/) installed, then simply follow the steps below.
