@@ -123,7 +123,13 @@ server{
 }
 ```
 
-Restart Nginx and test that the application is available at `http://<domain>`.
+Restart Nginx by running:
+
+```
+sudo service nginx restart
+```
+
+Then test that the application is available at `http://<domain>`.
 
 Optionally, you can configure Nginx to serve static resources for the application. In order to do that you will need to ensure that all static resources are served using a common prefix such as `static`. Next, upload the `resources/public/static` folder from your application to the server to a location such as `/var/myapp/static` by running the following command from the project folder:
 
