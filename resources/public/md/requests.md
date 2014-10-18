@@ -29,4 +29,5 @@ Below is a list of valid formats:
 * :yaml - YAML format
 * :yaml-kw - YAML format with keywodized keys in :params and :body-params
 * :yaml-in-html - yaml in a html page
-
+* :transit-json Transit over JSON format
+* :transit-msgpack Transit over Msgpack format
