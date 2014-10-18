@@ -95,9 +95,9 @@ You should now be able to start the application by running:
 $ start myapp
 ```
 
-Test that the application starts up correctly by navigating to its URL `http://<domain>:3000`.
+Test that the application starts up correctly by navigating to its URL `http://<domain>:3000`. You're now ready to setup Nginx to front the application on port `80`.
 
-Finally, you will need to install and configure Nginx to front the application on port `80`. Install Nginx using the following command:
+Install Nginx using the following command:
 
 ```
 $ sudo apt-get install nginx
