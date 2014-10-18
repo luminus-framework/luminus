@@ -103,7 +103,7 @@ Install Nginx using the following command:
 $ sudo apt-get install nginx
 ```
 
-Next, creat a configuration file for the application such as `/etc/nginx/sites-available/myapp` and put the following settings there:
+Next, create a configuration file for the application such as `/etc/nginx/sites-available/myapp` and put the following settings there:
 
 ```
 server{
