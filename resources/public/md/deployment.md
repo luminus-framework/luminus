@@ -123,11 +123,7 @@ server{
 }
 ```
 
-Restart Nginx and test that the application is available at `http://<domain>` then disable access to port `3000` by running the following command:
-
-```
-$ sudo ufw deny 3000
-```
+Restart Nginx and test that the application is available at `http://<domain>`.
 
 Optionally, you can configure Nginx to serve static resources for the application. In order to do that you will need to ensure that all static resources are served using a common prefix such as `static`. Next, upload the `resources/public/static` folder from your application to the server to a location such as `/var/myapp/static` by running the following command from the project folder:
 
@@ -144,6 +140,15 @@ location /static/ {
 ```
 
 This will cause Nginx to bypass your application for any requests to `http://<domain>/static` and serve them directly instead.
+
+Finally, configure your firewall to only allow access to specified ports by running the following commands:
+
+```
+$ sudo ufw allow ssh
+$ sudo ufw allow http
+$ sudo ufw allow https
+$ sudo ufw enable
+```
 
 ## Heroku Deployment
 
