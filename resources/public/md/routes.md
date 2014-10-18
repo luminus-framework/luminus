@@ -315,34 +315,19 @@ By default every rule has to pass, the `:any` key specifies that it's sufficient
 CSRF attack involves a third party performing an action on your site using the credentials of a logged-in user.
 This can commonly occur when your site contains malicious a link, a form button, or some JavaScript.
 
-To protect against CSRF attacks use the [Ring-Anti-Forgery](https://github.com/weavejester/ring-anti-forgery).
-
-To do this we will first need to include the `[ring-anti-forgery "0.2.1"]` dependency in your project. Then we'll
-reference the required libraries to the handler namespace definition.
+[Ring-Anti-Forgery](https://github.com/weavejester/ring-anti-forgery) is used to protect against CSRF attacks. To enable it simply navigate to the `handler` namespace and change `mk-defaults` parameter to true in the `app-handler`:
 
 ```clojure
-(ns myapp.handler
-  (:require
-    ...
-    [selmer.parser :refer [add-tag!]]
-    [ring.util.anti-forgery :refer [anti-forgery-field]]
-    [ring.middleware.anti-forgery :refer [wrap-anti-forgery]])
+(def app (app-handler
+           [home-routes base-routes]
+           :middleware (load-middleware)
+           ;; set this to true in order to enable CSRF protection
+           :ring-defaults (mk-defaults true)
+           :access-rules []
+           :formats [:json-kw :edn :transit-json]))
 ```
 
-Next, we'll add the `wrap-anti-forgery` middleware to our handler:
-
-```clojure
-(def app (middleware/app-handler
-           ;;add your application routes here
-           [home-routes app-routes]
-           ;;add custom middleware here
-           :middleware [wrap-anti-forgery]
-           ;;add access rules here
-           ;;each rule should be a vector
-           :access-rules []))
-```
-
-Once the middleware is added a randomly-generated string will be assigned to the *anti-forgery-token* var.
+Once the CSRF middleware is enabled a randomly-generated string will be assigned to the *anti-forgery-token* var.
 Any POST requests coming to the server will have to contain a paremeter called `__anti-forgery-token` with 
 this token.
 
@@ -366,6 +351,6 @@ and start using it in our templates as follows:
 </form>
 ```
 
-Any POST requests that do not contain the token will be rejected by the middleware. The server will
+POST requests that do not contain the token will be rejected by the middleware. The server will
 respond with a 403 error saying "Invalid anti-forgery token".
 
