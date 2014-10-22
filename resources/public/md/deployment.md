@@ -69,7 +69,20 @@ java -jar /var/myapp/myapp.jar
 
 If everything went well then your application should now be accessible on the server at `http://<domain>:3000`. If your application is not accessible make sure that the firewall is configured to allow access to the port.
 
-Let's stop the application instance and create a an `upstart` configuration to manage its lifecycle. To do this you will need to create a file called `/etc/init/myapp.conf` and put the following settings there:
+First, you'll need to create a user for deployment:
+
+```
+adduser deploy
+visudo
+```
+then add the following line to the `sudo` config:
+
+```
+# Add deploy ALL=(ALL) ALL
+```
+
+Now, let's stop the application instance and create a an `upstart` configuration to manage its lifecycle. To do this you will need to create a file called `/etc/init/myapp.conf` and put the following settings there:
+
 
 ```
 description "Run my app"
