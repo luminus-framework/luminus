@@ -75,6 +75,7 @@ First, you'll need to create a user for deployment and run `visudo` to set the u
 adduser deploy
 visudo
 ```
+
 then add the following line to the `sudo` config:
 
 ```
@@ -82,7 +83,6 @@ deploy ALL=(ALL) NOPASSWD: /usr/sbin/service nginx start,/usr/sbin/service nginx
 ```
 
 Now, let's stop the application instance and create a an `upstart` configuration to manage its lifecycle. To do this you will need to create a file called `/etc/init/myapp.conf` and put the following settings there:
-
 
 ```
 description "Run my app"
