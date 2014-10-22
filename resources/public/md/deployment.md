@@ -79,7 +79,7 @@ visudo
 then add the following line to the `sudo` config:
 
 ```
-deploy ALL=(ALL) NOPASSWD: /usr/sbin/service nginx start,/usr/sbin/service nginx stop,/usr/sbin/service nginx restart
+deploy  ALL=NOPASSWD: /etc/init.d/nginx
 ```
 
 Now, let's stop the application instance and create a an `upstart` configuration to manage its lifecycle. To do this you will need to create a file called `/etc/init/myapp.conf` and put the following settings there:
@@ -116,12 +116,13 @@ Install Nginx using the following command:
 $ sudo apt-get install nginx
 ```
 
-Next, create a configuration file for the application such as `/etc/nginx/sites-available/myapp` and put the following settings there:
+Next, make a backup of the default configuration in `/etc/nginx/sites-available/default` and replace it with a custom configuration file for the application such as:
 
 ```
 server{
-  listen 0.0.0.0:80;
-  server_name mydomain.com www.mydomain.com;
+  listen 80 default_server;
+  listen [::]:80 default_server ipv6only=on;
+  server_name localhost mydomain.com www.mydomain.com;
 
   access_log /var/log/myapp_access.log;
   error_log /var/log/myapp_error.log;
@@ -130,7 +131,7 @@ server{
     proxy_pass http://localhost:3000/;
     proxy_set_header Host $http_host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme
+    proxy_set_header X-Forwarded-Proto $scheme;
     proxy_redirect  off;
   }
 }
