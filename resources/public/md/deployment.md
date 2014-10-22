@@ -78,7 +78,7 @@ visudo
 then add the following line to the `sudo` config:
 
 ```
-# Add deploy ALL=(ALL) ALL
+deploy ALL=NOPASSWD: /etc/init.d/nginx
 ```
 
 Now, let's stop the application instance and create a an `upstart` configuration to manage its lifecycle. To do this you will need to create a file called `/etc/init/myapp.conf` and put the following settings there:
