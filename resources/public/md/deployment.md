@@ -69,7 +69,7 @@ java -jar /var/myapp/myapp.jar
 
 If everything went well then your application should now be accessible on the server at `http://<domain>:3000`. If your application is not accessible make sure that the firewall is configured to allow access to the port.
 
-First, you'll need to create a user for deployment:
+First, you'll need to create a user for deployment and run `visudo` to set the user `sudo` permissions:
 
 ```
 adduser deploy
