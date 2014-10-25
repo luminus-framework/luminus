@@ -9,33 +9,33 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 
 ### Adding ClojureScript Support
 
-The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. This is done by adding the following sections to your `project.clj` file.
+The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. First, add the `lein-cljsb-build` plugin and `:cljsbuild` key to the project as seen below:
 
 ```clojure
 :plugins [... [lein-cljsbuild "1.0.3"]]  
-:hooks [... leiningen.cljsbuild]
 
 :cljsbuild
-{:builds
-     [{:id "dev"
-       :source-paths ["src-cljs"]
-       :compiler
-        {:optimizations :none
-         :output-to "resources/public/js/app.js"
-         :output-dir "resources/public/js/"
-         :pretty-print true
-         :source-map true}}
-      {:id "release"
-       :source-paths ["src-cljs"]
-       :compiler
-        {:output-to "resources/public/js/app.js"
-         :optimizations :advanced
-         :pretty-print false
-         :output-wrapper false
-         :closure-warnings {:non-standard-jsdoc :off}}}]}   
+{:builds {:app {:source-paths ["src-cljs"]
+               :compiler {:output-to     "resources/public/js/app.js"
+                          :output-dir    "resources/public/js/out"
+                          :source-map    "resources/public/js/out.js.map"
+                          :externs       ["react/externs/react.js"]
+                          :optimizations :none
+                          :pretty-print  true}}}}  
 ```
 
-The above will add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and hook for your project as well as the build configuration.
+Next, update the `:uberjar` profile with the following options:
+
+```clojure
+:hooks ['leiningen.cljsbuild]
+:cljsbuild {:jar true
+            :builds {:app
+                     {:compiler
+                      {:optimizations :advanced
+                       :pretty-print false}}}}
+```
+
+The above will add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) hook to the `:uberjar` profile so that ClojureScript is compiled when `lein ring uberjar` is run. The `:cljsbuild` options will override the defaults with production settings.
 
 All the ClojureScript namespaces should live in the `src-cljs` directory under the root of your project. Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
 
@@ -48,13 +48,13 @@ One advantage of using ClojureScript is that it allows managing your client-side
 The easiest way to develop ClojureScript applications is to run the compiler in `auto` mode. This way any changes you make in your namespaces will be recompiled automatically and become immediately available on the page. To start the compiler in this mode simply run:
 
 ```
-lein cljsbuild auto dev
+lein cljsbuild auto
 ```
 
-To compile the application for production use the `once` options. This will compile all the scripts into a single `Js` output file that will be included in your project:
+Make sure to run the `clean` option before packaging the application for production using `lein ring uberjar`. This will ensure that any existing artifacts are removed before the production JavaScript is compiled:
 
 ```
-lein cljsbuild once release
+lein cljsbuild once
 ```
 
 ### Advanced Compilation and Exports
