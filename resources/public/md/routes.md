@@ -331,12 +331,18 @@ Once the CSRF middleware is enabled a randomly-generated string will be assigned
 Any POST requests coming to the server will have to contain a paremeter called `__anti-forgery-token` with 
 this token.
 
-We can then define a new CSRF tag in our `init` function:
+We'll first need to add a reference to `anti-forgery` in the namespace declaration:
+
+```
+(require ... [ring.util.anti-forgery :refer [anti-forgery-field]]))
+```
+
+Next, we can then define a new CSRF tag in our `init` function:
 
 ```clojure
 (defn init
   ...
-  (add-tag! :csrf-token (fn [_ _] (anti-forgery-field)))
+  (parser/add-tag! :csrf-token (fn [_ _] (anti-forgery-field)))
   ...)
 ```
 
