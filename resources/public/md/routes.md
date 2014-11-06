@@ -333,7 +333,7 @@ this token.
 
 We'll first need to add a reference to `anti-forgery` in the namespace declaration:
 
-```
+```clojure
 (require ... [ring.util.anti-forgery :refer [anti-forgery-field]]))
 ```
 
