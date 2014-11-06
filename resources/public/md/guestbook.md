@@ -171,12 +171,12 @@ The project file of the application we've created is found in its root folder an
   :dependencies
   [[com.h2database/h2 "1.4.178"]
    [ring-server "0.3.1"]
-   [environ "0.5.0"]
+   [environ "1.0.0"]
    [com.taoensso/timbre "3.2.1"]
-   [markdown-clj "0.9.44"]
-   [korma "0.3.1"]
+   [markdown-clj "0.9.55"]
+   [korma "0.4.0"]
    [com.taoensso/tower "2.0.2"]
-   [selmer "0.6.6"]
+   [selmer "0.7.2"]
    [org.clojure/clojure "1.6.0"]
    [log4j
     "1.2.17"
@@ -185,11 +185,11 @@ The project file of the application we've created is found in its root folder an
      javax.jms/jms
      com.sun.jdmk/jmxtools
      com.sun.jmx/jmxri]]
-   [compojure "1.1.8"]
-   [lib-noir "0.8.3"]]
+   [compojure "1.2.1"]
+   [lib-noir "0.9.4"]]
 
   :plugins
-  [[lein-ring "0.8.7"] [lein-environ "0.5.0"]]
+  [[lein-ring "0.8.13"] [lein-environ "1.0.0"]]
 
   :ring
   {:handler guestbook.handler/app,
@@ -223,14 +223,24 @@ The definition is simply a map containing the class for the JDBC driver, the pro
 user, password, and the name of the database file used by the H2 database.
 
 ```clojure
+(ns guestbook.db.schema
+  (:require [clojure.java.jdbc :as sql]
+            [clojure.java.io :refer [file]]
+            [noir.io :as io]))
+            
+(def db-store (str (.getName (file ".")) "/site.db"))
+
 (def db-spec {:classname "org.h2.Driver"
               :subprotocol "h2"
-              :subname (str (io/resource-path) db-store)
+              :subname db-store
               :user "sa"
               :password ""
-              :naming {:keys clojure.string/upper-case
+              :make-pool? true
+              :naming {:keys clojure.string/lower-case
                        :fields clojure.string/upper-case}})
 ```
+
+The database will be stored in a file called `site.db.mv.db` relative to the folder from where the application is run.
 
 Next, we have a function called `create-users-table` with a definition for a table called `users`.
 We'll replace this function with a `create-guestbook-table` function instead:
@@ -329,7 +339,8 @@ Next, we can update the `init` function as follows:
   (if (env :selmer-dev) (parser/cache-off!))
   
   ;;initialize the database if needed
-  (if-not (schema/initialized?) (schema/create-tables))
+  (when-not (schema/initialized?)
+    (schema/create-tables))
   
   (timbre/info "guestbook started successfully"))
 ```
