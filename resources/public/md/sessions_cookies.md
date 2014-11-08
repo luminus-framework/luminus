@@ -43,6 +43,16 @@ We can also specify the maximum age for our session cookies using the `:max-age`
                       :store (cookie-store)}))
 ```
 
+When using cookie store it is also important to specify a secret key (16 characters) for cookie encryption. Otherwise a random one will be generated each time application is started and sessions created before will be lost.
+
+```clojure
+(def app
+  (middleware/app-handler
+    [home-routes app-routes]
+    :session-options {:cookie-name "example-app-session"
+                      :store (cookie-store {:key "BuD3KgdAXhDHrJXu")}))
+```
+
 You may also wish to take a look at [Redis](http://redis.io/) for your session store. Creating Redis sessions is easy thanks to [Carmine](https://github.com/ptaoussanis/carmine). You would simply need to define a connection and use the `taoensso.carmine.ring/carmine-store` with it:
 
 ```clojure
