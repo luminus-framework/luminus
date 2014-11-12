@@ -137,7 +137,7 @@ All the global JavaScript functions and variables are available via the `js` nam
 (set! (.-color (.-style div) "#234567"))
 ```
 
-For more examples of ClojureScript synonyms of common JavaScript operations see the [Himera documentation](http://himera.herokuapp.com/synonym.html).
+For more examples of ClojureScript synonyms of common JavaScript operations see the [ClojureScript Synonyms](http://kanaka.github.io/clojurescript/web/synonym.html).
 
 ### Reagent
 
