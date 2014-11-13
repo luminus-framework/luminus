@@ -109,6 +109,8 @@ If we put the above code in a file called `externs.js` under the `resources` dir
   :closure-warnings {:non-standard-jsdoc :off}}}
 ```
 
+A useful site for extracting externs can be found [here](http://www.dotnetwise.com/Code/Externs/).
+
 ### Interacting with JavaScript
 
 All the global JavaScript functions and variables are available via the `js` namespace.
