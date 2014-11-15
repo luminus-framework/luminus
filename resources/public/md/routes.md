@@ -217,7 +217,7 @@ The `noir.util.route/restricted` macro is used to indicate that access rules app
 ```
 
 In case we have multiple routes that we'd like to mark as restricted we can use the 
-`def-restricted-routes` macro. This will make all the routes defined inside it restricted:
+`noir.util.route/def-restricted-routes` macro. This will make all the routes defined inside it restricted:
 
 ```clojure
 (def-restricted-routes private-pages
