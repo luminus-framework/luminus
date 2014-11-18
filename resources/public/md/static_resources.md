@@ -61,10 +61,10 @@ The `noir.io/get-resource` function can be used to load any static resource rela
 with the relative path supplied as a string:
 
 ```clojure
-(get-resource "/md/outline.md")
+(get-resource "/screen.css")
 ```
 
-The above will return clojure.java.io/resource for `screen.css` located at `public/md/outline.md` path.
+The above will return clojure.java.io/resource for `screen.css` located at `resources/public/screen.css` path.
 
 Finally, there's `noir.io/slurp-resource` that will read the contents of the file and
 return them a string:
