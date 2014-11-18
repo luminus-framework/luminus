@@ -5,10 +5,10 @@
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [lib-noir "0.8.9"]
-                 [compojure "1.1.9"]
+                 [compojure "1.2.1"]
                  [ring-server "0.3.1"]
-                 [markdown-clj "0.9.48"]
-                 [clj-http "1.0.0"]
+                 [markdown-clj "0.9.55"]
+                 [clj-http "1.0.1"]
                  [crouton "0.1.2"]]
   :min-lein-version "2.0.0"
   :plugins [[lein-ring "0.8.10"]]
