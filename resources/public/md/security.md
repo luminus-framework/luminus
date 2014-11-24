@@ -108,7 +108,7 @@ and start using it in our templates as follows:
   {% csrf-token %}
   Username: <input type="text" name="user">
   Password: <input type="password" name="pass">
-<input type="submit" value="Submit">
+  <input type="submit" value="Submit">
 </form>
 ```
 
