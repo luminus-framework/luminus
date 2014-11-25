@@ -7,7 +7,7 @@
                  [lib-noir "0.8.9"]
                  [compojure "1.2.1"]
                  [ring-server "0.3.1"]
-                 [markdown-clj "0.9.55"]
+                 [markdown-clj "0.9.58"]
                  [clj-http "1.0.1"]
                  [crouton "0.1.2"]]
   :min-lein-version "2.0.0"
