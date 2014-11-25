@@ -4,10 +4,12 @@
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.6.0"]
+                 ;;TODO: update handler to be compatible with the latest lib-noir
+                 ;;update highlight.js setting to match latest markdown-clj
                  [lib-noir "0.8.9"]
                  [compojure "1.2.1"]
                  [ring-server "0.3.1"]
-                 [markdown-clj "0.9.58"]
+                 [markdown-clj "0.9.55"]
                  [clj-http "1.0.1"]
                  [crouton "0.1.2"]]
   :min-lein-version "2.0.0"
