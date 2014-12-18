@@ -79,7 +79,7 @@ src
          db
            └ core.clj
              schema.clj
-          routes
+         routes
            └ home.clj
 test
   └ guestbook
