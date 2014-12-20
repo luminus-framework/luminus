@@ -52,6 +52,20 @@ Virtual Private Servers (VPS) such as [DigitalOcean](https://www.digitalocean.co
 
 Follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-create-your-first-digitalocean-droplet-virtual-server) in order to setup your DigitalOcean server. Once the server is created you can install Ubuntu [as described here](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-12-04). Finally, install Java on your Ubuntu instance by following [these instructions](https://help.ubuntu.com/community/Java).
 
+### Create a `deploy` user:
+
+```
+adduser deploy
+passwd -l deploy
+visudo
+```
+
+add the `sudo` priviliges for the user:
+
+```
+deploy  ALL=NOPASSWD: /etc/init.d/nginx
+```
+
 You're now ready to deploy your application to the server. The most common approach is to run the `uberjar` and front it using [Nginx](http://wiki.nginx.org/Main).
 
 
@@ -160,6 +174,20 @@ location /static/ {
 ```
 
 This will cause Nginx to bypass your application for any requests to `http://<domain>/static` and serve them directly instead.
+
+To enable compression make sure the following settings are present in your `/etc/nginx/nginx.conf`:
+
+```
+gzip on;
+gzip_disable "msie6";
+
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_buffers 16 8k;
+gzip_http_version 1.1;
+gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;">
+```
 
 Finally, configure your firewall to only allow access to specified ports by running the following commands:
 
