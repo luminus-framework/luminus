@@ -70,7 +70,7 @@ The `attributes` vector can be used to filter the keys that are returned, an emp
 CSRF attack involves a third party performing an action on your site using the credentials of a logged-in user.
 This can commonly occur when your site contains malicious a link, a form button, or some JavaScript.
 
-[Ring-Anti-Forgery](https://github.com/weavejester/ring-anti-forgery) is used to protect against CSRF attacks. To enable it simply navigate to the `handler` namespace and change `mk-defaults` parameter to true in the `app-handler`:
+[Ring-Anti-Forgery](https://github.com/ring-clojure/ring-anti-forgery) is used to protect against CSRF attacks. To enable it simply navigate to the `handler` namespace and change `mk-defaults` parameter to true in the `app-handler`:
 
 ```clojure
 (def app (app-handler
