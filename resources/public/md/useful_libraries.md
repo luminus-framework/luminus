@@ -96,7 +96,7 @@ to those already included with Luminus.
 
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
-* [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - CSRF attack prevention using randomly-generated anti-forgery tokens
+* [ring-anti-forgery](https://github.com/ring-clojure/ring-anti-forgery) - CSRF attack prevention using randomly-generated anti-forgery tokens
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
 * [Pantomime](https://github.com/michaelklishin/pantomime) - a Library For Working With MIME Types
 * [Route One](https://github.com/clojurewerkz/route-one) -  a library that generates HTTP resource routes (as in Ruby on Rails and similar modern Web application frameworks)
