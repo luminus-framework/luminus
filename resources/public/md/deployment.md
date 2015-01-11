@@ -32,15 +32,15 @@ More information available on the [official site](http://immutant.org/tutorials/
 
 ## Deploying to Tomcat
 
-A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. In order to create a WAR you first need to remove the `:uberjar-name` key from your `project.clj`, next you can package the application by running:
+A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. In order to create a WAR you can package the application by running:
 ```bash
 lein ring uberwar
 ```
 
-Next, simply copy the resulting `myapp-0.1.0-SNAPSHOT-standalone.war` to the `webapps` folder on Tomcat, eg:
+Next, simply copy the resulting `myapp.war` to the `webapps` folder on Tomcat, eg:
 
 ```bash
-cp target/myapp-0.1.0-SNAPSHOT-standalone.war ~/tomcat/webapps/myapp.war
+cp target/myapp.war ~/tomcat/webapps/
 ```
 
 Your app will now be avaliable at the context `/myapp` when Tomcat starts. To deploy the app
