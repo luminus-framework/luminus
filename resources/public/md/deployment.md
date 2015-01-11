@@ -9,7 +9,7 @@ lein ring uberjar
 The resulting `jar` can be found in the `target` folder. It can be run as follows:
 
 ```bash
-java -jar myapp-0.1.0-SNAPSHOT-standalone.jar
+java -jar myapp.jar
 ```
 
 The standalone application uses an embedded Jetty server to run the application.
@@ -17,7 +17,7 @@ To specify a custom port you need to set the `$PORT` environment variable, eg:
 
 ```
 export PORT=8080
-java -jar target/myapp1-0.1.0-SNAPSHOT-standalone.jar
+java -jar target/myapp.jar
 ```
 ## Delpoying on Immutant
 
@@ -32,12 +32,12 @@ More information available on the [official site](http://immutant.org/tutorials/
 
 ## Deploying to Tomcat
 
-You need to package the application as a WAR archive, to do that run:
+A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. In order to create a WAR you first need to remove the `:uberjar-name` key from your `project.clj`, next you can package the application by running:
 ```bash
 lein ring uberwar
 ```
 
-then simply copy the resulting `myapp-0.1.0-SNAPSHOT-standalone.war` to the `webapps` folder on Tomcat, eg:
+Next, simply copy the resulting `myapp-0.1.0-SNAPSHOT-standalone.war` to the `webapps` folder on Tomcat, eg:
 
 ```bash
 cp target/myapp-0.1.0-SNAPSHOT-standalone.war ~/tomcat/webapps/myapp.war
