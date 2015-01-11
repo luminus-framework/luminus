@@ -118,7 +118,7 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 #### guestbook
 
 * `handler.clj` - defines the base routes for the application, this is the entry point into the application 
-* `layout.clj` - a namespace for the layout helpers and any pages we define will have to have their routes added here
+* `layout.clj` - a namespace for the layout helpers used to render the content for our pages
 * `middleware.clj` - a namespace that contains custom middleware for the application
 * `util.clj` - used for general helper functions, it comes prepopulated with the `md->html` helper
 * `repl.clj` - provides functions to start and stop the application from the REPL
