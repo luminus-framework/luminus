@@ -69,8 +69,7 @@ Procfile
 README.md
 project.clj
 src
-  └ log4j.xml
-    guestbook
+  └ guestbook
        └ handler.clj
          layout.clj
          middleware.clj
@@ -86,7 +85,8 @@ test
        └ test
            └ handler.clj
 resources
-  └ templates
+  └ log4j.properties
+    templates
        └ about.html
          base.html
          home.html
@@ -122,7 +122,6 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 * `middleware.clj` - a namespace that contains custom middleware for the application
 * `util.clj` - used for general helper functions, it comes prepopulated with the `md->html` helper
 * `repl.clj` - provides functions to start and stop the application from the REPL
-* `log4j.xml` - logging configuration for [Korma](http://sqlkorma.com/)
 
 #### guestbook.db
 
