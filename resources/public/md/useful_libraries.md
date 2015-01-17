@@ -23,7 +23,6 @@ to those already included with Luminus.
 * [buddy](https://github.com/niwibe/buddy) - a complete security library for clojure
 * [Friend](https://github.com/cemerick/friend) - an extensible authentication and authorization library
 * [clj-ldap](https://github.com/pauldorman/clj-ldap) - a library for talking to LDAP servers
-* [Sandbar](https://github.com/brentonashworth/sandbar) - a web application library with higher level abstractions for Compojure, Ring
 * [ring-basic-authentication](https://github.com/remvee/ring-basic-authentication) - Ring middleware to enforce basic authentication
 
 ## Caching
