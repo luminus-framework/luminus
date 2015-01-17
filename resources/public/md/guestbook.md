@@ -143,7 +143,7 @@ Here is where we put tests for our application, a couple of sample tests have al
 
 ### The Resources Directory
 
-This is where we put all the static resources for our application. Content in the `public` directory under `resources` will be served to the clients by the server. We can see that some CSS reasources have already been created for us.
+This is where we put all the static resources for our application. Content in the `public` directory under `resources` will be served to the clients by the server. We can see that some CSS resources have already been created for us.
 
 #### HTML templates
 
