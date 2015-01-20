@@ -58,7 +58,7 @@ Finally, we'll write a function to authenticate the user using the above host de
   (let [server (client/connect host)
         qualified-name (str username "@" (-> host :host first :address))]
     (if (client/bind? server qualified-name  password)
-      (first (client/search server "OU=UHNPeople,DC=uhn,DC=ca"
+      (first (client/search server "OU=MyOrgPeople,DC=myorg,DC=ca"
                             {:filter (str "sAMAccountName=" username)
                              :attributes (or attributes [])})))))
 ``` 
