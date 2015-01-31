@@ -46,6 +46,7 @@ footer article {
 .navbar {
     padding-left: 50px;
     padding-right: 50px;
+    border-radius: 0;
 }
 .nav-row {
     margin: auto;
