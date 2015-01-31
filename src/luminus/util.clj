@@ -21,7 +21,7 @@
 
 (defn fetch-doc-pages []
   (with-open
-    [r (->> "https://raw.github.com/yogthos/luminus/master/resources/public/docpages.clj"
+    [r (->> "https://raw.github.com/yogthos/luminus/master/resources/docpages.edn"
             client/get
             :body
             java.io.StringReader.
@@ -29,11 +29,10 @@
     (binding [*read-eval* false]
       (read r))))
 
-;;TODO: update link location
 (defn fetch-doc [name]
   (md/md-to-html-string
     (->> name
-         (str "https://raw.github.com/yogthos/luminus/master/resources/public/md/")
+         (str "https://raw.github.com/yogthos/luminus/master/resources/md/")
          (client/get)
          :body)
     :heading-anchors true
