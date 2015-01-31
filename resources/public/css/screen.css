@@ -304,6 +304,7 @@ article {
 	width: 150px;
     display: block;
     margin-left: 10px;
+    box-shadow: 5px 5px 3px #ddd;
 }
 
 @keyframes reset {
