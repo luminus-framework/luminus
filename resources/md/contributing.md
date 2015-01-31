@@ -20,8 +20,8 @@ Luminus is built around the idea of profiles. If there's a new feature you'd lik
 The source for this site and associated documentation are located [here](https://github.com/yogthos/luminus).
 
 All the Luminus documentation is read from github. If you wish to update an existing documentation page, simply edit the Markdown
-file for the page [here](https://github.com/yogthos/luminus/tree/master/resources/public/md).
+file for the page [here](https://github.com/yogthos/luminus/tree/master/resources/md).
 
-To add a new topic simply create a new Markdown file under [public/md](https://github.com/yogthos/luminus/tree/master/resources/public/md)
-directory, and update the list of topics [here](https://github.com/yogthos/luminus/blob/master/resources/public/docpages.clj).
+To add a new topic simply create a new Markdown file under [public/md](https://github.com/yogthos/luminus/tree/master/resources/md)
+directory, and update the list of topics [here](https://github.com/yogthos/luminus/blob/master/resources/docpages.edn).
 

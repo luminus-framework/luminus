@@ -49,9 +49,11 @@
     [] content))
 
 (defn make-links [headings]
-  (into [:ol.contents]
+  (when (not-empty headings)
+    (hiccup/html
+      (into [:ol.contents]
         (for [{[{{name :name} :attrs} title] :content} headings]
-          [:li [:a {:href (str "#" name)} title]])))
+          [:li [:a {:href (str "#" name)} title]])))))
 
 (defn generate-toc [content]
   (when content
@@ -61,8 +63,7 @@
         html/parse
         :content
         get-headings
-        make-links
-        hiccup/html)))
+        make-links)))
 
 (defn refresh-docs! []
   (when-let [pages (try (fetch-doc-pages) (catch Exception _))]

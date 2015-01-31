@@ -118,7 +118,6 @@ ul.nav {
     position: relative;
     margin-bottom: 50px;
     width: 100%;
-    padding-bottom: 40px;
     box-shadow: 0 0 10px rgba(0,0,0,.25);
 }
 .article {
@@ -134,7 +133,6 @@ ul.nav {
 .sidebar {
     background: #f5f5f9;
     height: 100%;
-    position: absolute;
     right: 0;
     padding: 30px;
 }
@@ -280,18 +278,29 @@ article {
 .fa {
     color: #5092f4;
 }
+#welcome h3 {
+    font-size: 1.6em;
+}
 #welcome li {
     list-style-type: none;
 }
 .info {
     width: 380px;
 }
+.info ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+.info li {
+    list-style-type: none;
+}
 .blurb {
     color: gray;
     height: 50px;
     width: 300px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
+
 .bookimage {
 	width: 150px;
     display: block;

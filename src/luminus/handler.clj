@@ -34,6 +34,7 @@
 (defn doc-page [doc]
   (let [doc-content (get @util/docs doc)
         topics (:pages @util/docs)]
+    (println (util/generate-toc doc-content) (:pages @util/docs))
     (render "docs.html" {:title   (get (into {} topics) doc)
                          :toc     (util/generate-toc doc-content)
                          :content doc-content

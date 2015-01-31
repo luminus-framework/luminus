@@ -3,8 +3,10 @@
 <div class="row page">
     <div class="col-md-9 article">
         <h1>{{title}}</h1>
-        <h2>Contents</h2>
-        {{toc|safe}}
+        {% if toc %}
+            <h2>Contents</h2>
+            {{toc|safe}}
+        {% endif %}
         {{content|safe}}
     </div>
     <div class="col-md-3 sidebar">
