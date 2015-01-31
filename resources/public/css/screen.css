@@ -120,21 +120,11 @@ ul.nav {
     width: 100%;
     box-shadow: 0 0 10px rgba(0,0,0,.25);
 }
-.article {
-    background: white;
-    padding: 30px;
-}
-.article a {
-    font-size: 1.0em;
-
-    text-decoration: none;
-    color: #007edf;
-    text-shadow: none;
-}
 .sidebar {
-    height: 100%;
     right: 0;
     padding: 30px;
+    float: none;
+    display: table-cell;
 }
 .sidebar .selected {
     border-bottom: 5px solid #428bca;
@@ -185,6 +175,20 @@ ul.nav {
     font-size: 1.0em;
 }
 
+.article {
+    margin: 0;
+    background: white;
+    padding: 30px;
+    float: none;
+    display: table-cell;
+}
+.article a {
+    font-size: 1.0em;
+
+    text-decoration: none;
+    color: #007edf;
+    text-shadow: none;
+}
 .article code {
     color: rgb(58, 113, 113);
     background: none;
