@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="luminus, clojure, framework, leiningen">
+    <meta name="canonical" content="http://luminusweb.net">
+    <title>Luminus - a Clojure web framework</title>
+</head>
+<body>
+<div id="wrap">
+    <header class="navbar navbar-top">
+        <div id="logo" class="col-lg-5 col-md-5 col-sm-5">
+            <h1 id="logo-text">
+                <a class="navbar-brand" href="{{servlet-context}}/">Luminus</a>
+            </h1>
+        </div>
+        <div class="row nav-row">
+            <!-- navbar -->
+            <div class="col-lg-7 col-md-7 col-sm-7">
+                <nav>
+                    <ul class="nav navbar-nav pull-right">
+                        <li {% ifequal page
+                        "home.html" %} class="selected"{%endifequal%}>
+                        <a href="{{servlet-context}}/">Home</a>
+                        </li>
+                        <li {% ifequal page
+                        "docs.html" %} class="selected"{%endifequal%}>
+                        <a href="{{servlet-context}}/docs">Documentation</a>
+                        </li>
+                        <li {% ifequal page
+                        "contribute.html" %} class="selected"{%endifequal%}>
+                        <a href="{{servlet-context}}/contribute">Get Involved</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div id="body" class="container">
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <div id="footer">
+        <footer class="text-muted text-center">
+            <article>
+
+                <p>
+                    Luminus framework is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>
+                    -
+                    Copyright ©
+                    <span id="cpyear"></span>
+                </p>
+            </article>
+        </footer>
+    </div>
+
+</div>
+
+
+<!-- scripts and styles -->
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/color-brewer.min.css">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+{% style "/css/highlight.css" %}
+{% style "/css/codestyle.css" %}
+{% style "/css/screen.css" %}
+
+{% script "/js/highlight.pack.js" %}
+
+{% script "/js/site.js" %}
+<script type="text/javascript">
+    var context = "{{servlet-context}}";
+</script>
+{% block page-scripts %}
+{% endblock %}
+
+</body>
+</html>
+

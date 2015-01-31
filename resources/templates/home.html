@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="home" class="row">
+    <div class="col-lg-12 splash">
+        <div class="clear" id="featured">
+            <div>
+                <p id="about">
+                Luminus is a Clojure micro-framework based on a set of lightweight libraries. It aims to provide a robust, scalable, and easy to use platform. With Luminus you can focus on developing your app the way you want without any distractions.
+                </p>
+
+                <h2>Clojure Web Development Made Simple</h2>
+
+                <div>
+                    <div class="shell pull-left">
+                        <p class="title">Quick Start Guide</p>
+                        <pre class="bash hljs">
+<span class="prompt">$ </span><span class="cmd">lein new cryogen my-blog</span>
+<span class="prompt">$ </span><span class="cmd">cd my-blog</span>
+<span class="prompt">$ </span><span class="cmd">lein ring server</span>
+Started server on port <span class="hljs-number">3000</span>
+                        </pre>
+                    </div>
+                    <div id="welcome" class="pull-right">
+                        <h2>Get started in seconds using <a href="http://leiningen.org/">Leiningen</a>.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-left info">
+            <h2>Developer Friendly</h2>
+            <p class="blurb">
+                Start hacking immediately with the REPL and embedded development server
+            </p>
+            <ul>
+                <li><i class="fa fa-arrow-circle-right"></i> Simple and easy to learn</li>
+                <li><i class="fa fa-arrow-circle-right"></i> REPL driven development</li>
+                <li><i class="fa fa-arrow-circle-right"></i> Powerful build tools</li>
+            </ul>
+        </div>
+        <div class="pull-left info">
+            <h2>Productive</h2>
+
+            <p class="blurb">
+                Choose productivity and performance by leveraging Clojure on the JVM
+            </p>
+            <ul>
+                <li><i class="fa fa-arrow-circle-right"></i> Built on top of the JVM</li>
+                <li><i class="fa fa-arrow-circle-right"></i> Low overhead</li>
+                <li><i class="fa fa-arrow-circle-right"></i> Compiled for production</li>
+            </ul>
+        </div>
+        <div class="pull-left info">
+            <h2>Modern Web & Mobile</h2>
+
+            <p class="blurb">
+                Luminus is built for needs of modern web & mobile apps
+            </p>
+            <ul>
+                <li><i class="fa fa-arrow-circle-right"></i> ClojureScript support</li>
+                <li><i class="fa fa-arrow-circle-right"></i> Stateless web tier</li>
+                <li><i class="fa fa-arrow-circle-right"></i> Excellent SQL/NoSQL support</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,8 +1,9 @@
 (ns luminus.util
-  (:require [noir.io :as io]
-            [markdown.core :as md]
+  (:require [markdown.core :as md]
             [clj-http.client :as client]
-            [crouton.html :as html]))
+            [crouton.html :as html]
+            [hiccup.core :as hiccup]
+            [clojure.java.io :refer [resource]]))
 
 (def docs (atom {}))
 
@@ -11,24 +12,24 @@
    \"dd MMM, yyyy\" and a custom one can be passed in as the second argument"
   ([time] (format-time time "dd MMM, yyyy"))
   ([time fmt]
-   (.format (new java.text.SimpleDateFormat fmt) time)))
+    (.format (new java.text.SimpleDateFormat fmt) time)))
 
-(defn md->html
-  "reads a markdown file from public/md and returns an HTML string"
+(defn slurp-resource
+  "reads a markdown file from resources/md and returns an HTML string"
   [filename]
-  (->> (io/slurp-resource (str "/md/" filename))
-       (md/md-to-html-string)))
+  (->> filename resource slurp))
 
 (defn fetch-doc-pages []
   (with-open
-      [r (->> "https://raw.github.com/yogthos/luminus/master/resources/public/docpages.clj"
-              client/get
-              :body
-              java.io.StringReader.
-              java.io.PushbackReader.)]
+    [r (->> "https://raw.github.com/yogthos/luminus/master/resources/public/docpages.clj"
+            client/get
+            :body
+            java.io.StringReader.
+            java.io.PushbackReader.)]
     (binding [*read-eval* false]
       (read r))))
 
+;;TODO: update link location
 (defn fetch-doc [name]
   (md/md-to-html-string
     (->> name
@@ -53,14 +54,16 @@
         (for [{[{{name :name} :attrs} title] :content} headings]
           [:li [:a {:href (str "#" name)} title]])))
 
-(defn generate-toc [html]
-  (-> html
-      (.getBytes)
-      (java.io.ByteArrayInputStream.)
-      (html/parse)
-      :content
-      (get-headings)
-      (make-links)))
+(defn generate-toc [content]
+  (when content
+    (-> content
+        (.getBytes)
+        (java.io.ByteArrayInputStream.)
+        html/parse
+        :content
+        get-headings
+        make-links
+        hiccup/html)))
 
 (defn refresh-docs! []
   (when-let [pages (try (fetch-doc-pages) (catch Exception _))]

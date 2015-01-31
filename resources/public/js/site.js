@@ -1,5 +1,2 @@
-$(document).ready(function(){
-    $('pre').each(function(i, block) {
-        hljs.highlightBlock(block);
-    });
-});
+hljs.initHighlightingOnLoad();
+document.getElementById("cpyear").innerHTML = new Date().getFullYear();

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row page">
+    <div class="col-md-9 article">
+        <h1>{{title}}</h1>
+        <h2>Contents</h2>
+        {{toc|safe}}
+        {{content|safe}}
+    </div>
+    <div class="col-md-3 sidebar">
+        <h2>Topics</h2>
+        <ul>
+        {% for topic in topics %}
+            <li {%ifequal topic.1 title %}class="selected"{% endifequal %} >
+                <a href="{{servelt-context}}/docs/{{topic.0}}">{{topic.1}}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

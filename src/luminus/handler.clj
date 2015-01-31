@@ -1,54 +1,51 @@
 (ns luminus.handler
-  (:use compojure.core
-        hiccup.element
-        luminus.docs)
-  (:require [noir.util.middleware :refer [app-handler]]
+  (:require [compojure.core :refer [GET defroutes routes]]
             [compojure.route :as route]
-            [noir.response :as response]
-            [noir.util.cache :as cache]
-            [luminus.common :as common]
-            [luminus.util :as util]))
+            [luminus.util :as util]
+            [selmer.parser :as parser]
+            [selmer.filters :refer [add-filter!]]
+            [markdown.core :refer [md-to-html-string]]
+            [ring.util.response :refer [content-type response]]
+            [compojure.response :refer [Renderable]]))
 
-(defn feature-item [title description]
-  [:div [:h3 title] [:p description]])
+(parser/cache-off!)
 
-(defn home []
-  (cache/cache!
-    :home
-    (common/base
-      "Home"
-      [:div#featured.clear
-       [:div [:h2 "What is Luminus?"]
-        [:p [:strong "Luminus"] " is a micro-framework based on a set of lightweight libraries. It aims to provide a robust, scalable, and easy to use platform.
-With Luminus you can focus on developing your app the way you want without any distractions."]
+(parser/set-resource-path! (clojure.java.io/resource "templates"))
 
-        [:h3 "Why develop web applications with Clojure?"]
+(add-filter! :markdown (fn [content] [:safe (md-to-html-string content)]))
 
-        [:div#footer-wrap
-         [:div.col-a
-          (feature-item "Rapid development" "Start hacking immediately with the REPL and embedded development server")
-          (feature-item "Productivity" "JVM combined with the power of Clojure means not having to choose between productivity and performance")]
-         [:div.col-a
-          (feature-item "Interactivity" "See the changes you make immediately, without having to recompile or restart")
-          (feature-item "Flexibility" "Choose the components which make sense for you, have full control over the structure of the project")]
-         [:div.col-b
-          (feature-item "Mature ecosystem" "Have access to the plethora of existing Clojure and Java libraries")
-          (feature-item "Powerful tools" "Build and deploy your application easily with Leiningen, enjoy a range of deployment options including Heroku")]]
+(deftype RenderableTemplate [template params]
+  Renderable
+  (render [this request]
+    (content-type
+      (->> (assoc params
+             :page template
+             :servlet-context
+             (if-let [context (:servlet-context request)]
+               (try (.getContextPath context)
+                    (catch IllegalArgumentException _ context))))
+           (parser/render-file (str template))
+           response)
+      "text/html; charset=utf-8")))
 
-        [:p (link-to {:class "more-link"} "/about" "Read More")]]]
+(defn render [template & [params]]
+  (RenderableTemplate. template params))
 
-      [:div#content-outer.clear
-       [:div#footer-outer.clear]
-       [:div#left (util/md->html "intro.md")]
-       [:div#right (util/md->html "community.md")]])))
+(defn doc-page [doc]
+  (let [doc-content (get @util/docs doc)
+        topics (:pages @util/docs)]
+    (render "docs.html" {:title   (get (into {} topics) doc)
+                         :toc     (util/generate-toc doc-content)
+                         :content doc-content
+                         :topics  topics})))
 
 (defroutes app-routes
-  (GET "/" [] (home))
-  (GET "/api" [] (common/layout "API" [:section (util/md->html "api.md")]))
-  (GET "/contribute" [] (common/layout "Get involved" [:section (util/md->html "contributing.md")]))
-  (GET "/about" [] (common/layout "About" [:section (util/md->html "about.md")]))
-  (route/resources "/")
-  (route/not-found "Not Found"))
+ (GET "/" [] (render "home.html"))
+ (GET "/docs" [] (doc-page "guestbook.md"))
+ (GET "/docs/:doc" [doc] (doc-page doc))
+ (GET "/contribute" [] (render "contribute.html" {:content (util/slurp-resource "md/contributing.md")}))
+ (route/resources "/")
+ (route/not-found (render "404.html")))
 
 (defn init []
   (.start
@@ -58,4 +55,4 @@ With Luminus you can focus on developing your app the way you want without any d
 (defn destroy []
   (println "shutting down!"))
 
-(def app (app-handler [doc-routes app-routes]))
+(def app (routes app-routes))
