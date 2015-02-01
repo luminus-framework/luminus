@@ -8,8 +8,6 @@
             [ring.util.response :refer [content-type response]]
             [compojure.response :refer [Renderable]]))
 
-(parser/cache-off!)
-
 (parser/set-resource-path! (clojure.java.io/resource "templates"))
 
 (add-filter! :markdown (fn [content] [:safe (md-to-html-string content)]))
