@@ -133,7 +133,7 @@ ul.nav {
     border-bottom: 5px solid #428bca;
 }
 .sidebar li {
-    display: inline-block;
+    display: block;
     margin-bottom: 10px;
 }
 .sidebar a {
