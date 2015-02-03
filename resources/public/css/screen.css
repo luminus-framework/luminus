@@ -310,13 +310,21 @@ article {
 #expander {
     display: none;
 }
-@media screen and (min-width: 1000px) {
+
+@media screen and (min-width: 899px) {
     .show-on-mobile {
         display: none;
     }
 }
-
-@media screen and (max-width: 999px) {
+@media screen and (max-width: 900px) {
+    .hide-on-mobile {
+        display: none;
+    }
+}
+@media screen and (max-device-width: 667px) {
+    #logo-text {
+        padding-right: 10px;
+    }
     #expander {
         display: block;
         font-size: 4em;
@@ -327,6 +335,9 @@ article {
     .hide-on-mobile {
         display: none;
     }
+    .show-on-mobile {
+        display: inline;
+    }
     .nav > li > a {
         font-size: 2.0em;
         font-weight: bold;
@@ -334,6 +345,7 @@ article {
     #main-page {
         padding: 10px;
         font-size: 2.0em;
+        margin-bottom: 100px;
     }
     .info {
         display: none;
@@ -344,7 +356,6 @@ article {
         padding: 0;
         max-width: none;
     }
-
     .page {
         font-size: 2.0em;
         width: 100%;
@@ -356,3 +367,4 @@ article {
 
     }
 }
+
