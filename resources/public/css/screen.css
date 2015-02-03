@@ -112,25 +112,27 @@ ul.nav {
     letter-spacing: -.3px;
     top: 60px; left: 32px;
 }
-#home {
-
-}
 .page {
     background: #f5f5f9;
     overflow: hidden;
     position: relative;
     margin-bottom: 50px;
-    width: 100%;
+
     box-shadow: 0 0 10px rgba(0,0,0,.25);
 }
 .sidebar {
     right: 0;
-    padding: 30px;
+    padding: 10px;
+    width: 20%;
+    min-width: 200px;
     float: none;
     display: table-cell;
 }
 .sidebar .selected {
     border-bottom: 5px solid #428bca;
+}
+.sidebar h2 {
+    padding-left: 10px;
 }
 .sidebar li {
     display: block;
@@ -141,6 +143,11 @@ ul.nav {
 }
 .sidebar a:hover {
     text-decoration: none;
+}
+.bookimage {
+    width: 150px;
+    display: block;
+    box-shadow: 5px 5px 3px #ddd;
 }
 
 .content h1, h2, h3, h4, h5, h6 {
@@ -307,45 +314,39 @@ article {
     margin-bottom: 10px;
 }
 
-.bookimage {
-	width: 150px;
-    display: block;
-    margin-left: 10px;
-    box-shadow: 5px 5px 3px #ddd;
-}
-/*
-@keyframes reset {
-    0% {
-       opacity: 0;
-    }
-    100% {
-       opacity: 0;
+@media screen and (min-width: 1001px) {
+    .show-on-mobile {
+        display: none;
     }
 }
 
-@keyframes fadein {
-   from {
-       opacity:0;
-   }
-   to {
-       opacity:1;
-   }
-}
-@-moz-keyframes fadein {
-   from {
-       opacity:0;
-   }
-   to {
-       opacity:1;
-   }
-}
-@-webkit-keyframes fadein {
-   from {
-       opacity:0;
-   }
-   to {
-       opacity:1;
-   }
-}
+@media screen and (max-width: 1000px) {
+    .hide-on-mobile {
+        display: none;
+    }
+    .nav > li > a {
+        font-size: 2.0em;
+        font-weight: bold;
+    }
+    #main-page {
+        padding: 10px;
+        font-size: 2.0em;
+    }
+    .info {
+        display: none;
+    }
+    #body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        max-width: none;
+    }
 
-*/
+    .page {
+        font-size: 2.0em;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        max-width: none;
+    }
+}

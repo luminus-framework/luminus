@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<div id="main-page">
 <div id="home" class="row">
     <div class="col-lg-12 splash">
         <div class="clear" id="featured">
@@ -36,7 +37,7 @@ Started server on port <span class="hljs-number">3000</span>
             <p class="blurb">
                 Start hacking immediately with the REPL and embedded development server
             </p>
-            <ul>
+            <ul class="info-bullets">
                 <li><i class="fa fa-arrow-circle-right"></i> Simple and easy to learn</li>
                 <li><i class="fa fa-arrow-circle-right"></i> REPL driven development</li>
                 <li><i class="fa fa-arrow-circle-right"></i> Powerful build tools</li>
@@ -48,7 +49,7 @@ Started server on port <span class="hljs-number">3000</span>
             <p class="blurb">
                 Choose productivity and performance by leveraging Clojure on the JVM
             </p>
-            <ul>
+            <ul class="info-bullets">
                 <li><i class="fa fa-arrow-circle-right"></i> Built on top of the JVM</li>
                 <li><i class="fa fa-arrow-circle-right"></i> Low overhead</li>
                 <li><i class="fa fa-arrow-circle-right"></i> Compiled for production</li>
@@ -60,7 +61,7 @@ Started server on port <span class="hljs-number">3000</span>
             <p class="blurb">
                 Luminus is built for needs of modern web & mobile apps
             </p>
-            <ul>
+            <ul class="info-bullets">
                 <li><i class="fa fa-arrow-circle-right"></i> ClojureScript support</li>
                 <li><i class="fa fa-arrow-circle-right"></i> Stateless web tier</li>
                 <li><i class="fa fa-arrow-circle-right"></i> Excellent SQL/NoSQL support</li>
@@ -68,5 +69,5 @@ Started server on port <span class="hljs-number">3000</span>
         </div>
     </div>
 </div>
-
+</div>
 {% endblock %}

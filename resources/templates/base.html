@@ -37,7 +37,9 @@
                         </li>
                         <li {% ifequal page
                         "docs.html" %} class="selected"{%endifequal%}>
-                        <a href="{{servlet-context}}/docs">Documentation</a>
+                        <a href="{{servlet-context}}/docs">
+                            Doc<span class="show-on-mobile">s</span><span class="hide-on-mobile">umentation</span>
+                        </a>
                         </li>
                         <li {% ifequal page
                         "contribute.html" %} class="selected"{%endifequal%}>
