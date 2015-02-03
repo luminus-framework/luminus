@@ -1,35 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row page">
-    <div class="col-md-9 article">
+    <div id="doc-article" class="col-md-9 article">
         <h1>{{title}}</h1>
         {% if toc %}
-            <h2>Contents</h2>
-            {{toc|safe}}
+        <h2>Contents</h2>
+        {{toc|safe}}
         {% endif %}
         {{content|safe}}
     </div>
-    <div class="col-md-3 sidebar">
+    <div id="doc-sidebar" class="col-md-3 sidebar">
+        <i id="expander" class="fa fa-angle-double-right"></i>
+
         <h2>Topics</h2>
         <ul>
-        {% for topic in topics %}
+            {% for topic in topics %}
             <li>
-                <a {%ifequal topic.1 title %}class="selected"{% endifequal %}
+                <a {%ifequal topic.1 title %}class="selected" {% endifequal %}
                    href="{{servelt-context}}/docs/{{topic.0}}">
                     {{topic.1}}
                 </a>
             </li>
-        {% endfor %}
+            {% endfor %}
         </ul>
         <h2>Books</h2>
         <ul>
             <li>
                 <a href="http://pragprog.com/book/dswdcloj/web-development-with-clojure">
-                <img src="{{servelt-context}}/img/wdwc.png" class="bookimage">
+                    <img src="{{servelt-context}}/img/wdwc.png" class="bookimage">
                 </a>
             </li>
             <li><a href=""></a></li>
         </ul>
     </div>
+
 </div>
 {% endblock %}

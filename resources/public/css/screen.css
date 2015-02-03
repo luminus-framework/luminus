@@ -5,11 +5,6 @@ html, body {
     font-family: 'Droid Sans', sans-serif;
     font-size: 1.0em;
     text-rendering: optimizeLegibility;
-    animation: fadein 0.8s;
-    -moz-animation: fadein 0.5s; /* Firefox */
-    -webkit-animation: fadein 0.5s; /* Safari and Chrome */
-    -o-animation: fadein 0.5s; /* Opera */
-
 }
 #wrap {
     min-height:100%;
@@ -123,8 +118,6 @@ ul.nav {
 .sidebar {
     right: 0;
     padding: 10px;
-    width: 20%;
-    min-width: 200px;
     float: none;
     display: table-cell;
 }
@@ -314,6 +307,9 @@ article {
     margin-bottom: 10px;
 }
 
+#expander {
+    display: none;
+}
 @media screen and (min-width: 1001px) {
     .show-on-mobile {
         display: none;
@@ -321,6 +317,13 @@ article {
 }
 
 @media screen and (max-width: 1000px) {
+    #expander {
+        display: block;
+        font-size: 4em;
+    }
+    #doc-sidebar {
+        cursor: pointer;
+    }
     .hide-on-mobile {
         display: none;
     }
