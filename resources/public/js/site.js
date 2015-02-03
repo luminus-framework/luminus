@@ -1,12 +1,10 @@
 hljs.initHighlightingOnLoad();
 document.getElementById("cpyear").innerHTML = "" + new Date().getFullYear();
 
-
 if (window.innerWidth <= 1000) {
     var article = document.getElementById("doc-article");
     var sidebar = document.getElementById("doc-sidebar");
     var expander = document.getElementById("expander");
-
     var articleSmallClass = "col-md-9 article";
     var articleLargeClass = "col-md-11 article";
 
@@ -29,6 +27,5 @@ if (window.innerWidth <= 1000) {
             expander.className = expandIcon;
         }
     };
-    sidebar.addEventListener('touchstart', toggleSidebar);
-
+    expander.addEventListener('touchstart', toggleSidebar);
 }

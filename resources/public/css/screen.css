@@ -310,13 +310,13 @@ article {
 #expander {
     display: none;
 }
-@media screen and (min-width: 1001px) {
+@media screen and (min-width: 1000px) {
     .show-on-mobile {
         display: none;
     }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 999px) {
     #expander {
         display: block;
         font-size: 4em;
