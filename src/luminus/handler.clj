@@ -30,12 +30,11 @@
   (RenderableTemplate. template params))
 
 (defn doc-page [doc]
-  (let [doc-content (get @util/docs doc)
-        topics (:pages @util/docs)]
-    (render "docs.html" {:title   (get (into {} topics) doc)
-                         :toc     (util/generate-toc doc-content)
-                         :content doc-content
-                         :topics  topics})))
+  (render "docs.html"
+          (merge
+            {:title  (get-in @util/docs [:docs-by-topic doc])
+             :topics (:topics @util/docs)}
+            (get @util/docs doc))))
 
 (defroutes app-routes
  (GET "/" [] (render "home.html"))
