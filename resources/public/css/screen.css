@@ -348,8 +348,11 @@ article {
     .page {
         font-size: 2.0em;
         width: 100%;
-        margin: 0;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 100px;
         padding: 0;
         max-width: none;
+
     }
 }

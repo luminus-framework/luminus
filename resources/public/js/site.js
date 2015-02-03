@@ -4,6 +4,7 @@ document.getElementById("cpyear").innerHTML = "" + new Date().getFullYear();
 if (window.innerWidth <= 1000) {
     var article = document.getElementById("doc-article");
     var sidebar = document.getElementById("doc-sidebar");
+    var sidebarContent = document.getElementById("doc-sidebar-content");
     var expander = document.getElementById("expander");
     var articleSmallClass = "col-md-9 article";
     var articleLargeClass = "col-md-11 article";
@@ -19,12 +20,15 @@ if (window.innerWidth <= 1000) {
             article.className = articleSmallClass;
             sidebar.className = sidebarLargeClass;
             sidebar.style.maxWidth = null;
+            sidebarContent.style.display = "block";
             expander.className = collapseIcon;
         } else {
             article.className = articleLargeClass;
             sidebar.className = sidebarSmallClass;
             sidebar.style.maxWidth = "100px";
             expander.className = expandIcon;
+            sidebarContent.style.display = "none";
+
         }
     };
     expander.addEventListener('touchstart', toggleSidebar);
