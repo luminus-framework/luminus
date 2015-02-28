@@ -141,6 +141,7 @@ ul.nav {
     width: 150px;
     display: block;
     box-shadow: 5px 5px 3px #ddd;
+    margin-bottom: 30px;
 }
 
 .content h1, h2, h3, h4, h5, h6 {
