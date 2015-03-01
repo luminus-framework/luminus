@@ -1,17 +1,17 @@
 ## Guestbook Application
 
 This tutorial will guide you through building a simple guestbook application using Luminus.
-The guestbook allows users to leave a message and to view a list of messages left by others. 
-The application will demonstrate the basics of HTML templating, database access, and 
-project architecture. 
+The guestbook allows users to leave a message and to view a list of messages left by others.
+The application will demonstrate the basics of HTML templating, database access, and
+project architecture.
 
 If you don't have a preferred Clojure editor already, then it's recommended that you use [Light Table](http://www.lighttable.com/) to follow along with this tutorial.
 
 ### Installing Leiningen
 
 You need to have [Leiningen](http://leiningen.org/) installed in
-order to work with Luminus. Installing Leiningen is a simple process which involves 
-the following steps.
+order to work with Luminus. Installing Leiningen is accomplished by
+following the step below.
 
 1. Download the script.
 3. Set it to be executable. (eg: chmod +x lein)
@@ -27,7 +27,7 @@ lein self-install
 
 ### Creating a new application
 
-Once you have Leiningen installed you can run the following command in your terminal to 
+Once you have Leiningen installed you can run the following command in your terminal to
 initialize your application:
 
 ```
@@ -37,78 +37,59 @@ cd guestbook
 
 The above will create a new template project with the support for [H2 embedded database](http://www.h2database.com/html/main.html) engine.
 
-We can now run the project as follows:
-
-```
->lein ring server
-guestbook started successfully...
-2013-03-01 19:05:30.389:INFO:oejs.Server:jetty-7.6.1.v20120215
-Started server on port 3000
-2013-03-01 19:05:30.459:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
-```
-
-A new browser window will pop up and you should see your application running.
-Note that if you didn't want to pop up a new browser you could run:
-
-```
-lein ring server-headless
-```
-
-You can also pass in a custom port as follows:
-
-```
-lein ring server-headless 8000
-```
-
 ### Anatomy of a Luminus application
 
-The newly created application has the following structure
+The newly created application has the following structure:
 
 ```
-Procfile
-README.md
-project.clj
-src
-  └ guestbook
-       └ handler.clj
-         layout.clj
-         middleware.clj
-         util.clj
-         repl.clj
-         db
-           └ core.clj
-             schema.clj
-         routes
-           └ home.clj
-test
-  └ guestbook
-       └ test
-           └ handler.clj
-resources
-  └ log4j.properties
-    templates
-       └ about.html
-         base.html
-         home.html
-  └ public
-       └ css
-           └ screen.css     
-         fonts
-          └ glyphicons-halflings-regular.eot 
-            glyphicons-halflings-regular.svg 
-            glyphicons-halflings-regular.ttf
-            glyphicons-halflings-regular.woff
-         img
-         js
-         md
-          └ docs.md
+guestbook
+|____.gitignore
+|____Procfile
+|____project.clj
+|____README.md
+|
+|____src
+| |____guestbook
+|   |____handler.clj
+|   |____layout.clj
+|   |____middleware.clj
+|   |____session.clj
+|   |____routes
+|   | |____home.clj
+|   |____db
+|     |____core.clj
+|
+|____test
+| |____guestbook
+|   |____test
+|     |____handler.clj
+|
+|____resources
+| |____templates
+| | |____about.html
+| | |____base.html
+| | |____home.html
+| |____public
+| | |____css
+| | | |____screen.css
+| | |____img
+| | |____js
+| |____docs
+| | |____docs.md
+| |____sql
+|   |____queries.sql
+|
+|____migrations
+  |____201501155317-add-users-table.down.sql
+  |____201501155317-add-users-table.up.sql
 ```
 
 Let's take a look at what the files in the root folder of the application do:
 
-* `Procfile` - used to facilitate Heroku deployments.
-* `README.md` - where documentation for the application is conventionally put.
-* `project.clj` - used to manage the project configuration and dependencies by Leiningen.
+* `Procfile` - used to facilitate Heroku deployments
+* `README.md` - where documentation for the application is conventionally put
+* `project.clj` - used to manage the project configuration and dependencies by Leiningen
+* `.gitignore` - a list of assets, such as build generated files, to exclude from Git
 
 ### The Source Directory
 
@@ -117,23 +98,20 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 
 #### guestbook
 
-* `handler.clj` - defines the base routes for the application, this is the entry point into the application 
+* `handler.clj` - defines the base routes for the application, this is the entry point into the application
 * `layout.clj` - a namespace for the layout helpers used to render the content for our pages
 * `middleware.clj` - a namespace that contains custom middleware for the application
-* `util.clj` - used for general helper functions, it comes prepopulated with the `md->html` helper
-* `repl.clj` - provides functions to start and stop the application from the REPL
+* `session.clj` - a namespace for creating managing in-memory sessions
 
 #### guestbook.db
 
 The `db` namespace is used to define the model for the application and handle the persistence layer.
 
 * `core.clj` - used to house the functions for interacting with the database
-* `schema.clj` - used to define the connection parameters and the database tables
 
 #### guestbook.routes
 
-The `routes` namespace is where the routes and controllers for our homepage are located. When you add more routes,
-such as authentication, or specific workflows you should create namespaces for them here.
+The `routes` namespace is where the routes and controllers for our home and about pages are located. When you add more routes, such as authentication, or specific workflows you should create namespaces for them here.
 
 * `home.clj` - a namespace that defines the home and about pages of the application
 
@@ -154,368 +132,418 @@ that represent the application pages.
 * `base.html` - the base layout for the site
 * `home.html` - the home page
 
+#### SQL Queries
 
-### Adding Dependencies
+The SQL queries are found in the `resources/sql` folder.
+
+* `queries.sql` - defines the SQL queries and their associated function names
+
+### The Migrations Directory
+
+Luminus uses [Ragtime](https://github.com/weavejester/ragtime) for managing migrations. Migrations are managed using up and down SQL files. The files are conventionally versioned using the date and will be applied in order.
+
+* `201501155317-add-users-table.up.sql` - migrations file to create the tables
+* `201501155317-add-users-table.down.sql` - migrations file to drop the tables
+
+
+### The Project File
 
 As was noted above, all the dependencies are managed via updating the `project.clj` file.
 The project file of the application we've created is found in its root folder and should look as follows:
 
 ```clojure
-(defproject
-  guestbook "0.1.0-SNAPSHOT"
-
-  :url "http://example.com/FIXME"
+(defproject guestbook "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
+  :url "http://example.com/FIXME"
 
-  :dependencies
-  [[com.h2database/h2 "1.4.178"]
-   [ring-server "0.3.1"]
-   [environ "1.0.0"]
-   [com.taoensso/timbre "3.2.1"]
-   [markdown-clj "0.9.55"]
-   [korma "0.4.0"]
-   [com.taoensso/tower "2.0.2"]
-   [selmer "0.7.2"]
-   [org.clojure/clojure "1.6.0"]
-   [log4j
-    "1.2.17"
-    :exclusions
-    [javax.mail/mail
-     javax.jms/jms
-     com.sun.jdmk/jmxtools
-     com.sun.jmx/jmxri]]
-   [compojure "1.2.1"]
-   [lib-noir "0.9.4"]]
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [ring-server "0.3.1"]
+                 [selmer "0.8.0"]
+                 [com.taoensso/timbre "3.3.1"]
+                 [com.taoensso/tower "3.0.2"]
+                 [markdown-clj "0.9.62"]
+                 [environ "1.0.0"]
+                 [im.chit/cronj "1.4.3"]
+                 [ring/ring-defaults "0.1.3"]
+                 [ring/ring-session-timeout "0.1.0"]
+                 [ring-middleware-format "0.4.0"]
+                 [noir-exception "0.2.3"]
+                 [crypto-password "0.1.3"]
+                 [bouncer "0.3.1"]
+                 [prone "0.8.0"]
+                 [ragtime "0.3.8"]
+                 [yesql "0.5.0-rc1"]
+                 [com.h2database/h2 "1.4.182"]]
 
-  :plugins
-  [[lein-ring "0.8.13"] [lein-environ "1.0.0"]]
+  :min-lein-version "2.0.0"
+  :uberjar-name "guestbook.jar"
+  :repl-options {:init-ns guestbook.handler}
+  :jvm-opts ["-server"]
 
-  :ring
-  {:handler guestbook.handler/app,
-   :init guestbook.handler/init,
-   :destroy guestbook.handler/destroy}
+  :plugins [[lein-ring "0.9.0"]
+            [lein-environ "1.0.0"]
+            [lein-ancient "0.5.5"]
+            [ragtime/ragtime.lein "0.3.8"]]
+
+  :ring {:handler guestbook.handler/app
+         :init    guestbook.handler/init
+         :destroy guestbook.handler/destroy
+         :uberwar-name "guestbook.war"}
+
+  :ragtime
+  {:migrations ragtime.sql.files/migrations
+   :database "jdbc:h2:./site.db"}
 
   :profiles
-  {:uberjar {:aot :all}
-   :production
-   {:ring
-    {:open-browser? false, :stacktraces? false, :auto-reload? false}},
-   :dev
-   {:dependencies [[ring-mock "0.1.5"] [ring/ring-devel "1.2.2"]],
-    :env {:dev true}}}
-
-  :min-lein-version "2.0.0")
+  {:uberjar {:omit-source true
+             :env {:production true}
+             :aot :all}
+   :production {:ring {:open-browser? false
+                       :stacktraces?  false
+                       :auto-reload?  false}}
+   :dev {:dependencies [[ring-mock "0.1.5"]
+                        [ring/ring-devel "1.3.2"]
+                        [pjstadig/humane-test-output "0.6.0"]]
+         :injections [(require 'pjstadig.humane-test-output)
+                      (pjstadig.humane-test-output/activate!)]
+         :env {:dev true}}})
 ```
 
 As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
-If you need to add any custom dependencies simply append them to the `:dependencies` vector.
+
+The most common task is adding new libraries to the project. These libraries are specified using the `:dependencies` vector. In order to use a new library in our project we simply have to add its dependency here.
+
+The items in the `:plugins` vector can be used to provide additional functionality such as migrations support via Ragtime plugin.
+
+The `:profiles` contain a map of different project configurations that are used to initialize it for either development or production builds.
+
+Please refer to the official Leiningen documentation for further details on structuring the `project.clj` build file.
 
 
-### Accessing the Database
+### Creating the Database
 
-First, we will create a model for our application, to do that we'll open up the `schema.clj` file located
-under the `src/guestbook/db` folder.
+First, we will create a model for our application, to do that we'll open up the `<date>-add-users-table.up.sql.clj` file located under the `migrations` folder. The file has the following contents:
 
-
-Here, we can see that we already have the definition for our database connection.
-The definition is simply a map containing the class for the JDBC driver, the protocol,
-user, password, and the name of the database file used by the H2 database.
-
-```clojure
-(ns guestbook.db.schema
-  (:require [clojure.java.jdbc :as sql]
-            [clojure.java.io :refer [file]]
-            [noir.io :as io]))
-            
-(def db-store (str (.getName (file ".")) "/site.db"))
-
-(def db-spec {:classname "org.h2.Driver"
-              :subprotocol "h2"
-              :subname db-store
-              :user "sa"
-              :password ""
-              :make-pool? true
-              :naming {:keys clojure.string/lower-case
-                       :fields clojure.string/upper-case}})
+```sql
+CREATE TABLE users
+(id VARCHAR(20) PRIMARY KEY,
+ first_name VARCHAR(30),
+ last_name VARCHAR(30),
+ email VARCHAR(30),
+ admin BOOLEAN,
+ last_login TIME,
+ is_active BOOLEAN,
+ pass VARCHAR(100));
 ```
 
-The database will be stored in a file called `site.db.mv.db` relative to the folder from where the application is run.
+We'll replace the `users` table with one that's more appropriate for our application:
 
-Next, we have a function called `create-users-table` with a definition for a table called `users`.
-We'll replace this function with a `create-guestbook-table` function instead:
-
-```clojure
-(defn create-guestbook-table []
-  (sql/db-do-commands
-    db-spec
-    (sql/create-table-ddl
-      :guestbook
-      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
-      [:timestamp :timestamp]
-      [:name "varchar(30)"]
-      [:message "varchar(200)"]))
-  (sql/db-do-prepared db-spec
-      "CREATE INDEX timestamp_index ON guestbook (timestamp)"))
+```sql
+CREATE TABLE guestbook
+(id INTEGER PRIMARY KEY AUTO_INCREMENT,
+ name VARCHAR(30),
+ message VARCHAR(200),
+ timestamp TIMESTAMP);
 ```
 
 The guestbook table will store all the fields describing the message, such as the name of the
-commenter, the content of the message and a timestamp.
+commenter, the content of the message and a timestamp. We'll save the file and run the following
+command from the root of our project:
 
-We'll also update the `create-tables` function to call it:
-
-```clojure
-(defn create-tables
-  "creates the database tables used by the application"
-  []
-  (create-guestbook-table))
+```
+lein ragtime migrate
 ```
 
-With the table created we can write functions to read and write the messages in our guestbook.
-Let's open the `src/guestbook/db/core.clj` file and add them there. Again, we see that there's already some code
-here to work with the `users` table. We'll replace it with the following code instead:
+If everything went well we should now have our database initialized.
+
+### Accessing The Database
+
+Next, we'll take a look at the `src/guestbook/db/core.clj` file.
+Here, we can see that we already have the definition for our database connection.
 
 ```clojure
 (ns guestbook.db.core
-  (:use korma.core
-        [korma.db :only (defdb)])
-  (:require [guestbook.db.schema :as schema]))
+  (:require
+    [yesql.core :refer [defqueries]]
+    [clojure.java.io :as io]))
 
-(defdb db schema/db-spec)
+(def db-store (str (.getName (io/file ".")) "/site.db"))
 
-(defentity guestbook)
+(def db-spec
+  {:classname   "org.h2.Driver"
+   :subprotocol "h2"
+   :subname     db-store
+   :make-pool?  true
+   :naming      {:keys   clojure.string/lower-case
+                 :fields clojure.string/upper-case}})
 
-(defn save-message
-  [name message]
-  (insert guestbook
-          (values {:name name
-                   :message message
-                   :timestamp (new java.util.Date)})))
-
-(defn get-messages []
-  (select guestbook))
+(defqueries "sql/queries.sql" {:connection db-spec})
 ```
 
-Above we create an entity to represent the guestbook table we created in the `schema` namespace.
-Then we add a functions called `save-message` and `get-messages` to interact with it.
+The database is expected to be stored in a file called `site.db` relative to the folder from where the application is run.
 
-### Running Code on Startup
+The functions that map to database queries are generated when `defqueries` is called. As we can see it references the `sql/queries.sql` file. This location is found under the `resources` folder. Let's open up this file and take a look inside.
 
-The `handler` namespace contains a function called `init`. This function will be called
-once when the application starts. Let's add the code to check if the database has been initialized
-and initialize it if necessary.
+```sql
+--name: create-user!
+-- creates a new user record
+INSERT INTO users
+(id, first_name, last_name, email, pass)
+VALUES (:id, :first_name, :last_name, :email, :pass)
 
-We'll first need to reference the `schema` namespace in order to use the `initialized?` and `create-tables` functions
-from there.
+--name: update-user!
+-- update an existing user record
+UPDATE users
+SET first_name = :first_name, last_name = :last_name, email = :email
+WHERE id = :id
 
-```clojure
-(ns guestbook.handler
-  (:use ...)
-  (:require ...
-            [guestbook.db.schema :as schema]))
+-- name: get-user
+-- retrieve a used given the id.
+SELECT * FROM users
+WHERE id = :id
 ```
 
-Next, we can update the `init` function as follows:
+As we can see each function is defined using the comment that starts with `--name:` followed by the name of the function. The next comment provides the doc string for the function and finally we have the body that's plain SQL. The parameters are denoted using `:` notation. Let's replace the existing queries with some of our own:
 
-```clojure
-(defn init
-  "init will be called once when
-   app is deployed as a servlet on
-   an app server such as Tomcat
-   put any initialization code here"
-  []
-  (timbre/set-config!
-    [:appenders :rotor]
-    {:min-level :info
-     :enabled? true
-     :async? false ; should be always false for rotor
-     :max-message-per-msecs nil
-     :fn rotor/appender-fn})
 
-  (timbre/set-config!
-    [:shared-appender-config :rotor]
-    {:path "guestbook.log" :max-size (* 512 1024) :backlog 10})
+```sql
+--name:save-message!
+-- creates a new message
+INSERT INTO guestbook
+(name, message, timestamp)
+VALUES (:name, :message, :timestamp)
 
-  (if (env :selmer-dev) (parser/cache-off!))
-  
-  ;;initialize the database if needed
-  (when-not (schema/initialized?)
-    (schema/create-tables))
-  
-  (timbre/info "guestbook started successfully"))
+--name:get-messages
+-- selects all available messages
+SELECT * from guestbook
 ```
 
-Since we changed the `init` function of our application,
-let's restart it by hitting `CTRL+C` and running `lein ring server` again.
+### Running the Application
+
+We can run our application in development mode using the [lein-ring](https://github.com/weavejester/lein-ring) plugin that's already bundled with our project. The plugin is invoked as seen below.
+
+```
+>lein ring server
+guestbook started successfully...
+2013-03-01 19:05:30.389:INFO:oejs.Server:jetty-7.6.1.v20120215
+Started server on port 3000
+2013-03-01 19:05:30.459:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+```
+
+Once server starts, a new browser window will pop up and you should see your application running.
+Note that if you didn't want to open a new browser you could run:
+
+```
+lein ring server-headless
+```
+
+You can also pass in a custom port as follows:
+
+```
+lein ring server-headless 8000
+```
+
+Note that the page is prompting us to run the migrations in order to initialize the database. However, since we've already done that earlier and we won't need to do that again.
 
 ### Creating Pages and Handling Form Input
 
 Our routes are defined in the `guestbook.routes.home` namespace. Let's open it up and add the logic for
-rendering the messages from the database. We'll first need to add a reference to our `db` namespace:
+rendering the messages from the database. We'll first need to add a reference to our `db` namespace along with
+references for [Bouncer](https://github.com/leonardoborges/bouncer) validators.
 
 ```clojure
 (ns guestbook.routes.home
-  (:use ...)
-  (:require ...
-            [guestbook.db.core :as db]))
+  (:require
+    ...
+    [guestbook.db.core :as db]
+    [bouncer.core :as b]
+    [bouncer.validators :as v]))
 ```
 
-Then we'll change the `home-page` controller to look as follows:
+Next, we'll create a function to validate the form parameters.
 
 ```clojure
-(defn home-page [& [name message error]]
-  (layout/render "home.html"
-                 {:error    error
-                  :name     name
-                  :message  message
-                  :messages (db/get-messages)}))
+(defn validate-message [params]
+  (first
+    (b/validate
+      params
+      :name v/required
+      :message [v/required [v/min-count 10]])))
 ```
 
-All we did here was update it to send some extra parameters to the template, one of them being
-a list of messages from the database.
+The function uses the Bouncer `validate` function to check that the `:name` and the `:message` keys
+conform to the rules we specified. Specifically, the name is required and the message must contain at least
+10 characters. Buddy uses vector syntax to pass multiple rules to a validator as is the case with the message validator.
 
-Since we'd like the users to be able to post new messages, we'll add a controller to handle
-the form posts:
+When a validator takes additional parameters as is the case with `min-count` the vector syntax is used as well. The value will be passed in implicitly as the first parameter to the validator.
+
+We'll now add a function to validate and save messages:
 
 ```clojure
-(defn save-message [name message]
-  (cond
-
-    (empty? name)
-    (home-page name message "Somebody forgot to leave a name")
-
-    (empty? message)
-    (home-page name message "Don't you have something to say?")
-
-    :else
+(defn save-message! [{:keys [params]}]
+  (if-let [errors (validate-message params)]
+    (-> (redirect "/")
+        (assoc :flash (assoc params :errors errors)))
     (do
-      (db/save-message name message)
-      (home-page))))
+      (db/save-message! (assoc params :timestamp (java.util.Date.)))
+      (redirect "/"))))
 ```
 
-Finally, we'll add a route for this controller to our `home-routes` definition:
+The function will grab the `:params` key from the request that contains the form parameters. When the `validate-message` functions returns errors we'll redirect back to `/`, we'll associate a `:flash` key with the response where we'll put the supplied parameters along with the errors. Otherwise, we'll save the message in our database and redirect.
+
+Finally, we'll change the `home-page` handler function to look as follows:
+
+```clojure
+(defn home-page [{:keys [flash]}]
+  (layout/render
+   "home.html"
+   (merge {:messages (db/get-messages)}
+          (select-keys flash [:name :message :errors]))
+   :name (:name flash)))
+```
+
+The function renders the home page template and passes it the currently stored messages along with any parameters from the `:flash` session, such as validation errors.
+
+Our routes will now have to pass the request to both the `home-page` and the `save-message!` handlers:
 
 ```clojure
 (defroutes home-routes
-  (GET "/" [] (home-page))
-  (POST "/" [name message] (save-message name message))
+  (GET "/" request (home-page request))
+  (POST "/" request (save-message! request))
   (GET "/about" [] (about-page)))
 ```
 
 Now that we have our controllers setup, let's open the `home.html` template located under the `resources/templates` directory. Currently, it simply renders the contents of the `content` variable inside the content block:
 
 ```xml
-{% extends "templates/base.html" %}
+{% extends "base.html" %}
 {% block content %}
- <div class="jumbotron">
+  <div class="jumbotron">
     <h1>Welcome to guestbook</h1>
     <p>Time to start building your site!</p>
     <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
- </div>
+  </div>
 
- <div class="row-fluid">
-    <div class="span8">
-    {{content|safe}}
+  <div class="row">
+    <div class="span12">
+    {{docs|markdown}}
     </div>
- </div>
+  </div>
 {% endblock %}
 ```
 
 We'll update our `content` block to iterate over the messages and print each one in a list:
 
 ```xml
-{% extends "templates/base.html" %}
+{% extends "base.html" %}
 {% block content %}
- <div class="jumbotron">
-    <h1>Welcome to guestbook</h1> 
- </div>
+  <div class="jumbotron">
+    <h1>Welcome to guestbook</h1>
+    <p>Time to start building your site!</p>
+    <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
+  </div>
 
- <div class="row-fluid">
-    <div class="span8">    
-      <ul>
-      {% for item in messages %}
-        <li>
-          <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
-          <p>{{item.message}}</p>
-          <p> - {{item.name}}</p>      
-        </li>
-      {% endfor %}
-      </ul>
+  <div class="row">
+    <div class="span12">
+        <ul class="messages">
+            {% for item in messages %}
+            <li>
+                <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time>
+                <p>{{item.message}}</p>
+                <p> - {{item.name}}</p>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
- </div>
+</div>
 {% endblock %}
-
 ```
 
-As you can see above, we use a for iterator to walk the messages.
+As you can see above, we use a `for` iterator to walk the messages.
 Since each message is a map with the message, name, and timestamp keys, we can access them by name.
 Also, notice the use of the `date` filter to format the timestamps into a human readable form.
 
-Next, we'll add an error block for displaying errors that might be populated by the controller:
+Finally, we'll create a form to allow users to submit their messages. We'll populate the name and message values if they're supplied and render any errors associated with them. Note that the forms also uses the `csrf-field` tag that's required for corss-site scripting protection.
 
 ```xml
-{% if error %}
-<p class="error">{{error}}</p>
-{% endif %}
-```
-
-Here we simply check if the error field was populated and display it.
-Finally, we'll create a form to allow users to submit their messages:
-
-```xml
-<form action="/" method="POST">
-    <p>
-       Name: 
-       <input type="text" name="name" value={{name}}>
-    </p>
-    <p>
-       Message: 
-       <textarea rows="4" cols="50" name="message">
-           {{message}}
-       </textarea>
-    </p>
-    <input type="submit" value="comment">
-</form>
+<div class="row">
+    <div class="span12">
+        <form method="POST" action="/">
+                {% csrf-field %}
+                <p>
+                    Name:
+                    <input class="form-control"
+                           type="text"
+                           name="name"
+                           value="{{name}}" />
+                </p>
+                {% if errors.name %}
+                <div class="alert alert-danger">{{errors.name|join}}</div>
+                {% endif %}
+                <p>
+                    Message:
+                <textarea class="form-control"
+                          rows="4"
+                          cols="50"
+                          name="message">{{message}}
+                </textarea>
+                </p>
+                {% if errors.message %}
+                <div class="alert alert-danger">{{errors.message|join}}</div>
+                {% endif %}
+                <input type="submit" class="btn btn-primary" value="comment" />
+        </form>
+    </div>
+</div>
 ```
 
 Our final `home.html` template should look as follows:
 
 ```xml
-{% extends "templates/base.html" %}
+{% extends "base.html" %}
 {% block content %}
- <div class="jumbotron">
-    <h1>Welcome to guestbook</h1> 
- </div>
-
- <div class="row-fluid">
-    <div class="span8">    
-      <ul>
-      {% for item in messages %}
-        <li>
-          <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time> 
-          <p>{{item.message}}</p>
-          <p> - {{item.name}}</p>      
-        </li>
-      {% endfor %}
-      </ul>
-        
-      {% if error %}
-        <p class="error">{{error}}</p>
-      {% endif %}
+<div class="row">
+    <div class="span12">
+        <ul class="messages">
+            {% for item in messages %}
+            <li>
+                <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time>
+                <p>{{item.message}}</p>
+                <p> - {{item.name}}</p>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-    <div class="span8">
-      <form action="/" method="POST">
-        <p>
-         Name: 
-         <input type="text" name="name" value="{{name}}" />
-        </p>
-        <p>
-         Message: 
-         <textarea rows="4" cols="50" name="message">{{message}}</textarea>
-        </p>
-        <input type="submit" value="comment" />
-      </form>        
-    </div>    
- </div>
+</div>
+<div class="row">
+    <div class="span12">
+        <form method="POST" action="/">
+                {% csrf-field %}
+                <p>
+                    Name:
+                    <input class="form-control"
+                           type="text"
+                           name="name"
+                           value="{{name}}" />
+                </p>
+                {% if errors.name %}
+                <div class="alert alert-danger">{{errors.name|join}}</div>
+                {% endif %}
+                <p>
+                    Message:
+                <textarea class="form-control"
+                          rows="4"
+                          cols="50"
+                          name="message">{{message}}
+                </textarea>
+                </p>
+                {% if errors.message %}
+                <div class="alert alert-danger">{{errors.message|join}}</div>
+                {% endif %}
+                <input type="submit" class="btn btn-primary" value="comment" />
+        </form>
+    </div>
+</div>
 {% endblock %}
 ```
 
@@ -524,75 +552,19 @@ Finally, we can update the `screen.css` file located in the `resources/public/cs
 ```
 body {
 	height: 100%;
-	padding-top: 70px;  
+	padding-top: 70px;
 	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	line-height: 1.4em;
 	background: #eaeaea;
-	color: #4d4d4d;
 	width: 550px;
 	margin: 0 auto;
-	-webkit-font-smoothing: antialiased;
-	-moz-font-smoothing: antialiased;
-	-ms-font-smoothing: antialiased;
-	-o-font-smoothing: antialiased;
-	font-smoothing: antialiased;
 }
 
-input[type=submit] {
-	margin: 0;
-	padding: 0;
-	border: 0;
-  line-height: 1.4em;
-	background: none;	
-	vertical-align: baseline;		
+.messages {
+  background: white;
+  width: 520px;
 }
-
-input[type=submit], textarea {
-	font-size: 24px;
-	font-family: inherit;	
-	border: 0;
-	padding: 6px;
-	border: 1px solid #999;
-	box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-o-box-sizing: border-box;
-	box-sizing: border-box;	
-}
-
-input[type=submit]:hover {
-	background: rgba(0, 0, 0, 0.15);
-	box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3);
-}
-
-textarea {
-	position: relative;
-	line-height: 1em;
-	width: 100%;	
-}
-
-.error {
-  font-weight: bold;
-	color: red;  
-}
-
-.jumbotron {
-	position: relative;
-	background: white;
-	z-index: 2;
-	border-top: 1px dotted #adadad;
-}
-
-h1 {
-	width: 100%;
-	font-size: 70px;
-	font-weight: bold;
-	text-align: center;		
-}
-
 ul {
-	margin: 0;
-	padding: 0;
 	list-style: none;
 }
 
@@ -601,74 +573,54 @@ li {
 	font-size: 16px;
 	padding: 5px;
 	border-bottom: 1px dotted #ccc;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
-	            0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
 li:last-child {
-	border-bottom: none;  
+	border-bottom: none;
 }
 
 li time {
-	font-size: 12px;  
-	padding-bottom: 20px;			
-}
-
-form:before, .error:before {  
-	content: '';
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-	height: 15px;	 
-	border-bottom: 1px solid #6c615c;
-	background: #8d7d77;	
+	font-size: 12px;
+	padding-bottom: 20px;
 }
 
 form, .error {
 	width: 520px;
 	padding: 30px;
 	margin-bottom: 50px;
-	background: #fff;	
-	border: 1px solid #ccc;
 	position: relative;
-	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
-	            0 25px 50px 0 rgba(0, 0, 0, 0.15);
+  background: white;
 }
 
-form input {
-	width: 50%;
-	clear: both;
-}
 ```
 
-Now, if you reload the page in the browser you should be greeted by the guestbook page.
-Try adding a comment in the guestbook to see that it's working correctly.
+When we reload the page in the browser we should be greeted by the guestbook page.
+We can test that everything is working as expected by adding a comment in our comment form.
 
 
 ## Packaging the application
 
-To package our application we simply run
+The application can be packaged for standalone deployment by running the following command:
 
 ```
 lein ring uberjar
 ```
 
-This will create a runnable jar which can be run with:
+This will create a runnable jar that can be run as seen below:
 
 ```
-java -jar target/guestbook-0.1.0-SNAPSHOT-standalone.jar
+java -jar target/guestbook.jar
 ```
 
-If we wanted to deploy our application to an app server such as Apache Tomcat, we could run
+If we wanted to deploy our application to an app server such as Apache Tomcat, we would package it as `uberwar` instead:
 
 ```
 lein ring uberwar
 ```
 
-The resulting war archive can now be deployed to the server of your choosing.
+The resulting archive can be deployed to any Servlet container.
 
 ***
 
-Complete source listing for the tutorial is available [here](https://github.com/yogthos/guestbook). 
+Complete source listing for the tutorial is available [here](https://github.com/yogthos/guestbook).
 For a more complete example you can see the source for this site on [Github](https://github.com/yogthos/luminus).

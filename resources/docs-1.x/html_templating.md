@@ -3,18 +3,18 @@
 Luminus comes with the [Hiccup](https://github.com/weavejester/hiccup) dependency. If you're familiar with Hiccup then
 you can start using it out of the box.
 
-Hiccup uses standard Clojure data structures to represent its templates. On top of that, Hiccup provides a rich API of
+Hiccup uses standard Clojure data structures to represent its templates. On top of that, Hiccup provides a rich API of 
 helper functions for generating common HTML elements.
 
 Luminus also packages [Selmer](https://github.com/yogthos/Selmer) for more traditional style templating using plain text files
-as templates.
+as templates. 
 
 You can choose to use either templating engine or combine them. Alternatively, you can choose to use a different templating
 engine altogether. A couple of popular options are [Enlive](https://github.com/cgrand/enlive) and [Stencil](https://github.com/davidsantiago/stencil).
 
 ## HTML Templating Using Selmer
 
-Selmer is a templating language similar to Django and Rails templates.
+Selmer is inspired by the [Django template language](https://docs.djangoproject.com/en/1.4/topics/templates/).
 If you're familiar with Django or similar templating languages you should feel right at home.
 
 
@@ -34,15 +34,15 @@ in the template are resolved during the rendering step. Let's take a look at a a
         <h2>Hello {{name}}</h2>
     </body>
 </html>
-```
+``` 
 
 The templates are rendered using a context represented by a map of key/value pairs. The context contains
-the variables that we'd like to render in our template at runtime. Above, we have a template representing
-a page that renders a single variable called `name`.
+the variables that we'd like to render in our template at runtime. Above, we have a template representing 
+a page that renders a single variable called `name`. 
 
-There are two functions for rendering templates called `render` and `render-file`.
+There are two functions for rendering templates called `render` and `render-file`. 
 The `render` function accepts a string representing the template, while
-the `render-file` function accepts a string representing the path to the file containing the template.
+the `render-file` function accepts a string representing the path to the file containing the template. 
 
 
 If we saved the template defined above in a file called `index.html` then we could render it as follows:
@@ -50,15 +50,15 @@ If we saved the template defined above in a file called `index.html` then we cou
 ```clojure
 (ns example.routes.home
   (:require [selmer.parser :refer [render-file]]))
-
+  
 (render-file "templates/index.html" {:name "John"})
-```
+``` 
 
-The `render-file` function expects the templates to be found at a path relative
+The `render-file` function expects the templates to be found at a path relative 
 to the `resources` folder of the application.
 
-Above, we passed in a string as the value for the variable `name`.
-However, we're not restricted to strings and can pass in any type we like.
+Above, we passed in a string as the value for the variable `name`. 
+However, we're not restricted to strings and can pass in any type we like. 
 For example, if we pass in a collection we can iterate it using the `for` tag:
 
 ```xml
@@ -77,7 +77,7 @@ If an item happens to be a map, we can access the keys by their name as follows:
 
 
 ```clojure
-(render "<p>Hello {{user.first}} {{user.last}}</p>"
+(render "<p>Hello {{user.first}} {{user.last}}</p>" 
         {:user {:first "John" :last "Doe"}})
 ```
 
@@ -85,7 +85,7 @@ When no special processing is specified in the template then the `.toString` val
 of the parameter will be used.
 
 By default Selmer caches the compiled template. A recompile will be triggered if the last modified timestamp of the files changes.
- Alternatively you can turn caching on and off calling `(selmer.parser/cache-on!)` and `(selmer.parser/cache-off!)` respectively.
+ Alternatively you can turn caching on and off calling `(selmer.parser/cache-on!)` and `(selmer.parser/cache-off!)` respectively. 
 
 ### Filters
 
@@ -300,7 +300,7 @@ original value.
 
 ```clojure
 (use 'selmer.filters)
-
+ 
 (add-filter! :embiginate #(.toUpperCase %))
  (render "{{shout|embiginate}}" {:shout "hello"})
 
@@ -317,7 +317,7 @@ Filters can also be chained together as needed:
 
 ### Tags
 
-Selmer provides two types of tags. The frist kind are inline tags such as the `extends`
+Selmer provides two types of tags. The frist kind are inline tags such as the `extends` 
 and `include` tags. These tags are self contained statements and do not require an end tag.
 The other type is the block tags. These tags have a start and an end tag, and operate on a
 block of text. An example of this would be the `if` ... `endif` block.
@@ -401,7 +401,7 @@ Only render the body if the two args are equal (according to clojure.core/=).
 
 **for**
 
-Render the body one time for each element in the list. Each render will introduce the following variables into the context:
+Render the body one time for each element in the list. Each render will introduce the following variables into the context: 
 
 * `forloop.first`
 * `forloop.last`
@@ -419,7 +419,7 @@ you can also iterate over nested data structures, eg:
 
 **now**
 
-renders current time
+renders current time 
 
 `(render (str "{% now \"" date-format "\"%}") {})` => `"\"01 08 2013\""`
 
@@ -440,7 +440,7 @@ renders the first occurance of supplied keys that doesn't resolve to false:
 The style tag will generate an HTML script tag and prepend the value of the `servlet-context` key
 to the URI. When `servlet-context` key is not present then the original URI is set.
 
-`(render "{% style \"/css/screen.css\" %}" {:servlet-context "/myapp"})` =>
+`(render "{% style \"/css/screen.css\" %}" {:servlet-context "/myapp"})` => 
 
 `"<link href=\"/myapp/css/screen.css\" rel=\"stylesheet\" type=\"text/css\" />"`
 
@@ -449,7 +449,7 @@ to the URI. When `servlet-context` key is not present then the original URI is s
 The script tag will generate an HTML script tag and prepend the value of the `servlet-context` key
 to the URI. When `servlet-context` key is not present then the original URI is set.
 
-`(render "{% script \"/js/site.js\" %}" {:servlet-context "/myapp"})` =>
+`(render "{% script \"/js/site.js\" %}" {:servlet-context "/myapp"})` => 
 
 `"<script src=\"/myapp/js/site.js\" type=\"text/javascript\"></script>"`
 
@@ -466,10 +466,10 @@ injects the specified keys into the context map:
 ```clojure
 (render "{% with total=business.employees|count %}{{ total }}{% endwith %}"
          {:business {:employees (range 5)}})
-```
+``` 
 
 => `"5 employees"`
-
+   
 ### Defining Custom Tags
 
 In addition to tags already provides you can easily define custom tags of your own. This
@@ -478,19 +478,19 @@ see how it works:
 
 ```clojure
 (use 'selmer.parser)
-
+ 
 (add-tag! :foo
   (fn [args context-map]
     (str "foo " (first args))))
-
-(render "{% foo quux %} {% foo baz %}" {})
+ 
+(render "{% foo quux %} {% foo baz %}" {}) 
 
 
 (add-tag! :bar
   (fn [args context-map content]
     (str content))
   :baz :endbar)
-
+ 
 (render "{% bar %} some text {% baz %} some more text {% endbar %}" {})
 ```
 
@@ -512,7 +512,7 @@ to refer to a template. We can either use the `extends` tag or the `include` tag
 #### Extending Templates
 
 When we use the `extends` tag, the current template will use the template it's extending
-as the base. Any blocks in the base template with the names matching the current template will
+as the base. Any blocks in the base template with the names matching the current template will 
 be overwritten.
 
 The content of the child template **must** be encapsulated in blocks. Any content outside the
@@ -542,23 +542,23 @@ Then we'll create a new template called `home.html` that will extend `base.html`
 {% extends "base.html" %}
 
 {% block content %}
-  {% for entry in entries %}
-    <h2>{{ entry.title }}</h2>
-    <p>{{ entry.body }}</p>
-  {% endfor %}
+    {% for entry in entries %}
+        <h2>{{ entry.title }}</h2>
+        <p>{{ entry.body }}</p>
+    {% endfor %}
 {% endblock %}
-```
+``` 
 
 When the `home.html` is rendered the `content` block will display the entries. However, since
 we did not define a block for the title, the one from `base.html` will be used.
 
 Note that you can chain extended templates together. In this case the latest occurrence of a block tag
-will be the one that's rendered.
+will be the one that's rendered. 
 
 #### Including Templates
 
 The `include` tag allows including blocks from other templates in the current template. Let's take a look
-at an example. Let's say we have a `base.html` template that includes templates named `register.html` and
+at an example. Let's say we have a `base.html` template that includes templates named `register.html` and 
 `home.html`, then defines blocks called `register` and `home`:
 
 ```xml
@@ -572,13 +572,13 @@ at an example. Let's say we have a `base.html` template that includes templates 
 </head>
 
 <body>
-  <div id="content">
-    {% if user %}
-    {% include "templates_path/home.html" %}
-    {% else %}
-    {% include "templates_path/register.html" %}
-    {% endif %}
-  </div>
+    <div id="content">
+        {% if user %}
+        {% include "templates_path/home.html" %}        
+        {% else %}
+        {% include "templates_path/register.html" %}
+        {% endif %}
+    </div>
 </body>
 </html>
 ```
@@ -588,10 +588,10 @@ We can now define the content for these blocks in separate template files called
 ```xml
 {% block register %}
 <form action="/register" method="POST">
-  <label for="id">user id</label>
-  <input id="id" name="id" type="text"></input>
-  <input pass="pass" name="pass" type="text"></input>
-  <input type="submit" value="register">
+    <label for="id">user id</label>
+    <input id="id" name="id" type="text"></input>
+    <input pass="pass" name="pass" type="text"></input>
+    <input type="submit" value="register">
 </form>
 {% endblock %}
 ```
@@ -687,3 +687,51 @@ be used in conjunction with Hiccup functions, eg:
 
 The markdown generation is done by markdown-clj, please see the [Github page](https://github.com/yogthos/markdown-clj) for
 details on supported syntax.
+
+## Content caching
+
+lib-noir provides basic in-memory content caching via the `cache!` macro located in `noir.util.cache`.
+To cache a page you can simply do the following:
+
+```clojure
+(require '[noir.util.cache :as cache])
+
+(defn slow-loading-page []
+  (cache/cache!
+   :slow-page
+   (common/layout
+    [:div "I load slowly"]
+     (parse-lots-of-files))))
+```
+
+The cache can be invalidated by calling `invalidate!` and specifying the
+key to invalidate.
+
+```clojure
+(cache/invalidate! :slow-page)
+```
+
+Use `clear!` to clear all items which are currently cached.
+
+```clojure
+(cache/clear!)
+```
+
+Use `set-timeout!` to set the timeout for items in seconds,
+if an item has a lifetime longer than the timeout it will be reloaded.
+
+```clojure
+(cache/set-timeout! 10)
+```
+
+Finally, you can limit the total size of the cache using `set-size!`, when the cache
+grows past the specified size the least recently used items will be removed to
+make room for new items.
+
+```clojure
+(cache/set-size! 10)
+```
+
+Note that cache checks if the operation is successful when reloading. This means that if
+the operation, such as fetching a remote file, fails then the current cached value is kept.
+

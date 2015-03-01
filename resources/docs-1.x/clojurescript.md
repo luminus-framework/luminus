@@ -12,7 +12,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. First, add the `lein-cljsb-build` plugin and `:cljsbuild` key to the project as seen below:
 
 ```clojure
-:plugins [... [lein-cljsbuild "1.0.4"]]
+:plugins [... [lein-cljsbuild "1.0.3"]]  
 
 :cljsbuild
 {:builds {:app {:source-paths ["src-cljs"]
@@ -21,7 +21,7 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
                           :source-map    "resources/public/js/out.js.map"
                           :externs       ["react/externs/react.js"]
                           :optimizations :none
-                          :pretty-print  true}}}}
+                          :pretty-print  true}}}}  
 ```
 
 Next, update the `:uberjar` profile with the following options:
@@ -57,8 +57,6 @@ Make sure to run the `clean` option before packaging the application for product
 lein cljsbuild once
 ```
 
-A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-figwheel) to hot load the code in the browser.
-
 ### Advanced Compilation and Exports
 
 During advanced compilation variable names will be munged by the compiler to shorten the code. If we wish to expose any functions to JavaScript we have to ensure that their names are protected. This is done by using the `^:export` annotation, eg:
@@ -76,27 +74,27 @@ We can now call this function from our page like any other:
 <script>
 main.init();
 </script>
-```
+``` 
 
 If we use a Js library in our code we must protect the names of any functions we call from it as well. For example, if we wanted to use the [AlbumColors](https://github.com/chengyin/albumcolors) library, we could write the following:
 
 ```clojure
-(defn ^:export init []
-  (.getColors (js/AlbumColors. "/img/foo.jpg")
+(defn ^:export init []  
+  (.getColors (js/AlbumColors. "/img/foo.jpg") 
     (fn [[background]]
      (.log js/console background))))
 ```
 
 However, when the script is compiled with the `:advanced` flag, the `AlbumColors` and `getColors` will be munged.
 
-To protect them we have to create a Js file with the names we'd like to protect and reference it in our build:
+To protect them we have to create a Js file with the names we'd like to protect and reference it in our build: 
 
 ```javascript
 var AlbumColors = {};
 AlbumColors.getColors = function() {};
 ```
 
-If we put the above code in a file called `externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows:
+If we put the above code in a file called `externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows: 
 
 ```clojure
 {:id "release"
@@ -131,7 +129,7 @@ All the global JavaScript functions and variables are available via the `js` nam
 (.-property object)
 
 (.-style div)
-```
+``` 
 
 #### Setting Properties
 
@@ -169,7 +167,7 @@ The values of the components are stored in Reagent atoms. These atoms behave jus
 ```clojure
 (ns myapp
   (:require [reagent.core :as reagent :refer [atom]]))
-
+  
 (def state (atom nil))
 
 (defn input-field [label-text]
@@ -256,7 +254,7 @@ With the library imported we can create routes that will set the content of the 
   (reagent/render-component
     [page-component]
     (.getElementById js/document "appContainer")))
-
+    
 (defroute home-path "/" [] (page home))
 (defroute home-path "/about" [] (page info))
 (defroute "*" [] (page not-found))
@@ -274,7 +272,7 @@ That said, there are several libraries available for accessing and modifying DOM
 
 ### Ajax
 
-Luminus uses [cljs-ajax](https://github.com/JulianBirch/cljs-ajax) for handling Ajax operations. The library provides an easy way to send Ajax queries to the server using `ajax-request`, `GET`, and `POST` functions.
+Luminus uses [cljs-ajax](https://github.com/yogthos/cljs-ajax) for handling Ajax operations. The library provides an easy way to send Ajax queries to the server using `ajax-request`, `GET`, and `POST` functions.
 
 #### ajax-request
 
@@ -305,7 +303,7 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
   (.log js/console (str response)))
 
 (defn error-handler [{:keys [status status-text]}]
-  (.log js/console
+  (.log js/console 
     (str "something bad happened: " status " " status-text)))
 
 (GET "/hello")
@@ -314,7 +312,7 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
 
 (POST "/hello")
 
-(POST "/send-message"
+(POST "/send-message" 
         {:params {:message "Hello World"
                   :user    "Bob"}
          :handler handler

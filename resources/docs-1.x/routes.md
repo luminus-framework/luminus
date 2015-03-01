@@ -22,14 +22,14 @@ The body may be a function, that must accept the request as a parameter:
 (GET "/" [] (fn [req] "Do something with req"))
 ```
 
-Or, we can just use the request directly by declaring it as the
+Or, we can just use the request directly by declaring it as the 
 second argument to the route:
 
 ```clojure
 (GET "/foo" request (interpose ", " (keys request)))
 ```
 
-The above route reads out all the keys from the request map and displays them.
+The above route reads out all the keys from the request map and displays them. 
 The output will look like the following:
 
 ```clojure
@@ -84,7 +84,7 @@ In the guestbook application example we saw the following route defined:
 (POST "/"  [name message] (save-message name message))
 ```
 
-This route extracts the name and the message form parameters and binds them to variables of the same name.
+This route extracts the name and the message form parameters and binds them to variables of the same name. 
 We can now use them as any other declared variable.
 
 It's also possible to use the regular Clojure destructuring
@@ -104,7 +104,7 @@ y -> "bar"
 z -> {:v "baz", :w "qux"}
 ```
 
-Above, parameters x and y have been bound to variables, while parameters v and w remain in a map called z.
+Above, parameters x and y have been bound to variables, while parameters v and w remain in a map called z. 
 Finally, if we need to get at the complete request along with the parameters we can do the following:
 
 ```clojure
@@ -123,7 +123,7 @@ But, we may also return a [response map](https://github.com/mmcgrana/ring/blob/m
 ```clojure
 (GET "/" []
     {:status 200 :body "Hello World"})
-
+    
 (GET "/is-403" []
     {:status 403 :body ""})
 
@@ -145,7 +145,7 @@ Resources will be served from your project's `resources/` folder.
 
 ## Organizing application routes
 
-It's a good practice to organize your application routes together by functionality. Compojure provides
+It's a good practice to organize your application routes together by functionality. Compojure provides 
 the `defroutes` macro which can group several routes together and bind them to a symbol.
 
 ```clojure
@@ -159,7 +159,7 @@ the `defroutes` macro which can group several routes together and bind them to a
   (route/not-found "Not Found"))
 ```
 
-It's also possible to group routes by common path elements using `context`. If you had
+It's also possible to group routes by common path elements using `context`. If you had 
 a set of routes that all shared `/user/:id` path as seen below:
 
 ```clojure
@@ -180,88 +180,132 @@ We could rewrite that as:
 ```
 
 
-Once all your application routes are defined you can add them to the main handler of your application.
-You'll notice that the template already defined the `app` in the `handler` namespace of your
+Once all your application routes are defined you can add them to the routes vector in the 
+`noir.util.middleware/app-handler` that's found in the `handler` of your application.
+
+You'll notice that the template already defined the `app` in the `handler` namespace of your 
 application. All you have to do is add your new routes there.
 
 ```clojure
-(def app
-  (-> (routes
-        home-routes
-        base-routes)
-      development-middleware
-      production-middleware))
+(def app (middleware/app-handler
+           ;;add your application routes here
+           [home-routes app-routes]
+           ;;add custom middleware here
+           :middleware []
+           ;;add access rules here
+           ;;each rule should be a vector
+           :access-rules []))
 ```
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
 
 ## Restricting access
 
-Some pages should only be accessible if specific conditions are met. For example,
-you may wish to define admin pages only visible to the administrator, or a user profile
+Some pages should only be accessible if specific conditions are met. For example, 
+you may wish to define admin pages only visible to the administrator, or a user profile 
 page which is only visible if there is a user in the session.
 
-Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy/latest/), we can define rules for restricting access to specific pages.
+Using the `noir.util.route` namespace from `lib-noir`, we can define rules for restricting 
+access to specific pages.
+
+### Marking Routes as Restricted
+
+The `noir.util.route/restricted` macro is used to indicate that access rules apply to the route:
+
+```clojure
+(GET "/private/:id" [id] (restricted "private!"))
+```
+
+In case we have multiple routes that we'd like to mark as restricted we can use the 
+`noir.util.route/def-restricted-routes` macro. This will make all the routes defined inside it restricted:
+
+```clojure
+(def-restricted-routes private-pages
+  (GET "/profile" [] (show-profile)
+  (GET "/my-secret-page" [] (show-secret-page)
+  (GET "/another-secret-page" [] (another-secret-page))
+```
+
+the above is equivalent to:
+
+```clojure
+(defroutes private-pages
+  (GET "/profile" [] (restricted (show-profile)))
+  (GET "/secret-page1" [] (restricted (show-secret-page)))
+  (GET "/secret-page2" [] (restricted (another-secret-page))))
+```
+
+By default restricted routes will be checked to see if they match all the access rules that apply.
 
 ### Specifying Access Rules
 
-Let's take a look at how to create a rule to specify that restricted routes should only be
-accessible if the `:user` key is present in the session.
+Let's take a look at how to create a rule to specify that restricted routes should only be 
+accessible if the `:user` key is present in the session. 
 
-First, we'll reference several Buddy namespaces in the `<app>.middleware` namespace.
-
-```clojure
-(ns myapp.middleware
-  (:require ...
-            [buddy.auth.middleware :refer [wrap-authentication]]
-            [buddy.auth.accessrules :refer [wrap-access-rules]]
-            [buddy.auth.backends.session :refer [session-backend]]
-            [buddy.auth :refer [authenticated?]]))
-```
-
-Next, we'll create the access rules for our routes. The rules are defined using a vector where each rule represented using a map. A simple rule that checks whether the user has been authenticated can be seen below.
+First, we'll need  to reference `noir.util.route` and `noir.session` in the handler.
 
 ```clojure
-(def rules
-  [{:uri "/restricted"
-    :handler authenticated?}])
+(ns myapp.handler  
+  (:require ... 
+            [noir.util.route :refer [restricted]]
+            [noir.session :as session]))
 ```
 
-We'll also define an error handler function that will be used when access to a particular route is denied:
+Next, we'll write the function that implements the rule we described above. This function 
+must accept the request map as its argument and return a truthy value indicating whether 
+the page satisfies the specified rule.
+
+Here's a function to check if there is a user currently in the session. If the user is 
+`nil` then the rule will trigger a redirect. By default rules redirect to the `"/`" URI.
 
 ```clojure
-(defn on-error
-  [request value]
-  {:status 403
-   :headers {}
-   :body "Not authorized"})
+(defn user-access [request]
+  (session/get :user))
+
+(def app 
+ (middleware/app-handler 
+   [app-routes]
+   :access-rules [user-access]))
 ```
 
-Finally, we have to add the necessary middlware to enable the access rules and authentication using a session backend.
+Now, any restricted handlers will redirect to `"/"` unless there is a `:user` key in the session.
+
+### Access Rule Groups
+
+When specifying rules as a map you can provide further directives using the
+following keys:
+
+* `:uri` - the URI pattern to which the rules apply (optional, defaults to any URI)
+* `:uris` - alternative to :uri, allows specifying a collection of URIs (optional)
+* `:redirect` - the redirect target for the rules (optional defaults to "/")
+* `:on-fail` - alternative to redirect, allows specifying a handler function for
+               handling the failure, the function must accept the request as a
+               parameter (optional)
+* `:rule` - a single rule (either :rule or :rules is required)
+* `:rules` - alternative to rule, allows specifying a list of rules
+
+The `:rules` can be specified in any of the following ways:
+
+* `:rules [rule1 rule2]`
+* `:rules {:any [rule1 rule2]}`
+* `:rules {:every [rule1 rule2] :any [rule3 rule4]}`
+
+By default every rule has to pass, the `:any` key specifies that it's sufficient for any of the rules to pass. Here's some examples of access rule combinations:
 
 ```clojure
-(defn production-middleware [handler]
-  (println "initializing")
-  (-> handler
-      (wrap-access-rules {:rules rules :on-error on-error})
-      (wrap-authentication (session-backend))
-      ...))
+(defn admin-access [req]
+ (session/get :admin))
+
+:access-rules [{:redirect "/access-denied"
+                :rule user-access}]
+
+:access-rules [{:uris ["/user/*" "/private*"]
+                :rule user-access}]
+
+:access-rules [{:uri "/admin/*" :rule admin-access}
+               {:uri "/user/*" 
+                :rules {:any [user-access admin-access]}]
+
+:access-rules [{:on-fail (fn [req] "access restricted")
+                :rule user-access}]
 ```
-
-Note that the order of the middleware matters and `wrap-access-rules` must precede `wrap-authentication`.
-
-Buddy session based authentication is triggered by setting the `:identity` key in the session when the user is successfully authenticated.
-
-```clojure
-(def user {:id "bob" :pass "secret"})
-
-(defn login! [{:keys [params session]}]
-  (when (= user params)
-    (-> "ok"
-        response
-        (content-type "text/html")
-        (assoc :session (assoc session :identity "foo")))))
-```
-
-
-

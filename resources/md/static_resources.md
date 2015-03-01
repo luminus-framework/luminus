@@ -1,16 +1,28 @@
 ## Static resources
 
-There are several helpers for serving static resources found under the `noir.io`
-namespace.
+By default, any resources located under the `resources/public` directory will be available to the clients.
 
-You can get the path to public folder of the application by calling `resource-path`.
+### Serving static resources
+
+Serving these resources is handled by the default routes found in the `handler` namespace of your application:
+
+```clojure
+(defroutes base-routes
+  (route/resources "/")
+  (route/not-found "Not Found"))
+```
+
+Any resources found on the classpath of the application can be accessed using `clojure.java.io/resource` function:
+
+```clojure
+(slurp (clojure.java.io/resource "myfile.md"))
+```
+
+Conventionally, non-source resources should be placed in the `resources` directory of the project.
 
 ### Handling file uploads
 
-Uploading files is handled via `upload-file` in `noir.io` namespace which accepts a
-file-system path and the file map.
-
-If we had an `upload.html` page with the following form:
+Given page called `upload.html` with the following form:
 
 ```xml
 <h2>Upload a file</h2>
@@ -26,55 +38,43 @@ we could then render the page and handle the file upload as follows:
 (ns myapp.upload
   (:use compojure.core)
   (:require [myapp.layout :as layout]
-            [noir.io :as io]
-            [noir.response :as response]
-            [ring.util.response :refer [file-response]]))
+            [ring.util.response :refer [redirect file-response]]))
 
 (def resource-path "/tmp/")
+
+(defn file-path [path & [filename]]
+  (java.net.URLDecoder/decode
+    (str path java.io.File/separator filename)
+    "utf-8"))
+
+(defn upload-file
+  "uploads a file to the target folder
+   when :create-path? flag is set to true then the target path will be created"
+  [path {:keys [tempfile size filename]}]
+  (try
+    (with-open [in (new FileInputStream tempfile)
+                out (new FileOutputStream (file-path path filename))]
+      (let [source (.getChannel in)
+            dest   (.getChannel out)]
+        (.transferFrom dest source 0 (.size source))
+        (.flush out)))))
 
 (defroutes home-routes
   (GET "/upload" []
        (layout/render "upload.html"))
 
   (POST "/upload" [file]
-       (io/upload-file resource-path file)
-       (response/redirect
-         (str "/files/" (:filename file))))
+       (upload-file resource-path file)
+       (redirect (str "/files/" (:filename file))))
 
   (GET "/files/:filename" [filename]
-       (file-response (str resource-path filename))))  
+       (file-response (str resource-path filename))))
 ```
+
+Th `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` funciton above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
+
 
 If you're fronting with Nginx then you can easily support file upload progress using its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
-
-### Serving static resources
-
-By default, any resources located under the `resources/public` directory will be available to the clients. This is handled by the default routes found in the `handler` namespace of your application:
-
-```clojure
-(defroutes base-routes
-  (route/resources "/")
-  (route/not-found "Not Found"))
-```
-
-The `noir.io/get-resource` function can be used to load any static resource relative to the public folder
-with the relative path supplied as a string:
-
-```clojure
-(get-resource "/screen.css")
-```
-
-The above will return clojure.java.io/resource for `screen.css` located at `resources/public/screen.css` path.
-
-Finally, there's `noir.io/slurp-resource` that will read the contents of the file and
-return them a string:
-
-```clojure
-(slurp-resource "/md/outline.md")
-```
-
-This can be useful if you need to get access to the files from within the application. For example, you may wish
-to load a Markdown file and convert it to HTML before serving it.
 
 
 

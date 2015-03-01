@@ -1,127 +1,154 @@
 ## Sessions
 
-Session management is provided by the `noir.session` namespace from [lib-noir](https://github.com/noir-clojure/lib-noir).
-The `noir.util.middleware/app-handler` function default will default to using a memory session
-store. This can be overriden by passing in a second argument which specifies a specific store you'd like to use.
+Luminus defaults to using in-memory sessions and the the session store atom is located in the `<app>.session` namespace.
 
-This following creates an in-memory session store.
 
 ```clojure
-(def app (middleware/app-handler [home-routes app-routes]))
+(ns myapp.session
+  (:require [cronj.core :refer [cronj]]))
+
+(defonce mem (atom {}))
+
+(defn- current-time []
+  (quot (System/currentTimeMillis) 1000))
+
+(defn- expired? [[id session]]
+  (pos? (- (:ring.middleware.session-timeout/idle-timeout session) (current-time))))
+
+(defn clear-expired-sessions []
+  (clojure.core/swap! mem #(->> % (filter expired?) (into {}))))
+
+(def cleanup-job
+  (cronj
+    :entries
+    [{:id "session-cleanup"
+      :handler (fn [_ _] (clear-expired-sessions))
+      :schedule "* /30 * * * * *"
+      :opts {}}]))
 ```
 
-Additional session options can be passed in via the `:session-options` key. For example, a default session timeout can be set by adding the `:timeout` and `:timeout-response` keys as follows.
+The namespace also sets up session expiry in order to clean out timed out sessions. The
+`cleanup-job` is started in the `<app>.handler/init` function when the application loads.
+
+The session middleware is initialized in the `<app>.middleware` namespace by the `production-middleware`
+function seen below.
+
+Session timeout is controlled by the `wrap-idle-session-timeout` middleware.
+Default sessions timeout is set to 30 minutes of inactivity, and
+timed out sessions will be redirected to the `/` URI.
+
+The session store is initialized using the `wrap-defaults` middleware.
 
 ```clojure
-(def app
-  (middleware/app-handler
-    [home-routes app-routes]
-    :session-options {:timeout (* 30 60)
-                      :timeout-response (response/redirect "/")}))
+(defn production-middleware [handler]
+  (-> handler
+      wrap-restful-format
+      (wrap-idle-session-timeout
+        {:timeout (* 60 30)
+         :timeout-response (redirect "/")})
+      (wrap-defaults
+        (-> site-defaults
+            (assoc-in [:session :store] (memory-store session/mem))))
+      (wrap-internal-error :log (fn [e] (timbre/error e)))))
 ```
 
-The above will force sessions to timeout after 30 minutes of inactivity. The timed out sessions will be redirected to the "/" URI.
+We can easily swap the default memory store for a different one, such as a cookie store. Note that
+we'll also need to update the `clear-expired-sessions` function seen above accordingly to work with the new store.
 
-
-Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` with the name `example-app-session` as our session store using the `:session-options` key instead:
+Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` with the name `example-app-session` as our session store:
 
 ```clojure
-(def app
-  (middleware/app-handler
-    [home-routes app-routes]
-    :session-options {:cookie-name "example-app-session"
-                      :store (cookie-store)}))
+(wrap-defaults
+  (-> site-defaults
+      (assoc-in [:session :store] (cookie-store))
+      (assoc-in [:session :cookie-name] "example-app-sessions")))
 ```
 
 We can also specify the maximum age for our session cookies using the `:max-age` key:
 
 ```clojure
-(def app
-  (middleware/app-handler
-    [home-routes app-routes]
-    :session-options {:cookie-attrs {:max-age 10}
-                      :store (cookie-store)}))
+(wrap-defaults
+  (-> site-defaults
+      (assoc-in [:session :store] (cookie-store))
+      (assoc-in [:session :cookie-attrs] {:max-age 10})))
 ```
 
 When using cookie store it is also important to specify a secret key (16 characters) for cookie encryption. Otherwise a random one will be generated each time application is started and sessions created before will be lost.
 
 ```clojure
-(def app
-  (middleware/app-handler
-    [home-routes app-routes]
-    :session-options {:cookie-name "example-app-session"
-                      :store (cookie-store {:key "BuD3KgdAXhDHrJXu")}))
+(wrap-defaults
+  (-> site-defaults
+      (assoc-in [:session :store] (cookie-store {:key "BuD3KgdAXhDHrJXu"}))
+      (assoc-in [:session :cookie-name] "example-app-sessions")))
 ```
 
 You may also wish to take a look at [Redis](http://redis.io/) for your session store. Creating Redis sessions is easy thanks to [Carmine](https://github.com/ptaoussanis/carmine). You would simply need to define a connection and use the `taoensso.carmine.ring/carmine-store` with it:
 
 ```clojure
 
-(def redis-conn {:pool {<opts>} :spec {<opts>}}) 
+(def redis-conn {:pool {<opts>} :spec {<opts>}})
 
-(def app
-  (middleware/app-handler
-    [home-routes app-routes]
-    :session-options {:store (carmine-store redis-conn)}))
+
+(wrap-defaults
+  (-> site-defaults
+      (assoc-in [:session :store] (carmine-store redis-conn))))
 ```
 
 For further information, please see the [official API documentation](http://ptaoussanis.github.io/carmine/taoensso.carmine.ring.html).
 
 ### Accessing the session
 
-The sessions can be accessed from within any function within the scope of the request,
-and provide functions to put, get, remove, and clear the session keys, eg:
+Ring tracks sessions using the request map and the current session will be found under the `:session` key.
+Below we have a simple example of interaction with the session.
 
 ```clojure
-(require '[noir.session :as session])
+(ns myapp.home
+  (:require [compojure.core :refer [defroutes GET]]
+            [ring.util.response :refer [response]]))
 
-(defn set-user [id]
-  (session/put! :user id)
-  (session/get :user))
+(defn set-user! [id {session :session}]
+  (-> (str "User set to: " id)
+      response
+      (assoc :session (assoc session :user id))))
 
-(defn remove-user []
-  (session/remove! :user)
-  (session/get :user))
+(defn remove-user! [{session :session}]
+  (-> (resonse "")
+      (assoc :session (dissoc session :user))))
 
-(defn set-user-if-nil [id]
-  (session/get :user id))
-
-
-(defn clear-session []
-  (session/clear!))
+(defn clear-session! []
+  (dissoc (response "") :session))
 
 (defroutes app-routes
-  (GET "/login/:id" [id] (set-user id))
-  (GET "/remove" [] (remove-user))
-  (GET "/set-if-nil/:id" [id] (set-user-if-nil id))
-  (GET "/logout" [] (clear-session)))
+  (GET "/login/:id" [id :as req] (set-user! id req))
+  (GET "/remove" req (remove-user req))
+  (GET "/logout" req (clear-session!)))
 ```
 
-It's also possible to create flash variables by using `noir.session/flash-put!`
-and `noir.session/flash-get`, these variables have a lifespan of a single request.
 
-```clojure
-(session/flash-put! :message "User added!")
-(session/flash-get :message)
-```
+### Flash sessions
+
+Flash sessions have a lifespan of a single request, these can be accessed using the `:flash` key instead of the `:session` key used for regular sessions.
 
 ## Cookies
 
-Cookie handling is provided by the `noir.cookies` namespace. Setting and getting
-cookies works exactly the same as with session variables described above:
+Cookies are found under the `:cookies` key of the request, eg:
 
 ```clojure
-(require '[noir.cookies :as cookies])
+{:cookies {"username" {:value "Bob"}}}
 
-(defn set-user-cookie [id]
-  (cookies/put! :user id)
-  (cookies/get :user))
-
-(defn set-user-if-nil [id]
-  (cookies/get :user id))
-
-(cookies/put! :track
-              {:value (str (java.util.UUID/randomUUID))
-              :path "/"
-              :expires "1"})
 ```
+
+Conversely, to set a cookie on the response we simply update the response map with the desired cookie value:
+
+```clojure
+(-> "cookie set" response (update-in [:cookies "username" :value] "Alice"))
+```
+
+Cookies cn contain the following additional attributes in addition to the `:value` key:
+
+* :domain - restrict the cookie to a specific domain
+* :path - restrict the cookie to a specific path
+* :secure - restrict the cookie to HTTPS URLs if true
+* :http-only - restrict the cookie to HTTP if true (not accessible via e.g. JavaScript)
+* :max-age - the number of seconds until the cookie expires
+* :expires - a specific date and time the cookie expires

@@ -123,3 +123,7 @@ It's just few categories, more libraries related to web development
 [The Clojure Toolbox](http://www.clojure-toolbox.com/),
 [ClojureSphere](http://www.clojuresphere.com/) and
 [ClojureWerkz](http://clojurewerkz.org/) websites.
+
+## Tools
+
+* [Clojure mini-profiler](https://github.com/yeller/clojure-miniprofiler) - a simple but effective profiler for clojure web applications
