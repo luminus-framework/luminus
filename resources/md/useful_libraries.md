@@ -1,4 +1,4 @@
-Luminus aims to provide you with solid defaults for creating your web application. As such it comes packaged with several
+Luminus aims to provide solid defaults for creating your web application. As such it comes packaged with several
 libraries by default. These libraries include 
 [Buddy](https://github.com/funcool/buddy) for security, [Bouncer](https://github.com/leonardoborges/bouncer) for validation,
 [Selmer](https://github.com/yogthos/Selmer) for HTML templating,
