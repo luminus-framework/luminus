@@ -1,7 +1,7 @@
 Luminus aims to provide you with solid defaults for creating your web application. As such it comes packaged with several
 libraries by default. These libraries include 
 [Buddy](https://github.com/funcool/buddy) for security, [Bouncer](https://github.com/leonardoborges/bouncer) for validation,
-[Selmer](https://github.com/yogthos/Selmer)/[Hiccup](https://github.com/weavejester/hiccup) for HTML templating,
+[Selmer](https://github.com/yogthos/Selmer) for HTML templating,
 [Timbre](https://github.com/ptaoussanis/timbre) for logging,
 [Tower](https://github.com/ptaoussanis/tower) for internationalization and a few others.
 Of course, there are many other Clojure libraires for web development. Here we are going 
