@@ -57,7 +57,21 @@ Make sure to run the `clean` option before packaging the application for product
 lein cljsbuild once
 ```
 
-A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-figwheel) to hot load the code in the browser.
+A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-figwheel) to hot load the code in the browser. The easiest way to get Figwheel support is by using `+cljs` profile when creating your Luminus project.
+
+Figwheel requires that the server to be running:
+
+```
+lein ring server
+```
+
+Once the server starts simply run:
+
+```
+lein figwheel
+```
+
+This will start Figwheel and connect a browser REPL. Any changes you make in ClojureScript source will now be automatically reloaded on the page.
 
 ### Advanced Compilation and Exports
 
