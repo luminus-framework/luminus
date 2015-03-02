@@ -9,7 +9,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 
 ### Adding ClojureScript Support
 
-The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. First, add the `lein-cljsb-build` plugin and `:cljsbuild` key to the project as seen below:
+The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. First, add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and `:cljsbuild` key to the project as seen below:
 
 ```clojure
 :plugins [... [lein-cljsbuild "1.0.4"]]
@@ -35,7 +35,7 @@ Next, update the `:uberjar` profile with the following options:
                        :pretty-print false}}}}
 ```
 
-The above will add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) hook to the `:uberjar` profile so that ClojureScript is compiled when `lein ring uberjar` is run. The `:cljsbuild` options will override the defaults with production settings.
+The above will add the `lein-cljs-build` hook to the `:uberjar` profile so that ClojureScript is compiled when `lein ring uberjar` is run. The `:cljsbuild` options will override the defaults with production settings.
 
 All the ClojureScript namespaces should live in the `src-cljs` directory under the root of your project. Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
 
