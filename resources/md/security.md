@@ -104,17 +104,7 @@ The `attributes` vector can be used to filter the keys that are returned, an emp
 CSRF attack involves a third party performing an action on your site using the credentials of a logged-in user.
 This can commonly occur when your site contains malicious a link, a form button, or some JavaScript.
 
-[Ring-Anti-Forgery](https://github.com/ring-clojure/ring-anti-forgery) is used to protect against CSRF attacks. To enable it simply navigate to the `handler` namespace and change `mk-defaults` parameter to true in the `app-handler`:
-
-```clojure
-(def app (app-handler
-           [home-routes base-routes]
-           :middleware (load-middleware)
-           ;; set this to true in order to enable CSRF protection
-           :ring-defaults (mk-defaults true)
-           :access-rules []
-           :formats [:json-kw :edn :transit-json]))
-```
+[Ring-Anti-Forgery](https://github.com/ring-clojure/ring-anti-forgery) is used to protect against CSRF attacks. Anti-forgery protection is enabled by default.
 
 Once the CSRF middleware is enabled a randomly-generated string will be assigned to the *anti-forgery-token* var.
 Any POST requests coming to the server will have to contain a paremeter called `__anti-forgery-token` with
@@ -148,3 +138,21 @@ and start using it in our templates as follows:
 
 POST requests that do not contain the token will be rejected by the middleware. The server will
 respond with a 403 error saying "Invalid anti-forgery token".
+
+If you wish to disable it for any reason then simply update the `site-defaults` options in the `<app>.middleware` namespace:
+
+```clojure
+(defn production-middleware [handler]
+  (-> handler
+      wrap-restful-format
+      (wrap-idle-session-timeout
+        {:timeout (* 60 30)
+         :timeout-response (redirect "/")})
+      (wrap-defaults
+        (-> site-defaults
+            (assoc-in [:session :store] (memory-store session/mem))
+            ;;disable anti-forgery protection
+            (assoc-in [:security :anti-forgery] false)))
+      (wrap-internal-error :log #(timbre/error %))))
+```
+
