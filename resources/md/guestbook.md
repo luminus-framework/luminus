@@ -168,7 +168,6 @@ The project file of the application we've created is found in its root folder an
                  [ring/ring-session-timeout "0.1.0"]
                  [ring-middleware-format "0.4.0"]
                  [noir-exception "0.2.3"]
-                 [crypto-password "0.1.3"]
                  [bouncer "0.3.1"]
                  [prone "0.8.0"]
                  [ragtime "0.3.8"]
