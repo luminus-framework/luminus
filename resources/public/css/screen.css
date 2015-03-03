@@ -112,8 +112,6 @@ ul.nav {
     overflow: hidden;
     position: relative;
     margin-bottom: 50px;
-
-    box-shadow: 0 0 10px rgba(0,0,0,.25);
 }
 .sidebar {
     right: 0;
@@ -185,6 +183,7 @@ ul.nav {
     padding: 30px;
     float: none;
     display: table-cell;
+    width: 870px;
 }
 .article a {
     font-size: 1.0em;
