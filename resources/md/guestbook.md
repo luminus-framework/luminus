@@ -16,13 +16,13 @@ following the step below.
 1. Download the script.
 3. Set it to be executable. (eg: chmod +x lein)
 2. Place it on your $PATH. (eg: ~/bin)
-4. Run `lein self-install` and wait for the installation to complete.
+4. Run `lein` and wait for the self-installation to complete.
 
 ```
 wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
 chmod +x lein
 mv lein ~/bin
-lein self-install
+lein
 ```
 
 ### Creating a new application
