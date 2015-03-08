@@ -112,7 +112,7 @@ Below we have a simple example of interaction with the session.
       (assoc :session (assoc session :user id))))
 
 (defn remove-user! [{session :session}]
-  (-> (resonse "")
+  (-> (response "")
       (assoc :session (dissoc session :user))))
 
 (defn clear-session! []
@@ -124,6 +124,9 @@ Below we have a simple example of interaction with the session.
   (GET "/logout" req (clear-session!)))
 ```
 
+Note that the the default `<app>.layout/render` function does not allow setting the session.
+The function is intended to render the page and this should not be conflated with any controller actions.
+In a scenario where you wish to set the session and render a page a redirect is the recommended approach.
 
 ### Flash sessions
 
