@@ -21,7 +21,7 @@
 
 (defn fetch-doc-pages []
   (with-open
-    [r (->> "https://raw.github.com/yogthos/luminus/master/resources/docpages.edn"
+    [r (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
             client/get
             :body
             java.io.StringReader.
@@ -32,7 +32,7 @@
 (defn fetch-doc [name]
   (md/md-to-html-string
     (->> name
-         (str "https://raw.github.com/yogthos/luminus/master/resources/md/")
+         (str "https://raw.github.com/luminus-framework/luminus/master/resources/md/")
          (client/get)
          :body)
     :heading-anchors true
