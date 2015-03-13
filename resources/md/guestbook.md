@@ -16,13 +16,13 @@ following the step below.
 1. Download the script.
 3. Set it to be executable. (eg: chmod +x lein)
 2. Place it on your $PATH. (eg: ~/bin)
-4. Run `lein self-install` and wait for the installation to complete.
+4. Run `lein` and wait for the self-installation to complete.
 
 ```
 wget https://raw.github.com/technomancy/leiningen/stable/bin/lein
 chmod +x lein
 mv lein ~/bin
-lein self-install
+lein
 ```
 
 ### Creating a new application
@@ -168,7 +168,7 @@ The project file of the application we've created is found in its root folder an
                  [ring/ring-session-timeout "0.1.0"]
                  [ring-middleware-format "0.4.0"]
                  [noir-exception "0.2.3"]
-                 [bouncer "0.3.1"]
+                 [bouncer "0.3.2"]
                  [prone "0.8.0"]
                  [ragtime "0.3.8"]
                  [yesql "0.5.0-rc1"]

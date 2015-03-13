@@ -14,6 +14,7 @@ Currently, the following profiles are supported
 * +mysql - adds `db.core` namespace and add MySQL dependencies
 * +mongodb - adds `db.core` namespace and MongoDB dependencies
 * +http-kit - adds [HTTP Kit](http://http-kit.org/) support to the project
+* +immutant - adds the [Immutant](http://immutant.org/) web server to the project
 
 To add a profile simply pass it as an argument after your application name, eg:
 
