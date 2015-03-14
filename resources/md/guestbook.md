@@ -348,7 +348,7 @@ Note that the page is prompting us to run the migrations in order to initialize 
 
 Our routes are defined in the `guestbook.routes.home` namespace. Let's open it up and add the logic for
 rendering the messages from the database. We'll first need to add a reference to our `db` namespace along with
-references for [Bouncer](https://github.com/leonardoborges/bouncer) validators.
+references for [Bouncer](https://github.com/leonardoborges/bouncer) validators and [ring.util.response](http://ring-clojure.github.io/ring/ring.util.response.html)
 
 ```clojure
 (ns guestbook.routes.home
@@ -356,7 +356,8 @@ references for [Bouncer](https://github.com/leonardoborges/bouncer) validators.
     ...
     [guestbook.db.core :as db]
     [bouncer.core :as b]
-    [bouncer.validators :as v]))
+    [bouncer.validators :as v]
+    [ring.util.response :refer [redirect]))
 ```
 
 Next, we'll create a function to validate the form parameters.
