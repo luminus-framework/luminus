@@ -221,7 +221,7 @@ Please refer to the official Leiningen documentation for further details on stru
 
 ### Creating the Database
 
-First, we will create a model for our application, to do that we'll open up the `<date>-add-users-table.up.sql.clj` file located under the `migrations` folder. The file has the following contents:
+First, we will create a model for our application, to do that we'll open up the `<date>-add-users-table.up.sql` file located under the `migrations` folder. The file has the following contents:
 
 ```sql
 CREATE TABLE users
