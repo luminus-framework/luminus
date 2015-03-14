@@ -413,6 +413,15 @@ Our routes will now have to pass the request to both the `home-page` and the `sa
   (GET "/about" [] (about-page)))
 ```
 
+Don't forget to refer `POST` from `compojure.core`
+
+```
+(ns guestbook.routes.home
+  (:require ...
+            [compojure.core :refer [defroutes GET POST]]
+            ...))
+```
+
 Now that we have our controllers setup, let's open the `home.html` template located under the `resources/templates` directory. Currently, it simply renders the contents of the `content` variable inside the content block:
 
 ```xml
