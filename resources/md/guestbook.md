@@ -221,7 +221,7 @@ Please refer to the official Leiningen documentation for further details on stru
 
 ### Creating the Database
 
-First, we will create a model for our application, to do that we'll open up the `<date>-add-users-table.up.sql.clj` file located under the `migrations` folder. The file has the following contents:
+First, we will create a model for our application, to do that we'll open up the `<date>-add-users-table.up.sql` file located under the `migrations` folder. The file has the following contents:
 
 ```sql
 CREATE TABLE users
@@ -348,7 +348,7 @@ Note that the page is prompting us to run the migrations in order to initialize 
 
 Our routes are defined in the `guestbook.routes.home` namespace. Let's open it up and add the logic for
 rendering the messages from the database. We'll first need to add a reference to our `db` namespace along with
-references for [Bouncer](https://github.com/leonardoborges/bouncer) validators.
+references for [Bouncer](https://github.com/leonardoborges/bouncer) validators and [ring.util.response](http://ring-clojure.github.io/ring/ring.util.response.html)
 
 ```clojure
 (ns guestbook.routes.home
@@ -356,7 +356,8 @@ references for [Bouncer](https://github.com/leonardoborges/bouncer) validators.
     ...
     [guestbook.db.core :as db]
     [bouncer.core :as b]
-    [bouncer.validators :as v]))
+    [bouncer.validators :as v]
+    [ring.util.response :refer [redirect]))
 ```
 
 Next, we'll create a function to validate the form parameters.
@@ -410,6 +411,15 @@ Our routes will now have to pass the request to both the `home-page` and the `sa
   (GET "/" request (home-page request))
   (POST "/" request (save-message! request))
   (GET "/about" [] (about-page)))
+```
+
+Don't forget to refer `POST` from `compojure.core`
+
+```
+(ns guestbook.routes.home
+  (:require ...
+            [compojure.core :refer [defroutes GET POST]]
+            ...))
 ```
 
 Now that we have our controllers setup, let's open the `home.html` template located under the `resources/templates` directory. Currently, it simply renders the contents of the `content` variable inside the content block:

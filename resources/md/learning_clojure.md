@@ -11,7 +11,7 @@ This section provides links to online resources, books, and development environm
 
 ### Clojure Reference
 
-* [Grimoire API reference](http://grimoire.arrdem.com/)
+* [Grimoire API reference](http://conj.io/)
 * [Clojure cheatsheet](http://clojure.org/cheatsheet)
 * [Clojure style guide](https://github.com/bbatsov/clojure-style-guide)
 
@@ -22,6 +22,7 @@ This section provides links to online resources, books, and development environm
 * [The Joy of Clojure: Thinking the Clojure Way](http://www.amazon.com/The-Joy-Clojure-Thinking-Way/dp/1935182641/ref=pd_bxgy_b_img_y)
 * [Practical Clojure](http://www.apress.com/9781430272311)
 * [Web Development with Clojure](http://pragprog.com/book/dswdcloj/web-development-with-clojure)
+* [Clojure Web Development Essentials](https://www.packtpub.com/application-development/clojure-web-development-essentials)
 
 
 ### IDE Support
