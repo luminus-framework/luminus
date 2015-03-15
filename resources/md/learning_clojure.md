@@ -11,7 +11,7 @@ This section provides links to online resources, books, and development environm
 
 ### Clojure Reference
 
-* [Grimoire API reference](http://grimoire.arrdem.com/)
+* [Grimoire API reference](http://conj.io/)
 * [Clojure cheatsheet](http://clojure.org/cheatsheet)
 * [Clojure style guide](https://github.com/bbatsov/clojure-style-guide)
 
