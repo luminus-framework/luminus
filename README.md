@@ -5,7 +5,7 @@
 
 sources of the documentation site for the [Luminus framework](http://www.luminusweb.net) 
 
-## License
+**License**
 
 Copyright © 2012 Yogthos
 
