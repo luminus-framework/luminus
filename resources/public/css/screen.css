@@ -78,6 +78,9 @@ ul.nav {
 
     padding-top: 6px;
 }
+#logo-image {
+    height: 90px;
+}
 #logo h1#logo-text {
     margin: 0;
     height: 60px;
