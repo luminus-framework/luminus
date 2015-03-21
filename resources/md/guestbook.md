@@ -494,8 +494,7 @@ Finally, we'll create a form to allow users to submit their messages. We'll popu
                 <textarea class="form-control"
                           rows="4"
                           cols="50"
-                          name="message">{{message}}
-                </textarea>
+                          name="message">{{message}}</textarea>
                 </p>
                 {% if errors.message %}
                 <div class="alert alert-danger">{{errors.message|join}}</div>
@@ -543,8 +542,7 @@ Our final `home.html` template should look as follows:
                 <textarea class="form-control"
                           rows="4"
                           cols="50"
-                          name="message">{{message}}
-                </textarea>
+                          name="message">{{message}}</textarea>
                 </p>
                 {% if errors.message %}
                 <div class="alert alert-danger">{{errors.message|join}}</div>
