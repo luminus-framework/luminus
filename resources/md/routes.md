@@ -58,7 +58,7 @@ Handlers may utilize query parameters:
 (GET "/posts" []
   (fn [req]
     (let [title (get (:params req) "title")
-          author (get (:params req) "title")]
+          author (get (:params req) "author")]
       " Do something with title and author")))
 ```
 
@@ -68,7 +68,7 @@ Or, for POST and PUT requests, form parameters:
 (POST "/posts" []
   (fn [req]
     (let [title (get (:params req) "title")
-          author (get (:params req) "title")]
+          author (get (:params req) "author")]
       "Do something with title and author")))
 ```
 
