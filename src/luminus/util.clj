@@ -67,8 +67,7 @@
 
 (defn refresh-docs! []
   (when-let [pages (try (fetch-doc-pages) (catch Exception _))]
-    (swap! docs assoc :topics pages)
-    (swap! docs assoc :docs-by-topic (into {} pages))
+    (reset! docs {:topics pages :docs-by-topic (into {} pages)})
     (doseq [id (map first pages)]
       (when-let [doc (try (fetch-doc id) (catch Exception _))]
         (swap! docs assoc id {:toc (generate-toc doc) :content doc}))
