@@ -339,7 +339,7 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
          :handler handler
          :error-handler error-handler})
 ```
-Note that CSRF middleware is enabled by default and you will intercept `POST` requests by default. You can disable the middleware by updating the `site-defaults` in your `<app-name>.middleware` namespace as follows.
+Note that CSRF middleware is enabled by default and will intercept `POST` requests to the server. You can disable the middleware by updating the `site-defaults` in your `<app-name>.middleware` namespace as follows.
 
 ```clojure
 (defn production-middleware [handler]
