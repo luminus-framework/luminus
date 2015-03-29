@@ -296,7 +296,7 @@ The `ajax-request` is the base request function that accepts the following param
 
 * uri - the URI for the request
 * method - a string representing the HTTP request type, eg: "PUT", "DELETE", etc.
-* format - a keyword indicating the response format, can be either `:json` or `:edn`, defaults to `:edn`
+* format - a keyword indicating the response format, can be either `:raw`, `:json`, `:edn`, or `:transit` and defaults to `:transit`
 * handler - success handler, a function that accepts the response as a single argument
 * error-handler - error handler, a function that accepts a map representing the error with keys `:status and `:status-text`
 * params - a map of params to be sent to the server
@@ -307,8 +307,12 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
 
 * `:handler` - the handler function for successful operation should accept a single parameter which is the deserialized response
 * `:error-handler` - the handler function for errors, should accept a map with keys `:status` and `:status-text`
-* `:format` - the format for the response `:edn` or `:json` defaults to `:edn`
+* `:format` - the format for the request can be either `:raw`, `:json`, `:edn`, or `:transit` and defaults to `:transit`
+* `:response-format` - the response format. If you leave this blank, it will detect the format from the Content-Type header
 * `:params` - a map of parameters that will be sent with the request
+* `:timeout` - the ajax call's timeout. 30 seconds if left blank
+* `:headers` - a map of the HTTP headers to set with the request
+* `:finally` - a function that takes no parameters and will be triggered during the callback in addition to any other handlers
 
 
 ```clojure
@@ -329,9 +333,94 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
 (POST "/hello")
 
 (POST "/send-message"
-        {:params {:message "Hello World"
+        {:headers {"Accept" "application/transit+json"}
+         :params {:message "Hello World"
                   :user    "Bob"}
          :handler handler
          :error-handler error-handler})
 ```
+Note that CSRF middleware is enabled by default and you will intercept `POST` requests by default. You can disable the middleware by updating the `site-defaults` in your `<app-name>.middleware` namespace as follows.
+
+```clojure
+(defn production-middleware [handler]
+  (-> handler
+      (wrap-restful-format :formats [:json-kw :edn :transit-json :transit-msgpack])
+      (wrap-idle-session-timeout
+        {:timeout (* 60 30)
+         :timeout-response (redirect "/")})
+      (wrap-defaults
+        (-> site-defaults
+        (assoc-in [:security :anti-forgery] false) ;;disable anti-forgery
+        (assoc-in [:session :store] (memory-store session/mem)))
+      (wrap-internal-error :log #(timbre/error %))))
+```
+
+Alternatively, you would need to pass the token along with the request. One way to do this is to pass the token in the header and use custom middleware on the server to set it as the `:form-params` key on the request.
+
+To do that we'll first need to set the token as a hidden field on the page:
+
+```xml
+<input id="token" type="hidden" value="{{csrf-token}}"></input>
+```
+
+Then we'll have to set the header in the request:
+
+```clojure
+(POST "/send-message"
+        {:headers {"Accept" "application/transit+json"
+                   "__anti-forgery-token"
+                   (.-value (.getElementById js/document "token"))}
+         :params {:message "Hello World"
+                  :user    "Bob"}
+         :handler handler
+         :error-handler error-handler})
+```
+
+Finally, we'll add the middleware to intercept the token and set it to the appropriate key:
+
+```clojure
+(ns <myapp>.middleware
+  ...)
+  
+  ...
+  
+(defn wrap-csrf [handler]
+  (fn [req]
+    (handler
+     (if-let [csrf-token (get-in req [:headers "__anti-forgery-token"])]
+       (assoc-in req [:form-params "__anti-forgery-token"] csrf-token)
+       req))))
+       
+...    
+
+(defn production-middleware [handler]
+  (-> handler
+      (wrap-restful-format :formats [:json-kw :edn :transit-json :transit-msgpack])
+      (wrap-idle-session-timeout
+        {:timeout (* 60 30)
+         :timeout-response (redirect "/")})
+      (wrap-defaults
+        (assoc-in site-defaults [:session :store] (memory-store session/mem)))
+      ;;modify the request to set the CSRF token in form params
+      wrap-csrf
+      (wrap-internal-error :log #(timbre/error %))))
+```      
+
+The request body will be interpreted using the [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format) library. The library will deserialize the request based on the `Content-Type` header and serialize the response using the `Accept` header that we set above.
+
+The route should simply return a response map with the body set to the content of the response:
+
+```clojure
+(ns myapp.routes.services
+  (:require [compojure.core :refer [defroutes GET POST]]
+            [ring.util.response :refer [response status]]))
+            
+(defn save-message! [{:keys [params]}]
+  (println params)
+  (response {:status :success}))
+            
+(defroutes services
+  (POST "/send-message" request (save-message! request)))
+```
+
 
