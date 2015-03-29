@@ -355,7 +355,7 @@ Note that CSRF middleware is enabled by default and will intercept `POST` reques
       (wrap-internal-error :log #(timbre/error %))))
 ```
 
-Alternatively, you would need to pass the token along with the request. One way to do this is to pass the token in the header and use custom middleware on the server to set it as the `:form-params` key on the request.
+Alternatively, we would need to pass the token along with the request. One way to do this is to pass the token in the header and use custom middleware on the server to set it as the `:form-params` key on the request.
 
 To do that we'll first need to set the token as a hidden field on the page:
 
