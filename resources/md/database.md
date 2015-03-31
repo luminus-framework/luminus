@@ -105,7 +105,7 @@ The parameters are passed in using a map with the keys that match the parameter 
   {:id "user1"
    :first_name "Bob"
    :last-name "Bobberton"
-   :emial "bob.bobberton@mail.com"
+   :email "bob.bobberton@mail.com"
    :pass "verysecret"})
 ```
 
@@ -118,7 +118,7 @@ Alternatively, we can pass the DB spec directly to `defqueries` and it will be u
   {:id "user1"
    :first_name "Bob"
    :last-name "Bobberton"
-   :emial "bob.bobberton@mail.com"
+   :email "bob.bobberton@mail.com"
    :pass "verysecret"})
 ```
 
