@@ -206,7 +206,7 @@ Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github
 ### Specifying Access Rules
 
 Let's take a look at how to create a rule to specify that restricted routes should only be
-accessible if the `:user` key is present in the session.
+accessible if the `:identity` key is present in the session.
 
 First, we'll reference several Buddy namespaces in the `<app>.middleware` namespace.
 
