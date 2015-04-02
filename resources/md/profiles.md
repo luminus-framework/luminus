@@ -15,7 +15,8 @@ Currently, the following profiles are supported
 * +mongodb - adds `db.core` namespace and MongoDB dependencies
 * +http-kit - adds [HTTP Kit](http://http-kit.org/) support to the project
 * +immutant - adds the [Immutant](http://immutant.org/) web server to the project
-
+* +sassc - adds support for [SASS/SCSS](http://sass-lang.com/) files using [SassC](https://github.com/sass/sassc) command line compiler
+* 
 To add a profile simply pass it as an argument after your application name, eg:
 
 ```
