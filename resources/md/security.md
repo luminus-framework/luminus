@@ -110,26 +110,17 @@ Once the CSRF middleware is enabled a randomly-generated string will be assigned
 Any POST requests coming to the server will have to contain a paremeter called `__anti-forgery-token` with
 this token.
 
-We'll first need to add a reference to `anti-forgery` in the namespace declaration:
+The `<app>.layout` namepsace of your application creates a `csrf-field` tag that can be used to provide the token on the page:
 
 ```clojure
-(require ... [ring.util.anti-forgery :refer [anti-forgery-field]]))
+(parser/add-tag! :csrf-field (fn [_ _] (anti-forgery-field)))
 ```
 
-Next, we can then define a new CSRF tag in our `init` function:
-
-```clojure
-(defn init
-  ...
-  (parser/add-tag! :csrf-token (fn [_ _] (anti-forgery-field)))
-  ...)
-```
-
-and start using it in our templates as follows:
+We can use it in our templates as follows:
 
 ```xml
 <form name="input" action="/login" method="POST">
-  {% csrf-token %}
+  {% csrf-field %}
   Username: <input type="text" name="user">
   Password: <input type="password" name="pass">
   <input type="submit" value="Submit">
