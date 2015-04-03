@@ -7,6 +7,6 @@ sources of the documentation site for the [Luminus framework](http://www.luminus
 
 **License**
 
-Copyright © 2012 Yogthos
+Copyright © 2015 Dmitri Sotnikov
 
 Distributed under the [MIT License](http://opensource.org/licenses/MIT).
