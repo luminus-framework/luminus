@@ -27,6 +27,7 @@ Given page called `upload.html` with the following form:
 ```xml
 <h2>Upload a file</h2>
 <form action="/upload" enctype="multipart/form-data" method="POST">
+    {% csrf-field %}
     <input id="file" name="file" type="file" />
     <input type="submit" value="upload" />
 </form>
