@@ -39,13 +39,14 @@ we could then render the page and handle the file upload as follows:
 (ns myapp.upload
   (:use compojure.core)
   (:require [myapp.layout :as layout]
-            [ring.util.response :refer [redirect file-response]]))
+            [ring.util.response :refer [redirect file-response]])
+  (:import [java.io File FileInputStream FileOutputStream]))
 
 (def resource-path "/tmp/")
 
 (defn file-path [path & [filename]]
   (java.net.URLDecoder/decode
-    (str path java.io.File/separator filename)
+    (str path File/separator filename)
     "utf-8"))
 
 (defn upload-file
