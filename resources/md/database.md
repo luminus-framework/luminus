@@ -122,7 +122,7 @@ Alternatively, we can pass the DB spec directly to `defqueries` and it will be u
    :pass "verysecret"})
 ```
 
-See the [official documentation](https://github.com/krisajenkins/yesql) for more details.
+See the [official documentation](https://github.com/krisajenkins/yesql/tree/devel) for more details.
 
 ### SQL Korma
 
