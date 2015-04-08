@@ -3,6 +3,7 @@
  ["html_templating.md"  "HTML templating"]
  ["clojurescript.md"    "ClojureScript"]
  ["routes.md"           "Defining routes"]
+ ["services.md"         "RESTful services"]
  ["static_resources.md" "Static resources"]
  ["requests.md"         "Request types"]
  ["responses.md"        "Response types"]
