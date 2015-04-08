@@ -190,7 +190,12 @@ You can create a self signed certificate as follows:
 ```
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/cert.key -out /etc/nginx/cert.crt
 ```
+We'll generate a stronger DHE parameter instead of using OpenSSL's defaults, which include a 1024-bit key for the key-exchange:
 
+```
+cd /etc/ssl/certs
+openssl dhparam -out dhparam.pem 4096
+```
 Next, you'll want to update the configuration in `/etc/nginx/sites-available/default` as follows:
 
 ```
@@ -208,10 +213,13 @@ server {
     ssl_certificate_key       /etc/nginx/cert.key;
 
     ssl on;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers 'AES256+EECDH:AES256+EDH';
     ssl_session_cache  builtin:1000  shared:SSL:10m;
     ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
-    ssl_prefer_server_ciphers on;
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+    add_header Strict-Transport-Security 'max-age=31536000';
 
     access_log /var/log/myapp_access.log;
     error_log /var/log/myapp_error.log;
