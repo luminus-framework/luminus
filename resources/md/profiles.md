@@ -15,6 +15,7 @@ Currently, the following profiles are supported
 * +mongodb - adds `db.core` namespace and MongoDB dependencies
 * +http-kit - adds [HTTP Kit](http://http-kit.org/) support to the project
 * +immutant - adds the [Immutant](http://immutant.org/) web server to the project
+* +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
 * +sassc - adds support for [SASS/SCSS](http://sass-lang.com/) files using [SassC](https://github.com/sass/sassc) command line compiler
 
  
