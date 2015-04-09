@@ -47,12 +47,12 @@ The above service operation can be called from ClojureScript as follows:
        [:form
         [:div.form-group
          [:label "x"]
-         [:input.form-control 
+         [:input 
           {:type :text
            :on-change #(swap! params assoc :x (int-value %))}]]
         [:div.form-group
          [:label "y"]
-         [:input.form-control 
+         [:input
           {:type :text
            :on-change #(swap! params assoc :y (int-value %))}]]]
        [:button.btn.btn-primary {:on-click #(add params result)} "Add"]
