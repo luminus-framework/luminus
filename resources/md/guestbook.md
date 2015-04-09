@@ -398,8 +398,7 @@ Finally, we'll change the `home-page` handler function to look as follows:
   (layout/render
    "home.html"
    (merge {:messages (db/get-messages)}
-          (select-keys flash [:name :message :errors]))
-   :name (:name flash)))
+          (select-keys flash [:name :message :errors]))))
 ```
 
 The function renders the home page template and passes it the currently stored messages along with any parameters from the `:flash` session, such as validation errors.
