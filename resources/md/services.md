@@ -23,20 +23,7 @@ each service operation as seen below:
         (ok (+ x y)))
 ```
 
-We must specify the return type, the query parameter types, and provide a description for each service operation.
-When working with complex types we must provide a schema definition for each one:
-
-```clojure
-(s/defschema Thingie {:id Long
-                      :hot Boolean
-                      :tag (s/enum :kikka :kukka)
-                      :chief [{:name String
-                               :type #{{:id String}}}]})
-```
-
 The above service operation can be called from ClojureScript as follows:
-
-We can now call the API from the client as follows:
 
 ```clojure
 (ns swag.core
@@ -74,6 +61,23 @@ We can now call the API from the client as follows:
 
 (reagent/render-component [home-page] (.getElementById js/document "app"))
 ```  
+
+We must specify the return type, the query parameter types, and provide a description for each service operation.
+When working with complex types we must provide a schema definition for each one:
+
+```clojure
+(s/defschema Thingie {:id Long
+                      :hot Boolean
+                      :tag (s/enum :kikka :kukka)
+                      :chief [{:name String
+                               :type #{{:id String}}}]})
+
+(POST* "/echo" []
+        :return   Thingie
+        :body     [thingie Thingie]
+        :summary  "echoes a Thingie from json-body"
+        (ok thingie))
+```
 
 The project is also setup to generate a documentation page for the services using the [ring-swagger-ui](https://github.com/metosin/ring-swagger-ui) library. The API documentation is available at the `/swagger-ui` URL.
 
