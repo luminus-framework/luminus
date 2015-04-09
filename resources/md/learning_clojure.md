@@ -32,4 +32,4 @@ There are a number of IDEs to choose from for Clojure development.
 * [Light Table](http://www.lighttable.com/) - a minimalistic IDE for Clojure, it requires no setup and runs out of the box on all the major platforms.
 * [Emacs](http://clojure-doc.org/articles/tutorials/emacs.html) - currently the most popular IDE choice for Clojure.
 * [IntelliJ](http://www.jetbrains.com/idea/download/) - IntelliJ provides an excellent Clojure development environment via the [Cursive plugin](http://cursiveclojure.com/).
-* [Eclipse](http://www.eclipse.org/downloads/) - Eclipse uses the [Counterclockwise plugin](https://github.com/laurentpetit/ccw/wiki/GoogleCodeHome) to provide Clojure support.
+* [Eclipse](http://www.eclipse.org/downloads/) - Eclipse uses the [Counterclockwise plugin](http://doc.ccw-ide.org/) to provide Clojure support.
