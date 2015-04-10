@@ -1,5 +1,11 @@
 ## Security
 
+## Restricting Route Access
+
+Please refer to the [Routing section](/docs/routes.md#restricting_access) for the instructions on securing the routes.
+
+## Password Hashing
+
 Password hashing and comparison is handled by the `buddy.hashers` namespace provided by the [Buddy](https://funcool.github.io/buddy/latest/).
 
 It provides two functions, `encrypt` and `check`. The first will encrypt and salt the password,
