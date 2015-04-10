@@ -1,5 +1,3 @@
-## Security
-
 ## Restricting Route Access
 
 Please refer to the [Routing section](/docs/routes.md#restricting_access) for the instructions on securing the routes.
