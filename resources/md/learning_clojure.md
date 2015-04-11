@@ -6,7 +6,7 @@ This section provides links to online resources, books, and development environm
 * [Clojure - Functional Programming for the JVM](http://java.ociweb.com/mark/clojure/article.html) - a detailed Clojure primer aimed at Java developers
 * [Clojure for the Brave and True](http://www.braveclojure.com/) - an excellent and humorous introduction to the language
 * [Clojure Documentation](http://clojure-doc.org/) - a collection of Clojure guides and tutorials
-* [4Cloure](http://www.4clojure.com/) - a site for practicing Clojure by solving interactive problems
+* [4Clojure](http://www.4clojure.com/) - a site for practicing Clojure by solving interactive problems
 * [ClojureScript in 15 minutes](https://github.com/shaunlebron/ClojureScript-Syntax-in-15-minutes) - concise guide to ClojureScript
 
 ### Clojure Reference
