@@ -113,7 +113,7 @@ We must now disable the CSRF protection in the [ring-defaults](https://github.co
       (wrap-idle-session-timeout
         {:timeout (* 60 30)
          :timeout-response (redirect "/")})
-      (wrap-csrf #"^/api/public/.*") 
+      (wrap-csrf #"^/api/.*") 
       (wrap-defaults
         (-> site-defaults
           (assoc-in [:security :anti-forgery] false)
