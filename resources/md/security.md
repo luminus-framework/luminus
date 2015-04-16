@@ -151,3 +151,5 @@ If you wish to disable it for any reason then simply update the `site-defaults` 
       (wrap-internal-error :log #(timbre/error %))))
 ```
 
+Please see [here](/docs/services.md#csrf) on details how to enable CSRF for select routes in your application.
+
