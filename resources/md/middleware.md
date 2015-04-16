@@ -20,16 +20,25 @@ A middleware is simply a function which accepts an existing handler with some op
 As you can see the wrapper accepts the handler and returns a function which in turn accepts the request. Since the returned function was defined in the scope where the handler exists, it can use it internally. When called, it will call the handler with the request and add Pragma: no-cache to the response map. For detailed information please refer to the official [Ring documentation](https://github.com/ring-clojure/ring/wiki).
 
 
-The middleware is added in the `middleware` namespace of your project. Any development middleware, such as middleware for showing stacktraces, should be added to the `development-middleware` vector. It will only be invoked when the `:dev` envrionment key is set. Only add middleware that you also wish to use in production to the `production-middleware` vector.
+The middleware is added in the `middleware` namespace of your project. Any development middleware, such as middleware for showing stacktraces, should be added in the `development-middleware` function. It will only be invoked when the `:dev` envrionment key is set. Only add middleware that you also wish to use in production in the `production-middleware` function.
 
 ```clojure
-(def development-middleware
-  [log-request
-   wrap-error-page
-   wrap-exceptions])
+(defn development-middleware [handler]
+  (if (env :dev)
+    (-> handler
+        wrap-error-page
+        wrap-exceptions)
+    handler))
 
-(def production-middleware
-  [#(wrap-internal-error % :log (fn [e] (timbre/error e)))])
+(defn production-middleware [handler]
+  (-> handler
+      (wrap-restful-format :formats [:json-kw :edn :transit-json :transit-msgpack])
+      (wrap-idle-session-timeout
+        {:timeout (* 60 30)
+         :timeout-response (redirect "/")})
+      (wrap-defaults
+        (assoc-in site-defaults [:session :store] (memory-store session/mem)))
+      (wrap-internal-error :log #(timbre/error %))))
 ```    
 
 ## Useful ring middleware
@@ -38,4 +47,3 @@ The middleware is added in the `middleware` namespace of your project. Any devel
 * [ring-etag-middleware](https://github.com/mikejs/ring-etag-middleware) - Calculates etags for ring responses and returns 304 responses when appropriate
 * [ring-gzip-middleware](https://github.com/mikejs/ring-gzip-middleware) - Gzips ring responses for user agents which can handle it
 * [ring-upload-progress](https://github.com/joodie/ring-upload-progress) - Provide upload progress data in ring session
-* [ring-anti-forgery](https://github.com/weavejester/ring-anti-forgery) - Ring middleware to prevent CSRF attacks
