@@ -86,3 +86,37 @@ The project is also setup to generate a documentation page for the services usin
    "/swagger-ui"
    :api-url "/swagger-docs")
 ```
+
+## CSRF
+
+CSRF protection provided by the [ring-anti-forgery](https://github.com/ring-clojure/ring-anti-forgery) middleware is enabled by default. The middleware configuration is found in the `<app>.middleware` namespace of our application. In cases where we wish to disable CSRF protection for certain routes we could add a custom middleware wrapper to do so:
+
+```clojure
+(defn wrap-csrf
+  "disables CSRF for URIs that match the specified pattern"
+  [handler pattern]
+  (let [anti-forgery-handler (wrap-anti-forgery handler)]
+    (fn [req]
+      (if (re-matches pattern (:uri req))
+        (handler req)
+        (anti-forgery-handler req)))))
+```
+
+The middleware above accepts a regex pattern and checks the route URI against it. When the pattern matches then it uses the regular handler, otherwise the CSRF enabled handler is used.
+
+We must now disable the CSRF protection in the [ring-defaults](https://github.com/ring-clojure/ring-defaults) middleware and use our custom middleware instead:
+
+```clojure
+(defn production-middleware [handler]
+  (-> handler
+      (wrap-restful-format :formats [:json-kw :edn :transit-json :transit-msgpack])
+      (wrap-idle-session-timeout
+        {:timeout (* 60 30)
+         :timeout-response (redirect "/")})
+      (wrap-csrf #"^/api/public/.*") 
+      (wrap-defaults
+        (-> site-defaults
+          (assoc-in [:security :anti-forgery] false)
+          (assoc-in  [:session :store] (memory-store session/mem))))
+      (wrap-internal-error :log #(timbre/error %))))
+```
