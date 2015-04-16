@@ -102,7 +102,7 @@ CSRF protection provided by the [ring-anti-forgery](https://github.com/ring-cloj
         (anti-forgery-handler req)))))
 ```
 
-The middleware above accepts a regex pattern and checks the route URI against it. When the pattern matches then it uses the regular handler, otherwise the CSRF enabled handler is used.
+The middleware above accepts a regex pattern and checks the request URI against it. When the pattern matches then it uses the regular handler, otherwise the CSRF enabled handler is used.
 
 We must now disable the CSRF protection in the [ring-defaults](https://github.com/ring-clojure/ring-defaults) middleware and use our custom middleware instead:
 
