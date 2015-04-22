@@ -292,3 +292,30 @@ git push heroku master
 Your application should now be deployed to Heroku!
 
 For further instructions see the [official documentation](https://devcenter.heroku.com/articles/clojure).
+
+## Enabling nREPL
+
+Luminus comes setup with [nREPL](https://github.com/clojure/tools.nrepl) that allows connecting to a REPL
+on a the server. This functionality can useful for debugging as well as hotfixing updates in the running
+application.
+
+To enable nREPL support simply uncomment the following line in your `project.clj` file:
+
+```clojure
+;:env {:repl-port 7001}
+```
+
+To test the REPL connection simply run the following command:
+
+```
+lein repl :connect 7001
+```
+
+You can also connect your favorite IDE to a remote REPL just as you would connect to a local one.
+
+When running on a remote server it is recommended to forward the REPL port to the local machine using SSH:
+
+```
+ssh -L 7001:localhost:7001 remotehost
+```
+
