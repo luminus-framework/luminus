@@ -148,7 +148,8 @@ If you wish to disable it for any reason then simply update the `site-defaults` 
             (assoc-in [:session :store] (memory-store session/mem))
             ;;disable anti-forgery protection
             (assoc-in [:security :anti-forgery] false)))
-      (wrap-internal-error :log #(timbre/error %))))
+      wrap-servlet-context
+      wrap-internal-error))
 ```
 
 Please see [here](/docs/services.md#csrf) on details how to enable CSRF for select routes in your application.
