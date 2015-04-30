@@ -357,7 +357,7 @@ references for [Bouncer](https://github.com/leonardoborges/bouncer) validators a
     [guestbook.db.core :as db]
     [bouncer.core :as b]
     [bouncer.validators :as v]
-    [ring.util.response :refer [redirect]))
+    [ring.util.response :refer [redirect]]))
 ```
 
 Next, we'll create a function to validate the form parameters.
