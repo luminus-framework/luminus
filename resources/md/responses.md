@@ -35,7 +35,8 @@ The middleware is found in the `<app-name>.middleware` namespace of your applica
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:session :store] (memory-store session/mem))))
-      (wrap-internal-error :log (fn [e] (timbre/error e)))))
+      wrap-servlet-context
+      wrap-internal-error))
 
 ```
 
