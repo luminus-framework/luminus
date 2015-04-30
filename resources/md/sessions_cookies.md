@@ -49,7 +49,8 @@ The session store is initialized using the `wrap-defaults` middleware.
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:session :store] (memory-store session/mem))))
-      (wrap-internal-error :log (fn [e] (timbre/error e)))))
+      wrap-servlet-context
+      wrap-internal-error))
 ```
 
 We can easily swap the default memory store for a different one, such as a cookie store. Note that
