@@ -38,7 +38,8 @@ The middleware is added in the `middleware` namespace of your project. Any devel
          :timeout-response (redirect "/")})
       (wrap-defaults
         (assoc-in site-defaults [:session :store] (memory-store session/mem)))
-      (wrap-internal-error :log #(timbre/error %))))
+      wrap-servlet-context
+      wrap-internal-error))
 ```    
 
 ## Useful ring middleware
