@@ -120,5 +120,6 @@ We must now disable the CSRF protection in the [ring-defaults](https://github.co
         (-> site-defaults
           (assoc-in [:security :anti-forgery] false)
           (assoc-in  [:session :store] (memory-store session/mem))))
-      (wrap-internal-error :log #(timbre/error %))))
+      wrap-servlet-context
+      wrap-internal-error))
 ```
