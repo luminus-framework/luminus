@@ -352,7 +352,8 @@ Note that CSRF middleware is enabled by default and will intercept `POST` reques
         (-> site-defaults
         (assoc-in [:security :anti-forgery] false) ;;disable anti-forgery
         (assoc-in [:session :store] (memory-store session/mem)))
-      (wrap-internal-error :log #(timbre/error %))))
+      wrap-servlet-context
+      wrap-internal-error))
 ```
 
 Alternatively, we would need to pass the token along with the request. One way to do this is to pass the token in the header and use custom middleware on the server to set it as the `:form-params` key on the request.
@@ -403,7 +404,8 @@ Finally, we'll add the middleware to intercept the token and set it to the appro
         (assoc-in site-defaults [:session :store] (memory-store session/mem)))
       ;;modify the request to set the CSRF token in form params
       wrap-csrf
-      (wrap-internal-error :log #(timbre/error %))))
+      wrap-servlet-context
+      wrap-internal-error))
 ```      
 
 The request body will be interpreted using the [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format) library. The library will deserialize the request based on the `Content-Type` header and serialize the response using the `Accept` header that we set above.
