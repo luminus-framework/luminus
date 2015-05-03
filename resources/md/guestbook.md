@@ -50,6 +50,7 @@ guestbook
 |
 |____src
 | |____guestbook
+|   |____core.clj
 |   |____handler.clj
 |   |____layout.clj
 |   |____middleware.clj
@@ -98,6 +99,7 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 
 #### guestbook
 
+* `core.clj` - this is the entry point for the application that contains the logic for starting and stopping the server
 * `handler.clj` - defines the base routes for the application, this is the entry point into the application
 * `layout.clj` - a namespace for the layout helpers used to render the content for our pages
 * `middleware.clj` - a namespace that contains custom middleware for the application
@@ -153,35 +155,41 @@ The project file of the application we've created is found in its root folder an
 
 ```clojure
 (defproject guestbook "0.1.0-SNAPSHOT"
+
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [ring-server "0.3.1"]
-                 [selmer "0.8.0"]
-                 [com.taoensso/timbre "3.3.1"]
+                 [selmer "0.8.2"]
+                 [com.taoensso/timbre "3.4.0"]
                  [com.taoensso/tower "3.0.2"]
-                 [markdown-clj "0.9.62"]
+                 [markdown-clj "0.9.66"]
                  [environ "1.0.0"]
                  [im.chit/cronj "1.4.3"]
-                 [ring/ring-defaults "0.1.3"]
+                 [compojure "1.3.3"]
+                 [ring/ring-defaults "0.1.4"]
                  [ring/ring-session-timeout "0.1.0"]
-                 [ring-middleware-format "0.4.0"]
-                 [noir-exception "0.2.3"]
+                 [ring-middleware-format "0.5.0"]
                  [bouncer "0.3.2"]
-                 [prone "0.8.0"]
+                 [prone "0.8.1"]
+                 [org.clojure/tools.nrepl "0.2.10"]
+                 [ring-server "0.4.0"]
                  [ragtime "0.3.8"]
-                 [yesql "0.5.0-rc1"]
+                 [yesql "0.5.0-rc2"]
                  [com.h2database/h2 "1.4.182"]]
 
   :min-lein-version "2.0.0"
   :uberjar-name "guestbook.jar"
-  :repl-options {:init-ns guestbook.handler}
   :jvm-opts ["-server"]
 
-  :plugins [[lein-ring "0.9.0"]
+;;enable to start the nREPL server when the application launches
+;:env {:repl-port 7001}
+
+  :main guestbook.core
+
+  :plugins [[lein-ring "0.9.1"]
             [lein-environ "1.0.0"]
-            [lein-ancient "0.5.5"]
+            [lein-ancient "0.6.5"]
             [ragtime/ragtime.lein "0.3.8"]]
 
   :ring {:handler guestbook.handler/app
@@ -192,17 +200,17 @@ The project file of the application we've created is found in its root folder an
   :ragtime
   {:migrations ragtime.sql.files/migrations
    :database "jdbc:h2:./site.db"}
-
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}
+
              :aot :all}
-   :production {:ring {:open-browser? false
-                       :stacktraces?  false
-                       :auto-reload?  false}}
    :dev {:dependencies [[ring-mock "0.1.5"]
                         [ring/ring-devel "1.3.2"]
-                        [pjstadig/humane-test-output "0.6.0"]]
+                        [pjstadig/humane-test-output "0.7.0"]
+                        ]
+         :source-paths ["env/dev/clj"]
+         :repl-options {:init-ns guestbook.core}
          :injections [(require 'pjstadig.humane-test-output)
                       (pjstadig.humane-test-output/activate!)]
          :env {:dev true}}})
