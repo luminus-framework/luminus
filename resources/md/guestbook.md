@@ -376,7 +376,7 @@ Next, we'll create a function to validate the form parameters.
 
 The function uses the Bouncer `validate` function to check that the `:name` and the `:message` keys
 conform to the rules we specified. Specifically, the name is required and the message must contain at least
-10 characters. Buddy uses vector syntax to pass multiple rules to a validator as is the case with the message validator.
+10 characters. Bouncer uses vector syntax to pass multiple rules to a validator as is the case with the message validator.
 
 When a validator takes additional parameters as is the case with `min-count` the vector syntax is used as well. The value will be passed in implicitly as the first parameter to the validator.
 
