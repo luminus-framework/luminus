@@ -3,7 +3,7 @@
 To create a standalone executable for your application simply run
 
 ```bash
-lein ring uberjar
+lein uberjar
 ```
 
 The resulting `jar` can be found in the `target` folder. It can be run as follows:
@@ -21,12 +21,13 @@ java -jar target/myapp.jar
 ```
 ## Delpoying on Immutant
 
-
 Please follow the steps outlined in the [official Immutant documentation](http://immutant.org/documentation/2.0.0-beta2/apidoc/guide-installation.html) for Immutant deployment.
 
 ## Deploying to Tomcat
 
-A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. In order to create a WAR you can package the application by running:
+A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. This is only supported via the [lein-ring](https://github.com/weavejester/lein-ring) plugin that uses the Jetty server.
+
+In order to create a WAR you can package the application by running:
 ```bash
 lein ring uberwar
 ```
