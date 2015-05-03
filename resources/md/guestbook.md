@@ -322,24 +322,19 @@ SELECT * from guestbook
 We can run our application in development mode using the [lein-ring](https://github.com/weavejester/lein-ring) plugin that's already bundled with our project. The plugin is invoked as seen below.
 
 ```
->lein ring server
-guestbook started successfully...
-2013-03-01 19:05:30.389:INFO:oejs.Server:jetty-7.6.1.v20120215
-Started server on port 3000
-2013-03-01 19:05:30.459:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+>lein run
+2015-May-03 10:35:45 -0400 Local INFO [guestbook.handler] -
+-=[ guestbook started successfully using the development profile ]=-
+2015-05-03 10:35:46.037:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-05-03 10:35:46.069:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 ```
 
-Once server starts, a new browser window will pop up and you should see your application running.
-Note that if you didn't want to open a new browser you could run:
+Once server starts, you should be able to navigate to [http://localhost:3000](http://localhost:3000) and see
+the app running. The server can be started on an alternate port by either passing it as a parameter as seen below,
+or setting the `PORT` environment variable.
 
 ```
-lein ring server-headless
-```
-
-You can also pass in a custom port as follows:
-
-```
-lein ring server-headless 8000
+lein run 8000
 ```
 
 Note that the page is prompting us to run the migrations in order to initialize the database. However, since we've already done that earlier and we won't need to do that again.
