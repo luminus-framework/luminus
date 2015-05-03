@@ -12,7 +12,7 @@ The `start-server` function accepts a port as its argument:
 (start-server 3000)
 ```
 
-The `stop-server` function takes no argments.
+The `stop-server` function takes no argments:
 
 ```
 (stop-server)
