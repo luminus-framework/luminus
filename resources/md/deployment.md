@@ -17,7 +17,7 @@ To specify a custom port you need to set the `$PORT` environment variable, eg:
 
 ```
 export PORT=8080
-java -jar target/myapp.jar
+java -jar myapp.jar
 ```
 ## Delpoying on Immutant
 
