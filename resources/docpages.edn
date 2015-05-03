@@ -1,4 +1,5 @@
 [["guestbook.md"        "Your First Application"]
+ ["repl.md"             "REPL Driven Development"]
  ["profiles.md"         "Application Profiles"]
  ["html_templating.md"  "HTML Templating"]
  ["clojurescript.md"    "ClojureScript"]
