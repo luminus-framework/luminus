@@ -10,27 +10,6 @@ profile hints for the extended functionality.
 * +http-kit - adds [HTTP Kit](http://http-kit.org/) support to the project
 * +immutant - adds the [Immutant](http://immutant.org/) web server to the project
 
-#### web server notes
-
-Servers other than Jetty are not supported by the `lein-ring` plugin.
-The means that we have to run them using the following command:
-
-```
-lein run
-```
-
-A number can be passed in to specify a custom port:
-
-```
-lein run 8080
-```
-
-To build a runnable `jar` for production use:
-
-```
-lein uberjar
-```
-
 ### databases
 
 * +h2 - adds `db.core` namespace and H2 db dependencies
