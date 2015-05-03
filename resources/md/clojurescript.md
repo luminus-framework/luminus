@@ -62,7 +62,7 @@ A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-
 Figwheel requires that the server to be running:
 
 ```
-lein ring server
+lein run
 ```
 
 Once the server starts simply run:
