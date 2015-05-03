@@ -356,7 +356,7 @@ Note that CSRF middleware is enabled by default and will intercept `POST` reques
       wrap-internal-error))
 ```
 
-Alternatively, we would need to pass the token along with the request. One way to do this is to pass the token in the header and use custom middleware on the server to set it as the `:form-params` key on the request.
+Alternatively, we would need to pass the token along with the request. One way to do this is to pass the token in the `x-csrf-token` header in the request with the value of the token.
 
 To do that we'll first need to set the token as a hidden field on the page:
 
@@ -369,44 +369,12 @@ Then we'll have to set the header in the request:
 ```clojure
 (POST "/send-message"
         {:headers {"Accept" "application/transit+json"
-                   "__anti-forgery-token"
-                   (.-value (.getElementById js/document "token"))}
+                   "x-csrf-token" (.-value (.getElementById js/document "token"))}
          :params {:message "Hello World"
                   :user    "Bob"}
          :handler handler
          :error-handler error-handler})
 ```
-
-Finally, we'll add the middleware to intercept the token and set it to the appropriate key:
-
-```clojure
-(ns <myapp>.middleware
-  ...)
-  
-  ...
-  
-(defn wrap-csrf [handler]
-  (fn [req]
-    (handler
-     (if-let [csrf-token (get-in req [:headers "__anti-forgery-token"])]
-       (assoc-in req [:form-params "__anti-forgery-token"] csrf-token)
-       req))))
-       
-...    
-
-(defn production-middleware [handler]
-  (-> handler
-      (wrap-restful-format :formats [:json-kw :edn :transit-json :transit-msgpack])
-      (wrap-idle-session-timeout
-        {:timeout (* 60 30)
-         :timeout-response (redirect "/")})
-      (wrap-defaults
-        (assoc-in site-defaults [:session :store] (memory-store session/mem)))
-      ;;modify the request to set the CSRF token in form params
-      wrap-csrf
-      wrap-servlet-context
-      wrap-internal-error))
-```      
 
 The request body will be interpreted using the [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format) library. The library will deserialize the request based on the `Content-Type` header and serialize the response using the `Accept` header that we set above.
 
