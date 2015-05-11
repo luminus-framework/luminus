@@ -339,6 +339,20 @@ The `GET` and `POST` helpers accept a URI followed by a map of options:
          :handler handler
          :error-handler error-handler})
 ```
+
+In the example above, the `handler` will be invoked when the server responds with a success status. The response handler function should accept a single parameter. The parameter will contain the deserialized response from the server.
+
+The library attempts to automatically discover the encoding based on the response headers, however the response format can be specified explicitly using the `:response-format` key.
+
+The `error-handler` function is expected to to accept a single parameter that contains the error response. The function will receive the entire response map that contains the status and the description of the error along with any data returned by the server.
+
+* `:status` - contains the HTTP status code
+* `:status-text` - contains the textual description of the status
+* `:original-text` - contains the server response text
+* `:response` - contains the deserialized response when if deserialization was successful
+
+When no handler function is supplied then no further action is taken after the request is sent to the server.
+
 Note that CSRF middleware is enabled by default and will intercept `POST` requests to the server. We can disable the middleware by updating the `site-defaults` in your `<app-name>.middleware` namespace as follows.
 
 ```clojure
