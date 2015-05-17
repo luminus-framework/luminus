@@ -20,24 +20,27 @@ A middleware is simply a function which accepts an existing handler with some op
 As you can see the wrapper accepts the handler and returns a function which in turn accepts the request. Since the returned function was defined in the scope where the handler exists, it can use it internally. When called, it will call the handler with the request and add Pragma: no-cache to the response map. For detailed information please refer to the official [Ring documentation](https://github.com/ring-clojure/ring/wiki).
 
 
-The middleware is added in the `middleware` namespace of your project. Any development middleware, such as middleware for showing stacktraces, should be added in the `development-middleware` function. It will only be invoked when the `:dev` envrionment key is set. Only add middleware that you also wish to use in production in the `production-middleware` function.
+The middleware is added in the `middleware` namespace of your project. Any development middleware, such as middleware for showing stacktraces, should be added in the `wrap-dev` function. It will only be invoked when the `:dev` envrionment key is set. Only add middleware that you also wish to use in production in the `wrap-base` function.
 
 ```clojure
-(defn development-middleware [handler]
+(defn wrap-dev [handler]
   (if (env :dev)
     (-> handler
         wrap-error-page
         wrap-exceptions)
     handler))
-
-(defn production-middleware [handler]
+    
+(defn wrap-base [handler]
   (-> handler
-      (wrap-restful-format :formats [:json-kw :edn :transit-json :transit-msgpack])
+      wrap-dev
       (wrap-idle-session-timeout
         {:timeout (* 60 30)
          :timeout-response (redirect "/")})
+      wrap-formats
       (wrap-defaults
-        (assoc-in site-defaults [:session :store] (memory-store session/mem)))
+        (-> site-defaults
+            (assoc-in [:security :anti-forgery] false)
+            (assoc-in  [:session :store] (memory-store session/mem))))
       wrap-servlet-context
       wrap-internal-error))
 ```    
