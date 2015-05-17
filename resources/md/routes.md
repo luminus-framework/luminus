@@ -253,10 +253,9 @@ application. All you have to do is add your new routes there.
 ```clojure
 (def app
   (-> (routes
-        home-routes
+        (middleware/wrap-csrf home-routes)
         base-routes)
-      development-middleware
-      production-middleware))
+      middleware/wrap-base))
 ```
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
@@ -306,8 +305,7 @@ We'll also define an error handler function that will be used when access to a p
 Finally, we have to add the necessary middlware to enable the access rules and authentication using a session backend.
 
 ```clojure
-(defn production-middleware [handler]
-  (println "initializing")
+(defn wrap-base [handler]
   (-> handler
       (wrap-access-rules {:rules rules :on-error on-error})
       (wrap-authentication (session-backend))
