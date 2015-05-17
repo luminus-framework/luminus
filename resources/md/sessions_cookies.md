@@ -31,7 +31,7 @@ The namespace also sets up session expiry in order to clean out timed out sessio
 `start-cleanup-job!` function creates a thread that will remove expired session. It is
 started in the `<app>.handler/init` function when the application loads.
 
-The session middleware is initialized in the `<app>.middleware` namespace by the `production-middleware`
+The session middleware is initialized in the `<app>.middleware` namespace by the `wrap-base`
 function seen below.
 
 Session timeout is controlled by the `wrap-idle-session-timeout` middleware.
@@ -41,15 +41,17 @@ timed out sessions will be redirected to the `/` URI.
 The session store is initialized using the `wrap-defaults` middleware.
 
 ```clojure
-(defn production-middleware [handler]
+(defn wrap-base [handler]
   (-> handler
-      wrap-restful-format
+      wrap-dev
       (wrap-idle-session-timeout
         {:timeout (* 60 30)
          :timeout-response (redirect "/")})
+      wrap-formats
       (wrap-defaults
         (-> site-defaults
-            (assoc-in [:session :store] (memory-store session/mem))))
+            (assoc-in [:security :anti-forgery] false)
+            (assoc-in  [:session :store] (memory-store session/mem))))
       wrap-servlet-context
       wrap-internal-error))
 ```
