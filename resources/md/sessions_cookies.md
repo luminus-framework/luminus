@@ -4,10 +4,10 @@ Luminus defaults to using in-memory sessions and the the session store atom is l
 
 
 ```clojure
-(ns myapp.session
-  (:require [cronj.core :refer [cronj]]))
+(ns myapp.session)
 
 (defonce mem (atom {}))
+(def half-hour 1800000)
 
 (defn- current-time []
   (quot (System/currentTimeMillis) 1000))
@@ -18,17 +18,18 @@ Luminus defaults to using in-memory sessions and the the session store atom is l
 (defn clear-expired-sessions []
   (clojure.core/swap! mem #(->> % (filter expired?) (into {}))))
 
-(def cleanup-job
-  (cronj
-    :entries
-    [{:id "session-cleanup"
-      :handler (fn [_ _] (clear-expired-sessions))
-      :schedule "* /30 * * * * *"
-      :opts {}}]))
+(defn start-cleanup-job! []
+  (future
+    (loop []
+      (clear-expired-sessions)
+      (Thread/sleep half-hour)
+      (recur))))
+
 ```
 
 The namespace also sets up session expiry in order to clean out timed out sessions. The
-`cleanup-job` is started in the `<app>.handler/init` function when the application loads.
+`start-cleanup-job!` function creates a thread that will remove expired session. It is
+started in the `<app>.handler/init` function when the application loads.
 
 The session middleware is initialized in the `<app>.middleware` namespace by the `production-middleware`
 function seen below.
