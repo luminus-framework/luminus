@@ -134,22 +134,26 @@ We can use it in our templates as follows:
 POST requests that do not contain the token will be rejected by the middleware. The server will
 respond with a 403 error saying "Invalid anti-forgery token".
 
-If you wish to disable it for any reason then simply update the `site-defaults` options in the `<app>.middleware` namespace:
+The anti-forgery middleware is wrapped around the `home-routes` in the `app` definition of the `<app>.handler` namespace.
+Note that the `wrap-csrf` wrapper will be applied to `home-routes` as well as **any routes** defined below the wrapped routes. Any routes defined above `home-routes` will not have CSRF protection applied to them.
 
 ```clojure
-(defn production-middleware [handler]
-  (-> handler
-      wrap-restful-format
-      (wrap-idle-session-timeout
-        {:timeout (* 60 30)
-         :timeout-response (redirect "/")})
-      (wrap-defaults
-        (-> site-defaults
-            (assoc-in [:session :store] (memory-store session/mem))
-            ;;disable anti-forgery protection
-            (assoc-in [:security :anti-forgery] false)))
-      wrap-servlet-context
-      wrap-internal-error))
+(def app
+  (-> (routes
+        (middleware/wrap-csrf home-routes) ;;wraps CSRF protection
+        base-routes)
+      middleware/wrap-base))
+```
+If you wish to disable it for any reason then simply update the `app` definition as follows:
+
+```clojure
+
+      
+(def app
+  (-> (routes
+        home-routes ;;no CSRF protection
+        base-routes)
+      middleware/wrap-base))
 ```
 
 Please see [here](/docs/services.md#csrf) on details how to enable CSRF for select routes in your application.
