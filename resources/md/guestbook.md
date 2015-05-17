@@ -70,6 +70,7 @@ guestbook
 | | |____about.html
 | | |____base.html
 | | |____home.html
+| | |____error.html
 | |____public
 | | |____css
 | | | |____screen.css
