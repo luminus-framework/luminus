@@ -353,21 +353,47 @@ The `error-handler` function is expected to to accept a single parameter that co
 
 When no handler function is supplied then no further action is taken after the request is sent to the server.
 
-Note that CSRF middleware is enabled by default and will intercept `POST` requests to the server. We can disable the middleware by updating the `site-defaults` in your `<app-name>.middleware` namespace as follows.
+The request body will be interpreted using the [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format) library. The library will deserialize the request based on the `Content-Type` header and serialize the response using the `Accept` header that we set above.
+
+The route should simply return a response map with the body set to the content of the response:
 
 ```clojure
-(defn production-middleware [handler]
-  (-> handler
-      (wrap-restful-format :formats [:json-kw :edn :transit-json :transit-msgpack])
-      (wrap-idle-session-timeout
-        {:timeout (* 60 30)
-         :timeout-response (redirect "/")})
-      (wrap-defaults
-        (-> site-defaults
-        (assoc-in [:security :anti-forgery] false) ;;disable anti-forgery
-        (assoc-in [:session :store] (memory-store session/mem)))
-      wrap-servlet-context
-      wrap-internal-error))
+(ns myapp.routes.services
+  (:require [compojure.core :refer [defroutes GET POST]]
+            [ring.util.response :refer [response status]]))
+            
+(defn save-message! [{:keys [params]}]
+  (println params)
+  (response {:status :success}))
+            
+(defroutes services
+  (POST "/send-message" request (save-message! request)))
+```
+
+Note that CSRF middleware is enabled by default. The middleware wraps the `home-routes` in the `handler` namespace of
+your applictation. It will intercept `POST` requests to the server. When the routes are compiled by the `compojure.core/routes` function the middleware is applied to **all** routes following the `home-routes`.
+
+```clojure
+(def app
+  (-> (routes
+        (middleware/wrap-csrf home-routes)
+        base-routes)
+      middleware/wrap-base))
+```
+
+Any routes defined above the `home-routes` will not be wrapped with the CSRF wrapper:
+
+```clojure
+(ns myapp.handler
+  (:require ...
+            [myapp.routes.services :refer [service-routes]]))
+            
+(def app
+  (-> (routes
+        service-routes ;; no CSRF protection
+        (middleware/wrap-csrf home-routes)
+        base-routes)
+      middleware/wrap-base))
 ```
 
 Alternatively, we would need to pass the token along with the request. One way to do this is to pass the token in the `x-csrf-token` header in the request with the value of the token.
@@ -390,21 +416,20 @@ Then we'll have to set the header in the request:
          :error-handler error-handler})
 ```
 
-The request body will be interpreted using the [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format) library. The library will deserialize the request based on the `Content-Type` header and serialize the response using the `Accept` header that we set above.
-
-The route should simply return a response map with the body set to the content of the response:
+The server side code will now have to place the `service-routes` below CSRF wrapped `home-routes` to
+enable CSRF protection.
 
 ```clojure
-(ns myapp.routes.services
-  (:require [compojure.core :refer [defroutes GET POST]]
-            [ring.util.response :refer [response status]]))
+(ns myapp.handler
+  (:require ...
+            [myapp.routes.services :refer [service-routes]]))
             
-(defn save-message! [{:keys [params]}]
-  (println params)
-  (response {:status :success}))
-            
-(defroutes services
-  (POST "/send-message" request (save-message! request)))
+(def app
+  (-> (routes
+        (middleware/wrap-csrf home-routes)
+        service-routes ;; CSRF protection enabled for service routes
+        base-routes)
+      middleware/wrap-base))
 ```
 
 
