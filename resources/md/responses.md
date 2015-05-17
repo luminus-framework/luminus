@@ -23,33 +23,31 @@ By default [ring-middleware-format](https://github.com/ngrunwald/ring-middleware
 (GET "/json" [] {:body {:foo "bar"}})
 ```
 
-The middleware is found in the `<app-name>.middleware` namespace of your application. You can see that the first wrapper in `production-middleware` is called `wrap-restful-format`. This middleware enables support for `ring-middleware-format`.
+The middleware is found in the `<app-name>.middleware` namespace of your application. The middleware function is called `wrap-formats`, and it enables support for `ring-middleware-format` using the JSON and Transit encodings.
 
 ```clojure
-(defn production-middleware [handler]
+  (defn wrap-base [handler]
   (-> handler
-      wrap-restful-format
+      wrap-dev
       (wrap-idle-session-timeout
         {:timeout (* 60 30)
          :timeout-response (redirect "/")})
+      wrap-formats ;; enables JSON/Transit serialization and deserialization
       (wrap-defaults
         (-> site-defaults
-            (assoc-in [:session :store] (memory-store session/mem))))
+            (assoc-in [:security :anti-forgery] false)
+            (assoc-in  [:session :store] (memory-store session/mem))))
       wrap-servlet-context
       wrap-internal-error))
-
 ```
 
 The formats are controlled by the `:formats` key and can be selected as follows:
 
 
 ```clojure
-(defn production-middleware [handler]
-  (-> handler
-      (wrap-restful-format
-        :formats
-        [:json :edn :transit-json :transit-msgpack])
-   ...))
+(defn wrap-formats [handler]
+  (wrap-restful-format handler :formats [:json-kw :transit-json :transit-msgpack]))
+
 ```
 
 The available formats are:
@@ -62,9 +60,6 @@ The available formats are:
 * :yaml-in-html - yaml in a html page
 
 When no format is supplied in the `Accept` header or the format specified is unknown, the first format from the `:formats` vector in the handler will be used (JSON by default).
-
-Alternatively, there are a number of helper functions availble in `noir.response` for
-returning customized responses to the client.
 
 ### Setting headers
 
