@@ -266,7 +266,7 @@ Some pages should only be accessible if specific conditions are met. For example
 you may wish to define admin pages only visible to the administrator, or a user profile
 page which is only visible if there is a user in the session.
 
-Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy/latest/), we can define rules for restricting access to specific pages.
+Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy/latest/), we can define rules for restricting access to specific pages. Generating the application with the `+auth` profile will enable the default authentication middleware.
 
 ### Specifying Access Rules
 
