@@ -253,7 +253,7 @@ application. All you have to do is add your new routes there.
 ```clojure
 (def app
   (-> (routes
-        (middleware/wrap-csrf home-routes)
+        (wrap-routes home-routes middleware/wrap-csrf)
         base-routes)
       middleware/wrap-base))
 ```
