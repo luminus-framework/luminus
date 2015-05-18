@@ -382,7 +382,7 @@ your applictation. It will intercept any request to the server that isn't a `HEA
 ```
 
 The middleware is applied by `wrap-routes` after the routes are resolved and does not affect other route definitions.
-We can now update the routes to contain the `service-routes` and our client application will be able to call these.
+If we wish the services to be accessible to external client then we would update the routes to contain the `service-routes` as seen below.
 
 ```clojure
 (ns myapp.handler
@@ -397,7 +397,7 @@ We can now update the routes to contain the `service-routes` and our client appl
       middleware/wrap-base))
 ```
 
-Alternatively, we could wrap the service routes using `wrap-csrf` middleware as seen with `home-routes`:
+Alternatively, we could wrap the `service-routes` using `wrap-csrf` middleware as seen with `home-routes`:
 
 ```clojure
 (def app
@@ -408,7 +408,7 @@ Alternatively, we could wrap the service routes using `wrap-csrf` middleware as 
       middleware/wrap-base))
 ```
 
-We would need to pass the token along with the request. One way to do this is to pass the token in the `x-csrf-token` header in the request with the value of the token.
+We would now need to pass the CSRF token along with the request. One way to do this is to pass the token in the `x-csrf-token` header in the request with the value of the token.
 
 To do that we'll first need to set the token as a hidden field on the page:
 
