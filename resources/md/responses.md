@@ -67,7 +67,7 @@ Setting additional response headers is done by calling [ring.util.response/heade
 passing it a map of HTTP headers. Note that the keys **must** be strings.
 
 ```clojure
-(-> "hello world" response (header "x-csrf" csrf"))
+(-> "hello world" response (header "x-csrf" "csrf"))
 ```
 
 ### Setting content type
