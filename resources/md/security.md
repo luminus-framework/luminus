@@ -135,12 +135,13 @@ Any requests that aren't `GET` or `HEAD` and do not contain the token will be re
 respond with a 403 error saying "Invalid anti-forgery token".
 
 The anti-forgery middleware is wrapped around the `home-routes` in the `app` definition of the `<app>.handler` namespace.
-Note that the `wrap-csrf` wrapper will be applied to `home-routes` as well as **any routes** defined below the wrapped routes. Any routes defined above `home-routes` will not have CSRF protection applied to them.
+Note that the `wrap-csrf` wrapper will be applied to `home-routes` explicitly, and should be applied to any other route
+groups that are not meant to be used by external clients.
 
 ```clojure
 (def app
   (-> (routes
-        (middleware/wrap-csrf home-routes) ;;wraps CSRF protection
+        (wrap-routes home-routes middleware/wrap-csrf) ;;wraps CSRF protection
         base-routes)
       middleware/wrap-base))
 ```
