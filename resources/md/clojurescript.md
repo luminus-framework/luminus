@@ -371,7 +371,7 @@ The route should simply return a response map with the body set to the content o
 ```
 
 Note that CSRF middleware is enabled by default. The middleware wraps the `home-routes` in the `handler` namespace of
-your applictation. It will intercept `POST` requests to the server.
+your applictation. It will intercept any request to the server that isn't a `HEAD` or `GET`.
 
 ```clojure
 (def app
