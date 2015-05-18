@@ -131,7 +131,7 @@ We can use it in our templates as follows:
 </form>
 ```
 
-POST requests that do not contain the token will be rejected by the middleware. The server will
+Any requests that aren't `GET` or `HEAD` and do not contain the token will be rejected by the middleware. The server will
 respond with a 403 error saying "Invalid anti-forgery token".
 
 The anti-forgery middleware is wrapped around the `home-routes` in the `app` definition of the `<app>.handler` namespace.
