@@ -250,6 +250,10 @@ Once all your application routes are defined you can add them to the main handle
 You'll notice that the template already defined the `app` in the `handler` namespace of your
 application. All you have to do is add your new routes there.
 
+Note that you can also apply custom middleware to the routes using `wrap-routes` as seen with `home-routes`.
+The middleware will be resolved after the routes are matched and only affect the specified routes as opposed
+to global middleware that's referenced in the `middleware/wrap-base`.
+
 ```clojure
 (def app
   (-> (routes
