@@ -371,17 +371,18 @@ The route should simply return a response map with the body set to the content o
 ```
 
 Note that CSRF middleware is enabled by default. The middleware wraps the `home-routes` in the `handler` namespace of
-your applictation. It will intercept `POST` requests to the server. When the routes are compiled by the `compojure.core/routes` function the middleware is applied to **all** routes following the `home-routes`.
+your applictation. It will intercept `POST` requests to the server.
 
 ```clojure
 (def app
   (-> (routes
-        (middleware/wrap-csrf home-routes)
+        (wrap-routes home-routes middleware/wrap-csrf)
         base-routes)
       middleware/wrap-base))
 ```
 
-Any routes defined above the `home-routes` will not be wrapped with the CSRF wrapper:
+The middleware is applied by `wrap-routes` after the routes are resolved and does not affect other route definitions.
+We can now update the routes to contain the `service-routes` and our client application will be able to call these.
 
 ```clojure
 (ns myapp.handler
@@ -391,12 +392,23 @@ Any routes defined above the `home-routes` will not be wrapped with the CSRF wra
 (def app
   (-> (routes
         service-routes ;; no CSRF protection
-        (middleware/wrap-csrf home-routes)
+        (wrap-routes home-routes middleware/wrap-csrf)
         base-routes)
       middleware/wrap-base))
 ```
 
-Alternatively, we would need to pass the token along with the request. One way to do this is to pass the token in the `x-csrf-token` header in the request with the value of the token.
+Alternatively, we could wrap the service routes using `wrap-csrf` middleware as seen with `home-routes`:
+
+```clojure
+(def app
+  (-> (routes
+        (wrap-routes service-routes middleware/wrap-csrf)
+        (wrap-routes home-routes middleware/wrap-csrf)
+        base-routes)
+      middleware/wrap-base))
+```
+
+We would need to pass the token along with the request. One way to do this is to pass the token in the `x-csrf-token` header in the request with the value of the token.
 
 To do that we'll first need to set the token as a hidden field on the page:
 
@@ -416,20 +428,5 @@ Then we'll have to set the header in the request:
          :error-handler error-handler})
 ```
 
-The server side code will now have to place the `service-routes` below CSRF wrapped `home-routes` to
-enable CSRF protection.
-
-```clojure
-(ns myapp.handler
-  (:require ...
-            [myapp.routes.services :refer [service-routes]]))
-            
-(def app
-  (-> (routes
-        (middleware/wrap-csrf home-routes)
-        service-routes ;; CSRF protection enabled for service routes
-        base-routes)
-      middleware/wrap-base))
-```
 
 
