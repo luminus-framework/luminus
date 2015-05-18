@@ -89,13 +89,13 @@ The project is also setup to generate a documentation page for the services usin
 
 ## CSRF
 
-CSRF protection provided by the [ring-anti-forgery](https://github.com/ring-clojure/ring-anti-forgery) middleware is enabled by default. The `+swagger` profile creates the `service-routes` above the CSRF definition and as such these routes are not affected by CSRF protection enabled for other routes.
+CSRF protection provided by the [ring-anti-forgery](https://github.com/ring-clojure/ring-anti-forgery) middleware is enabled by default. The `+swagger` profile creates the `service-routes` that aren't wrapped by CSRF protection.
 
 ```clojure
 (def app
   (-> (routes
         service-routes ;; no CSRF protection
-        (middleware/wrap-csrf home-routes)
+        (wrap-routes home-routes middleware/wrap-csrf)
         base-routes)
       middleware/wrap-base))
 ```
