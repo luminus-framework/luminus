@@ -45,6 +45,23 @@ The middleware is added in the `middleware` namespace of your project. Any devel
       wrap-internal-error))
 ```    
 
+Note that the order of the middleware matters as the request is modified by each middleware function. For example, any middleware functions that rely on the session must be placed before the `wrap-defaults` middleware that creates the session. The reason being that the request will pass through the outer middleware functions before reaching the inner ones.
+
+For example, when we have the handler wrapped using `wrap-idle-session-timeout` and `wrap-defaults` as seen below:
+
+```
+(-> handler wrap-idle-session-timeout wrap-defaults)
+```
+
+The request is passed through these functions in the following order:
+
+```
+handler <- wrap-idle-session-timeout <- wrap-defaults <- request
+```
+
+Since, `wrap-defaults` creates manages the session, the request has to pass through it before it gets to
+the `wrap-idle-esssion-timeout` function that expects a session key to be present.
+
 ## Useful ring middleware
 
 * [ring-ratelimit](https://github.com/myfreeweb/ring-ratelimit) - Rate limiting middleware
