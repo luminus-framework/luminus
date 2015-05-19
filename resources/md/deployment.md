@@ -20,7 +20,7 @@ To specify a custom port you need to set the `$PORT` environment variable, eg:
 export PORT=8080
 java -jar myapp.jar
 ```
-## Delpoying on Immutant
+## Deploying on Immutant
 
 Please follow the steps outlined in the [official Immutant documentation](http://immutant.org/documentation/2.0.0-beta2/apidoc/guide-installation.html) for Immutant deployment.
 

@@ -19,7 +19,7 @@ To specify a custom port you need to set the `$PORT` environment variable, eg:
 export PORT=8080
 java -jar target/myapp.jar
 ```
-## Delpoying on Immutant
+## Deploying on Immutant
 
 A Luminus app created using lein new luminus myapp should deploy to [Immutant](http://immutant.org/) out of the box. 
 Simply run the following from the root folder of the applicaiton:
