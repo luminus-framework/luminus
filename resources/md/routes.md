@@ -270,6 +270,57 @@ Some pages should only be accessible if specific conditions are met. For example
 you may wish to define admin pages only visible to the administrator, or a user profile
 page which is only visible if there is a user in the session.
 
+### Restricting access based on route groups
+
+First, we'll add the following code in the `<app>.middleware` namespace:
+
+```clojure
+(ns <app>.middleware
+  (:require
+    ...
+    [buddy.auth.middleware :refer [wrap-authentication]]
+    [buddy.auth.backends.session :refer [session-backend]]
+    [buddy.auth :refer [authenticated?]]))
+
+(defn on-error [request]
+  {:status  403
+   :headers {}
+   :body    (str "Access to " (:uri request) " is not authorized")})
+
+(defn wrap-restricted [handler]
+  (fn [req]
+    (if (authenticated? req)
+      (handler req)
+      (on-error request))))
+
+(defn wrap-base [handler]
+  (-> handler
+      wrap-dev
+      (wrap-authentication (session-backend))
+      ...))
+```
+
+We'll wrap the authentication middleware that will set the `:identity` key in the request if it's present in the session.
+The session backend is the simplest one available, however Buddy provides a number of different authentications backends
+as described [here](https://funcool.github.io/buddy-auth/latest/#_authentication).
+
+The `authenticated?` helper will check for the `:identity` key in the request and pass it to the handler when its present.
+Otherwise, the `on-error` function will be called.
+
+Next, we can wrap the route groups we wish to be private using the `wrap-restricted` middleware in the `<app>.handler/app` function:
+
+```
+(def app
+  (-> (routes
+        (-> home-routes
+            (wrap-routes middleware/wrap-csrf)
+            (wrap-routes middleware/wrap-restricted)
+        base-routes)
+      middleware/wrap-base))
+```
+
+### Restricting access based on URI
+
 Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy/latest/), we can define rules for restricting access to specific pages. Generating the application with the `+auth` profile will enable the default authentication middleware.
 
 ### Specifying Access Rules
