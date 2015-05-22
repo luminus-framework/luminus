@@ -309,7 +309,7 @@ Otherwise, the `on-error` function will be called.
 
 Next, we can wrap the route groups we wish to be private using the `wrap-restricted` middleware in the `<app>.handler/app` function:
 
-```
+```clojure
 (def app
   (-> (routes
         (-> home-routes
