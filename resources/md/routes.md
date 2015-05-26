@@ -291,7 +291,7 @@ First, we'll add the following code in the `<app>.middleware` namespace:
 
 (defn wrap-restricted [handler]
   (restrict handler {:handler authenticated?
-                    :on-error on-error}))
+                     :on-error on-error}))
 
 (defn wrap-base [handler]
   (-> handler
