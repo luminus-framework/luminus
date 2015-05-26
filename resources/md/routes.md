@@ -280,18 +280,18 @@ First, we'll add the following code in the `<app>.middleware` namespace:
     ...
     [buddy.auth.middleware :refer [wrap-authentication]]
     [buddy.auth.backends.session :refer [session-backend]]
+    [buddy.auth.accessrules :refer [restrict]]
     [buddy.auth :refer [authenticated?]]))
 
-(defn on-error [request]
+(defn on-error [response request]
   {:status  403
-   :headers {}
+   :headers {"Content-Type" "text/plain"}
    :body    (str "Access to " (:uri request) " is not authorized")})
 
+
 (defn wrap-restricted [handler]
-  (fn [req]
-    (if (authenticated? req)
-      (handler req)
-      (on-error request))))
+  (restrict handler {:handler authenticated?
+                    :on-error on-error}))
 
 (defn wrap-base [handler]
   (-> handler
