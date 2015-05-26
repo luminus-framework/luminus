@@ -272,6 +272,8 @@ page which is only visible if there is a user in the session.
 
 ### Restricting access based on route groups
 
+The simplest way to restrict access is by applying the `restrict` middleware to
+groups of routes that should not be publicly accessible.
 First, we'll add the following code in the `<app>.middleware` namespace:
 
 ```clojure
@@ -304,10 +306,12 @@ We'll wrap the authentication middleware that will set the `:identity` key in th
 The session backend is the simplest one available, however Buddy provides a number of different authentications backends
 as described [here](https://funcool.github.io/buddy-auth/latest/#_authentication).
 
-The `authenticated?` helper will check for the `:identity` key in the request and pass it to the handler when its present.
+The `authenticated?` helper is used to check the `:identity` key in the request and pass it to the handler when its present.
 Otherwise, the `on-error` function will be called.
 
-Next, we can wrap the route groups we wish to be private using the `wrap-restricted` middleware in the `<app>.handler/app` function:
+This is the default authentication setup that will be produced using the `+auth` profile when creating a new project.
+
+We can now wrap the route groups we wish to be private using the `wrap-restricted` middleware in the `<app>.handler/app` function:
 
 ```clojure
 (def app
@@ -319,11 +323,9 @@ Next, we can wrap the route groups we wish to be private using the `wrap-restric
       middleware/wrap-base))
 ```
 
-This is the default setup that will be produced using the `+auth` profile when creating a new project.
-
 ### Restricting access based on URI
 
-Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy/latest/), we can define rules for restricting access to specific pages. Generating the application with the `+auth` profile will enable the default authentication middleware.
+Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy/latest/), we can define rules for restricting access to specific pages based on its URI pattern.
 
 ### Specifying Access Rules
 
