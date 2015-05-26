@@ -283,7 +283,7 @@ First, we'll add the following code in the `<app>.middleware` namespace:
     [buddy.auth.accessrules :refer [restrict]]
     [buddy.auth :refer [authenticated?]]))
 
-(defn on-error [response request]
+(defn on-error [request response]
   {:status  403
    :headers {"Content-Type" "text/plain"}
    :body    (str "Access to " (:uri request) " is not authorized")})
@@ -318,6 +318,8 @@ Next, we can wrap the route groups we wish to be private using the `wrap-restric
         base-routes)
       middleware/wrap-base))
 ```
+
+This is the default setup that will be produced using the `+auth` profile when creating a new project.
 
 ### Restricting access based on URI
 
