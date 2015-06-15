@@ -73,6 +73,13 @@ lein figwheel
 
 This will start Figwheel and connect a browser REPL. Any changes you make in ClojureScript source will now be automatically reloaded on the page.
 
+To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port 7002` key in your `:figwheel` config in `project.clj`. When Figwheel starts, it will open nREPL on the specified port. Once you connect to the nREPL then run the following commands to open the ClojureScript REPL:
+
+```
+user> (use 'figwheel-sidecar.repl-api)
+user> (cljs-repl)
+```
+
 ### Advanced Compilation and Exports
 
 During advanced compilation variable names will be munged by the compiler to shorten the code. If we wish to expose any functions to JavaScript we have to ensure that their names are protected. This is done by using the `^:export` annotation, eg:
