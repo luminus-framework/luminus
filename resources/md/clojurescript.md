@@ -57,6 +57,8 @@ Make sure to run the `clean` option before packaging the application for product
 lein cljsbuild once
 ```
 
+### Live Code Reloading
+
 A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-figwheel) to hot load the code in the browser. The easiest way to get Figwheel support is by using `+cljs` profile when creating your Luminus project.
 
 Figwheel requires that the server to be running:
@@ -72,6 +74,8 @@ lein figwheel
 ```
 
 This will start Figwheel and connect a browser REPL. Any changes you make in ClojureScript source will now be automatically reloaded on the page.
+
+### ClojureScript with nREPL
 
 To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port 7002` key in your `:figwheel` config in `project.clj`. When Figwheel starts, it will open nREPL on the specified port. Once you connect to the nREPL then run the following commands to open the ClojureScript REPL:
 
