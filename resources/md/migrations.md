@@ -1,26 +1,22 @@
 ## Migrations
 
-By default Luminus uses the [Ragtime](https://github.com/weavejester/ragtime) library for database migration and schema management. When you select the `+mysql`, or `+postgres` profiles a migrations configuration will be added to the `project.clj` file in your application.
+By default Luminus uses the [Ragtime](https://github.com/weavejester/ragtime) library for database migration and schema management. When you select the `+mysql`, or `+postgres` profiles a migrations configuration will be added to the `profiles.clj` file in your application.
 
 ### Migrations with Ragtime
 
-Ragtime is invoked using a Leiningen plugin. It needs to be present in the `:plugins` vector in the `project.clj`.
+The development database configuration should placed in the `profiles.clj` file. This file specifies your local configuration and should **not** be checked into the source repository.
 
 ```clojure
-:plugins [... [ragtime/ragtime.lein "0.3.4"]]
+{:dev {:env {:database-url "jdbc:h2:./myapp_devel.db"}}
+       :test {:env {:database-url "jdbc:h2:./myapp_test.db"}}}
 ```
 
-The actual migrations are done by the `ragtime.sql.files` adapter.
-The adapter will need to be present in the dependencies list, and
-a configuration needs to be specified using the `:ragtime` key as seen below:
+For production, the configuration is expected to be present in the environment. An example would be to
+have a shell variable called `DATABASE_URL` that points to the URL. See the [official Environ documentation](https://github.com/weavejester/environ) for the complete list of configuration options.
 
-```clojure
-:dependencies [... [ragtime/ragtime.sql.files "0.3.4"]]
-:ragtime {:migrations ragtime.sql.files/migrations
-          :database "jdbc:mysql://localhost:3306/example_db?user=root"}
-```
+Ragtime is invoked from the `-main` function in the `core` namespace of the application.
 
-The `ragtime.sql.files` adapter expects the SQL migration scripts to be found in the `migrations` directory in the root of the project.
+Ragtime expects the SQL migration scripts to be found in the `migrations` directory in the root of the project.
 With the directory created we can start adding our migrations SQL scripts there.
 
 The scripts are applied in alphanumeric order and a simple way to keep them ordered is by simply prefixing the current date to the name of the script.
@@ -42,13 +38,13 @@ DROP TABLE users;
 The migrations can now be invoked by running:
 
 ```
-lein ragtime migrate
+lein run migrate
 ```
 
 Rolling back is done by running:
 
 ```
-lein ragtime rollback
+lein run rollback
 ```
 
 ### Popular Migrations Alternatives
