@@ -176,7 +176,7 @@ The project file of the application we've created is found in its root folder an
                  [prone "0.8.1"]
                  [org.clojure/tools.nrepl "0.2.10"]
                  [ring-server "0.4.0"]
-                 [ragtime "0.3.8"]
+                 [ragtime "0.3.9"]
                  [yesql "0.5.0-rc2"]
                  [com.h2database/h2 "1.4.182"]]
 
@@ -191,17 +191,13 @@ The project file of the application we've created is found in its root folder an
 
   :plugins [[lein-ring "0.9.1"]
             [lein-environ "1.0.0"]
-            [lein-ancient "0.6.5"]
-            [ragtime/ragtime.lein "0.3.8"]]
+            [lein-ancient "0.6.5"]]
 
   :ring {:handler guestbook.handler/app
          :init    guestbook.handler/init
          :destroy guestbook.handler/destroy
          :uberwar-name "guestbook.war"}
 
-  :ragtime
-  {:migrations ragtime.sql.files/migrations
-   :database "jdbc:h2:./site.db"}
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}
@@ -260,7 +256,7 @@ commenter, the content of the message and a timestamp. We'll save the file and r
 command from the root of our project:
 
 ```
-lein ragtime migrate
+lein run migrate
 ```
 
 If everything went well we should now have our database initialized.
