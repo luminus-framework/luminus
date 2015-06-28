@@ -303,7 +303,7 @@ SET first_name = :first_name, last_name = :last_name, email = :email
 WHERE id = :id
 
 -- name: get-user
--- retrieve a used given the id.
+-- retrieve a user given the id.
 SELECT * FROM users
 WHERE id = :id
 ```
