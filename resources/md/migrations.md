@@ -45,6 +45,20 @@ Rolling back is done by running:
 lein run rollback
 ```
 
+To apply specific migrations, run the above commands with the desired migrations ids:
+
+```
+lein run migrate 201506104553 201506120401
+lein run rollback 201506104553 201506120401
+```
+
+The migrations will be packaged in the applications when it's compiled. This allows the application to apply its own migrations when deployed to the server:
+
+```
+lein uberjar
+java -jar target/my-app.jar migrate
+```
+
 ### Popular Migrations Alternatives
 
 Below is a list of all the popular migration libraries that are currently available:
