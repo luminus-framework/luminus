@@ -221,7 +221,7 @@ As you can see the project.clj is simply a Clojure list containing key/value pai
 
 The most common task is adding new libraries to the project. These libraries are specified using the `:dependencies` vector. In order to use a new library in our project we simply have to add its dependency here.
 
-The items in the `:plugins` vector can be used to provide additional functionality such as migrations support via Ragtime plugin.
+The items in the `:plugins` vector can be used to provide additional functionality such as reading environment variables via Environ plugin.
 
 The `:profiles` contain a map of different project configurations that are used to initialize it for either development or production builds.
 
