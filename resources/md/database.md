@@ -1,49 +1,41 @@
 ## Configuring the Database
 
-Luminus defaults to using [Ragtime](https://github.com/weavejester/ragtime) for database migrations and
+Luminus defaults to using [Migratus](https://github.com/yogthos/migratus) for database migrations and
 [Yesql](https://github.com/krisajenkins/yesql) for database interaction. The migrations and a default connection will be setup when using a database profile such as `+postgres`.
 
 ### Configuring Migrations
 
-In order to configure Ragtime we first have to set the connection string for our database in `project.clj`.
+In order to configure Ragtime we first have to set the connection string for our database in `profiles.clj`.
 
 ```clojure
-:ragtime {:migrations ragtime.sql.files/migrations
-          :database "jdbc:postgresql://localhost/example_db?user=root"}
+{:provided {:env {:database-url "jdbc:postgresql://localhost/example_db?user=root"}}}
 ```
 
-Then we can create SQL scripts to migrate the database schema, and to roll it back. These are applied in alphanumeric order, conventionally the current date is used to prefix the filename. The files are expected to be present under the `migration` folder.
+Then we can create SQL scripts to migrate the database schema, and to roll it back. These are applied using the numeric order of the ids. Conventionally the current date is used to prefix the filename. The files are expected to be present under the `resources/migrations` folder.
 
 ```
-migrations/201501155317-add-users-table.down.sql
-migrations/201501155317-add-users-table.up.sql
+resources/migrations/201501155317-add-users-table.down.sql
+resources/migrations/201501155317-add-users-table.up.sql
 ```
 
 With the above setup we can run the migrations as follows:
 
 ```
-lein ragtime migrate
+lein run migrate
 ```
 
 Applied migration can then be rolled back with:
 
 ```
-lein ragtime rollback
+lein run rollback
 ```
 
 Please refer to the [Database Migrations](/docs/migrations.md) section for more details.
 
 ### Setting up the database connection
 
-The first thing we'll need to do is to define our database connection, this can be done by providing a map of connection parameters:
-
-```clojure
-(def db-spec {:subprotocol "postgresql"
-              :subname "//localhost/my_website"
-              :user "admin"
-              :password "admin"})
-```
-
+The connection settings are found in the `<app>.db.core` namespace of the application.
+By default the database connection is expected to be provided as the `DATABASE_URL` envrionment variable.
 Another approach is to specify the JNDI name for a connection managed by the application server:
 
 ```clojure
