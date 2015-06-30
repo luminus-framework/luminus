@@ -5,7 +5,7 @@ Luminus defaults to using [Migratus](https://github.com/yogthos/migratus) for da
 
 ### Configuring Migrations
 
-In order to configure Ragtime we first have to set the connection string for our database in `profiles.clj`.
+We first have to set the connection string for our database in `profiles.clj`.
 
 ```clojure
 {:provided {:env {:database-url "jdbc:postgresql://localhost/example_db?user=root"}}}
