@@ -59,6 +59,7 @@ guestbook
 |   | |____home.clj
 |   |____db
 |     |____core.clj
+|     |____migrations.clj
 |
 |____test
 | |____guestbook
@@ -66,24 +67,23 @@ guestbook
 |     |____handler.clj
 |
 |____resources
-| |____templates
-| | |____about.html
-| | |____base.html
-| | |____home.html
-| | |____error.html
-| |____public
-| | |____css
-| | | |____screen.css
-| | |____img
-| | |____js
-| |____docs
-| | |____docs.md
-| |____sql
-|   |____queries.sql
-|
-|____migrations
-  |____201501155317-add-users-table.down.sql
-  |____201501155317-add-users-table.up.sql
+  |____templates
+  | |____about.html
+  | |____base.html
+  | |____home.html
+  | |____error.html
+  |____public
+  | |____css
+  | | |____screen.css
+  | |____img
+  | |____js
+  |____docs
+  | |____docs.md
+  |____migrations
+  | |____201501155317-add-users-table.down.sql
+  | |____201501155317-add-users-table.up.sql
+  |____sql
+   |____queries.sql
 ```
 
 Let's take a look at what the files in the root folder of the application do:
