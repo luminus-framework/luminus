@@ -46,6 +46,7 @@ guestbook
 |____.gitignore
 |____Procfile
 |____project.clj
+|____profiles.clj
 |____README.md
 |
 |____src
@@ -91,6 +92,7 @@ Let's take a look at what the files in the root folder of the application do:
 * `Procfile` - used to facilitate Heroku deployments
 * `README.md` - where documentation for the application is conventionally put
 * `project.clj` - used to manage the project configuration and dependencies by Leiningen
+* `profiles.clj` - used for local configuration that should not be checked into the code repository
 * `.gitignore` - a list of assets, such as build generated files, to exclude from Git
 
 ### The Source Directory
@@ -111,6 +113,7 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 The `db` namespace is used to define the model for the application and handle the persistence layer.
 
 * `core.clj` - used to house the functions for interacting with the database
+* `migrations.clj` - used to run the database migrations
 
 #### guestbook.routes
 
@@ -141,9 +144,9 @@ The SQL queries are found in the `resources/sql` folder.
 
 * `queries.sql` - defines the SQL queries and their associated function names
 
-### The Migrations Directory
+#### The Migrations Directory
 
-Luminus uses [Ragtime](https://github.com/weavejester/ragtime) for managing migrations. Migrations are managed using up and down SQL files. The files are conventionally versioned using the date and will be applied in order.
+Luminus uses [Migratus](https://github.com/yogthos/migratus) for managing migrations. Migrations are managed using up and down SQL files. The files are conventionally versioned using the date and will be applied in order.
 
 * `201501155317-add-users-table.up.sql` - migrations file to create the tables
 * `201501155317-add-users-table.down.sql` - migrations file to drop the tables
@@ -160,11 +163,11 @@ The project file of the application we've created is found in its root folder an
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
-  :dependencies [[org.clojure/clojure "1.7.0-beta3"]
+  :dependencies [[org.clojure/clojure "1.7.0-RC2"]
                  [selmer "0.8.2"]
-                 [com.taoensso/timbre "3.4.0"]
+                 [com.taoensso/timbre "4.0.2"]
                  [com.taoensso/tower "3.0.2"]
-                 [markdown-clj "0.9.66"]
+                 [markdown-clj "0.9.7"]
                  [environ "1.0.0"]
                  [compojure "1.3.4"]
                  [ring/ring-defaults "0.1.5"]
@@ -172,13 +175,13 @@ The project file of the application we've created is found in its root folder an
                  [ring-middleware-format "0.5.0"]
                  [metosin/ring-middleware-format "0.6.0"]
                  [metosin/ring-http-response "0.6.1"]
-                 [bouncer "0.3.2"]
-                 [prone "0.8.1"]
+                 [bouncer "0.3.3"]
+                 [prone "0.8.2"]
                  [org.clojure/tools.nrepl "0.2.10"]
                  [ring-server "0.4.0"]
-                 [ragtime "0.3.9"]
-                 [yesql "0.5.0-rc2"]
-                 [com.h2database/h2 "1.4.182"]]
+                 [migratus "0.8.0"]
+                 [yesql "0.5.0-rc3"]
+                 [com.h2database/h2 "1.4.187"]]
 
   :min-lein-version "2.0.0"
   :uberjar-name "guestbook.jar"
