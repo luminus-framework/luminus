@@ -211,4 +211,4 @@ All that's left to do is mount the `home-page` component and create the websocke
 
 We should now be able to open multiple browser windows and any messages typed in one window should show up in all the open windows.
 
-A complete source listing is available on [GitHub](https://github.com/yogthos/multi-client-ws).
+A complete source listing is available on [GitHub](https://github.com/luminus-framework/multi-client-ws).
