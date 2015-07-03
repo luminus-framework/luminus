@@ -1,4 +1,4 @@
-This section will cover an example of using websockets for client/server communitcation in Luminus. Websockets require webserver support that's not available in the default version of Jetty packaged in Luminus. Make sure to use either HTTP Kit or Immutant servers by supplying either `+http-kit` or `+immutant` flags when creating the application. We'll create the project using the `+http-kit` profile:
+This section will cover an example of using websockets for client/server communitcation with HTTP Kit in Luminus using the `+http-kit` profile:
 
 ```
 lein new luminus multi-client-ws +http-kit
