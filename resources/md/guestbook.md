@@ -615,7 +615,7 @@ We can test that everything is working as expected by adding a comment in our co
 The application can be packaged for standalone deployment by running the following command:
 
 ```
-lein ring uberjar
+lein uberjar
 ```
 
 This will create a runnable jar that can be run as seen below:
@@ -623,14 +623,6 @@ This will create a runnable jar that can be run as seen below:
 ```
 java -jar target/guestbook.jar
 ```
-
-If we wanted to deploy our application to an app server such as Apache Tomcat, we would package it as `uberwar` instead:
-
-```
-lein ring uberwar
-```
-
-The resulting archive can be deployed to any Servlet container.
 
 ***
 
