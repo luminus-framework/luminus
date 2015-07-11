@@ -26,7 +26,7 @@ Please follow the steps outlined in the [official Immutant documentation](http:/
 
 ## Deploying to Tomcat
 
-A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. This is only supported via the [lein-ring](https://github.com/weavejester/lein-ring) plugin that uses the Jetty server.
+A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. This is only supported via the [lein-ring](https://github.com/weavejester/lein-ring) plugin that's included using the `+war` profile.
 
 In order to create a WAR you can package the application by running:
 ```bash
