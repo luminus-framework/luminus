@@ -4,10 +4,13 @@ Running `lein new luminus myapp` will create an application using the default pr
 However, if you would like to attach further functionality to your template you can append
 profile hints for the extended functionality.
 
-### alternative web servers
+### web servers
+
+Luminus defaults to using the [HTTP Kit](http://www.http-kit.org/) webserver. Following
+alternative servers are supported:
 
 * +aleph - adds [Aleph](https://github.com/ztellman/aleph) server support to the project
-* +http-kit - adds [HTTP Kit](http://http-kit.org/) support to the project
+* +jetty - adds [Jetty](https://github.com/mpenet/jet) support to the project
 * +immutant - adds the [Immutant](http://immutant.org/) web server to the project
 
 ### databases
