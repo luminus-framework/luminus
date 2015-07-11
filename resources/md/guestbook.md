@@ -199,7 +199,6 @@ The project file of the application we've created is found in its root folder an
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}
-
              :aot :all}
    :dev {:dependencies [[ring-mock "0.1.5"]
                         [ring/ring-devel "1.3.2"]
