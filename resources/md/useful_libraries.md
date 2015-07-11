@@ -13,14 +13,8 @@ to those already included with Luminus.
 * [Stefon](https://github.com/circleci/stefon) - asset pipeline ring middleware
 * [lein-asset-minifier](https://github.com/yogthos/lein-asset-minifier) - a Leiningen plugin to minify CSS and Js assets
 
-## Async HTTP
-
-* [Aleph](https://github.com/ztellman/aleph) - asynchronous communication
-* [http-kit](https://github.com/http-kit/http-kit) - high-performance event-driven HTTP client/server
-
 ## Authentication
 
-* [buddy](https://github.com/niwibe/buddy) - a complete security library for clojure
 * [Friend](https://github.com/cemerick/friend) - an extensible authentication and authorization library
 * [clj-ldap](https://github.com/pauldorman/clj-ldap) - a library for talking to LDAP servers
 * [ring-basic-authentication](https://github.com/remvee/ring-basic-authentication) - Ring middleware to enforce basic authentication
@@ -36,14 +30,11 @@ to those already included with Luminus.
 
 ## ClojureScript
 
-* [Reagent](https://github.com/holmsand/reagent) - a minimalistic interface between ClojureScript and React
 * [Om](https://github.com/swannodette/om) - ClojureScript interface to Facebook's React
 * [Kioo](https://github.com/ckirkendall/kioo) - DOM manipulation and templating library for Reagent/Om
 * [Hickory](https://github.com/davidsantiago/hickory) -  parses HTML into Clojure data structures
-* [cljs-ajax](https://github.com/yogthos/cljs-ajax) - a simple Ajax client for ClojureScript
 * [Sente](https://github.com/ptaoussanis/sente) - bidirectional a/sync comms over both WebSockets and Ajax (auto-fallback)
 * [Datascript](https://github.com/tonsky/datascript) - central, uniform approach to manage all application state
-* [markdown-clj](https://github.com/yogthos/markdown-clj) - Clojure/Script Markdown parser
 * [Garden](https://github.com/noprompt/garden) - a library for rendering CSS in Clojure and ClojureScript
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
 * [json-html](https://github.com/yogthos/json-html) - generates human representation of the JSON/EDN encoded data
@@ -64,12 +55,10 @@ to those already included with Luminus.
 
 * [Drift](https://github.com/macourtney/drift) - a migration library
 * [Lobos](http://budu.github.com/lobos/) - Lobos is a library to help you create and modify database schemas
-* [Migratus](https://github.com/pjstadig/migratus) - a general migration framework
 * [Ragtime](https://github.com/weavejester/ragtime) - database-independent migration library
 
 ## SQL Libraries
 
-* [Yesql](https://github.com/krisajenkins/yesql) - a library for loading SQL queries from files
 * [Honey SQL](https://github.com/jkk/honeysql) - a Korma alternative DSL for building SQL queries
 * [clojure.java.jdbc](https://github.com/clojure/java.jdbc) - a low level wrapper for Java JDBC
 * [blackwater](https://github.com/bitemyapp/blackwater) - a library for logging SQL queries and the time they took for Korma and clojure.java.jdbc
@@ -95,7 +84,6 @@ to those already included with Luminus.
 
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
-* [ring-anti-forgery](https://github.com/ring-clojure/ring-anti-forgery) - CSRF attack prevention using randomly-generated anti-forgery tokens
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
 * [Pantomime](https://github.com/michaelklishin/pantomime) - a Library For Working With MIME Types
 * [Route One](https://github.com/clojurewerkz/route-one) -  a library that generates HTTP resource routes (as in Ruby on Rails and similar modern Web application frameworks)
@@ -109,14 +97,9 @@ to those already included with Luminus.
 
 ## Web Services 
 
-* [compojure-api](https://github.com/metosin/compojure-api) - a library for writing [Swagger](https://github.com/wordnik/swagger-spec) REST APIs
 * [sweet-liberty](https://github.com/RJMetrics/sweet-liberty) - a library for building database-backed RESTful services
 * [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
 * [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
-
-## Web Sockets
-* [ring-jetty9-adapter](https://github.com/sunng87/ring-jetty9-adapter) - a Ring adapter for Jetty 9
-* [jet](https://github.com/mpenet/jet) - Jetty 9 client/server
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
