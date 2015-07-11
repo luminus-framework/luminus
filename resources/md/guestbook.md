@@ -193,8 +193,7 @@ The project file of the application we've created is found in its root folder an
 
   :main guestbook.core
 
-  :plugins [[lein-ring "0.9.1"]
-            [lein-environ "1.0.0"]
+  :plugins [[lein-environ "1.0.0"]
             [lein-ancient "0.6.5"]]
 
   :profiles
