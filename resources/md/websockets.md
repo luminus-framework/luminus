@@ -1,7 +1,7 @@
-This section will cover an example of using websockets for client/server communitcation with HTTP Kit in Luminus using the `+http-kit` profile:
+This section will cover an example of using websockets for client/server communitcation with HTTP Kit in Luminus. As the first step, create a new application with the default profile:
 
 ```
-lein new luminus multi-client-ws +http-kit
+lein new luminus multi-client-ws
 ```
 
 Once the application is created we'll need to startup the server and Figwheel. To do that, we'll need to run the following commands in separate terminals.
