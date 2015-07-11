@@ -12,8 +12,8 @@ The resulting `jar` can be found in the `target` folder. It can be run as follow
 java -jar myapp.jar
 ```
 
-By default the standalone application uses an embedded Jetty server to run the application.
-However, if you used a profile such as `+http-kit` then the alternate server will be used instead.
+By default the standalone application uses an embedded HTTP Kit server to run the application.
+However, if you used a profile such as `+jetty` then the alternate server will be used instead.
 To specify a custom port you need to set the `$PORT` environment variable, eg:
 
 ```
