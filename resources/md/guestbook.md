@@ -182,7 +182,7 @@ The project file of the application we've created is found in its root folder an
                  [migratus "0.8.0"]
                  [yesql "0.5.0-rc3"]
                  [com.h2database/h2 "1.4.187"]
-                 [cc.qbits/jet "0.6.5"]]
+                 [http-kit "2.1.19"]]
 
   :min-lein-version "2.0.0"
   :uberjar-name "guestbook.jar"
@@ -203,7 +203,6 @@ The project file of the application we've created is found in its root folder an
    :dev {:dependencies [[ring-mock "0.1.5"]
                         [ring/ring-devel "1.3.2"]
                         [pjstadig/humane-test-output "0.7.0"]]
-         :source-paths ["env/dev/clj"]
          :repl-options {:init-ns guestbook.core}
          :injections [(require 'pjstadig.humane-test-output)
                       (pjstadig.humane-test-output/activate!)]
