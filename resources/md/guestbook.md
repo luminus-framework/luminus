@@ -324,10 +324,9 @@ We can run our application in development mode using the [lein-ring](https://git
 
 ```
 >lein run
-2015-May-03 10:35:45 -0400 Local INFO [guestbook.handler] -
--=[ guestbook started successfully using the development profile ]=-
-2015-05-03 10:35:46.037:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-05-03 10:35:46.069:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+15-Jul-11 01:49:04 Nyx INFO [myapp.core] - server is starting on port  3000
+15-Jul-11 01:49:05 Nyx INFO [myapp.handler] -
+-=[myapp started successfullyusing the development profile]=-
 ```
 
 Once server starts, you should be able to navigate to [http://localhost:3000](http://localhost:3000) and see
