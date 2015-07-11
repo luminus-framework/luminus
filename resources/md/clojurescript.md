@@ -35,7 +35,7 @@ Next, update the `:uberjar` profile with the following options:
                        :pretty-print false}}}}
 ```
 
-The above will add the `lein-cljsbuild` hook to the `:uberjar` profile so that ClojureScript is compiled when `lein ring uberjar` is run. The `:cljsbuild` options will override the defaults with production settings.
+The above will add the `lein-cljsbuild` hook to the `:uberjar` profile so that ClojureScript is compiled when `lein uberjar` is run. The `:cljsbuild` options will override the defaults with production settings.
 
 All the ClojureScript namespaces should live in the `src-cljs` directory under the root of your project. Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
 
@@ -51,7 +51,7 @@ The easiest way to develop ClojureScript applications is to run the compiler in 
 lein cljsbuild auto
 ```
 
-Make sure to run the `clean` option before packaging the application for production using `lein ring uberjar`. This will ensure that any existing artifacts are removed before the production JavaScript is compiled:
+Make sure to run the `clean` option before packaging the application for production using `lein uberjar`. This will ensure that any existing artifacts are removed before the production JavaScript is compiled:
 
 ```
 lein cljsbuild once
