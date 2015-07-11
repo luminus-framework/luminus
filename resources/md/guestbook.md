@@ -202,8 +202,7 @@ The project file of the application we've created is found in its root folder an
              :aot :all}
    :dev {:dependencies [[ring-mock "0.1.5"]
                         [ring/ring-devel "1.3.2"]
-                        [pjstadig/humane-test-output "0.7.0"]
-                        ]
+                        [pjstadig/humane-test-output "0.7.0"]]
          :source-paths ["env/dev/clj"]
          :repl-options {:init-ns guestbook.core}
          :injections [(require 'pjstadig.humane-test-output)
