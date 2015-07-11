@@ -6,7 +6,7 @@ profile hints for the extended functionality.
 
 ### web servers
 
-Luminus defaults to using the [HTTP Kit](http://www.http-kit.org/) webserver. Following
+Luminus defaults to using the [HTTP Kit](http://www.http-kit.org/) webserver, the following
 alternative servers are supported:
 
 * +aleph - adds [Aleph](https://github.com/ztellman/aleph) server support to the project
