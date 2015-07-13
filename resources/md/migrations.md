@@ -22,7 +22,7 @@ Migration ids are not assumed to be incremented integers and are considered for 
 Let's create two scripts, one for the migration and the other for the rollback. The files can be generated using the Migratus plugin as follows:
 
 ```
-lein migratus create add-uers-table
+lein migratus create add-users-table
 ```
 
 This will generate the appropriate files in the migrations directory. We'll update the `up` migrations file with the script to create the table:
