@@ -299,12 +299,10 @@ For further instructions see the [official documentation](https://devcenter.hero
 
 Luminus comes setup with [nREPL](https://github.com/clojure/tools.nrepl) that allows connecting to a REPL
 on a the server. This functionality can useful for debugging as well as hotfixing updates in the running
-application.
+application. To enable nREPL support set the `NREPL_PORT` envrionment variable to the desired port.
 
-To enable nREPL support simply uncomment the following line in your `project.clj` file:
-
-```clojure
-;:env {:repl-port 7001}
+```
+export NREPL_PORT=7001
 ```
 
 To test the REPL connection simply run the following command:
