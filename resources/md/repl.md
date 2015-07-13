@@ -21,13 +21,15 @@ The `stop-server` function takes no argments:
 ## Connecting to the nREPL
 
 Luminus also provides an embedded [nREPL](https://github.com/clojure/tools.nrepl) that can be used to connect
-the editor to a running instance of the server. In order to enable it simply uncomment the following line in
-your `project.clj` file.
+the editor to a running instance of the server. A default nREPL port is set in your `profiles.clj` file for development:
 
 ```clojure
-;:env {:repl-port 7001}
+{:provided {:env {;;when set the application start the nREPL server on load
+                  :nrepl-port "7001"}}}
 ```
 
 When you run your application using `lein run` it will create a network REPL on the port `7001` and you will be
 able to connect your editor to it on `localhost:7001`. Note that the nREPL will also be available in production
 and can be used to inspect the application the same way you would in development.
+
+Please see the [deplyment section](/docs/deployment.md#enabling_nrepl) for the instructions on enabling the nREPL for production.
