@@ -188,9 +188,6 @@ The project file of the application we've created is found in its root folder an
   :uberjar-name "guestbook.jar"
   :jvm-opts ["-server"]
 
-;;enable to start the nREPL server when the application launches
-;:env {:repl-port 7001}
-
   :main guestbook.core
 
   :plugins [[lein-environ "1.0.0"]
