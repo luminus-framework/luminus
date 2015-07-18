@@ -81,8 +81,8 @@ guestbook
   |____docs
   | |____docs.md
   |____migrations
-  | |____201501155317-add-users-table.down.sql
-  | |____201501155317-add-users-table.up.sql
+  | |____20150718103127-add-users-table.down.sql
+  | |____20150718103127-add-users-table.up.sql
   |____sql
    |____queries.sql
 ```
@@ -148,8 +148,8 @@ The SQL queries are found in the `resources/sql` folder.
 
 Luminus uses [Migratus](https://github.com/yogthos/migratus) for managing migrations. Migrations are managed using up and down SQL files. The files are conventionally versioned using the date and will be applied in order.
 
-* `201501155317-add-users-table.up.sql` - migrations file to create the tables
-* `201501155317-add-users-table.down.sql` - migrations file to drop the tables
+* `20150718103127-add-users-table.up.sql` - migrations file to create the tables
+* `20150718103127-add-users-table.down.sql` - migrations file to drop the tables
 
 
 ### The Project File
@@ -163,23 +163,26 @@ The project file of the application we've created is found in its root folder an
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
-  :dependencies [[org.clojure/clojure "1.7.0-RC2"]
-                 [selmer "0.8.2"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [selmer "0.8.5"]
                  [com.taoensso/timbre "4.0.2"]
                  [com.taoensso/tower "3.0.2"]
                  [markdown-clj "0.9.67"]
                  [environ "1.0.0"]
-                 [compojure "1.3.4"]
+                 [compojure "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [ring/ring-session-timeout "0.1.0"]
+                 [ring "1.4.0"
+                  :exclusions [ring/ring-jetty-adapter]]
                  [metosin/ring-middleware-format "0.6.0"]
-                 [metosin/ring-http-response "0.6.1"]
+                 [metosin/ring-http-response "0.6.3"]
                  [bouncer "0.3.3"]
                  [prone "0.8.2"]
                  [org.clojure/tools.nrepl "0.2.10"]
-                 [ring "1.4.0-RC2"
-                  :exclusions [ring/ring-jetty-adapter]]
-                 [migratus "0.8.0"]
+                 [to-jdbc-uri "0.1.0"]
+                 [migratus "0.8.2"]
+                 [org.clojure/java.jdbc "0.3.7"]
+                 [instaparse "1.4.1"]
                  [yesql "0.5.0-rc3"]
                  [com.h2database/h2 "1.4.187"]
                  [http-kit "2.1.19"]]
@@ -189,21 +192,33 @@ The project file of the application we've created is found in its root folder an
   :jvm-opts ["-server"]
 
   :main guestbook.core
+  :migratus {:store :database}
 
   :plugins [[lein-environ "1.0.0"]
-            [lein-ancient "0.6.5"]]
-
+            [lein-ancient "0.6.5"]
+            [migratus-lein "0.1.5"]]
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}
              :aot :all}
-   :dev {:dependencies [[ring-mock "0.1.5"]
-                        [ring/ring-devel "1.3.2"]
-                        [pjstadig/humane-test-output "0.7.0"]]
-         :repl-options {:init-ns guestbook.core}
-         :injections [(require 'pjstadig.humane-test-output)
-                      (pjstadig.humane-test-output/activate!)]
-         :env {:dev true}}})
+   :dev           [:project/dev :profiles/dev]
+   :test          [:project/test :profiles/test]
+   :project/dev  {:dependencies [[ring/ring-mock "0.2.0"]
+                                 [ring/ring-devel "1.4.0"]
+                                 [pjstadig/humane-test-output "0.7.0"]
+                                 [mvxcvi/puget "0.8.1"]]
+
+
+                  :repl-options {:init-ns guestbook.core}
+                  :injections [(require 'pjstadig.humane-test-output)
+                               (pjstadig.humane-test-output/activate!)]
+                  ;;when :nrepl-port is set the application starts the nREPL server on load
+                  :env {:dev        true
+                        :port       3000
+                        :nrepl-port 7000}}
+   :project/test {:env {:test       true
+                        :port       3001
+                        :nrepl-port 7001}}})
 ```
 
 As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
@@ -213,6 +228,10 @@ The most common task is adding new libraries to the project. These libraries are
 The items in the `:plugins` vector can be used to provide additional functionality such as reading environment variables via Environ plugin.
 
 The `:profiles` contain a map of different project configurations that are used to initialize it for either development or production builds.
+
+Note that the project sets up composite profiles for `:dev` and `:test`. These profiles contain the variables from `:project/dev` and `:project/test` profiles,
+as well as from `:profiles/dev` and `:profiles/test` found in the `profiles.clj`. The latter should contain local environment variables that are not meant to be
+checked into the shared code repository.
 
 Please refer to the official Leiningen documentation for further details on structuring the `project.clj` build file.
 
@@ -262,14 +281,12 @@ Here, we can see that we already have the definition for our database connection
 (ns guestbook.db.core
   (:require
     [yesql.core :refer [defqueries]]
-    [clojure.java.io :as io]))
-
-(def db-store (str (.getName (io/file ".")) "/site.db"))
+    [environ.core :refer [env]]
+    [to-jdbc-uri.core :refer [to-jdbc-uri]]))
 
 (def db-spec
   {:classname   "org.h2.Driver"
-   :subprotocol "h2"
-   :subname     db-store
+   :connection-uri (to-jdbc-uri (:database-url env))
    :make-pool?  true
    :naming      {:keys   clojure.string/lower-case
                  :fields clojure.string/upper-case}})
@@ -277,7 +294,11 @@ Here, we can see that we already have the definition for our database connection
 (defqueries "sql/queries.sql" {:connection db-spec})
 ```
 
-The database is expected to be stored in a file called `site.db` relative to the folder from where the application is run.
+The database is connection is read from the `:database-url` environment variable. This variable is populated from the `profiles.clj` file
+during development and has to be set as an environment variable for production, e.g: `export DATABASE_URL="jdbc:h2:./guestbook.db".
+
+Since we're using the embedded H2 database, the data is stored in a file specified in the URL that's found in the path relative to where
+the project is run.
 
 The functions that map to database queries are generated when `defqueries` is called. As we can see it references the `sql/queries.sql` file. This location is found under the `resources` folder. Let's open up this file and take a look inside.
 
@@ -321,9 +342,10 @@ We can run our application in development mode using the [lein-ring](https://git
 
 ```
 >lein run
-15-Jul-11 01:49:04 Nyx INFO [myapp.core] - server is starting on port  3000
-15-Jul-11 01:49:05 Nyx INFO [myapp.handler] -
--=[myapp started successfullyusing the development profile]=-
+15-Jul-18 10:50:09 Nyx INFO [guestbook.core] - server is starting on port  3000
+15-Jul-18 10:50:09 Nyx INFO [guestbook.handler] - nREPL server started on port 7000
+15-Jul-18 10:50:09 Nyx INFO [guestbook.handler] -
+-=[guestbook started successfullyusing the development profile]=-
 ```
 
 Once server starts, you should be able to navigate to [http://localhost:3000](http://localhost:3000) and see
