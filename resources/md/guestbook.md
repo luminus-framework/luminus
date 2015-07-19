@@ -342,10 +342,12 @@ We can run our application in development mode using the [lein-ring](https://git
 
 ```
 >lein run
-15-Jul-18 10:50:09 Nyx INFO [guestbook.core] - server is starting on port  3000
-15-Jul-18 10:50:09 Nyx INFO [guestbook.handler] - nREPL server started on port 7000
-15-Jul-18 10:50:09 Nyx INFO [guestbook.handler] -
+00:49:54.865 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+15-Jul-19 00:49:55 Nyx INFO [guestbook.handler] - nREPL server started on port 7000
+15-Jul-19 00:49:55 Nyx INFO [guestbook.handler] -
 -=[guestbook started successfullyusing the development profile]=-
+00:49:55.772 INFO  [org.projectodd.wunderboss.web.Web] (main) Registered web context /
+15-Jul-19 00:49:55 Nyx INFO [guestbook.core] - server started on port: 3000
 ```
 
 Once server starts, you should be able to navigate to [http://localhost:3000](http://localhost:3000) and see
