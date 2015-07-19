@@ -1,7 +1,15 @@
-This section will cover an example of using websockets for client/server communitcation with HTTP Kit in Luminus. As the first step, create a new application with the default profile:
+This section will cover an example of using websockets for client/server communitcation with Immutant and HTTP Kit servers in Luminus. As the first step, create a new application.
+
+To create an Immutant based application use the default profile:
 
 ```
 lein new luminus multi-client-ws
+```
+
+To create an HTTP Kit based application use the `+http-kit` profile instead:
+
+```
+lein new luminus multi-client-ws +http-kit
 ```
 
 Once the application is created we'll need to startup the server and Figwheel. To do that, we'll need to run the following commands in separate terminals.
@@ -14,7 +22,80 @@ lein run
 lein figwheel
 ```
 
-### The Server
+## The Server
+
+### Immutant
+
+Let's create a new namespace called `multi-client-ws.routes.websockets` and add the following references there:
+
+```
+(ns multi-client-ws.routes.websockets
+  (:require [compojure.core :refer [GET defroutes wrap-routes]]
+            [taoensso.timbre :as timbre]
+            [immutant.web             :as web]
+            [immutant.web.async       :as async]
+            [immutant.web.middleware  :as web-middleware]))
+```
+
+Next, we'll create the `websocket-callbacks` map that will specify the functions that should be
+triggered during different websocket events:
+
+```clojure
+(def websocket-callbacks
+  "WebSocket callback functions"
+  {:on-open connect!
+   :on-close disconnect!
+   :on-message notify-clients!})
+```
+
+We'll create a Compojure route for our websockets:
+
+```clojure
+(defroutes websocket-routes
+  (wrap-routes
+   (GET "/ws" request)
+   #(web-middleware/wrap-websocket % websocket-callbacks)))
+```
+
+Note that the handler for the route is empty. The `wrap-websocket` middleware will intercept the request
+once the route is resolved and call the appropriate handler function using the `websocket-callbacks` map we
+defined above.
+
+We'll now create an atom to store the channels and define the `connect!` function that
+will be called any time a new client connects. The function will add the channel to the
+set of open channels.
+
+```clojure
+(defonce channels (atom #{}))
+
+(defn connect! [channel]
+  (timbre/info "channel open")
+  (swap! channels conj channel))
+```
+
+The function will log that a new channel was opened and add the channel to the set of open channels defined above.
+
+When the client disconnects the `disconnect!` function will be called. This function accepts the channel along with a map
+conatining the `code` and the `reason` keys. It will log that the client disconnected and remove the channel from the set
+of open channels.
+
+```clojure
+(defn disconnect! [channel {:keys [code reason]}]
+  (timbre/info "close code:" code "reason:" reason)
+  (swap! channels #(remove #{channel} %)))
+```
+
+Finally, we have the `notify-clients!` function that's called any time a client message is received. This function will broadcast the message to all the connected clients.
+
+```clojure
+(defn notify-clients! [channel msg]
+  (doseq [channel @channels]
+    (async/send! channel msg)))
+```
+
+That's all we need to do to manage the lifecycle of the websocket connections and to handle client communication.
+
+### HTTP KIT
 
 Let's create a new namespace called `multi-client-ws.routes.websockets` and add the following references there:
 
@@ -76,6 +157,8 @@ Finally, we have the `on-receive` function that's called any time a client messa
 ```
 
 That's all we need to do to manage the lifecycle of the websocket connections and to handle client communication.
+
+### Adding the routes to the handler
 
 Next, We'll need to add the routes in our `multi-client-ws.handler` namespace:
 
