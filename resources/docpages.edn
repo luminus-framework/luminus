@@ -16,6 +16,7 @@
  ["migrations.md"       "Database Migrations"]
  ["logging.md"          "Logging"]
  ["i18n.md"             "Internationalization"]
+ ["testing.md"          "Testing"]
  ["deployment.md"       "Deployment"]
  ["useful_libraries.md" "Useful Libraries"]
  ["apps.md"             "Sample Applications"]
