@@ -12,7 +12,7 @@ The resulting `jar` can be found in the `target` folder. It can be run as follow
 java -jar myapp.jar
 ```
 
-By default the standalone application uses an embedded HTTP Kit server to run the application.
+By default the standalone application uses an embedded Immutant server to run the application.
 However, if you used a profile such as `+jetty` then the alternate server will be used instead.
 To specify a custom port you need to set the `$PORT` environment variable, eg:
 
@@ -20,9 +20,9 @@ To specify a custom port you need to set the `$PORT` environment variable, eg:
 export PORT=8080
 java -jar myapp.jar
 ```
-## Deploying on Immutant
+## Deploying on Immutant App Server
 
-Please follow the steps outlined in the [official Immutant documentation](http://immutant.org/documentation/2.0.0-beta2/apidoc/guide-installation.html) for Immutant deployment.
+Please follow the steps outlined in the [official Immutant documentation](http://immutant.org/documentation/2.0.2/apidoc/guide-installation.html) for Immutant application server deployment.
 
 ## Deploying to Tomcat
 
