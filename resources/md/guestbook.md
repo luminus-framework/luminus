@@ -218,7 +218,9 @@ The project file of the application we've created is found in its root folder an
                         :nrepl-port 7000}}
    :project/test {:env {:test       true
                         :port       3001
-                        :nrepl-port 7001}}})
+                        :nrepl-port 7001}}
+   :profiles/dev {}
+   :profiles/test {}})
 ```
 
 As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
