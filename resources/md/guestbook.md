@@ -163,7 +163,7 @@ The project file of the application we've created is found in its root folder an
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
+:dependencies [[org.clojure/clojure "1.7.0"]
                  [selmer "0.8.5"]
                  [com.taoensso/timbre "4.0.2"]
                  [com.taoensso/tower "3.0.2"]
@@ -179,11 +179,12 @@ The project file of the application we've created is found in its root folder an
                  [bouncer "0.3.3"]
                  [prone "0.8.2"]
                  [org.clojure/tools.nrepl "0.2.10"]
-                 [to-jdbc-uri "0.1.0"]
                  [migratus "0.8.2"]
                  [org.clojure/java.jdbc "0.3.7"]
                  [instaparse "1.4.1"]
                  [yesql "0.5.0-rc3"]
+                 [clj-dbcp "0.8.1"]
+                 [to-jdbc-uri "0.2.0"]
                  [com.h2database/h2 "1.4.187"]
                  [org.immutant/web "2.0.2"]]
 
@@ -221,6 +222,7 @@ The project file of the application we've created is found in its root folder an
                         :nrepl-port 7001}}
    :profiles/dev {}
    :profiles/test {}})
+
 ```
 
 As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
@@ -282,21 +284,42 @@ Here, we can see that we already have the definition for our database connection
 ```clojure
 (ns guestbook.db.core
   (:require
+    [clojure.java.jdbc :as jdbc]
     [yesql.core :refer [defqueries]]
-    [environ.core :refer [env]]
-    [to-jdbc-uri.core :refer [to-jdbc-uri]]))
+    [taoensso.timbre :as timbre]
+    [environ.core :refer [env]])
+  (:import java.sql.BatchUpdateException))
 
-(defonce db-spec (atom nil))
+(defonce conn (atom nil))
 
 (defqueries "sql/queries.sql")
 
+
 (defn connect! []
-  (reset! db-spec
-          {:classname   "org.h2.Driver"
-           :connection-uri (:database-url env)
-           :make-pool?     true
-           :naming         {:keys   clojure.string/lower-case
-                            :fields clojure.string/upper-case}}))
+  (try
+    (reset!
+      conn
+      {:classname   "org.h2.Driver"
+       :connection-uri (:database-url env)
+       :make-pool?     true
+       :naming         {:keys   clojure.string/lower-case
+                        :fields clojure.string/upper-case}})
+    (catch Exception e
+      (timbre/error "Error occured while connecting to the database!" e))))
+
+(defn disconnect! [])
+
+(defn run
+  "executes a Yesql query using the given database connection and parameter map
+  the parameter map defaults to an empty map and the database conection defaults
+  to the conn atom"
+  ([query-fn] (run query-fn {}))
+  ([query-fn query-map] (run query-fn query-map @conn))
+  ([query-fn query-map db]
+   (try
+     (query-fn query-map {:connection db})
+     (catch BatchUpdateException e
+       (throw (or (.getNextException e) e))))))
 ```
 
 The database is connection is read from the `:database-url` environment variable at runtime. This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
@@ -305,8 +328,7 @@ The database is connection is read from the `:database-url` environment variable
 export DATABASE_URL="jdbc:h2:./guestbook.db"
 ```
 
-Since we're using the embedded H2 database, the data is stored in a file specified in the URL that's found in the path relative to where
-the project is run.
+Since we're using the embedded H2 database, the data is stored in a file specified in the URL that's found in the path relative to where the project is run.
 
 The functions that map to database queries are generated when `defqueries` is called. As we can see it references the `sql/queries.sql` file. This location is found under the `resources` folder. Let's open up this file and take a look inside.
 
@@ -343,6 +365,9 @@ VALUES (:name, :message, :timestamp)
 -- selects all available messages
 SELECT * from guestbook
 ```
+
+Finally, the namespace provides a helper function called `run`. This function will execute the query functions using the
+database connection found in the `conn` atom.
 
 ### Running the Application
 
@@ -409,16 +434,16 @@ We'll now add a function to validate and save messages:
     (-> (redirect "/")
         (assoc :flash (assoc params :errors errors)))
     (do
-      (db/save-message!
-        (assoc params :timestamp (java.util.Date.))
-        {:connection @db/db-spec})
+      (db/run
+       db/save-message!
+       (assoc params :timestamp (java.util.Date.)))
       (redirect "/"))))
 ```
 
 The function will grab the `:params` key from the request that contains the form parameters. When the `validate-message` functions returns errors we'll redirect back to `/`, we'll associate a `:flash` key with the response where we'll put the supplied parameters along with the errors. Otherwise, we'll save the message in our database and redirect.
 
-Note that we must specify the database connection for the `db/save-message!` function. Since the connection is resolved
-at runtime, it must be passed to functions generated by Yesql explicitly.
+Note that we use the `db/run` function to call the `db/save-message!` function. It takes care of specifying the connection
+parameter so that we don't have to do that explicitly.
 
 Finally, we'll change the `home-page` handler function to look as follows:
 
@@ -426,7 +451,7 @@ Finally, we'll change the `home-page` handler function to look as follows:
 (defn home-page [{:keys [flash]}]
   (layout/render
    "home.html"
-   (merge {:messages (db/get-messages {} {:connection @db/db-spec})}
+   (merge {:messages (db/run db/get-messages)}
           (select-keys flash [:name :message :errors]))))
 ```
 
