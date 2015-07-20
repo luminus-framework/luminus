@@ -45,39 +45,27 @@ Please refer to the [Database Migrations](/docs/migrations.md) section for more 
 The connection settings are found in the `<app>.db.core` namespace of the application.
 By default the database connection is expected to be provided as the `DATABASE_URL` envrionment variable.
 
-The connection is stored in an atom called `db-spec` and initialized by running the `connect!` function:
+The connection is stored in an atom called `conn` and initialized by running the `connect!` function:
 
 ```clojure
-(defonce db-spec (atom nil))
+(defonce conn (atom nil))
 
 (defn connect! []
-  (reset! db-spec {:connection-uri (env :database-url)}))
-
+  (try
+    (reset!
+      conn
+      
+      {:datasource
+       (dbcp/make-datasource
+         (assoc pool-spec
+           :jdbc-url (to-jdbc-uri (env :database-url))))})
+    (catch Exception e
+      (timbre/error "Error occured while connecting to the database!" e))))
 ```
 
-Another approach is to specify the JNDI name for a connection managed by the application server:
+The `connect!` function will create a pooled JDBC connection using the [clj-dbcp](https://github.com/kumarshantanu/clj-dbcp) library. The connection can be terminated by calling the `disconnect!` function.
 
-```clojure
-(defonce db-spec (atom {:name "jdbc/myDatasource"}))
-```
-
-This can be useful if you're running the application using a container such as Apache Tomcat that
-manages the database connection on behalf of the application.
-Finally, you can provide a JDBC data source, which you configure manually:
-
-```clojure
-(defonce db-spec
-  (atom
-    {:datasource
-      (doto (new PGPoolingDataSource)
-       (.setServerName     "localhost")
-       (.setDatabaseName   "my_website")
-       (.setUser           "admin")
-       (.setPassword       "admin")
-       (.setMaxConnections 10))}))
-```
-
-This option is useful if you wish to specify any driver specific parameters directly.
+The `connect!` and `disconnect!` functions are invoked in the `<app>.handler/init` and `<app>.handler/destroy` functions respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.
 
 ### Working with Yesql
 
@@ -117,7 +105,33 @@ The parameters are passed in using a map with the keys that match the parameter 
    :last-name "Bobberton"
    :email "bob.bobberton@mail.com"
    :pass "verysecret"}
-   {:connection @db-spec})
+   {:connection @conn})
+```
+
+Luminus provides the `<app>.db.core/run` helper function for running Yesql queries. The `run` function will use the
+connection in the `conn` atom if none is provided. The above query could be run as follows using the `:run` helper function:
+
+```clojure
+(run create-user!
+  {:id "user1"
+   :first_name "Bob"
+   :last-name "Bobberton"
+   :email "bob.bobberton@mail.com"
+   :pass "verysecret"})
+```
+
+The function can be run without parameters, e.g:
+
+```clojure
+(run get-users)
+```
+
+It can also be passed in an explicit connection, as would be the case for running in a transaction:
+
+```clojure
+(jdbc/with-db-transaction [t-conn @db/conn]
+  (run create-user {:id "user1"} t-conn)
+  (run get-users {} t-conn))
 ```
 
 See the [official documentation](https://github.com/krisajenkins/yesql/tree/devel) for more details.
