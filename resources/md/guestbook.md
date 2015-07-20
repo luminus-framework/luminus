@@ -294,7 +294,6 @@ Here, we can see that we already have the definition for our database connection
 
 (defqueries "sql/queries.sql")
 
-
 (defn connect! []
   (try
     (reset!
@@ -322,7 +321,7 @@ Here, we can see that we already have the definition for our database connection
        (throw (or (.getNextException e) e))))))
 ```
 
-The database is connection is read from the `:database-url` environment variable at runtime. This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
+The database connection is read from the `:database-url` environment variable at runtime. This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
 
 ```
 export DATABASE_URL="jdbc:h2:./guestbook.db"
