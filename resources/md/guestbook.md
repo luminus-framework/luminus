@@ -286,18 +286,24 @@ Here, we can see that we already have the definition for our database connection
     [environ.core :refer [env]]
     [to-jdbc-uri.core :refer [to-jdbc-uri]]))
 
-(def db-spec
-  {:classname   "org.h2.Driver"
-   :connection-uri (to-jdbc-uri (:database-url env))
-   :make-pool?  true
-   :naming      {:keys   clojure.string/lower-case
-                 :fields clojure.string/upper-case}})
+(defonce db-spec (atom nil))
 
-(defqueries "sql/queries.sql" {:connection db-spec})
+(defqueries "sql/queries.sql")
+
+(defn connect! []
+  (reset! db-spec
+          {:classname   "org.h2.Driver"
+           :connection-uri (:database-url env)
+           :make-pool?     true
+           :naming         {:keys   clojure.string/lower-case
+                            :fields clojure.string/upper-case}}))
 ```
 
-The database is connection is read from the `:database-url` environment variable. This variable is populated from the `profiles.clj` file
-during development and has to be set as an environment variable for production, e.g: `export DATABASE_URL="jdbc:h2:./guestbook.db".
+The database is connection is read from the `:database-url` environment variable at runtime. This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
+
+```
+export DATABASE_URL="jdbc:h2:./guestbook.db"
+```
 
 Since we're using the embedded H2 database, the data is stored in a file specified in the URL that's found in the path relative to where
 the project is run.
