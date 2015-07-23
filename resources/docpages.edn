@@ -17,6 +17,7 @@
  ["logging.md"          "Logging"]
  ["i18n.md"             "Internationalization"]
  ["testing.md"          "Testing"]
+ ["environment.md"      "Environment Variables"]
  ["deployment.md"       "Deployment"]
  ["useful_libraries.md" "Useful Libraries"]
  ["apps.md"             "Sample Applications"]
