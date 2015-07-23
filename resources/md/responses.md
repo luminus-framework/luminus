@@ -46,7 +46,7 @@ The formats are controlled by the `:formats` key and can be selected as follows:
 
 ```clojure
 (defn wrap-formats [handler]
-  (wrap-restful-format handler :formats [:json-kw :transit-json :transit-msgpack]))
+  (wrap-restful-format handler {:formats [:json-kw :transit-json :transit-msgpack]}))
 
 ```
 
