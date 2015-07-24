@@ -172,7 +172,7 @@ The values of the components are stored in Reagent atoms. These atoms behave jus
 
 (defn input-field [label-text]
   [:div
-    [label label-text]
+    [:label label-text]
     [:input {:type "text"
              :value @state
              :on-change #(reset! state (-> % .-target .-value))}]])
