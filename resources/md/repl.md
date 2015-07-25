@@ -32,4 +32,4 @@ When you run your application using `lein run` it will create a network REPL on 
 able to connect your editor to it on `localhost:7001`. Note that the nREPL will also be available in production
 and can be used to inspect the application the same way you would in development.
 
-Please see the [deplyment section](/docs/deployment.md#enabling_nrepl) for the instructions on enabling the nREPL for production.
+Please see the [deployment section](/docs/deployment.md#enabling_nrepl) for the instructions on enabling the nREPL for production.
