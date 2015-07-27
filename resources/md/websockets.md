@@ -1,15 +1,15 @@
-This section will cover an example of using websockets for client/server communitcation with Immutant and HTTP Kit servers in Luminus. As the first step, create a new application.
+This section will cover an example of using websockets for client/server communication with Immutant and HTTP Kit servers in Luminus. As the first step, create a new application. Our example uses Reagent components, so we'll include the `+cljs` profile.
 
 To create an Immutant based application use the default profile:
 
 ```
-lein new luminus multi-client-ws
+lein new luminus multi-client-ws +cljs
 ```
 
 To create an HTTP Kit based application use the `+http-kit` profile instead:
 
 ```
-lein new luminus multi-client-ws +http-kit
+lein new luminus multi-client-ws +cljs +http-kit
 ```
 
 Once the application is created we'll need to startup the server and Figwheel. To do that, we'll need to run the following commands in separate terminals.
