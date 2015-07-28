@@ -18,6 +18,8 @@ This section provides links to online resources, books, and development environm
 
 ### Clojure Books
 
+* [Living Clojure](http://shop.oreilly.com/product/0636920034292.do)
+* [Clojure Cookbook](http://clojure-cookbook.com/)
 * [Clojure Programming](http://www.clojurebook.com/)
 * [Clojure in Action](http://www.amazon.com/Clojure-Action-Amit-Rathore/dp/1935182595/)
 * [The Joy of Clojure: Thinking the Clojure Way](http://www.amazon.com/The-Joy-Clojure-Thinking-Way/dp/1935182641/ref=pd_bxgy_b_img_y)
