@@ -8,7 +8,7 @@ Luminus projects use the following environment variables by default:
 * `NREPL_PORT` - when set the application will run the nREPL server on the specified port, defaults to 7000 for development
 * `DATABASE_URL` - the URL for the database connection
 
-The envrionment variables are managed by the [Environ](https://github.com/weavejester/environ) library. The library
+The environment variables are managed by the [Environ](https://github.com/weavejester/environ) library. The library
 supports using shell variables as well as Java system properties.
 
 A shell variable could be declared as follows:
