@@ -28,9 +28,9 @@ alternative servers are supported:
 * +cucumber - a profile for cucumber with clj-webdriver
 * +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
 * +sassc - adds support for [SASS/SCSS](http://sass-lang.com/) files using [SassC](https://github.com/sass/sassc) command line compiler
-* +uberwar - add support of building WAR archives for deployment to servers such as Apache Tomcat
+* +war - add support of building WAR archives for deployment to servers such as Apache Tomcat
+* +site - creates template for site using the specified database (H2 by default) and ClojureScript
 
- 
 To add a profile simply pass it as an argument after your application name, eg:
 
 ```
