@@ -120,6 +120,32 @@ $ start myapp
 
 Test that the application starts up correctly by navigating to its URL `http://<domain>:3000`. You're now ready to setup Nginx to front the application on port `80`.
 
+### systemd deployment
+
+Below is a sample systemd service file. The file is saved as `/lib/systemd/system/myapp.service`. The environment variables can be placed in the file itself, or in an external environment file as seen below:
+
+```
+systemctl daemon-reload
+systemctl enable myapp.service
+systemctl start myapp.service
+
+[Unit]
+Description=My Application
+After=network.target
+
+[Service]
+WorkingDirectory=/var/myapp
+EnvironmentFile=-/var/myapp/env
+Environment="DATABASE_URL=jdbc:postgresql://localhost/app?user=app_user&password=secret"
+ExecStart=/usr/bin/java -jar /var/myapp/myapp.jar
+User=deploy
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Fronting with Nginx
+
 Install Nginx using the following command:
 
 ```
