@@ -7,7 +7,8 @@ By default Luminus uses the [Migratus](https://github.com/yogthos/migratus) libr
 The development database configuration should placed in the `profiles.clj` file. This file specifies your local configuration and should **not** be checked into the source repository.
 
 ```clojure
-{:provided {:env {:database-url "jdbc:h2:./myapp_dev.db"}}}
+{:profiles/dev  {:env {:database-url "jdbc:postgresql://localhost/myapp_dev?user=appuser&password=secret"}}
+ :profiles/test {:env {:database-url "jdbc:postgresql://localhost/myapp_test?user=test&password=test"}}}
 ```
 
 For production, the configuration is expected to be present in the environment. An example would be to

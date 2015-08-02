@@ -32,35 +32,29 @@ The middleware is added in the `middleware` namespace of your project. Any devel
     
 (defn wrap-base [handler]
   (-> handler
-      wrap-dev
-      (wrap-idle-session-timeout
-        {:timeout (* 60 30)
-         :timeout-response (redirect "/")})
+      wrap-dev      
       wrap-formats
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
-            (assoc-in  [:session :store] (memory-store session/mem))))
+            (assoc-in  [:session :store] (ttl-memory-store (* 60 30)))))
       wrap-servlet-context
       wrap-internal-error))
 ```    
 
 Note that the order of the middleware matters as the request is modified by each middleware function. For example, any middleware functions that rely on the session must be placed before the `wrap-defaults` middleware that creates the session. The reason being that the request will pass through the outer middleware functions before reaching the inner ones.
 
-For example, when we have the handler wrapped using `wrap-idle-session-timeout` and `wrap-defaults` as seen below:
+For example, when we have the handler wrapped using `wrap-formats` and `wrap-defaults` as seen below:
 
 ```
-(-> handler wrap-idle-session-timeout wrap-defaults)
+(-> handler wrap-formats wrap-defaults)
 ```
 
 The request is passed through these functions in the following order:
 
 ```
-handler <- wrap-idle-session-timeout <- wrap-defaults <- request
+handler <- wrap-formats <- wrap-defaults <- request
 ```
-
-Since, `wrap-defaults` creates manages the session, the request has to pass through it before it gets to
-the `wrap-idle-esssion-timeout` function that expects a session key to be present.
 
 ## Useful ring middleware
 

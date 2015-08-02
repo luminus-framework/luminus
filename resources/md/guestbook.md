@@ -55,7 +55,6 @@ guestbook
 |   |____handler.clj
 |   |____layout.clj
 |   |____middleware.clj
-|   |____session.clj
 |   |____routes
 |   | |____home.clj
 |   |____db
@@ -106,7 +105,6 @@ is the root namespace for project. Let's take a look at all the namespaces that 
 * `handler.clj` - defines the base routes for the application, this is the entry point into the application
 * `layout.clj` - a namespace for the layout helpers used to render the content for our pages
 * `middleware.clj` - a namespace that contains custom middleware for the application
-* `session.clj` - a namespace for creating managing in-memory sessions
 
 #### guestbook.db
 
@@ -164,31 +162,29 @@ The project file of the application we've created is found in its root folder an
   :url "http://example.com/FIXME"
 
 :dependencies [[org.clojure/clojure "1.7.0"]
-                 [selmer "0.8.5"]
-                 [com.taoensso/timbre "4.0.2"]
-                 [com.taoensso/tower "3.0.2"]
-                 [markdown-clj "0.9.67"]
-                 [environ "1.0.0"]
-                 [compojure "1.4.0"]
-                 [ring/ring-defaults "0.1.5"]
-                 [ring/ring-session-timeout "0.1.0"]
-                 [ring "1.4.0"
-                  :exclusions [ring/ring-jetty-adapter]]
-                 [metosin/ring-middleware-format "0.6.0"]
-                 [metosin/ring-http-response "0.6.3"]
-                 [bouncer "0.3.3"]
-                 [prone "0.8.2"]
-                 [org.clojure/tools.nrepl "0.2.10"]
-                 [org.webjars/bootstrap "3.3.5"]
-                 [org.webjars/jquery "2.1.4"]
-                 [migratus "0.8.2"]
-                 [org.clojure/java.jdbc "0.4.1"]
-                 [instaparse "1.4.1"]
-                 [yesql "0.5.0-rc3"]
-                 [clj-dbcp "0.8.1"]
-                 [to-jdbc-uri "0.2.0"]
-                 [com.h2database/h2 "1.4.187"]
-                 [org.immutant/web "2.0.2"]]
+               [selmer "0.8.7"]
+               [com.taoensso/timbre "4.0.2"]
+               [com.taoensso/tower "3.0.2"]
+               [markdown-clj "0.9.67"]
+               [environ "1.0.0"]
+               [compojure "1.4.0"]
+               [ring-webjars "0.1.1"]
+               [ring/ring-defaults "0.1.5"]
+               [ring-ttl-session "0.1.1"]
+               [ring "1.4.0"
+                :exclusions [ring/ring-jetty-adapter]]
+               [metosin/ring-middleware-format "0.6.0"]
+               [metosin/ring-http-response "0.6.3"]
+               [bouncer "0.3.3"]
+               [prone "0.8.2"]
+               [org.clojure/tools.nrepl "0.2.10"]
+               [org.webjars/bootstrap "3.3.5"]
+               [org.webjars/jquery "2.1.4"]
+               [migratus "0.8.2"]
+               [conman "0.1.1"]
+               [to-jdbc-uri "0.2.0"]
+               [com.h2database/h2 "1.4.187"]
+               [org.immutant/web "2.0.2"]]
 
   :min-lein-version "2.0.0"
   :uberjar-name "guestbook.jar"
@@ -435,16 +431,12 @@ We'll now add a function to validate and save messages:
     (-> (redirect "/")
         (assoc :flash (assoc params :errors errors)))
     (do
-      (db/run
-       db/save-message!
+      (db/save-message!
        (assoc params :timestamp (java.util.Date.)))
       (redirect "/"))))
 ```
 
 The function will grab the `:params` key from the request that contains the form parameters. When the `validate-message` functions returns errors we'll redirect back to `/`, we'll associate a `:flash` key with the response where we'll put the supplied parameters along with the errors. Otherwise, we'll save the message in our database and redirect.
-
-Note that we use the `db/run` function to call the `db/save-message!` function. It takes care of specifying the connection
-parameter so that we don't have to do that explicitly.
 
 Finally, we'll change the `home-page` handler function to look as follows:
 
@@ -452,7 +444,7 @@ Finally, we'll change the `home-page` handler function to look as follows:
 (defn home-page [{:keys [flash]}]
   (layout/render
    "home.html"
-   (merge {:messages (db/run db/get-messages)}
+   (merge {:messages (db/get-messages)}
           (select-keys flash [:name :message :errors]))))
 ```
 

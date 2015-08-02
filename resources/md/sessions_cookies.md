@@ -1,44 +1,12 @@
 ## Sessions
 
-Luminus defaults to using in-memory sessions and the the session store atom is located in the `<app>.session` namespace.
+Luminus defaults to using in-memory sessions backed by the [ring-ttl-session](https://github.com/boechat107/ring-ttl-session)
+library. It provides a session store that stores the data in-memory with a time-to-live (TTL).
 
-
-```clojure
-(ns myapp.session)
-
-(defonce mem (atom {}))
-(def half-hour 1800000)
-
-(defn- current-time []
-  (quot (System/currentTimeMillis) 1000))
-
-(defn- expired? [[id session]]
-  (pos? (- (:ring.middleware.session-timeout/idle-timeout session) (current-time))))
-
-(defn clear-expired-sessions []
-  (clojure.core/swap! mem #(->> % (filter expired?) (into {}))))
-
-(defn start-cleanup-job! []
-  (future
-    (loop []
-      (clear-expired-sessions)
-      (Thread/sleep half-hour)
-      (recur))))
-
-```
-
-The namespace also sets up session expiry in order to clean out timed out sessions. The
-`start-cleanup-job!` function creates a thread that will remove expired session. It is
-started in the `<app>.handler/init` function when the application loads.
 
 The session middleware is initialized in the `<app>.middleware` namespace by the `wrap-base`
-function seen below.
+function seen below. Session timeout is specified in second and defaults to 30 minutes of inactivity.
 
-Session timeout is controlled by the `wrap-idle-session-timeout` middleware.
-Default sessions timeout is set to 30 minutes of inactivity, and
-timed out sessions will be redirected to the `/` URI.
-
-The session store is initialized using the `wrap-defaults` middleware.
 
 ```clojure
 (defn wrap-base [handler]
@@ -51,14 +19,12 @@ The session store is initialized using the `wrap-defaults` middleware.
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
-            (assoc-in  [:session :store] (memory-store session/mem))))
+            (assoc-in  [:session :store] (ttl-memory-store (* 60 30)))))
       wrap-servlet-context
       wrap-internal-error))
 ```
 
-We can easily swap the default memory store for a different one, such as a cookie store. Note that
-we'll also need to update the `clear-expired-sessions` function seen above accordingly to work with the new store.
-
+We can easily swap the default memory store for a different one, such as a cookie store.
 Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` with the name `example-app-session` as our session store:
 
 ```clojure
