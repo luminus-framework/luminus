@@ -29,14 +29,11 @@ The middleware is found in the `<app-name>.middleware` namespace of your applica
   (defn wrap-base [handler]
   (-> handler
       wrap-dev
-      (wrap-idle-session-timeout
-        {:timeout (* 60 30)
-         :timeout-response (redirect "/")})
       wrap-formats ;; enables JSON/Transit serialization and deserialization
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
-            (assoc-in  [:session :store] (memory-store session/mem))))
+            (assoc-in  [:session :store] (ttl-memory-store (* 60 30)))))
       wrap-servlet-context
       wrap-internal-error))
 ```
