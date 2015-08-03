@@ -82,6 +82,8 @@ function.
 
 The `connect!` and `disconnect!` functions are invoked in the `<app>.handler/init` and `<app>.handler/destroy` functions respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.
 
+When working with multiple databases, each database connection should be defined and managed in a separate namespace.
+
 ### Working with Yesql
 
 Yesql uses plain SQL to define the queries. The comments are used to supply the function name and a doc string for each query.
