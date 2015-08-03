@@ -7,8 +7,8 @@ A Ring respone can be generated using the [ring.util.response](https://ring-cloj
 
 ;;result of calling response
 {:status  200
-   :headers {}
-   :body    {:foo "bar"}}
+ :headers {}
+ :body    {:foo "bar"}}
 ```
 
 The response body can be one of a string, a sequence, a file, or an input stream. The body must correspond appropriately with the response's status code.
