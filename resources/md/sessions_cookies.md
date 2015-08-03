@@ -12,9 +12,6 @@ function seen below. Session timeout is specified in second and defaults to 30 m
 (defn wrap-base [handler]
   (-> handler
       wrap-dev
-      (wrap-idle-session-timeout
-        {:timeout (* 60 30)
-         :timeout-response (redirect "/")})
       wrap-formats
       (wrap-defaults
         (-> site-defaults
