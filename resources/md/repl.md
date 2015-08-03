@@ -28,7 +28,6 @@ under the `:project/dev` profile:
 :profiles
 {...
  :project/dev {...
- 
               :env {:dev        true
                     :port       3000
                     :nrepl-port 7000}}}
