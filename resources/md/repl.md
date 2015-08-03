@@ -28,9 +28,9 @@ under the `:project/dev` profile:
 :profiles
 {...
  :project/dev {...
-              :env {:dev        true
-                    :port       3000
-                    :nrepl-port 7000}}}
+               :env {:dev        true
+                     :port       3000
+                     :nrepl-port 7000}}}
 ```
 
 When you run your application using `lein run` it will create a network REPL on the port `7000` and you will be
