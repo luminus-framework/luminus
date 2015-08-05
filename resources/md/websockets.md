@@ -32,7 +32,6 @@ Let's create a new namespace called `multi-client-ws.routes.websockets` and add 
 (ns multi-client-ws.routes.websockets
   (:require [compojure.core :refer [GET defroutes wrap-routes]]
             [taoensso.timbre :as timbre]
-            [immutant.web             :as web]
             [immutant.web.async       :as async]
             [immutant.web.middleware  :as web-middleware]))
 ```
