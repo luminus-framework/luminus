@@ -32,8 +32,7 @@ Let's create a new namespace called `multi-client-ws.routes.websockets` and add 
 (ns multi-client-ws.routes.websockets
   (:require [compojure.core :refer [GET defroutes wrap-routes]]
             [taoensso.timbre :as timbre]
-            [immutant.web.async       :as async]
-            [immutant.web.middleware  :as web-middleware]))
+            [immutant.web.async       :as async]))
 ```
 
 Next, we'll create the `websocket-callbacks` map that will specify the functions that should be
@@ -47,18 +46,15 @@ triggered during different websocket events:
    :on-message notify-clients!})
 ```
 
-We'll create a Compojure route for our websockets:
+We'll create an websocket handler function and Compojure route for our websocket route:
 
 ```clojure
-(defroutes websocket-routes
-  (wrap-routes
-   (GET "/ws" request)
-   #(web-middleware/wrap-websocket % websocket-callbacks)))
-```
+(defn ws-handler [request]  
+  (async/as-channel request websocket-callbacks))
 
-Note that the handler for the route is empty. The `wrap-websocket` middleware will intercept the request
-once the route is resolved and call the appropriate handler function using the `websocket-callbacks` map we
-defined above.
+(defroutes websocket-routes
+  (GET "/ws" [] ws-handler))
+```
 
 We'll now create an atom to store the channels and define the `connect!` function that
 will be called any time a new client connects. The function will add the channel to the
