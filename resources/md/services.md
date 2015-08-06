@@ -9,6 +9,8 @@ lein new luminus swag +swagger
 
 The resulting project will contain a `swagger.routes.services` namespace with a few example routes defined.
 
+## Defining Swagger Routes
+
 We can see that routes are declared using the Compojure-API helpers such `compojure.api.sweet/GET*` as opposed to
 `compojure.core/GET` that we'd use normally.
 
