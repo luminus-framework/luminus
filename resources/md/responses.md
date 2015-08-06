@@ -1,9 +1,12 @@
 ## Responses
 
-A Ring respone can be generated using the [ring.util.response](https://ring-clojure.github.io/ring/ring.util.response.html#var-response) helper. The helper will produce a valid response map with the content set as its `:body` key.
+A Ring respones are generated using the [ring-http-response](https://github.com/metosin/ring-http-response) library.
+The library provides a number of helpers for producing responses with their respective HTTP Status codes.
+
+For example, the `ring.util.http-response/ok` helper is used to generate a response with the status `200`. The following code will produce a valid response map with the content set as its `:body` key.
 
 ```clojure
-(response {:foo "bar"})
+(ok {:foo "bar"})
 
 ;;result of calling response
 {:status  200
@@ -60,7 +63,7 @@ When no format is supplied in the `Accept` header or the format specified is unk
 
 ### Setting headers
 
-Setting additional response headers is done by calling [ring.util.response/header](https://ring-clojure.github.io/ring/ring.util.response.html#var-header), and
+Setting additional response headers is done by calling `ring.util.http-response/header`, and
 passing it a map of HTTP headers. Note that the keys **must** be strings.
 
 ```clojure
@@ -69,7 +72,7 @@ passing it a map of HTTP headers. Note that the keys **must** be strings.
 
 ### Setting content type
 
-You can set a custom response type by using the [ring.util.response/content-type](https://ring-clojure.github.io/ring/ring.util.response.html#var-content-type) function, eg:
+You can set a custom response type by using the `ring.util.http-response/content-type` function, eg:
 
 ```clojure
 (GET "/project" []
@@ -80,7 +83,7 @@ You can set a custom response type by using the [ring.util.response/content-type
 
 ### Setting custom status
 
-Setting a custom status is accomplished by passing the content to the [ring.util.response/status](https://ring-clojure.github.io/ring/ring.util.response.html#var-status) function:
+Setting a custom status is accomplished by passing the content to the `ring.util.http-response/status` function:
 
 ```clojure
 (GET "/missing-page" []
@@ -91,11 +94,11 @@ Setting a custom status is accomplished by passing the content to the [ring.util
 
 ### Redirects
 
-Redirects are handled by [ring.util.response/redirect](https://ring-clojure.github.io/ring/ring.util.response.html#var-redirect). The `redirect` function will set a `302` redirect status on the response.
+Redirects are handled by the `ring.util.http-response/found` function. The function will set a `302` redirect status on the response.
 
 ```clojure
 (GET "/old-location" []
-  (redirect "/new-location"))
+  (found "/new-location"))
 ```
 
-Please see [Ring Response API](https://ring-clojure.github.io/ring/ring.util.response.html) to see other available helpers.
+Please refer to the [ring-http-response](https://github.com/metosin/ring-http-response/blob/master/src/ring/util/http_response.clj) to see other available helpers.
