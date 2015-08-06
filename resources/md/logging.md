@@ -4,17 +4,12 @@ By default, logging functionality is provided by the [Timbre](https://github.com
 The logger is initialized in the `handler/init` function to create a rotating log for the application using the following settings:
 
 ```clojure
-  (timbre/set-config!
-    [:appenders :rotor]
-    {:min-level :info
-     :enabled? true
-     :async? false ; should be always false for rotor
-     :max-message-per-msecs nil
-     :fn rotor/appender-fn})
-  
-  (timbre/set-config!
-    [:shared-appender-config :rotor]
-    {:path "your-app-name.log" :max-size 10000 :backlog 10})
+(timbre/merge-config!
+  {:level     (if (env :dev) :trace :info)
+   :appenders {:rotor (rotor/rotor-appender
+                        {:path "guestbook.log"
+                         :max-size (* 512 1024)
+                         :backlog 10})}})
 ```
 
 Timbre can log any Clojure data structures directly.
