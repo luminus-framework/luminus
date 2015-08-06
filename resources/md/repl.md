@@ -4,18 +4,18 @@ of the application. Luminus provides two ways to connect to the REPL.
 ## Starting the Application from the REPL
 
 When you run the REPL in the project directory it will switch the `yourapp.core` namespace when it starts. This namespace
-contains functions called `start-server` and `stop-server` that are used start and stop the HTTP server respectively.
+contains functions called `start-http-server` and `stop-http-server` that are used start and stop the HTTP server respectively.
 
-The `start-server` function accepts a port as its argument:
+The `start-http-server` function accepts a port as its argument:
 
 ```clojure
-(start-server 3000)
+(start-http-server 3000)
 ```
 
-The `stop-server` function takes no argments:
+The `stop-http-server` function takes no argments:
 
 ```
-(stop-server)
+(stop-http-server)
 ```
 
 ## Connecting to the nREPL
