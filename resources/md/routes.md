@@ -255,11 +255,15 @@ The middleware will be resolved after the routes are matched and only affect the
 to global middleware that's referenced in the `middleware/wrap-base`.
 
 ```clojure
-(def app
-  (-> (routes
-        (wrap-routes home-routes middleware/wrap-csrf)
-        base-routes)
-      middleware/wrap-base))
+(def app-routes
+  (routes
+    (wrap-routes #'home-routes middleware/wrap-csrf)
+    (route/not-found
+      (:body
+       (error-page {:code 404
+                    :title "page not found"})))))
+
+(def app (middleware/wrap-base #'app-routes))
 ```
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
