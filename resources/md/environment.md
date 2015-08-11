@@ -7,6 +7,7 @@ Luminus projects use the following environment variables by default:
 * `PORT` - HTTP port that the application will attempt to bind to, defaults to 3000
 * `NREPL_PORT` - when set the application will run the nREPL server on the specified port, defaults to 7000 for development
 * `DATABASE_URL` - the URL for the database connection
+* `APP_CONTEXT` - used to specify an optional context for the routes in the application
 
 The environment variables are managed by the [Environ](https://github.com/weavejester/environ) library. The library
 supports using shell variables as well as Java system properties.
@@ -28,7 +29,8 @@ characters are converted to `-` characters. The following keywords correspond to
 
 * `:port`
 * `:nrepl-port`
-* `database-url`
+* `:database-url`
+* `:app-context`
 
 The variables are populated in the `environ.core/env` map and can be accessed as seen in the example below:
 
