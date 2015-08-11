@@ -311,16 +311,6 @@ The connection settings can be found at your
 [Heroku dashboard](https://dashboard.heroku.com/apps/) under
 the add-ons for the app.
 
-### Immutant on Heroku
-
-Immutant binds to `127.0.0.1` by default, Heroku requires that the appliction is listening on an externally accessible address. The `<app>.core/start-http-server` has to be updated as follows:
-
-```clojure
-(defn start-http-server [port]
-  (init)
-  (reset! http-server (immutant/run app :host "0.0.0.0" :port port)))
-```  
-
 deploy the application
 
 ```
