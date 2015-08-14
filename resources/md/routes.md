@@ -329,7 +329,7 @@ We can now wrap the route groups we wish to be private using the `wrap-restricte
 
 ### Restricting access based on URI
 
-Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy/latest/), we can define rules for restricting access to specific pages based on its URI pattern.
+Using the `buddy.auth.accessrules` namespace from [Buddy](https://funcool.github.io/buddy-auth/latest/), we can define rules for restricting access to specific pages based on its URI pattern.
 
 ### Specifying Access Rules
 
