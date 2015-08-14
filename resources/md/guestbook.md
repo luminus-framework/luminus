@@ -600,7 +600,7 @@ ul {
 	list-style: none;
 }
 
-li {
+ul.messages li {
 	position: relative;
 	font-size: 16px;
 	padding: 5px;
