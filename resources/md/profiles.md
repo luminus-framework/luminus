@@ -23,7 +23,7 @@ alternative servers are supported:
  
 ### miscellaneous 
 
-* +auth - adds [Buddy](https://funcool.github.io/buddy/latest/) dependency and authentication middleware
+* +auth - adds [Buddy](https://github.com/funcool/buddy) dependency and authentication middleware
 * +cljs - adds ClojureScript support to the project along with an example
 * +cucumber - a profile for cucumber with clj-webdriver
 * +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
