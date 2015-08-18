@@ -39,6 +39,7 @@ to those already included with Luminus.
 * [Dommy](https://github.com/Prismatic/dommy) - a no-nonsense templating and (soon) dom manipulation library
 * [json-html](https://github.com/yogthos/json-html) - generates human representation of the JSON/EDN encoded data
 * [lein-externs](https://github.com/ejlo/lein-externs) - a plugin to automatically generate externs files for Js libs
+
 ## Database clients
 
 * [CongoMongo](https://github.com/aboekhoff/congomongo) - Wrapper for the mongo-db java api
