@@ -27,6 +27,7 @@ Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` w
 ```clojure
 (wrap-defaults
   (-> site-defaults
+      (assoc-in [:security :anti-forgery] false)
       (assoc-in [:session :store] (cookie-store))
       (assoc-in [:session :cookie-name] "example-app-sessions")))
 ```
@@ -36,6 +37,7 @@ We can also specify the maximum age for our session cookies using the `:max-age`
 ```clojure
 (wrap-defaults
   (-> site-defaults
+      (assoc-in [:security :anti-forgery] false)
       (assoc-in [:session :store] (cookie-store))
       (assoc-in [:session :cookie-attrs] {:max-age 10})))
 ```
@@ -45,6 +47,7 @@ When using cookie store it is also important to specify a secret key (16 charact
 ```clojure
 (wrap-defaults
   (-> site-defaults
+      (assoc-in [:security :anti-forgery] false)
       (assoc-in [:session :store] (cookie-store {:key "BuD3KgdAXhDHrJXu"}))
       (assoc-in [:session :cookie-name] "example-app-sessions")))
 ```
@@ -58,6 +61,7 @@ You may also wish to take a look at [Redis](http://redis.io/) for your session s
 
 (wrap-defaults
   (-> site-defaults
+      (assoc-in [:security :anti-forgery] false)
       (assoc-in [:session :store] (carmine-store redis-conn))))
 ```
 
