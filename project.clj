@@ -7,7 +7,7 @@
                  [org.clojure/core.cache "0.6.4"]
                  [compojure "1.3.4"]
                  [ring-server "0.3.1"]
-                 [markdown-clj "0.9.67"]
+                 [markdown-clj "0.9.69"]
                  [clj-http "1.1.2"]
                  [crouton "0.1.2"]
                  [selmer "0.8.2"]]
