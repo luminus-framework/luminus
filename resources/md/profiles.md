@@ -16,6 +16,7 @@ alternative servers are supported:
 ### databases
 
 * +h2 - adds `db.core` namespace and H2 db dependencies
+* +sqlite - adds `db.core` namespace and SQLite db dependencies
 * +postgres - adds `db.core` namespace and add PostreSQL dependencies
 * +mysql - adds `db.core` namespace and add MySQL dependencies
 * +mongodb - adds `db.core` namespace and MongoDB dependencies
