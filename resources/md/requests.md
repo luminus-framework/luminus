@@ -14,10 +14,10 @@ type on the response. Please see the [response types](/docs/responses.md) sectio
 Below is a list of valid formats:
 
 * :json - JSON with string keys in :params and :body-params
-* :json-kw - JSON with keywodized keys in :params and :body-params
+* :json-kw - JSON with keywordized keys in :params and :body-params
 * :edn - native Clojure format.
 * :yaml - YAML format
-* :yaml-kw - YAML format with keywodized keys in :params and :body-params
+* :yaml-kw - YAML format with keywordized keys in :params and :body-params
 * :yaml-in-html - yaml in a html page
 * :transit-json Transit over JSON format
 * :transit-msgpack Transit over Msgpack format
