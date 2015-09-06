@@ -1,11 +1,12 @@
 ## Sessions
 
-Luminus defaults to using in-memory sessions backed by the [ring-ttl-session](https://github.com/boechat107/ring-ttl-session)
-library. It provides a session store that stores the data in-memory with a time-to-live (TTL).
+Luminus defaults to using in-memory sessions.
 
+When using the [Immutant](http://immutant.org/) server the sessions are backed by the servlet session
+provided by the [wrap-session](http://immutant.org/documentation/2.0.2/apidoc/immutant.web.middleware.html#var-wrap-session) middleware.
 
 The session middleware is initialized in the `<app>.middleware` namespace by the `wrap-base`
-function seen below. Session timeout is specified in second and defaults to 30 minutes of inactivity.
+function. Session timeout is specified in second and defaults to 30 minutes of inactivity.
 
 
 ```clojure
@@ -13,13 +14,19 @@ function seen below. Session timeout is specified in second and defaults to 30 m
   (-> handler
       wrap-dev
       wrap-formats
+      wrap-webjars
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
-            (assoc-in  [:session :store] (ttl-memory-store (* 60 30)))))
-      wrap-servlet-context
+            (dissoc :session)))
+      wrap-flash
+      wrap-session
+      wrap-context
       wrap-internal-error))
 ```
+
+Otherwise, sessions are backed by the [ring-ttl-session](https://github.com/boechat107/ring-ttl-session)
+library. It provides a session store that stores the data in-memory with a time-to-live (TTL).
 
 We can easily swap the default memory store for a different one, such as a cookie store.
 Below, we explicitly specify the `ring.middleware.session.cookie/cookie-store` with the name `example-app-session` as our session store:
