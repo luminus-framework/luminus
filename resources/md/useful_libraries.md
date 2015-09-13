@@ -86,6 +86,7 @@ to those already included with Luminus.
 
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
+* [ring-logger](https://github.com/nberger/ring-logger) - log Ring requests & responses using your favorite logging backend
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
 * [Pantomime](https://github.com/michaelklishin/pantomime) - a Library For Working With MIME Types
 * [Route One](https://github.com/clojurewerkz/route-one) -  a library that generates HTTP resource routes (as in Ruby on Rails and similar modern Web application frameworks)
