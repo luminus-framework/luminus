@@ -26,32 +26,32 @@ Please follow the steps outlined in the [official Immutant documentation](http:/
 
 ## Deploying to Tomcat
 
-A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. This is only supported via the [lein-ring](https://github.com/weavejester/lein-ring) plugin that's included using the `+war` profile.
+A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. This is only supported via the [lein-uberwar](https://github.com/luminus-framework/lein-uberwar) plugin that's included using the `+war` profile.
 
-To enable the `lein-ring` plugin manually add the following configuration in the `project.clj` file:
+To enable the `lein-uberwar` plugin manually add the following configuration in the `project.clj` file:
 
 ```clojure
 :plugins [...
-          [lein-ring "0.9.7"]]
+          [lein-uberwar "0.1.0"]]
 
-  :ring {:handler <app>.handler/app
-         :init <app>.handler/init
-         :destroy <app>.handler/destroy
-         :uberwar-name "<app>.war"}
+  :uberwar {:handler <app>.handler/app
+            :init <app>.handler/init
+            :destroy <app>.handler/destroy
+            :name "<app>.war"}
 ```
 
 In order to create a WAR you can package the application by running:
 ```bash
-lein ring uberwar
+lein uberwar
 ```
 
-Next, simply copy the resulting `myapp.war` to the `webapps` folder on Tomcat, eg:
+Next, simply copy the resulting `<app>.war` to the `webapps` folder on Tomcat, eg:
 
 ```bash
-cp target/myapp.war ~/tomcat/webapps/
+cp target/<app>.war ~/tomcat/webapps/
 ```
 
-Your app will now be avaliable at the context `/myapp` when Tomcat starts. To deploy the app
+Your app will now be avaliable at the context `/<app>` when Tomcat starts. To deploy the app
 at root context, simply copy it to `webapp` as `ROOT.war`.
 
 ## VPS Deployment
