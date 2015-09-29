@@ -28,6 +28,18 @@ Please follow the steps outlined in the [official Immutant documentation](http:/
 
 A WAR archive needs to be generated in order to deploy the application to a container such as Apache Tomcat. This is only supported via the [lein-ring](https://github.com/weavejester/lein-ring) plugin that's included using the `+war` profile.
 
+To enable the `lein-ring` plugin manually add the following configuration in the `project.clj` file:
+
+```clojure
+:plugins [...
+          [lein-ring "0.9.7"]]
+
+  :ring {:handler <app>.handler/app
+         :init <app>.handler/init
+         :destroy <app>.handler/destroy
+         :uberwar-name "<app>.war"}
+```
+
 In order to create a WAR you can package the application by running:
 ```bash
 lein ring uberwar
