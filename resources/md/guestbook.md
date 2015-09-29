@@ -347,7 +347,7 @@ database connection found in the `conn` atom.
 
 ### Running the Application
 
-We can run our application in development mode using the [lein-ring](https://github.com/weavejester/lein-ring) plugin that's already bundled with our project. The plugin is invoked as seen below.
+We can run our application in development mode as follows:
 
 ```
 >lein run
