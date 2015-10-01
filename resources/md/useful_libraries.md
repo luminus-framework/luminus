@@ -97,6 +97,7 @@ to those already included with Luminus.
 * [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
 * [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
 * [cronj](http://docs.caudate.me/cronj/) - a library for scheduling tasks 
+* [ring-async](https://github.com/ninjudd/ring-async) - a Ring adapter for supporting asynchronous responses
 
 ## Web Services 
 
