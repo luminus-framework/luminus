@@ -12,7 +12,7 @@
                  [crouton "0.1.2"]
                  [selmer "0.9.2"]]
   :min-lein-version "2.0.0"
-  :plugins [[lein-ring "0.9.6"]]
+  :plugins [[lein-ring "0.9.7"]]
   :profiles {:production
              {:ring
               {:open-browser? false
