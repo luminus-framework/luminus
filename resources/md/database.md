@@ -49,7 +49,7 @@ The connection is stored in an atom called `conn` and it's managed by the [conma
 
 By default the connection is set to a dynamic variable containing an atom. The connection is initialized by calling the
 `conman/connect!` function with the connection atom and a database specification map. The `connect!` function will create a pooled JDBC
-connection using the [clj-dbcp](https://github.com/kumarshantanu/clj-dbcp) library. The connection can be terminated by calling the `disconnect!`
+connection using the [HikariCP](https://github.com/brettwooldridge/HikariCP) library. The connection can be terminated by calling the `disconnect!`
 function.
  
 
