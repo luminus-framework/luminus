@@ -14,11 +14,12 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
 ```clojure
 :plugins [... [lein-cljsbuild "1.0.4"]]
 
+:resource-paths ["resources" "target/cljsbuild"]
 :cljsbuild
 {:builds {:app {:source-paths ["src-cljs"]
-               :compiler {:output-to     "resources/public/js/app.js"
-                          :output-dir    "resources/public/js/out"
-                          :source-map    "resources/public/js/out.js.map"
+               :compiler {:output-to     "target/cljsbuild/public/js/app.js"
+                          :output-dir    "target/cljsbuild/public/js/out"
+                          :source-map    true
                           :externs       ["react/externs/react.js"]
                           :optimizations :none
                           :pretty-print  true}}}}
@@ -127,7 +128,7 @@ If we put the above code in a file called `externs.js` under the `resources` dir
 {:id "release"
  :source-paths ["src-cljs"]
  :compiler
- {:output-to "resources/public/js/app.js"
+ {:output-to "target/cljsbuild/public/js/app.js"
   :optimizations :advanced
   :pretty-print false
   :output-wrapper false
