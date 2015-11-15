@@ -65,6 +65,11 @@ to those already included with Luminus.
 * [clojure.java.jdbc](https://github.com/clojure/java.jdbc) - a low level wrapper for Java JDBC
 * [blackwater](https://github.com/bitemyapp/blackwater) - a library for logging SQL queries and the time they took for Korma and clojure.java.jdbc
 
+## Dependency Injection
+
+* [mount](https://github.com/tolitius/mount)
+* [yoyo](https://github.com/jarohen/yoyo)
+
 ## Email
 
 * [Mailer](https://github.com/clojurewerkz/mailer) - an ActionMailer-inspired mailer library
