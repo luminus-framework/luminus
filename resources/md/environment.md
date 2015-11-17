@@ -44,3 +44,43 @@ The variables are populated in the `environ.core/env` map and can be accessed as
   (env :database-url))
 ```
 
+## Environment Specific Code
+
+Some code, such as development middleware for showing stacktraces in the browser, is dependent on the mode the application
+runs in. For example, we'd only want to run the above middleware during development and not show stacktraces to the client
+in production.
+
+Luminus uses `env/env/clj` and `env/prod/clj` source paths for this purpose. By default the source path will contain the
+`<app>.config` namespace that has the environment specific configuration. The `dev` config looks as follows:
+
+```clojure
+(ns myapp.config
+  (:require [selmer.parser :as parser]
+            [taoensso.timbre :as timbre]
+            [<app>.dev-middleware :refer [wrap-dev]]))
+
+(def defaults
+  {:init
+   (fn []
+     (parser/cache-off!)
+     (timbre/info "\n-=[myapp started successfully using the development profile]=-"))
+   :middleware wrap-dev})
+```
+
+The config references the `<app>.dev-middleware` namespace found in the same source path. Any development specific middleware
+should be placed there.
+
+Meanwhile, the `prod` config will not 
+ 
+```clojure
+(ns myapp.config
+  (:require [taoensso.timbre :as timbre]))
+ 
+(def defaults
+  {:init
+   (fn []
+     (timbre/info "\n-=[myapp started successfully]=-"))
+   :middleware identity})
+```
+
+Only the middleware defined in the `<app>.middleware` namespace is run during production.

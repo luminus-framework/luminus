@@ -48,7 +48,6 @@ guestbook
 |____project.clj
 |____profiles.clj
 |____README.md
-|
 |____src
 | |____guestbook
 |   |____core.clj
@@ -60,7 +59,16 @@ guestbook
 |   |____db
 |     |____core.clj
 |     |____migrations.clj
-|
+|____env
+| |____dev
+| | |____clj
+| |   |____guestbook
+| |     |____config.clj
+| |     |____dev_middleware.clj.clj
+| |____prod
+|   |____clj
+|     |____guestbook
+|       |____config.clj
 |____test
 | |____guestbook
 |   |____test
@@ -118,6 +126,14 @@ The `db` namespace is used to define the model for the application and handle th
 The `routes` namespace is where the routes and controllers for our home and about pages are located. When you add more routes, such as authentication, or specific workflows you should create namespaces for them here.
 
 * `home.clj` - a namespace that defines the home and about pages of the application
+
+### The Env Directory
+
+This source folder contains environment dependent code. The `dev` configuration will be used during development,
+while the `prod` configuration will be used when the application is compiled for production.
+
+* `config.clj` - contains the development configuration defaults
+* `dev_middleware.clj` - contains middleware used for development that should not be compiled in production
 
 ### The Test Directory
 

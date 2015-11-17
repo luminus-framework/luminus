@@ -5,9 +5,9 @@ The logger is initialized in the `handler/init` function to create a rotating lo
 
 ```clojure
 (timbre/merge-config!
-  {:level     (if (env :dev) :trace :info)
+  {:level     ((fnil keyword :info) (env :log-level))
    :appenders {:rotor (rotor/rotor-appender
-                        {:path "guestbook.log"
+                        {:path (or (env :log-path) "myapp.log")
                          :max-size (* 512 1024)
                          :backlog 10})}})
 ```
