@@ -12,6 +12,7 @@
  ["sessions_cookies.md" "Sessions and Cookies"]
  ["input_validation.md" "Input Validation"]
  ["security.md"         "Security"]
+ ["components.md"       "Component Lifecycle"]
  ["database.md"         "Database Access"]
  ["migrations.md"       "Database Migrations"]
  ["logging.md"          "Logging"]

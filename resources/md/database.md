@@ -51,36 +51,47 @@ By default the connection is set to a dynamic variable containing an atom. The c
 `conman/connect!` function with the connection atom and a database specification map. The `connect!` function will create a pooled JDBC
 connection using the [HikariCP](https://github.com/brettwooldridge/HikariCP) library. The connection can be terminated by calling the `disconnect!`
 function.
- 
 
 ```clojure
 (ns myapp.db.core
   (:require
     ...
     [environ.core :refer [env]]
-    [conman.core :as conman]))
+    [conman.core :as conman]
+    [mount.core :refer [defstate]]))
             
-(defonce ^:dynamic conn (atom nil))
-
 (def pool-spec
   {:adapter    :postgresql
    :init-size  1
    :min-idle   1
    :max-idle   4
-   :max-active 32})
+   :max-active 32}) 
 
 (defn connect! []
-  (conman/connect!
-   conn
-   (assoc
-     pool-spec
-     :jdbc-url (to-jdbc-uri (env :database-url)))))
+  (let [conn (atom nil)]
+    (conman/connect!
+      conn
+      (assoc
+        pool-spec
+        :jdbc-url (env :database-url)))
+    conn))
 
-(defn disconnect! []
+(defn disconnect! [conn]
   (conman/disconnect! conn))
+
+(defstate ^:dynamic *db*
+          :start (connect!)
+          :stop (disconnect! *db*))
 ```
 
-The `connect!` and `disconnect!` functions are invoked in the `<app>.handler/init` and `<app>.handler/destroy` functions respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.
+The connection is specified using the `defstate` macro. The `connect!` function is called when the `*db*` component
+enters the `:start` state and the `disconnect!` function is called when it enters the `:stop` state.
+
+The lifecycle of the `*db*` component is managed by the [mount](https://github.com/tolitius/mount) library as discussed in
+the [Managing Component Lifecycle](/docs/components.md) section.
+  
+The `<app>.handler/init` and `<app>.handler/destroy` functions will initialize and tear down any components defined using `defstate` by calling `(mount/start)`
+and `(mount/stop)` respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.
 
 When working with multiple databases, a separate atom is required to track each database connection.
 
@@ -180,16 +191,25 @@ We'll have to add a reference to `korma.db` in order to start using Korma.
 
 ```clojure
 (ns myapp.db.core
-  (:use korma.core
-        [korma.db :only (defdb)]))
+  (:require
+        [korma.core :refer :all]
+        [korma.db :refer [create-db default-connection]]))
 ```
 
 
-Korma requires us to wrap the `db-spec` using `defdb` as follows:
+Korma requires us to create the connection using `create-db` and the default connection can then be set by
+calling the `default-connection` function.
 
 ```clojure
-(defdb db db-spec)
+(connect! [] (create-db db-spec))
+
+(defstate ^:dynamic *db*
+          :start (connect!))
+
+(default-connection *db*)
 ```
+
+
 
 This will create a connection pool for your db spec using the [c3p0](http://sourceforge.net/projects/c3p0/) library.
 Note that the last created pool is set as the default for all queries.
