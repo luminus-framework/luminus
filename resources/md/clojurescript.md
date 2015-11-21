@@ -12,7 +12,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 The easiest way to add ClojureScript support is by using the `+cljs` flag when making a new project. However, it's quite easy to add it to an existing project as well. First, add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and `:cljsbuild` key to the project as seen below:
 
 ```clojure
-:plugins [... [lein-cljsbuild "1.0.4"]]
+:plugins [... [lein-cljsbuild "1.1.1"]]
 
 :resource-paths ["resources" "target/cljsbuild"]
 :cljsbuild
@@ -22,6 +22,8 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
                           :source-map    true
                           :externs       ["react/externs/react.js"]
                           :optimizations :none
+                          :main "<app>.core"
+                          :asset-path "/js/out"
                           :pretty-print  true}}}}
 ```
 
@@ -122,6 +124,9 @@ var AlbumColors = {};
 AlbumColors.getColors = function() {};
 ```
 
+Note that in most cases it's possible to simply use the JavaScript library as its own externs file without the need to
+manually write out each function used.
+
 If we put the above code in a file called `externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows:
 
 ```clojure
@@ -134,7 +139,8 @@ If we put the above code in a file called `externs.js` under the `resources` dir
   :output-wrapper false
   ;;specify the externs file to protect function names
   :externs ["resources/externs.js"]
-  :closure-warnings {:non-standard-jsdoc :off}}}
+  :closure-warnings {:externs-validation :off
+                     :non-standard-jsdoc :off}}}
 ```
 
 A useful site for extracting externs can be found [here](http://www.dotnetwise.com/Code/Externs/).
