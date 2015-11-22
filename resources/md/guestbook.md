@@ -7,6 +7,13 @@ project architecture.
 
 If you don't have a preferred Clojure editor already, then it's recommended that you use [Light Table](http://www.lighttable.com/) to follow along with this tutorial.
 
+### Installing JDK
+
+Clojure runs on the JVM and requires a copy of JDK to be installed. IF you don't
+have JDK already on your system then OpenJDK is recommended and can be downloaded
+[here](http://www.azul.com/downloads/zulu/). Note that Luminus requires JDK 8 to
+work with the default settings.
+
 ### Installing Leiningen
 
 You need to have [Leiningen](http://leiningen.org/) installed in
