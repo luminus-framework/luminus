@@ -57,7 +57,7 @@ namespace:
   (:require [mount.core :refer [defstate]]
             [app.config :refer [app-config]]))
 
-(defn connect! [] ...)
+(defn connect! [config] ...)
 
 (defn disconnect! [conn] ...)
 
