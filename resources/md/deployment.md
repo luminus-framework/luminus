@@ -58,24 +58,19 @@ at root context, simply copy it to `webapp` as `ROOT.war`.
 
 Virtual Private Servers (VPS) such as [DigitalOcean](https://www.digitalocean.com/) provide a cheap hosting option for Clojure applications. 
 
-Follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-create-your-first-digitalocean-droplet-virtual-server) in order to setup your DigitalOcean server. Once the server is created you can install Ubuntu [as described here](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-12-04). Finally, install Java on your Ubuntu instance by following [these instructions](https://help.ubuntu.com/community/Java).
+Follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-create-your-first-digitalocean-droplet-virtual-server) in order to setup your DigitalOcean server. Once the server is created you can install Ubuntu [as described here](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-12-04). Finally, install Java on your Ubuntu instance by following [these instructions](https://help.ubuntu.com/community/Java). The instructions below apply for Ubuntu 15.04 and newer.
 
-Create a `deploy` user for running the Nginx server:
+The most common approach is to run the `uberjar` and front it using [Nginx](http://wiki.nginx.org/Main).
 
-```
-adduser deploy
-passwd -l deploy
-visudo
-```
+### Application deployment
 
-add the `sudo` priviliges for the user:
+In this step, we will deploy your application to the server, and make sure that it is started automatically on boot. We use `systemd` for this.
+Create a `deploy` user that will run your application:
 
 ```
-deploy  ALL=NOPASSWD: /etc/init.d/nginx
+sudo adduser -m deploy
+sudo passwd -l deploy
 ```
-
-You're now ready to deploy your application to the server. The most common approach is to run the `uberjar` and front it using [Nginx](http://wiki.nginx.org/Main).
-
 
 Create a directory for your application on the server such as `/var/myapp` then upload your application to the server using `scp`:
 
@@ -89,58 +84,18 @@ You should now test that you're able to run the application. Connect to the serv
 java -jar /var/myapp/myapp.jar
 ```
 
-If everything went well then your application should now be accessible on the server at `http://<domain>:3000`. If your application is not accessible make sure that the firewall is configured to allow access to the port.
+If everything went well, your application now runs locally. The following command will confirm that the applications runs as expected:
+```
+curl http://127.0.0.1:3000/
+```
+Your application should also now be accessible on the server at `http://<domain>:3000`. If your application is not accessible make sure that the firewall is configured to allow access to the port. Depending on your VPS provider, you may need to create an access point for the port 3000.
+* [Creating access point on Azure](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-set-up-endpoints/)
+* [Creating access point on Amazon EC2](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html#adding-security-group-rule)
 
-First, you'll need to create a user for deployment and run `visudo` to set the user `sudo` permissions:
+Now, let's stop the application instance and create a `systemd` configuration to manage its lifecycle, especially taking care that the application will be launched on server boot.
+Create the file `/lib/systemd/system/myapp.service` with the following content:
 
 ```
-adduser deploy
-visudo
-```
-
-then add the following line to the `sudo` config:
-
-```
-deploy  ALL=NOPASSWD: /etc/init.d/nginx
-```
-
-Now, let's stop the application instance and create a an `upstart` configuration to manage its lifecycle. To do this you will need to create a file called `/etc/init/myapp.conf` and put the following settings there:
-
-```
-description "Run my app"
-
-setuid deploy
-setgid deploy
-
-start on runlevel startup
-stop on runlevel shutdown
-
-respawn
-
-chdir /var/myapp
-
-script
-        exec java -jar /var/myapp/myapp.jar
-end script        
-```
-
-You should now be able to start the application by running:
-
-```
-$ start myapp
-```
-
-Test that the application starts up correctly by navigating to its URL `http://<domain>:3000`. You're now ready to setup Nginx to front the application on port `80`.
-
-### systemd deployment
-
-Below is a sample systemd service file. The file is saved as `/lib/systemd/system/myapp.service`. The environment variables can be placed in the file itself, or in an external environment file as seen below:
-
-```
-systemctl daemon-reload
-systemctl enable myapp.service
-systemctl start myapp.service
-
 [Unit]
 Description=My Application
 After=network.target
@@ -154,6 +109,21 @@ User=deploy
 
 [Install]
 WantedBy=multi-user.target
+```
+
+Tell `systemd` to start the application everytimes the system reboots with the following commands:
+```
+sudo systemctl daemon-reload
+sudo systemctl enable myapp.service
+```
+
+When the system reboots your application will now start and will be ready to process requests. You may want to test that. Simply reboot your machine, and check the running processes:
+```
+ ps -ef | grep java
+```
+This should return something like this. Pay attention to the `UID`, it should be `deploy`, leaving it to `root` would present a significant security risk.
+```
+deploy     730     1  1 06:45 ?        00:00:42 /usr/bin/java -jar /var/mysite/mysite.jar
 ```
 
 ### Fronting with Nginx
