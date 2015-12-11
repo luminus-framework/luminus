@@ -286,7 +286,7 @@ heroku create
 
 optionally, create a database for the application
 ```
-heroku addons:add heroku-postgresql
+heroku addons:create heroku-postgresql
 ```
 
 The connection settings can be found at your
