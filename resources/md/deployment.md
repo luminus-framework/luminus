@@ -301,6 +301,12 @@ git push heroku master
 
 Your application should now be deployed to Heroku!
 
+To initialize or update your database:
+
+```
+heroku run lein run migrate
+```
+
 For further instructions see the [official documentation](https://devcenter.heroku.com/articles/clojure).
 
 ## Enabling nREPL
