@@ -3,9 +3,10 @@
             [clj-http.client :as client]
             [crouton.html :as html]
             [hiccup.core :as hiccup]
+            [clojure.set :as set]
             [clojure.java.io :refer [resource]]))
 
-(def docs (atom {}))
+(def docs (agent {}))
 
 (defn format-time
   "formats the time using SimpleDateFormat, the default format is
@@ -67,10 +68,14 @@
 
 (defn refresh-docs! []
   (when-let [pages (try (fetch-doc-pages) (catch Exception _))]
-    (reset! docs {:topics pages :docs-by-topic (into {} pages)})
-    (doseq [id (map first pages)]
-      (when-let [doc (try (fetch-doc id) (catch Exception _))]
-        (swap! docs assoc id {:toc (generate-toc doc) :content doc}))
-      (Thread/sleep 1000))))
+    (let [ids (map first pages)]
+      (send docs (fn [m]
+                   (merge
+                     (apply dissoc m (set/difference (set (keys m)) (set ids)))
+                     {:topics pages :docs-by-topic (into {} pages)})))
+      (doseq [id ids]
+        (when-let [doc (try (fetch-doc id) (catch Exception _))]
+          (send docs assoc id {:toc (generate-toc doc) :content doc}))
+        (Thread/sleep 1000)))))
 
 
