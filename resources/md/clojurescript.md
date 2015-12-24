@@ -80,12 +80,7 @@ This will start Figwheel and connect a browser REPL. Any changes you make in Clo
 
 ### ClojureScript with nREPL
 
-To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port 7002` key in your `:figwheel` config in `project.clj`. When Figwheel starts, it will open nREPL on the specified port. Once you connect to the nREPL then run the following commands to open the ClojureScript REPL:
-
-```
-user> (use 'figwheel-sidecar.repl-api)
-user> (cljs-repl)
-```
+To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port 7002` key in your `:figwheel` config in `project.clj`. When Figwheel starts, it will open nREPL on the specified port. Please follow the [official instructions](https://github.com/bhauman/lein-figwheel/wiki) to connect your editor to the REPL.
 
 ### Advanced Compilation and Exports
 
