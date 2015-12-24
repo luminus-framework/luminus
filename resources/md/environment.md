@@ -8,8 +8,7 @@ Luminus projects use the following environment variables by default:
 * `NREPL_PORT` - when set the application will run the nREPL server on the specified port, defaults to 7000 for development
 * `DATABASE_URL` - the URL for the database connection
 * `APP_CONTEXT` - used to specify an optional context for the routes in the application
-* `LOG_PATH` - the path to the application log file, defaults to `<app-name>.log`
-* `LOG_LEVEL` - level for logging, defaults to `trace` in dev mode and to `info` in production
+* `LOG-CONFIG` - used to specify an external logging configuration, `log4j.properties` in the resources folder are used by default
 
 The environment variables are managed by the [Environ](https://github.com/weavejester/environ) library. The library
 supports using shell variables as well as Java system properties.
@@ -33,6 +32,7 @@ characters are converted to `-` characters. The following keywords correspond to
 * `:nrepl-port`
 * `:database-url`
 * `:app-context`
+* `:log-config`
 
 The variables are populated in the `environ.core/env` map and can be accessed as seen in the example below:
 
@@ -54,17 +54,17 @@ Luminus uses `env/env/clj` and `env/prod/clj` source paths for this purpose. By 
 `<app>.config` namespace that has the environment specific configuration. The `dev` config looks as follows:
 
 ```clojure
-(ns myapp.config
+(ns <project-ns>.config
   (:require [selmer.parser :as parser]
-            [taoensso.timbre :as timbre]
-            [<app>.dev-middleware :refer [wrap-dev]]))
+            [clojure.tools.logging :as log]
+            [<project-ns>.dev-middleware :refer [wrap-dev]]))
 
 (def defaults
   {:init
    (fn []
      (parser/cache-off!)
-     (timbre/info "\n-=[myapp started successfully using the development profile]=-"))
-   :middleware wrap-dev})
+     (log/info "\n-=[app started successfully using the development profile]=-"))
+   :middleware wrap-dev}
 ```
 
 The config references the `<app>.dev-middleware` namespace found in the same source path. Any development specific middleware
@@ -73,13 +73,13 @@ should be placed there.
 Meanwhile, the `prod` config will not 
  
 ```clojure
-(ns myapp.config
-  (:require [taoensso.timbre :as timbre]))
- 
+(ns <project-ns>.config
+  (:require [clojure.tools.logging :as log]))
+
 (def defaults
   {:init
    (fn []
-     (timbre/info "\n-=[myapp started successfully]=-"))
+     (log/info "\n-=[app started successfully]=-"))
    :middleware identity})
 ```
 

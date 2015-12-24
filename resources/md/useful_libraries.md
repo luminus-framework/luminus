@@ -2,7 +2,6 @@ Luminus aims to provide solid defaults for creating your web application. As suc
 libraries by default. These libraries include 
 [Buddy](https://github.com/funcool/buddy) for security, [Bouncer](https://github.com/leonardoborges/bouncer) for validation,
 [Selmer](https://github.com/yogthos/Selmer) for HTML templating,
-[Timbre](https://github.com/ptaoussanis/timbre) for logging,
 [Tower](https://github.com/ptaoussanis/tower) for internationalization and a few others.
 Of course, there are many other Clojure libraires for web development. Here we are going 
 to provide a list of Clojure and ClojureScript libraries which can be useful in addition 
@@ -100,6 +99,7 @@ to those already included with Luminus.
 * [Urly](https://github.com/michaelklishin/urly) - a library that unifies parsing of URIs, URLs and URL-like values like relative href values
 * [Validateur](http://clojurevalidations.info/articles/getting_started.html) - a validation library inspired by Ruby's ActiveModel
 * [aging-session](https://github.com/diligenceengine/aging-session) - a memory based ring session store that has a concept of time
+* [Timbre](https://github.com/ptaoussanis/timbre) - a Clojure/Script logging and profiling library
 * [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
 * [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
 * [cronj](http://docs.caudate.me/cronj/) - a library for scheduling tasks 

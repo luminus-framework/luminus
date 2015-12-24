@@ -31,7 +31,7 @@ Let's create a new namespace called `multi-client-ws.routes.websockets` and add 
 ```
 (ns multi-client-ws.routes.websockets
   (:require [compojure.core :refer [GET defroutes wrap-routes]]
-            [taoensso.timbre :as timbre]
+            [clojure.tools.logging :as log]
             [immutant.web.async       :as async]))
 ```
 
@@ -64,7 +64,7 @@ set of open channels.
 (defonce channels (atom #{}))
 
 (defn connect! [channel]
-  (timbre/info "channel open")
+  (log/info "channel open")
   (swap! channels conj channel))
 ```
 
@@ -76,7 +76,7 @@ of open channels.
 
 ```clojure
 (defn disconnect! [channel {:keys [code reason]}]
-  (timbre/info "close code:" code "reason:" reason)
+  (log/info "close code:" code "reason:" reason)
   (swap! channels #(remove #{channel} %)))
 ```
 
@@ -101,7 +101,7 @@ Let's create a new namespace called `multi-client-ws.routes.websockets` and add 
            [org.httpkit.server
             :refer [send! with-channel on-close on-receive]]
            [cognitect.transit :as t]
-           [taoensso.timbre :as timbre]))
+           [clojure.tools.logging :as log]))
 ```
 
 Next, we'll create a Compojure route for our websocket handler:
@@ -129,7 +129,7 @@ The statement following the channel name will be called once when the channel is
 (defonce channels (atom #{}))
 
 (defn connect! [channel]
- (timbre/info "channel open")
+ (log/info "channel open")
  (swap! channels conj channel))
 ```
 
@@ -139,7 +139,7 @@ When the client disconnects the `on-close` function will be called. This functio
 
 ```clojure
 (defn disconnect! [channel status]
- (timbre/info "channel closed:" status)
+ (log/info "channel closed:" status)
  (swap! channels #(remove #{channel} %)))
 ```
 

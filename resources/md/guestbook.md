@@ -178,15 +178,16 @@ The project file of the application we've created is found in its root folder an
   :url "http://example.com/FIXME"
 
 :dependencies [[org.clojure/clojure "1.7.0"]
-               [selmer "0.8.7"]
-               [com.taoensso/timbre "4.0.2"]
+               [selmer "0.9.6"]
+               [org.clojure/tools.logging "0.3.1"]
+               [org.slf4j/slf4j-log4j12 "1.7.13"]
+               [org.apache.logging.log4j/log4j-core "2.5"]
                [com.taoensso/tower "3.0.2"]
-               [markdown-clj "0.9.67"]
-               [environ "1.0.0"]
+               [markdown-clj "0.9.84"]
+               [environ "1.0.1"]
                [compojure "1.4.0"]
                [ring-webjars "0.1.1"]
-               [ring/ring-defaults "0.1.5"]
-               [ring-ttl-session "0.1.1"]
+               [ring/ring-defaults "0.1.5"]               
                [ring "1.4.0"
                 :exclusions [ring/ring-jetty-adapter]]
                [metosin/ring-middleware-format "0.6.0"]
@@ -197,10 +198,10 @@ The project file of the application we've created is found in its root folder an
                [org.webjars/bootstrap "3.3.5"]
                [org.webjars/jquery "2.1.4"]
                [migratus "0.8.2"]
-               [conman "0.1.1"]
-               [to-jdbc-uri "0.2.0"]
+               [conman "0.2.7"]               
                [com.h2database/h2 "1.4.187"]
-               [org.immutant/web "2.0.2"]]
+               [org.immutant/web "2.1.1"
+                :exclusions ['ch.qos.logback/logback-classic]]]
 
   :min-lein-version "2.0.0"
   :uberjar-name "guestbook.jar"
@@ -300,7 +301,7 @@ Here, we can see that we already have the definition for our database connection
   (:require
     [clojure.java.jdbc :as jdbc]
     [yesql.core :refer [defqueries]]
-    [taoensso.timbre :as timbre]
+    [clojure.tools.logging :as log]
     [environ.core :refer [env]])
   (:import java.sql.BatchUpdateException))
 
