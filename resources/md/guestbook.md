@@ -82,6 +82,7 @@ guestbook
 |     |____handler.clj
 |
 |____resources
+  _____log4j.properties
   |____templates
   | |____about.html
   | |____base.html
