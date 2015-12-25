@@ -322,7 +322,7 @@ We can now wrap the route groups we wish to be private using the `wrap-restricte
   (-> (routes
         (-> home-routes
             (wrap-routes middleware/wrap-csrf)
-            (wrap-routes middleware/wrap-restricted)
+            (wrap-routes middleware/wrap-restricted))
         base-routes)
       middleware/wrap-base))
 ```
