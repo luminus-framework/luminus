@@ -244,7 +244,6 @@ server {
 
     ssl on;
     ssl_prefer_server_ciphers  on;
-    ssl_session_cache          shared:SSL:4m;
     ssl_session_timeout        180m;
     ssl_session_cache  builtin:1000  shared:SSL:10m;
     ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
