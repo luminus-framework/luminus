@@ -211,7 +211,7 @@ Generate the certificate using the following command:
 ./letsencrypt-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
 ```
 
-To setup a CRON job to automatically update the certificate, update the `root` crontab by running:
+To setup a Cron job to automatically update the certificate, update the `root` crontab by running:
 
 ```
 crontab -e
