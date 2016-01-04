@@ -199,27 +199,24 @@ If your site has any user authentication then you will also want to use HTTPS. Y
 
 #### Setting up SSL Certificate using Let's Encrypt
 
-Download the installation tool:
+Download the installation tool and generate the certificate using the following commands:
 
 ```
 git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt
+/letsencrypt-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
 ```
 
-Generate the certificate using the following command:
+Optionally, setup a Cron job to automatically update the certificate by updating crontab by running as `root`:
 
 ```
-./letsencrypt-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
-```
-
-To setup a Cron job to automatically update the certificate, update the `root` crontab by running as `root`:
-
-```
+su
 crontab -e
 ```
 Add the following line:
 
 ```
-0 0 1,15 * * ./letsencrypt-auto certonly --keep-until-expiring --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
+0 0 1,15 * * /path-to-letsencrypt/letsencrypt-auto certonly --keep-until-expiring --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
 ```
 
 
@@ -242,8 +239,8 @@ server {
     listen 443;
     server_name localhost mydomain.com www.mydomain.com;
 
-    ssl_certificate           /etc/letsencrypt/live/yogthos.net/fullchain.pem;
-    ssl_certificate_key       /etc/letsencrypt/live/yogthos.net/privkey.pem;
+    ssl_certificate           /etc/letsencrypt/live/<yoursite.com>/fullchain.pem;
+    ssl_certificate_key       /etc/letsencrypt/live/<yoursite.com>/privkey.pem;
 
     ssl on;
     ssl_prefer_server_ciphers  on;
