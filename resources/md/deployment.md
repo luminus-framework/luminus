@@ -193,13 +193,36 @@ gzip_http_version 1.1;
 gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;">
 ```
 
+### Setting up SSL
+
 If your site has any user authentication then you will also want to use HTTPS. You will first need to provide a SSL certificate and its key. We'll call these `cert.crt` and `cert.key` respectively.
 
-You can create a self signed certificate as follows:
+#### Setting up SSL Certificate using Let's Encrypt
+
+Download the installation tool:
 
 ```
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/cert.key -out /etc/nginx/cert.crt
+git clone https://github.com/letsencrypt/letsencrypt
 ```
+
+Generate the certificate using the following command:
+
+```
+./letsencrypt-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
+```
+
+To setup a CRON job to automatically update the certificate, update the `root` crontab by running:
+
+```
+crontab -e
+```
+Add the following line:
+
+```
+0 0 1,15 * * ./letsencrypt-auto certonly --keep-until-expiring --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
+```
+
+
 We'll generate a stronger DHE parameter instead of using OpenSSL's defaults, which include a 1024-bit key for the key-exchange:
 
 ```
@@ -219,8 +242,8 @@ server {
     listen 443;
     server_name localhost mydomain.com www.mydomain.com;
 
-    ssl_certificate           /etc/nginx/cert.crt;
-    ssl_certificate_key       /etc/nginx/cert.key;
+    ssl_certificate           /etc/letsencrypt/live/yogthos.net/fullchain.pem;
+    ssl_certificate_key       /etc/letsencrypt/live/yogthos.net/privkey.pem;
 
     ssl on;
     ssl_prefer_server_ciphers on;
@@ -259,6 +282,8 @@ $ sudo ufw allow http
 $ sudo ufw allow https
 $ sudo ufw enable
 ```
+
+You can test the SSL configuration using the [SSL Server Test](https://www.ssllabs.com/ssltest/).
 
 ## Heroku Deployment
 
