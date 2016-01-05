@@ -111,7 +111,16 @@ User=deploy
 WantedBy=multi-user.target
 ```
 
-Tell `systemd` to start the application everytimes the system reboots with the following commands:
+Note that by default JVM is fairly aggressive about memory usage. If you're like to reduce the amount of memory used then you can add the following line under the `[Service]` configuration:
+
+```
+[Service]
+...
+_JAVA_OPTIONS="-Xmx256m"
+ExecStart=/usr/bin/java -jar /var/myapp/myapp.jar
+```
+
+This will limit the maximum amount of memory that the JVM is allowed to use.  Now we can tell `systemd` to start the application everytimes the system reboots with the following commands:
 ```
 sudo systemctl daemon-reload
 sudo systemctl enable myapp.service
