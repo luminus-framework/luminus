@@ -57,9 +57,9 @@ Handlers may utilize query parameters:
 ```clojure
 (GET "/posts" []
   (fn [req]
-    (let [title (get (:params req) "title")
-          author (get (:params req) "author")]
-      " Do something with title and author")))
+    (let [title (get-in req [:params :title])
+          author (get-in req [:params :author])]
+      "Do something with title and author")))
 ```
 
 Or, for POST and PUT requests, form parameters:
@@ -67,8 +67,8 @@ Or, for POST and PUT requests, form parameters:
 ```clojure
 (POST "/posts" []
   (fn [req]
-    (let [title (get (:params req) "title")
-          author (get (:params req) "author")]
+    (let [title (get-in req [:params :title])
+          author (get-in req [:params :author])]
       "Do something with title and author")))
 ```
 
@@ -389,6 +389,3 @@ Buddy session based authentication is triggered by setting the `:identity` key i
         (content-type "text/html")
         (assoc :session (assoc session :identity "foo")))))
 ```
-
-
-
