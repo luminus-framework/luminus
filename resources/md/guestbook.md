@@ -113,7 +113,7 @@ Let's take a look at what the files in the root folder of the application do:
 ### The Source Directory
 
 All our code lives under the `src` folder. Since our application is called guestbook, this
-is the root namespace for project. Let's take a look at all the namespaces that have been created for us.
+is the root namespace for the project. Let's take a look at all the namespaces that have been created for us.
 
 #### guestbook
 
@@ -307,11 +307,8 @@ Here, we can see that we already have the definition for our database connection
 ```clojure
 (ns guestbook.db.core
   (:require
-    [clojure.java.jdbc :as jdbc]
     [yesql.core :refer [defqueries]]
-    [clojure.tools.logging :as log]
-    [environ.core :refer [env]])
-  (:import java.sql.BatchUpdateException))
+    [environ.core :refer [env]]))
 
 (def conn
   {:classname   "org.h2.Driver"
