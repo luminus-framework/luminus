@@ -276,6 +276,11 @@ We can now create the `home-page` component that looks as follows:
 
 We'll also create an `update-messages!` function that will be used as the handler for the received messages. This function will append the new message and keep a buffer of 10 last received messages.
 
+```clojure
+(defn update-messages! [{:keys [message]}]
+  (swap! messages #(vec (take 10 (conj % message)))))
+```
+
 All that's left to do is mount the `home-page` component and create the websocket in the `init!` function:
 
 ```clojure
