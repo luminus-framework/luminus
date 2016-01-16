@@ -69,13 +69,17 @@ guestbook
 |____env
 | |____dev
 | | |____clj
-| |   |____guestbook
-| |     |____config.clj
-| |     |____dev_middleware.clj.clj
+| | |  |____guestbook
+| | |   |____config.clj
+| | |   |____dev_middleware.clj.clj
+| | |___resources
+| |      |___log4j.properties
 | |____prod
 |   |____clj
-|     |____guestbook
-|       |____config.clj
+|   | |____guestbook
+|   |   |____config.clj
+|   |___resources
+|        |___log4j.properties
 |____test
 | |____guestbook
 |   |____test
