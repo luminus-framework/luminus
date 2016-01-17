@@ -426,7 +426,7 @@ We would now need to pass the CSRF token along with the request. One way to do t
 To do that we'll first need to set the token as a hidden field on the page:
 
 ```xml
-<input id="token" type="hidden" value="{{csrf-token}}"></input>
+<input id="csrf-token" type="hidden" value="{{csrf-token}}"></input>
 ```
 
 Then we'll have to set the header in the request:
@@ -434,7 +434,7 @@ Then we'll have to set the header in the request:
 ```clojure
 (POST "/send-message"
         {:headers {"Accept" "application/transit+json"
-                   "x-csrf-token" (.-value (.getElementById js/document "token"))}
+                   "x-csrf-token" (.-value (.getElementById js/document "csrf-token"))}
          :params {:message "Hello World"
                   :user    "Bob"}
          :handler handler
