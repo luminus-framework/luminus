@@ -1,3 +1,33 @@
+
+Luminus encourages using the [Clean Architecture](https://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html) style for writing web applications.
+
+The workflows in web applications are typically driven by the client requests. Since requests will often require interaction with a resource, such as a database, we will generally have to access that resource from the route handling the request. In order to isolate the stateful code, we should have our top level functions deal with managing the side effects.
+
+Consider a route that facilitates user authentication. The client will supply the username and the password in the request. The route will have to pull the user credentials from the database and compare these to the ones supplied by the client. Then a decision is made whether the user logged in successfully or not, and its outcome communicated back to the client.
+
+In this workflow, the code that deals with the external resources should be localized to the namespace that provides the route and the namespace that handles the database access.
+
+The route handler function will be responsible for calling the function that fetches the credentials from the database. The code that determines whether the password and username match represents the core business logic. This code should be pure and accept the supplied credentials along with those found in the database explicitly. This structure can be seen in the diagram below.
+
+```
+            pure code
++----------+
+| business |
+|  logic   |
+|          |
++-----+----+
+      |
+------|---------------------
+      |     stateful code
++-----+----+   +-----------+
+|  route   |   |           |
+| handlers +---+  database |
+|          |   |           |
++----------+   +-----------+
+```
+
+Keeping the business logic pure ensures that we can reason about it and test it without considering the external resources. Meanwhile, the code that deals with side effects is pushed to a thin outer layer, making it easy for us to manage.
+
 ## Managing Component Lifecycle
 
 The management of stateful components, such as database connections, is handled by the [mount](https://github.com/tolitius/mount) library.
