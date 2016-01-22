@@ -17,6 +17,12 @@ The library supports using EDN configuration, shell variables, and Java system p
 
 The library will look for the `config.edn` file on the classpath. The contents of this file will be merged with the environment variables found in `System/getenv` and `System/getProperties`.
 
+The configuration placed in `config.edn` should consist of a map:
+
+```clojure
+{:port 4000}}
+``` 
+
 The configuration is resolved in the following order:
 
 1. `config.edn` on the classpath
