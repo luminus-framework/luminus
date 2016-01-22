@@ -195,7 +195,7 @@ The project file of the application we've created is found in its root folder an
                [org.apache.logging.log4j/log4j-core "2.5"]
                [com.taoensso/tower "3.0.2"]
                [markdown-clj "0.9.84"]
-               [environ "1.0.1"]
+               [luminus/config "0.3"]
                [compojure "1.4.0"]
                [ring-webjars "0.1.1"]
                [ring/ring-defaults "0.1.5"]               
@@ -221,7 +221,7 @@ The project file of the application we've created is found in its root folder an
   :main guestbook.core
   :migratus {:store :database}
 
-  :plugins [[lein-environ "1.0.0"]
+  :plugins [[lein-environ "1.0.1"]
             [lein-ancient "0.6.5"]
             [migratus-lein "0.1.5"]]
   :profiles

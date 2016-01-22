@@ -56,7 +56,7 @@ function.
 (ns myapp.db.core
   (:require
     ...
-    [environ.core :refer [env]]
+    [config.core :refer [env]]
     [conman.core :as conman]
     [mount.core :refer [defstate]]))
             

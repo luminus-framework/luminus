@@ -3,7 +3,6 @@
             [clj-http.client :as client]
             [crouton.html :as html]
             [hiccup.core :as hiccup]
-            [clojure.set :as set]
             [clojure.java.io :refer [resource]]))
 
 (def docs (agent {}))
@@ -13,7 +12,7 @@
    \"dd MMM, yyyy\" and a custom one can be passed in as the second argument"
   ([time] (format-time time "dd MMM, yyyy"))
   ([time fmt]
-    (.format (new java.text.SimpleDateFormat fmt) time)))
+   (.format (new java.text.SimpleDateFormat fmt) time)))
 
 (defn slurp-resource
   "reads a markdown file from resources/md and returns an HTML string"
@@ -52,9 +51,9 @@
 (defn make-links [headings]
   (when (not-empty headings)
     (hiccup/html
-      (into [:ol.contents]
-        (for [{[{{name :name} :attrs} title] :content} headings]
-          [:li [:a {:href (str "#" name)} title]])))))
+      [:ol.contents
+       (for [{[{{name :name} :attrs} title] :content} headings]
+         [:li [:a {:href (str "#" name)} title]])])))
 
 (defn generate-toc [content]
   (when content
@@ -68,14 +67,14 @@
 
 (defn refresh-docs! []
   (when-let [pages (try (fetch-doc-pages) (catch Exception _))]
-    (let [ids (map first pages)]
-      (send docs (fn [m]
-                   (merge
-                     (apply dissoc m (set/difference (set (keys m)) (set ids)))
-                     {:topics pages :docs-by-topic (into {} pages)})))
-      (doseq [id ids]
-        (when-let [doc (try (fetch-doc id) (catch Exception _))]
-          (send docs assoc id {:toc (generate-toc doc) :content doc}))
-        (Thread/sleep 1000)))))
+    (send docs
+          (fn [_]
+            (reduce
+              (fn [docs id]
+                (if-let [doc (try (Thread/sleep 1000) (fetch-doc id) (catch Exception _))]
+                  (assoc docs id {:toc (generate-toc doc) :content doc})
+                  docs))
+              {:topics pages :docs-by-topic (into {} pages)}
+              (map first pages))))))
 
 

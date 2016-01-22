@@ -25,7 +25,6 @@ to those already included with Luminus.
 
 ## Configuration
 
-* [edn-config](https://github.com/yogthos/edn-config) - a library for managing environment variables in Clojure using EDN configuration files
 * [lein-init-script](https://github.com/strongh/lein-init-script) - a plugin for *nix init script generation
 
 ## ClojureScript
