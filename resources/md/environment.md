@@ -48,7 +48,7 @@ A system property can be passed in as a command line argument to `java` using th
 java -Ddatabase_url="jdbc:postgresql://localhost/app?user=app_user&password=secret" -jar app.jar
 ```
 
-Environ takes care of converting the variable names into Clojure style keywords. The variables are lowercased and any `_` and `.`
+Luminus config takes care of converting the variable names into Clojure style keywords. The variables are lowercased and any `_` and `.`
 characters are converted to `-` characters. The following keywords correspond to the above environment variables:
 
 * `:port`
