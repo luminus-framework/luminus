@@ -57,11 +57,11 @@ characters are converted to `-` characters. The following keywords correspond to
 * `:app-context`
 * `:log-config`
 
-The variables are populated in the `environ.core/env` map and can be accessed as seen in the example below:
+The variables are populated in the `config.core/env` map and can be accessed as seen in the example below:
 
 ```clojure
 (ns <app>.db.core
-  (:require [environ.core :refer [env]]))
+  (:require [config.core :refer [env]]))
 
 (def database-url
   (env :database-url))
