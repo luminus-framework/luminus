@@ -10,8 +10,25 @@ Luminus projects use the following environment variables by default:
 * `APP_CONTEXT` - used to specify an optional context for the routes in the application
 * `LOG-CONFIG` - used to specify an external logging configuration, `log4j.properties` in the resources folder are used by default
 
-The environment variables are managed by the [Environ](https://github.com/weavejester/environ) library. The library
-supports using shell variables as well as Java system properties.
+## Managing Environment Variables
+
+The environment variables are managed by the [luminus/config](https://github.com/luminus-framework/config) library.
+The library supports using EDN configuration, shell variables, and Java system properties.
+
+The library will look for the `config.edn` file on the classpath. The contents of this file will be merged with the environment variables found in `System/getenv` and `System/getProperties`.
+
+The configuration is resolved in the following order:
+
+1. `config.edn` on the classpath
+2. `.lein-env` file in the project directory
+3. Environment variables
+4. Java system properties
+
+Existing variables will be overwritten by those found later. For example, if a key is declared in the `config.edn` file, its value will be overwritten by the key found in `.lein-env`, and so on.
+
+The `config.edn` file can be placed in `env/dev/resources` or `env/prod/resources` in order to be included only for a specific environment. Different versions can be specified for each environment as well.
+
+### Using Shell Variables
 
 A shell variable could be declared as follows:
 
