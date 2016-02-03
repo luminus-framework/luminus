@@ -131,7 +131,7 @@ is explicitly passed in. The parameters are passed in using a map with the keys 
 (create-user!
   {:id "user1"
    :first_name "Bob"
-   :last-name "Bobberton"
+   :last_name "Bobberton"
    :email "bob.bobberton@mail.com"
    :pass "verysecret"})
 ```
@@ -151,7 +151,7 @@ It can also be passed in an explicit connection, as would be the case for runnin
 (create-user!
   {:id "user1"
    :first_name "Bob"
-   :last-name "Bobberton"
+   :last_name "Bobberton"
    :email "bob.bobberton@mail.com"
    :pass "verysecret"}
    some-other-conn)
