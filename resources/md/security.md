@@ -106,15 +106,15 @@ The `attributes` vector can be used to filter the keys that are returned, an emp
 ### Cross Site Request Forgery Protection
 
 CSRF attack involves a third party performing an action on your site using the credentials of a logged-in user.
-This can commonly occur when your site contains malicious a link, a form button, or some JavaScript.
+This can commonly occur when your site contains a malicious link, a form button, or some JavaScript.
 
 [Ring-Anti-Forgery](https://github.com/ring-clojure/ring-anti-forgery) is used to protect against CSRF attacks. Anti-forgery protection is enabled by default.
 
 Once the CSRF middleware is enabled a randomly-generated string will be assigned to the *anti-forgery-token* var.
-Any POST requests coming to the server will have to contain a paremeter called `__anti-forgery-token` with
+Any POST requests coming to the server will have to contain a parameter called `__anti-forgery-token` with
 this token.
 
-The `<app>.layout` namepsace of your application creates a `csrf-field` tag that can be used to provide the token on the page:
+The `<app>.layout` namespace of your application creates a `csrf-field` tag that can be used to provide the token on the page:
 
 ```clojure
 (parser/add-tag! :csrf-field (fn [_ _] (anti-forgery-field)))
