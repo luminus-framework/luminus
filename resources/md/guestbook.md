@@ -310,17 +310,22 @@ Here, we can see that we already have the definition for our database connection
 ```clojure
 (ns guestbook.db.core
   (:require
-    [yesql.core :refer [defqueries]]
-    [environ.core :refer [env]]))
+    [conman.core :as conman]
+    [mount.core :refer [defstate]]
+    [config.core :refer [env]]))
 
-(def conn
-  {:classname   "org.h2.Driver"
-   :connection-uri (:database-url env)
-   :make-pool?     true
-   :naming         {:keys   clojure.string/lower-case
-                    :fields clojure.string/upper-case}})
+(def pool-spec
+  {:datasource
+   (doto (org.h2.jdbcx.JdbcDataSource.)
+     (.setURL (:database-url env))
+     (.setUser "")
+     (.setPassword ""))})
 
-(defqueries "sql/queries.sql" {:connection conn})
+(defstate ^:dynamic *db*
+          :start (conman/connect! pool-spec)
+          :stop (conman/disconnect! *db*))
+
+(conman/bind-connection *db* "sql/queries.sql")
 ```
 
 The database connection is read from the `:database-url` environment variable at runtime. This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
@@ -331,7 +336,7 @@ export DATABASE_URL="jdbc:h2:./guestbook.db"
 
 Since we're using the embedded H2 database, the data is stored in a file specified in the URL that's found in the path relative to where the project is run.
 
-The functions that map to database queries are generated when `defqueries` is called. As we can see it references the `sql/queries.sql` file. This location is found under the `resources` folder. Let's open up this file and take a look inside.
+The functions that map to database queries are generated when `bind-connection` is called. As we can see it references the `sql/queries.sql` file. This location is found under the `resources` folder. Let's open up this file and take a look inside.
 
 ```sql
 -- name: create-user!
