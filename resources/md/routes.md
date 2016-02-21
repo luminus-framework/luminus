@@ -310,7 +310,7 @@ We'll wrap the authentication middleware that will set the `:identity` key in th
 The session backend is the simplest one available, however Buddy provides a number of different authentications backends
 as described [here](https://funcool.github.io/buddy-auth/latest/#_authentication).
 
-The `authenticated?` helper is used to check the `:identity` key in the request and pass it to the handler when its present.
+The `authenticated?` helper is used to check the `:identity` key in the request and pass it to the handler when it's present.
 Otherwise, the `on-error` function will be called.
 
 This is the default authentication setup that will be produced using the `+auth` profile when creating a new project.
@@ -347,7 +347,7 @@ First, we'll reference several Buddy namespaces in the `<app>.middleware` namesp
             [buddy.auth :refer [authenticated?]]))
 ```
 
-Next, we'll create the access rules for our routes. The rules are defined using a vector where each rule represented using a map. A simple rule that checks whether the user has been authenticated can be seen below.
+Next, we'll create the access rules for our routes. The rules are defined using a vector where each rule is represented using a map. A simple rule that checks whether the user has been authenticated can be seen below.
 
 ```clojure
 (def rules

@@ -24,7 +24,7 @@ This section provides links to online resources, books, and development environm
 * [Clojure in Action](http://www.amazon.com/Clojure-Action-Amit-Rathore/dp/1935182595/)
 * [The Joy of Clojure: Thinking the Clojure Way](http://www.amazon.com/The-Joy-Clojure-Thinking-Way/dp/1935182641/ref=pd_bxgy_b_img_y)
 * [Practical Clojure](http://www.apress.com/9781430272311)
-* [Web Development with Clojure](http://pragprog.com/book/dswdcloj/web-development-with-clojure)
+* [Web Development with Clojure](https://pragprog.com/book/dswdcloj2/web-development-with-clojure-second-edition)
 * [Clojure Web Development Essentials](https://www.packtpub.com/application-development/clojure-web-development-essentials)
 
 

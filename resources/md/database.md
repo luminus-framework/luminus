@@ -44,7 +44,7 @@ Please refer to the [Database Migrations](/docs/migrations.md) section for more 
 ### Setting up the database connection
 
 The connection settings are found in the `<app>.db.core` namespace of the application.
-By default the database connection is expected to be provided as the `DATABASE_URL` envrionment variable.
+By default the database connection is expected to be provided as the `DATABASE_URL` environment variable.
 
 The [conman](https://github.com/luminus-framework/conman) library is used to create a pooled connection.
   
@@ -147,7 +147,7 @@ is explicitly passed in. The parameters are passed in using a map with the keys 
 (create-user!
   {:id "user1"
    :first_name "Bob"
-   :last-name "Bobberton"
+   :last_name "Bobberton"
    :email "bob.bobberton@mail.com"
    :pass "verysecret"})
 ```
@@ -167,7 +167,7 @@ It can also be passed in an explicit connection, as would be the case for runnin
 (create-user!
   {:id "user1"
    :first_name "Bob"
-   :last-name "Bobberton"
+   :last_name "Bobberton"
    :email "bob.bobberton@mail.com"
    :pass "verysecret"}
    some-other-conn)

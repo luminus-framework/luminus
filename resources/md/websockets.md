@@ -166,10 +166,6 @@ Next, We'll need to add the routes in our `multi-client-ws.handler` namespace:
      middleware/wrap-base))
 ```
 
-***important***: 
-
-We will also have to update our `multi-client-ws.middleware/wrap-base` middleware wrapper to remove the `wrap-formats` middleware as it conflicts with handling websocket requests.
-
 ### The Client
 
 We'll start by creating a `multi-client-ws.websockets` in the `src-cljs/multi_client_ws` folder. The namespace will require the transit library:

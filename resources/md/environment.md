@@ -22,13 +22,20 @@ The configuration placed in `config.edn` should consist of a map such as the fol
 ```clojure
 {:port 4000}
 ``` 
+Alternatively, an EDN configuration file can be specified using the `config` environment variable, e.g:
+
+```
+export CONFIG="prod-config.edn"
+```
 
 The configuration is resolved in the following order:
 
 1. `config.edn` on the classpath
-2. `.lein-env` file in the project directory
-3. Environment variables
-4. Java system properties
+2. EDN configuration file specified using the `config` environment variable
+3. `.lein-env` file in the project directory
+4. `.boot-env` file in the project directory
+5. Environment variables
+6. Java system properties
 
 Existing variables will be overwritten by those found later. For example, if a key is declared in the `config.edn` file, its value will be overwritten by the key found in `.lein-env`, and so on.
 
