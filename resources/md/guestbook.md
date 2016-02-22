@@ -120,7 +120,7 @@ Let's take a look at what the files in the root folder of the application do:
 
 ### The Source Directory
 
-All our code lives under the `src` folder. Since our application is called guestbook, this
+All our code lives under the `src/clj` folder. Since our application is called guestbook, this
 is the root namespace for the project. Let's take a look at all the namespaces that have been created for us.
 
 #### guestbook
@@ -145,11 +145,24 @@ The `routes` namespace is where the routes and controllers for our home and abou
 
 ### The Env Directory
 
-This source folder contains environment dependent code. The `dev` configuration will be used during development,
-while the `prod` configuration will be used when the application is compiled for production.
+Environment specific code and resources are located under the `env/dev` and the `env/prod` paths.
+The `dev` configuration will be used during development,
+while the `prod` configuration will be used when the application is packaged for production.
 
-* `config.clj` - contains the development configuration defaults
-* `dev_middleware.clj` - contains middleware used for development that should not be compiled in production
+The `dev/clj` source folder contains the following source files:
+
+* `user.clj` - a utility namespace for any code you wish to run during REPL development
+* `guestbook/config.clj` - contains the development configuration defaults
+* `guestbook/dev_middleware.clj` - contains middleware used for development that should not be compiled in production
+
+The `dev/resources` folder contains the `log4j.properties` file used to configure the development logging profile.
+
+The `prod/clj` folder only contains the `guestbook/config.clj` namespace with the production configuration.
+
+The `prod/resources` folder contains the following resources:
+
+* `config.edn` - default environment variables that will be packaged with the application
+* `log4j.properties` - default production logging configuration
 
 ### The Test Directory
 
@@ -188,60 +201,68 @@ As was noted above, all the dependencies are managed via updating the `project.c
 The project file of the application we've created is found in its root folder and should look as follows:
 
 ```clojure
+
 (defproject guestbook "0.1.0-SNAPSHOT"
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
-:dependencies [[org.clojure/clojure "1.7.0"]
-               [selmer "0.9.6"]
-               [org.clojure/tools.logging "0.3.1"]
-               [org.slf4j/slf4j-log4j12 "1.7.13"]
-               [org.apache.logging.log4j/log4j-core "2.5"]
-               [com.taoensso/tower "3.0.2"]
-               [markdown-clj "0.9.84"]
-               [luminus/config "0.3"]
-               [compojure "1.4.0"]
-               [ring-webjars "0.1.1"]
-               [ring/ring-defaults "0.1.5"]               
-               [ring "1.4.0"
-                :exclusions [ring/ring-jetty-adapter]]
-               [metosin/ring-middleware-format "0.6.0"]
-               [metosin/ring-http-response "0.6.3"]
-               [bouncer "0.3.3"]
-               [prone "0.8.2"]
-               [org.clojure/tools.nrepl "0.2.10"]
-               [org.webjars/bootstrap "3.3.5"]
-               [org.webjars/jquery "2.1.4"]
-               [migratus "0.8.2"]
-               [conman "0.2.7"]               
-               [com.h2database/h2 "1.4.187"]
-               [org.immutant/web "2.1.1"
-                :exclusions ['ch.qos.logback/logback-classic]]]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [selmer "1.0.0"]
+                 [markdown-clj "0.9.85"]
+                 [luminus/config "0.5"]
+                 [ring-middleware-format "0.7.0"]
+                 [metosin/ring-http-response "0.6.5"]
+                 [bouncer "1.0.0"]
+                 [org.webjars/bootstrap "4.0.0-alpha.2"]
+                 [org.webjars/font-awesome "4.5.0"]
+                 [org.webjars.bower/tether "1.1.1"]
+                 [org.webjars/jquery "2.2.0"]
+                 [org.clojure/tools.logging "0.3.1"]
+                 [com.taoensso/tower "3.0.2"]
+                 [compojure "1.4.0"]
+                 [ring-webjars "0.1.1"]
+                 [ring/ring-defaults "0.1.5"]
+                 [ring "1.4.0" :exclusions [ring/ring-jetty-adapter]]
+                 [mount "0.1.9"]
+                 [luminus-nrepl "0.1.2"]
+                 [migratus "0.8.10"]
+                 [conman "0.4.2"]
+                 [com.h2database/h2 "1.4.191"]
+                 [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
+                 [luminus-immutant "0.1.1"]
+                 [luminus-log4j "0.1.2"]]
 
   :min-lein-version "2.0.0"
-  :uberjar-name "guestbook.jar"
+
   :jvm-opts ["-server"]
+  :source-paths ["src/clj"]
+  :resource-paths ["resources"]
 
   :main guestbook.core
   :migratus {:store :database}
 
   :plugins [[lein-environ "1.0.1"]
-            [lein-ancient "0.6.5"]
-            [migratus-lein "0.1.5"]]
+            [migratus-lein "0.2.2"]]
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}
-             :aot :all}
+             :aot :all
+             :uberjar-name "guestbook.jar"
+             :source-paths ["env/prod/clj"]
+             :resource-paths ["env/prod/resources"]}
    :dev           [:project/dev :profiles/dev]
    :test          [:project/test :profiles/test]
-   :project/dev  {:dependencies [[ring/ring-mock "0.2.0"]
+   :project/dev  {:dependencies [[prone "1.0.2"]
+                                 [ring/ring-mock "0.3.0"]
                                  [ring/ring-devel "1.4.0"]
-                                 [pjstadig/humane-test-output "0.7.0"]
-                                 [mvxcvi/puget "0.8.1"]]
-
-
-                  :repl-options {:init-ns guestbook.core}
+                                 [pjstadig/humane-test-output "0.7.1"]
+                                 [mvxcvi/puget "1.0.0"]]
+                  
+                  
+                  :source-paths ["env/dev/clj" "test/clj"]
+                  :resource-paths ["env/dev/resources"]
+                  :repl-options {:init-ns user}
                   :injections [(require 'pjstadig.humane-test-output)
                                (pjstadig.humane-test-output/activate!)]
                   ;;when :nrepl-port is set the application starts the nREPL server on load
@@ -253,10 +274,9 @@ The project file of the application we've created is found in its root folder an
                         :nrepl-port 7001}}
    :profiles/dev {}
    :profiles/test {}})
-
 ```
 
-As you can see the project.clj is simply a Clojure list containing key/value pairs describing different aspects of the application.
+As you can see the `project.clj` file is simply a Clojure list containing key/value pairs describing different aspects of the application.
 
 The most common task is adding new libraries to the project. These libraries are specified using the `:dependencies` vector. In order to use a new library in our project we simply have to add its dependency here.
 
@@ -268,7 +288,7 @@ Note that the project sets up composite profiles for `:dev` and `:test`. These p
 as well as from `:profiles/dev` and `:profiles/test` found in the `profiles.clj`. The latter should contain local environment variables that are not meant to be
 checked into the shared code repository.
 
-Please refer to the official Leiningen documentation for further details on structuring the `project.clj` build file.
+Please refer to the [official Leiningen documentation](http://leiningen.org/#docs) for further details on structuring the `project.clj` build file.
 
 
 ### Creating the Database
@@ -350,35 +370,34 @@ INSERT INTO users
 (id, first_name, last_name, email, pass)
 VALUES (:id, :first_name, :last_name, :email, :pass)
 
--- name: update-user!
--- update an existing user record
+-- :name update-user! :! :n
+-- :doc update an existing user record
 UPDATE users
 SET first_name = :first_name, last_name = :last_name, email = :email
 WHERE id = :id
 
--- name: get-user
--- retrieve a user given the id.
+-- :name get-user :? :1
+-- :doc retrieve a user given the id.
 SELECT * FROM users
 WHERE id = :id
 ```
 
-As we can see each function is defined using the comment that starts with `--name:` followed by the name of the function. The next comment provides the doc string for the function and finally we have the body that's plain SQL. The parameters are denoted using `:` notation. Let's replace the existing queries with some of our own:
+As we can see each function is defined using the comment that starts with `-- :name` followed by the name of the function. The next comment provides the doc string for the function and finally we have the body that's plain SQL. The parameters are denoted using `:` notation. Let's replace the existing queries with some of our own:
 
 
 ```sql
--- name:save-message!
--- creates a new message
+-- :name save-message! :! :n
+-- :doc creates a new message
 INSERT INTO guestbook
 (name, message, timestamp)
 VALUES (:name, :message, :timestamp)
 
--- name:get-messages
--- selects all available messages
+-- :name get-messages :? :*
+-- :doc selects all available messages
 SELECT * from guestbook
 ```
 
-Finally, the namespace provides a helper function called `run`. This function will execute the query functions using the
-database connection found in the `conn` atom.
+Now that our model is all setup, let's start up the application.
 
 ### Running the Application
 
@@ -442,12 +461,12 @@ We'll now add a function to validate and save messages:
 ```clojure
 (defn save-message! [{:keys [params]}]
   (if-let [errors (validate-message params)]
-    (-> (redirect "/")
+    (-> (response/found "/")
         (assoc :flash (assoc params :errors errors)))
     (do
       (db/save-message!
        (assoc params :timestamp (java.util.Date.)))
-      (redirect "/"))))
+      (response/found "/"))))
 ```
 
 The function will grab the `:params` key from the request that contains the form parameters. When the `validate-message` functions returns errors we'll redirect back to `/`, we'll associate a `:flash` key with the response where we'll put the supplied parameters along with the errors. Otherwise, we'll save the message in our database and redirect.
@@ -617,14 +636,41 @@ Our final `home.html` template should look as follows:
 Finally, we can update the `screen.css` file located in the `resources/public/css` folder to format our form nicer:
 
 ```
+html,
 body {
-	height: 100%;
-	padding-top: 70px;
-	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	line-height: 1.4em;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  height: 100%;
+  line-height: 1.4em;
 	background: #eaeaea;
-	width: 550px;
+	width: 520px;
 	margin: 0 auto;
+}
+.navbar {
+  margin-bottom: 10px;
+}
+.navbar-brand {
+  float: none;
+}
+.navbar-nav .nav-item {
+  float: none;
+}
+.navbar-divider,
+.navbar-nav .nav-item+.nav-item,
+.navbar-nav .nav-link + .nav-link {
+  margin-left: 0;
+}
+@media (min-width: 34em) {
+  .navbar-brand {
+    float: left;
+  }
+  .navbar-nav .nav-item {
+    float: left;
+  }
+  .navbar-divider,
+  .navbar-nav .nav-item+.nav-item,
+  .navbar-nav .nav-link + .nav-link {
+    margin-left: 1rem;
+  }
 }
 
 .messages {
@@ -652,13 +698,11 @@ li time {
 }
 
 form, .error {
-	width: 520px;
 	padding: 30px;
 	margin-bottom: 50px;
 	position: relative;
   background: white;
 }
-
 ```
 
 When we reload the page in the browser we should be greeted by the guestbook page.
@@ -676,8 +720,10 @@ lein uberjar
 This will create a runnable jar that can be run as seen below:
 
 ```
-java -jar target/guestbook.jar
+java -Ddatabase_url="jdbc:h2:./guestbook_dev.db" -jar target/guestbook.jar
 ```
+
+Note that we have to supply the `database_url` envrionment variable when running as a jar.
 
 ***
 
