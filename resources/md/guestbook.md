@@ -708,6 +708,40 @@ form, .error {
 When we reload the page in the browser we should be greeted by the guestbook page.
 We can test that everything is working as expected by adding a comment in our comment form.
 
+## Adding some tests
+
+Now that we have our application working we can add some tests for it.
+Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it as follows:
+
+```clojure
+(ns guestbook.test.db.core
+  (:require [guestbook.db.core :refer [*db*] :as db]
+            [guestbook.db.migrations :as migrations]
+            [clojure.test :refer :all]
+            [clojure.java.jdbc :as jdbc]
+            [config.core :refer [env]]
+            [conman.core :refer [with-transaction]]
+            [mount.core :as mount]))
+
+(use-fixtures
+  :once
+  (fn [f]
+    (mount/start #'guestbook.db.core/*db*)
+    (migrations/migrate ["migrate"])
+    (f)))
+
+(deftest test-users
+  (jdbc/with-db-transaction [t-conn *db*]
+      (jdbc/db-set-rollback-only! t-conn)
+      (let [message {:name "test"
+                     :message "test"
+                     :timestamp (java.util.Date.)}]
+        (is (= 1 (db/save-message! t-conn message)))
+        (is (= [(assoc message :id 1)] (db/get-messages t-conn {})))))
+  (is (empty? (db/get-messages))))
+```
+
+We can now run `lein test` in the terminal to see that our database interaction works as expected.
 
 ## Packaging the application
 
