@@ -364,8 +364,8 @@ Since we're using the embedded H2 database, the data is stored in a file specifi
 The functions that map to database queries are generated when `bind-connection` is called. As we can see it references the `sql/queries.sql` file. This location is found under the `resources` folder. Let's open up this file and take a look inside.
 
 ```sql
--- name: create-user!
--- creates a new user record
+-- :name create-user! :! :n
+-- :doc creates a new user record
 INSERT INTO users
 (id, first_name, last_name, email, pass)
 VALUES (:id, :first_name, :last_name, :email, :pass)
