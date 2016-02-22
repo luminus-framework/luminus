@@ -50,59 +50,64 @@ The newly created application has the following structure:
 
 ```
 guestbook
-|____.gitignore
-|____Procfile
-|____project.clj
-|____profiles.clj
-|____README.md
-|____src
-| |____guestbook
-|   |____core.clj
-|   |____handler.clj
-|   |____layout.clj
-|   |____middleware.clj
-|   |____routes
-|   | |____home.clj
-|   |____db
-|     |____core.clj
-|     |____migrations.clj
-|____env
-| |____dev
-| | |____clj
-| | |  |____guestbook
-| | |   |____config.clj
-| | |   |____dev_middleware.clj.clj
-| | |___resources
-| |      |___log4j.properties
-| |____prod
-|   |____clj
-|   | |____guestbook
-|   |   |____config.clj
-|   |___resources
-|        |___log4j.properties
-|____test
-| |____guestbook
-|   |____test
-|     |____handler.clj
-|
-|____resources
-  |____templates
-  | |____about.html
-  | |____base.html
-  | |____home.html
-  | |____error.html
-  |____public
-  | |____css
-  | | |____screen.css
-  | |____img
-  | |____js
-  |____docs
-  | |____docs.md
-  |____migrations
-  | |____20150718103127-add-users-table.down.sql
-  | |____20150718103127-add-users-table.up.sql
-  |____sql
-   |____queries.sql
+├── Procfile
+├── README.md
+├── env
+│   ├── dev
+│   │   ├── clj
+│   │   │   ├── guestbook
+│   │   │   │   ├── config.clj
+│   │   │   │   └── dev_middleware.clj
+│   │   │   └── user.clj
+│   │   └── resources
+│   │       └── log4j.properties
+│   └── prod
+│       ├── clj
+│       │   └── guestbook
+│       │       └── config.clj
+│       └── resources
+│           ├── config.edn
+│           └── log4j.properties
+├── profiles.clj
+├── project.clj
+├── resources
+│   ├── docs
+│   │   └── docs.md
+│   ├── migrations
+│   │   ├── 20160221190951-add-users-table.down.sql
+│   │   └── 20160221190951-add-users-table.up.sql
+│   ├── public
+│   │   ├── css
+│   │   │   └── screen.css
+│   │   ├── favicon.ico
+│   │   ├── img
+│   │   └── js
+│   ├── sql
+│   │   └── queries.sql
+│   └── templates
+│       ├── about.html
+│       ├── base.html
+│       ├── error.html
+│       └── home.html
+├── src
+│   └── clj
+│       └── guestbook
+│           ├── core.clj
+│           ├── db
+│           │   ├── core.clj
+│           │   └── migrations.clj
+│           ├── handler.clj
+│           ├── layout.clj
+│           ├── middleware.clj
+│           └── routes
+│               └── home.clj
+└── test
+    └── clj
+        └── guestbook
+            └── test
+                ├── db
+                │   └── core.clj
+                └── handler.clj
 ```
 
 Let's take a look at what the files in the root folder of the application do:
