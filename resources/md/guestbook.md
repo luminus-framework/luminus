@@ -757,7 +757,7 @@ This will create a runnable jar that can be run as seen below:
 java -Ddatabase_url="jdbc:h2:./guestbook_dev.db" -jar target/guestbook.jar
 ```
 
-Note that we have to supply the `database_url` envrionment variable when running as a jar.
+Note that we have to supply the `database_url` environment variable when running as a jar.
 
 ***
 
