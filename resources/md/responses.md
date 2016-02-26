@@ -1,6 +1,6 @@
 ## Responses
 
-A Ring respones are generated using the [ring-http-response](https://github.com/metosin/ring-http-response) library.
+Ring responses are generated using the [ring-http-response](https://github.com/metosin/ring-http-response) library.
 The library provides a number of helpers for producing responses with their respective HTTP Status codes.
 
 For example, the `ring.util.http-response/ok` helper is used to generate a response with the status `200`. The following code will produce a valid response map with the content set as its `:body` key.
