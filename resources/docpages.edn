@@ -2,6 +2,7 @@
  ["repl.md"             "REPL Driven Development"]
  ["profiles.md"         "Application Profiles"]
  ["html_templating.md"  "HTML Templating"]
+ ["assets.md"           "Static Assets"]
  ["clojurescript.md"    "ClojureScript"]
  ["routes.md"           "Routing"]
  ["services.md"         "RESTful Services"]
