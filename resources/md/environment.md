@@ -2,76 +2,94 @@ Luminus aims to facilitate developing [12 factor](http://12factor.net/) style ap
 The 12 factor approach states that the configuration should be kept separate from the code. The application
 should not have to be packaged differently for each environment that it's deployed in.
 
-Luminus projects use the following environment variables by default:
+The environment variables are managed by the [cprop](https://github.com/tolitius/cprop) library.
+The configuration is represented by a map. the map is constructed by aggregating variables from
+multiple sources in the environment. The sources include EDN configuration, shell variables,
+and Java system properties.
 
-* `PORT` - HTTP port that the application will attempt to bind to, defaults to 3000
-* `NREPL_PORT` - when set the application will run the nREPL server on the specified port, defaults to 7000 for development
-* `DATABASE_URL` - the URL for the database connection
-* `APP_CONTEXT` - used to specify an optional context for the routes in the application
-* `LOG-CONFIG` - used to specify an external logging configuration, `log4j.properties` in the resources folder are used by default
+### EDN Based Configuration
 
-## Managing Environment Variables
-
-The environment variables are managed by the [luminus/config](https://github.com/luminus-framework/config) library.
-The library supports using EDN configuration, shell variables, and Java system properties.
-
-The library will look for the `config.edn` file on the classpath. The contents of this file will be merged with the environment variables found in `System/getenv` and `System/getProperties`.
+The library will first look for a `config.edn` file on the resource path. This will be used as the
+base configuration for the application. An external configuration file can be specified using the
+`conf` Java option at runtime: `-Dconf=prod-config.edn`.
 
 The configuration placed in `config.edn` should consist of a map such as the following:
 
 ```clojure
 {:port 4000}
-``` 
-Alternatively, an EDN configuration file can be specified using the `config` environment variable, e.g:
-
-```
-export CONFIG="prod-config.edn"
 ```
 
-The configuration is resolved in the following order:
+This configuration will be merged on top of the configuration found on the resource path.
+The library uses a deep merge strategy, so any nested structures will be merged intelligently.
 
-1. `config.edn` on the classpath
-2. EDN configuration file specified using the `config` environment variable
-3. `.lein-env` file in the project directory
-4. `.boot-env` file in the project directory
-5. Environment variables
-6. Java system properties
+### Managing Environment Variables
 
-Existing variables will be overwritten by those found later. For example, if a key is declared in the `config.edn` file, its value will be overwritten by the key found in `.lein-env`, and so on.
-
-The `config.edn` file can be placed in `env/dev/resources` or `env/prod/resources` in order to be included only for a specific environment. Different versions can be specified for each environment as well.
-
-### Using Shell Variables
-
-A shell variable could be declared as follows:
-
-```
-export DATABASE_URL=jdbc:postgresql://localhost/app?user=app_user&password=secret"
-```
-
-A system property can be passed in as a command line argument to `java` using the `-D` flag:
+The `System/getProperties` will be merged on top of the configuration found on the resource path and
+the optional EDN configuration file.
 
 ```
 java -Ddatabase_url="jdbc:postgresql://localhost/app?user=app_user&password=secret" -jar app.jar
 ```
 
-Luminus config takes care of converting the variable names into Clojure style keywords. The variables are lowercased and any `_` and `.`
-characters are converted to `-` characters. The following keywords correspond to the above environment variables:
+The variable names are converted into Clojure style keywords. The variables are lowercased and `_`
+characters are converted to `-` charachters, while `.` characters are used to indicate nesting.
 
-* `:port`
-* `:nrepl-port`
-* `:database-url`
-* `:app-context`
-* `:log-config`
+* `-Dport=300` -> `{:port 3000}`
+* `-Dnrepl-port=7000` -> `{:nrepl-port 7000}`
+* `-Ddatabase.url="jdbc:h2:./guestbook_dev.db"` -> `{:database {:url "jdbc:h2:./guestbook_dev.db"}}`
+* `-Dio.http-max-connections=10` -> `{:io {:http-max-connections 10}}`
 
-The variables are populated in the `config.core/env` map and can be accessed as seen in the example below:
+Any environment variables found in `System/getenv` will be merged last. These variables are parsed using the
+following strategy:
+
+* `PORT=3000` -> `{:port 3000}`
+* `NREPL_PORT=7000` - {:nrepl-port 7000}
+* `DATABASE__URL="jdbc:h2:./guestbook_dev.db"` -> `{:database {:url "jdbc:h2:./guestbook_dev.db"}}`
+* `IO__HTTP__MAX_CONNECTIONS` -> `{:io {:http-max-connections 10}}`
+
+Note that the `_` is converted to `-`, while `__` is used to indicate nesting for shell variables. These
+conventions can be mixed as seen with `IO__HTTP__MAX_CONNECTIONS`.
+
+See the [official documentation](https://github.com/tolitius/cprop) for further details.
+
+### Default Environment Variables
+
+Luminus projects use the following environment variables by default:
+
+* `PORT` - HTTP port that the application will attempt to bind to, defaults to `3000`
+* `NREPL_PORT` - when set the application will run the nREPL server on the specified port, defaults to `7000` for development
+* `DATABASE__URL` - the URL for the database connection, note the double underscore indicating a nested configuration
+* `APP_CONTEXT` - used to specify an optional context for the routes in the application
+* `LOG_CONFIG` - used to specify an external logging configuration, `log4j.properties` in the resources folder are used by default
+
+### The Config Namespace
+
+The variables are populated in the `env` map that's found in the `<app>.config` namespace that looks as follows:
+
+```clojure
+(ns <app>.config
+  (:require [cprop.core :refer [load-config]]
+            [cprop.source :as source]
+            [mount.core :refer [args defstate]]))
+
+(defstate env :start (load-config
+                       :merge
+                       [(args)
+                        (source/from-system-props)
+                        (source/from-env)]))
+```
+
+The configuration will load the environment variables from the known sources and merge it with the
+command line arguments populated by [clojure.tools.cli](https://github.com/clojure/tools.cli) in the
+`<app>.core/start-app` function. The resulting configuration is a map that can be accessed
+as seen in the example below:
 
 ```clojure
 (ns <app>.db.core
-  (:require [config.core :refer [env]]))
+  (:require [<app>.config :refer [env]]))
 
 (def database-url
-  (env :database-url))
+  (-> env :database :url))
 ```
 
 ## Environment Specific Code
@@ -81,10 +99,10 @@ runs in. For example, we'd only want to run the above middleware during developm
 in production.
 
 Luminus uses `env/env/clj` and `env/prod/clj` source paths for this purpose. By default the source path will contain the
-`<app>.config` namespace that has the environment specific configuration. The `dev` config looks as follows:
+`<app>.env` namespace that has the environment specific configuration. The `dev` config looks as follows:
 
 ```clojure
-(ns <project-ns>.config
+(ns <project-ns>.env
   (:require [selmer.parser :as parser]
             [clojure.tools.logging :as log]
             [<project-ns>.dev-middleware :refer [wrap-dev]]))
@@ -103,7 +121,7 @@ should be placed there.
 Meanwhile, the `prod` config will not 
  
 ```clojure
-(ns <project-ns>.config
+(ns <project-ns>.env
   (:require [clojure.tools.logging :as log]))
 
 (def defaults

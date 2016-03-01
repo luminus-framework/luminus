@@ -50,24 +50,29 @@ The newly created application has the following structure:
 
 ```
 guestbook
+│
 ├── Procfile
 ├── README.md
 ├── env
 │   ├── dev
 │   │   ├── clj
 │   │   │   ├── guestbook
-│   │   │   │   ├── config.clj
-│   │   │   │   └── dev_middleware.clj
+│   │   │   │   ├── dev_middleware.clj
+│   │   │   │   └── env.clj
 │   │   │   └── user.clj
 │   │   └── resources
+│   │       ├── config.edn
 │   │       └── log4j.properties
-│   └── prod
-│       ├── clj
-│       │   └── guestbook
-│       │       └── config.clj
+│   ├── prod
+│   │   ├── clj
+│   │   │   └── guestbook
+│   │   │       └── env.clj
+│   │   └── resources
+│   │       ├── config.edn
+│   │       └── log4j.properties
+│   └── test
 │       └── resources
-│           ├── config.edn
-│           └── log4j.properties
+│           └── config.edn
 ├── profiles.clj
 ├── project.clj
 ├── resources
@@ -79,9 +84,7 @@ guestbook
 │   ├── public
 │   │   ├── css
 │   │   │   └── screen.css
-│   │   ├── favicon.ico
-│   │   ├── img
-│   │   └── js
+│   │   └── favicon.ico
 │   ├── sql
 │   │   └── queries.sql
 │   └── templates
@@ -92,10 +95,10 @@ guestbook
 ├── src
 │   └── clj
 │       └── guestbook
+│           ├── config.clj
 │           ├── core.clj
 │           ├── db
-│           │   ├── core.clj
-│           │   └── migrations.clj
+│           │   └── core.clj
 │           ├── handler.clj
 │           ├── layout.clj
 │           ├── middleware.clj
@@ -135,31 +138,40 @@ is the root namespace for the project. Let's take a look at all the namespaces t
 The `db` namespace is used to define the model for the application and handle the persistence layer.
 
 * `core.clj` - used to house the functions for interacting with the database
-* `migrations.clj` - used to run the database migrations
 
 #### guestbook.routes
 
-The `routes` namespace is where the routes and controllers for our home and about pages are located. When you add more routes, such as authentication, or specific workflows you should create namespaces for them here.
+The `routes` namespace is where the routes and controllers for our home and about pages are located. When you add more routes,
+such as authentication, or specific workflows you should create namespaces for them here.
 
 * `home.clj` - a namespace that defines the home and about pages of the application
 
 ### The Env Directory
 
-Environment specific code and resources are located under the `env/dev` and the `env/prod` paths.
-The `dev` configuration will be used during development,
+Environment specific code and resources are located under the `env/dev`, `env/test`, and the `env/prod` paths.
+The `dev` configuration will be used during development, `test` during testing,
 while the `prod` configuration will be used when the application is packaged for production.
 
-The `dev/clj` source folder contains the following source files:
+#### `dev/clj`
 
 * `user.clj` - a utility namespace for any code you wish to run during REPL development
-* `guestbook/config.clj` - contains the development configuration defaults
+* `guestbook/env.clj` - contains the development configuration defaults
 * `guestbook/dev_middleware.clj` - contains middleware used for development that should not be compiled in production
 
-The `dev/resources` folder contains the `log4j.properties` file used to configure the development logging profile.
+#### `dev/resources`
 
-The `prod/clj` folder only contains the `guestbook/config.clj` namespace with the production configuration.
+* `config.edn` - default environment variables for the development
+* `log4j.properties` file used to configure the development logging profile
 
-The `prod/resources` folder contains the following resources:
+#### `test/resources` folder contains the `log4j.properties` file used to configure the development logging profile.
+
+* `config.edn` - default environment variables for testing
+
+#### `prod/clj`
+
+* `guestbook/env.clj` namespace with the production configuration
+
+#### `prod/resources`
 
 * `config.edn` - default environment variables that will be packaged with the application
 * `log4j.properties` - default production logging configuration
@@ -189,7 +201,8 @@ The SQL queries are found in the `resources/sql` folder.
 
 #### The Migrations Directory
 
-Luminus uses [Migratus](https://github.com/yogthos/migratus) for managing migrations. Migrations are managed using up and down SQL files. The files are conventionally versioned using the date and will be applied in order.
+Luminus uses [Migratus](https://github.com/yogthos/migratus) for migrations. Migrations are managed using up and down SQL files.
+The files are conventionally versioned using the date and will be applied in order of their creation.
 
 * `20150718103127-add-users-table.up.sql` - migrations file to create the tables
 * `20150718103127-add-users-table.down.sql` - migrations file to drop the tables
@@ -201,7 +214,6 @@ As was noted above, all the dependencies are managed via updating the `project.c
 The project file of the application we've created is found in its root folder and should look as follows:
 
 ```clojure
-
 (defproject guestbook "0.1.0-SNAPSHOT"
 
   :description "FIXME: write description"
@@ -209,8 +221,7 @@ The project file of the application we've created is found in its root folder an
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [selmer "1.0.0"]
-                 [markdown-clj "0.9.85"]
-                 [luminus/config "0.5"]
+                 [markdown-clj "0.9.86"]
                  [ring-middleware-format "0.7.0"]
                  [metosin/ring-http-response "0.6.5"]
                  [bouncer "1.0.0"]
@@ -224,29 +235,31 @@ The project file of the application we've created is found in its root folder an
                  [ring-webjars "0.1.1"]
                  [ring/ring-defaults "0.1.5"]
                  [ring "1.4.0" :exclusions [ring/ring-jetty-adapter]]
-                 [mount "0.1.9"]
-                 [luminus-nrepl "0.1.2"]
-                 [migratus "0.8.10"]
-                 [conman "0.4.2"]
+                 [mount "0.1.10-SNAPSHOT"]
+                 [cprop "0.1.5"]
+                 [org.clojure/tools.cli "0.3.3"]
+                 [luminus-nrepl "0.1.3"]
+                 [luminus-migrations "0.1.0"]
+                 [conman "0.4.5"]
                  [com.h2database/h2 "1.4.191"]
                  [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
-                 [luminus-immutant "0.1.1"]
+                 [luminus-immutant "0.1.3"]
                  [luminus-log4j "0.1.2"]]
 
   :min-lein-version "2.0.0"
 
-  :jvm-opts ["-server"]
+  :jvm-opts ["-server" "-Dconf=.lein-env"]
   :source-paths ["src/clj"]
   :resource-paths ["resources"]
 
   :main guestbook.core
   :migratus {:store :database}
 
-  :plugins [[lein-environ "1.0.1"]
-            [migratus-lein "0.2.2"]]
+  :plugins [[lein-cprop "1.0.1"]
+            [migratus-lein "0.2.6"]]
   :profiles
   {:uberjar {:omit-source true
-             :env {:production true}
+
              :aot :all
              :uberjar-name "guestbook.jar"
              :source-paths ["env/prod/clj"]
@@ -258,29 +271,24 @@ The project file of the application we've created is found in its root folder an
                                  [ring/ring-devel "1.4.0"]
                                  [pjstadig/humane-test-output "0.7.1"]
                                  [mvxcvi/puget "1.0.0"]]
-                  
-                  
+
+
                   :source-paths ["env/dev/clj" "test/clj"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user}
                   :injections [(require 'pjstadig.humane-test-output)
-                               (pjstadig.humane-test-output/activate!)]
-                  ;;when :nrepl-port is set the application starts the nREPL server on load
-                  :env {:dev        true
-                        :port       3000
-                        :nrepl-port 7000}}
-   :project/test {:env {:test       true
-                        :port       3001
-                        :nrepl-port 7001}}
+                               (pjstadig.humane-test-output/activate!)]}
+   :project/test {:resource-paths ["env/dev/resources" "env/test/resources"]}
    :profiles/dev {}
    :profiles/test {}})
 ```
 
 As you can see the `project.clj` file is simply a Clojure list containing key/value pairs describing different aspects of the application.
 
-The most common task is adding new libraries to the project. These libraries are specified using the `:dependencies` vector. In order to use a new library in our project we simply have to add its dependency here.
+The most common task is adding new libraries to the project. These libraries are specified using the `:dependencies` vector.
+In order to use a new library in our project we simply have to add its dependency here.
 
-The items in the `:plugins` vector can be used to provide additional functionality such as reading environment variables via Environ plugin.
+The items in the `:plugins` vector can be used to provide additional functionality such as reading environment variables via `lein-cprop` plugin.
 
 The `:profiles` contain a map of different project configurations that are used to initialize it for either development or production builds.
 
@@ -293,7 +301,8 @@ Please refer to the [official Leiningen documentation](http://leiningen.org/#doc
 
 ### Creating the Database
 
-First, we will create a model for our application, to do that we'll open up the `<date>-add-users-table.up.sql` file located under the `migrations` folder. The file has the following contents:
+First, we will create a model for our application, to do that we'll open up the `<date>-add-users-table.up.sql`
+file located under the `migrations` folder. The file has the following contents:
 
 ```sql
 CREATE TABLE users
@@ -337,23 +346,23 @@ Here, we can see that we already have the definition for our database connection
   (:require
     [conman.core :as conman]
     [mount.core :refer [defstate]]
-    [config.core :refer [env]]))
-
-(def pool-spec
-  {:datasource
-   (doto (org.h2.jdbcx.JdbcDataSource.)
-     (.setURL (:database-url env))
-     (.setUser "")
-     (.setPassword ""))})
+    [guestbook.config :refer [env]]))
 
 (defstate ^:dynamic *db*
-          :start (conman/connect! pool-spec)
+          :start (conman/connect!
+                   {:datasource
+                    (doto (org.h2.jdbcx.JdbcDataSource.)
+                          (.setURL (-> env :database :url))
+                          (.setUser "")
+                          (.setPassword ""))})
           :stop (conman/disconnect! *db*))
 
 (conman/bind-connection *db* "sql/queries.sql")
 ```
 
-The database connection is read from the `:database-url` environment variable at runtime. This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
+The database connection is read from the environment map at runtime. By default, the `:database` key points to a map containing
+database specific configuration variables. This map contains the `:url` key that has the connection URL for the database.
+ This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
 
 ```
 export DATABASE_URL="jdbc:h2:./guestbook.db"
@@ -361,7 +370,8 @@ export DATABASE_URL="jdbc:h2:./guestbook.db"
 
 Since we're using the embedded H2 database, the data is stored in a file specified in the URL that's found in the path relative to where the project is run.
 
-The functions that map to database queries are generated when `bind-connection` is called. As we can see it references the `sql/queries.sql` file. This location is found under the `resources` folder. Let's open up this file and take a look inside.
+The functions that map to database queries are generated when `bind-connection` is called. As we can see it references the `sql/queries.sql` file.
+This location is found under the `resources` folder. Let's open up this file and take a look inside.
 
 ```sql
 -- :name create-user! :! :n
@@ -382,7 +392,9 @@ SELECT * FROM users
 WHERE id = :id
 ```
 
-As we can see each function is defined using the comment that starts with `-- :name` followed by the name of the function. The next comment provides the doc string for the function and finally we have the body that's plain SQL. The parameters are denoted using `:` notation. Let's replace the existing queries with some of our own:
+As we can see each function is defined using the comment that starts with `-- :name` followed by the name of the function.
+The next comment provides the doc string for the function and finally we have the body that's plain SQL. The parameters are
+denoted using `:` notation. Let's replace the existing queries with some of our own:
 
 
 ```sql
@@ -405,12 +417,19 @@ We can run our application in development mode as follows:
 
 ```
 >lein run
-00:49:54.865 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
-15-Jul-19 00:49:55 Nyx INFO [guestbook.handler] - nREPL server started on port 7000
-15-Jul-19 00:49:55 Nyx INFO [guestbook.handler] -
--=[guestbook started successfullyusing the development profile]=-
-00:49:55.772 INFO  [org.projectodd.wunderboss.web.Web] (main) Registered web context /
-15-Jul-19 00:49:55 Nyx INFO [guestbook.core] - server started on port: 3000
+[2016-02-28 15:05:34,970][DEBUG][org.jboss.logging] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[2016-02-28 15:05:36,067][INFO][com.zaxxer.hikari.HikariDataSource] HikariPool-0 - is starting.
+[2016-02-28 15:05:36,252][INFO][luminus.http-server] starting HTTP server on port 3000
+[2016-02-28 15:05:36,294][INFO][org.xnio] XNIO version 3.4.0.Beta1
+[2016-02-28 15:05:36,344][INFO][org.xnio.nio] XNIO NIO Implementation Version 3.4.0.Beta1
+[2016-02-28 15:05:36,406][INFO][org.projectodd.wunderboss.web.Web] Registered web context /
+[2016-02-28 15:05:36,407][INFO][luminus.repl-server] starting nREPL server on port 7000
+[2016-02-28 15:05:36,422][INFO][guestbook.core] #'guestbook.config/env started
+[2016-02-28 15:05:36,422][INFO][guestbook.core] #'guestbook.db.core/*db* started
+[2016-02-28 15:05:36,422][INFO][guestbook.core] #'guestbook.core/http-server started
+[2016-02-28 15:05:36,423][INFO][guestbook.core] #'guestbook.core/repl-server started
+[2016-02-28 15:05:36,423][INFO][guestbook.env]
+-=[guestbook started successfully using the development profile]=-
 ```
 
 Once server starts, you should be able to navigate to [http://localhost:3000](http://localhost:3000) and see
@@ -418,7 +437,7 @@ the app running. The server can be started on an alternate port by either passin
 or setting the `PORT` environment variable.
 
 ```
-lein run 8000
+lein run -p 8000
 ```
 
 Note that the page is prompting us to run the migrations in order to initialize the database. However, since we've already done that earlier and we won't need to do that again.
@@ -716,18 +735,20 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
 ```clojure
 (ns guestbook.test.db.core
   (:require [guestbook.db.core :refer [*db*] :as db]
-            [guestbook.db.migrations :as migrations]
+            [luminus-migrations.core :as migrations]
             [clojure.test :refer :all]
             [clojure.java.jdbc :as jdbc]
-            [config.core :refer [env]]
+            [guestbook.config :refer [env]]
             [conman.core :refer [with-transaction]]
             [mount.core :as mount]))
 
 (use-fixtures
   :once
   (fn [f]
-    (mount/start #'guestbook.db.core/*db*)
-    (migrations/migrate ["migrate"])
+    (mount/start
+      #'guestbook.config/env
+      #'guestbook.db.core/*db*)
+    (migrations/migrate ["migrate"] (-> env :database :url))
     (f)))
 
 (deftest test-users
@@ -754,10 +775,12 @@ lein uberjar
 This will create a runnable jar that can be run as seen below:
 
 ```
-java -Ddatabase_url="jdbc:h2:./guestbook_dev.db" -jar target/guestbook.jar
+export DATABASE_URL="jdbc:h2:./guestbook_dev.db"
+java -jar target/guestbook.jar
 ```
 
-Note that we have to supply the `database_url` environment variable when running as a jar.
+Note that we have to supply the `DATABASE_URL` environment variable when running as a jar, as
+it's not packaged with the application.
 
 ***
 

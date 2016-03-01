@@ -57,7 +57,7 @@ The connection can be terminated by calling the `disconnect!` function.
 (ns myapp.db.core
   (:require
     ...
-    [config.core :refer [env]]
+    [<app>.config :refer [env]]
     [conman.core :as conman]
     [mount.core :refer [defstate]]))
             

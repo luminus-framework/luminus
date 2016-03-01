@@ -72,51 +72,52 @@ For example, we may have one namespace that loads the configuration and another 
 to a database. This could be expressed as follows:
 
 ```clojure
-(ns app.config
-  (:require [mount.core :refer [defstate]]))
+(ns <app>.config
+  (:require [cprop.core :refer [load-config]]
+            [cprop.source :refer [from-resource]]
+            [mount.core :refer [args defstate]]))
 
-(defstate app-config
-  :start (load-config "config.edn"))
+(defstate env :start (load-config :merge [(args)]))
 ```
 
-The `app.config` namespace loads the config into the `app-config` state var. We can now access this config in a different
+The `<app>.config` namespace loads the config into the `env` state var. We can now access this config in a different
 namespace:
 
 ```clojure
 (ns app.db
   (:require [mount.core :refer [defstate]]
-            [app.config :refer [app-config]]))
+            [app.config :refer [env]]))
 
 (defn connect! [config] ...)
 
 (defn disconnect! [conn] ...)
 
-(defstate conn :start (connect! app-config)
+(defstate conn :start (connect! env)
                :stop (disconnect! conn))
 ```
 
 The component hierarchy is initialized by calling `mount.core/start` and stopped with `mount.core/stop`. This is done by the
- `<app>.handler/init` and `<app>.handler/destroy` functions respectively.
+ `<app>.core/start-app` and `<app>.core/stop-app` functions respectively.
 
-These functions can also be used from the REPL to reload the system in a clean state without having to restart the REPL
-as seen below:
+Luminus provides an `<app>.user` namespace found in the `env/dev/clj/user.clj` file. This namespace provides
+convenience functions for starting and stopping the application states from the REPL:
+
 
 ```clojure
-(ns repl
-  (:require [clojure.tools.namespace.repl :as tn]
-            [mount.core :as mount]))
+(ns user
+  (:require [mount.core :as mount]
+            [<app>.config :refer [env]]
+            <app>.core))
 
-(defn go
-  "starts all states defined by defstate"
-  []
-  (mount/start)
-  :ready)
+(defn start []
+  (mount/start-without #'<<project-ns>>.core/repl-server))
 
-(defn reset
-  "stops all states defined by defstate, reloads modified source files, and restarts the states"
-  []
-  (mount/stop)
-  (tn/refresh :after 'repl/go))
+(defn stop []
+  (mount/stop-except #'<<project-ns>>.core/repl-server))
+
+(defn restart []
+  (stop)
+  (start))
 ```
 
 The states can be started selectively by explicitly providing the namespaces to be started and stopped to the `start`
@@ -143,4 +144,4 @@ Finally, the states can be replaced by alternate ones such as mock states for te
 
 In the above example, the `app.db` will be replaced by the `app.test.mock-db` when the the components are loaded.
 
-
+Please see the [official documentation](https://github.com/tolitius/mount) for further details on using mount.
