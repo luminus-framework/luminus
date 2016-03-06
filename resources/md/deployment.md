@@ -214,7 +214,7 @@ Download the installation tool and generate the certificate using the following 
 ```
 git clone https://github.com/letsencrypt/letsencrypt
 cd letsencrypt
-/letsencrypt-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
+./letsencrypt-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
 ```
 
 Optionally, setup a Cron job to automatically update the certificate by updating crontab by running as `root`:
