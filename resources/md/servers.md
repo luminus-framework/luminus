@@ -47,3 +47,6 @@ Another feature provided by Immutant is the ability to chain multiple independen
 
 The additional handler uses a `:path` prefix as a context. All the routes served by this handler will be prefixed with the supplied path. Each handler can have its own middleware stack that's independent of other handlers in the application.
 
+Immutant uses separate thread pools for managing the IO and the worker threads.
+The `:dispatch?` flag is used to decide whether the request should be dispatched by the IO thread to a separate worker thread.
+Since dispatching the request to a worker carries overhead, it may be more performant to handle some requests, such as hardcoded text responses, directly in the IO thread.
