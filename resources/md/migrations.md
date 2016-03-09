@@ -12,7 +12,7 @@ The development database configuration should placed in the `profiles.clj` file.
 ```
 
 For production, the configuration is expected to be present in the environment. An example would be to
-have a shell variable called `DATABASE_URL` that points to the URL. See the [official Environ documentation](https://github.com/weavejester/environ) for the complete list of configuration options.
+have a shell variable called `DATABASE_URL` that points to the URL. See the [official cprop documentation](https://github.com/tolitius/cprop) for the complete list of configuration options.
 
 Migratus is invoked from the `-main` function in the `<app>.core` namespace of the application.
 
