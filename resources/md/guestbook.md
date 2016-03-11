@@ -776,7 +776,7 @@ This will create a runnable jar that can be run as seen below:
 
 ```
 export DATABASE_URL="jdbc:h2:./guestbook_dev.db"
-java -jar target/guestbook.jar
+java -jar target/uberjar/guestbook.jar
 ```
 
 Note that we have to supply the `DATABASE_URL` environment variable when running as a jar, as
