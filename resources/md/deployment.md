@@ -6,10 +6,10 @@ To create a standalone executable for your application simply run
 lein uberjar
 ```
 
-The resulting `jar` can be found in the `target` folder. It can be run as follows:
+The resulting `jar` can be found in the `target/uberjar` folder. It can be run as follows:
 
 ```bash
-java -jar myapp.jar
+java -jar <app>.jar
 ```
 
 By default the standalone application uses an embedded Immutant server to run the application.
@@ -18,7 +18,7 @@ To specify a custom port you need to set the `$PORT` environment variable, eg:
 
 ```
 export PORT=8080
-java -jar myapp.jar
+java -jar <app>.jar
 ```
 ## Deploying on Immutant App Server
 
@@ -49,7 +49,7 @@ lein uberwar
 Next, simply copy the resulting `<app>.war` to the `webapps` folder on Tomcat, eg:
 
 ```bash
-cp target/<app>.war ~/tomcat/webapps/
+cp target/uberjar/<app>.war ~/tomcat/webapps/
 ```
 
 Your app will now be avaliable at the context `/<app>` when Tomcat starts. To deploy the app
