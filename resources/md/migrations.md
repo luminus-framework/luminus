@@ -65,7 +65,7 @@ The migrations will be packaged in the applications when it's compiled. This all
 
 ```
 lein uberjar
-java -jar target/my-app.jar migrate
+java -jar target/uberjar/<app>.jar migrate
 ```
 
 ### Popular Migrations Alternatives
