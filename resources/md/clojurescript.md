@@ -80,7 +80,41 @@ This will start Figwheel and connect a browser REPL. Any changes you make in Clo
 
 ### ClojureScript with nREPL
 
-To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port 7002` key in your `:figwheel` config in `project.clj`. When Figwheel starts, it will open nREPL on the specified port. Please follow the [official instructions](https://github.com/bhauman/lein-figwheel/wiki) to connect your editor to the REPL.
+To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port` key in your `:figwheel` config in `project.clj`. When Figwheel starts, it will open nREPL on the specified port.
+
+Luminus also sets up the scaffolding for running the Figwheel compiler from the REPL. When you generate a project using the `+cljs` flag, then a `env/dev/clj/<app>/figwheel.clj` namespace will be generated. This namespace provides functions to manage the Figwheel
+compiler and run the ClojureScript REPL. This allows you to connect any REPL aware editor to the ClojureScript REPL.
+
+The compiler is started using the `start-fw` function and stopped using the `stop-fw` function. The ClojureScript REPL is started by running the `cljs` function after `start-fw` has run successfully. These functions will be available in the `user` namespace. The REPL will default to it when it starts:
+
+```clojure
+user=> (start-fw)
+Figwheel: Starting server at http://localhost:3449
+Figwheel: Watching build - app
+Compiling "target/cljsbuild/public/js/app.js" from ("src/cljc" "src/cljs" "env/dev/cljs")...
+Successfully compiled "target/cljsbuild/public/js/app.js" in 7.583 seconds.
+Figwheel: Starting CSS Watcher for paths  ["resources/public/css"]
+Figwheel: Starting nREPL server on port: 7002
+nil
+user=> (cljs)
+Launching ClojureScript REPL for build: app
+Figwheel Controls:
+          (stop-autobuild)                ;; stops Figwheel autobuilder
+          (start-autobuild [id ...])      ;; starts autobuilder focused on optional ids
+          (switch-to-build id ...)        ;; switches autobuilder to different build
+          (reset-autobuild)               ;; stops, cleans, and starts autobuilder
+          (reload-config)                 ;; reloads build config and resets autobuild
+          (build-once [id ...])           ;; builds source one time
+          (clean-builds [id ..])          ;; deletes compiled cljs target files
+          (print-config [id ...])         ;; prints out build configurations
+          (fig-status)                    ;; displays current state of system
+  Switch REPL build focus:
+          :cljs/quit                      ;; allows you to switch REPL to another build
+    Docs: (doc function-name-here)
+    Exit: Control+C or :cljs/quit
+ Results: Stored in vars *1, *2, *3, *e holds last exception object
+Prompt will show when Figwheel connects to your application
+```
 
 ### Advanced Compilation and Exports
 
