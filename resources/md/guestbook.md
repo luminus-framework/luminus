@@ -751,14 +751,16 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
     (migrations/migrate ["migrate"](:database-url env))
     (f)))
 
-(deftest test-users
+(deftest test-message
   (jdbc/with-db-transaction [t-conn *db*]
-      (jdbc/db-set-rollback-only! t-conn)
-      (let [message {:name "test"
-                     :message "test"
-                     :timestamp (java.util.Date.)}]
-        (is (= 1 (db/save-message! t-conn message)))
-        (is (= [(assoc message :id 1)] (db/get-messages t-conn {})))))
+    (jdbc/db-set-rollback-only! t-conn)
+    (let [message {:name "test"
+                   :message "test"
+                   :timestamp (java.util.Date.)}]
+      (is (= 1 (db/save-message! t-conn message)))
+      (let [result (db/get-messages t-conn {})]
+        (is (= 1 (count result)))
+        (is (= message (dissoc (first result) :id))))))
   (is (empty? (db/get-messages))))
 ```
 
