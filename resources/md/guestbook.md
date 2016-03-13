@@ -352,7 +352,7 @@ Here, we can see that we already have the definition for our database connection
           :start (conman/connect!
                    {:datasource
                     (doto (org.h2.jdbcx.JdbcDataSource.)
-                          (.setURL (-> env :database :url))
+                          (.setURL (:database-url env))
                           (.setUser "")
                           (.setPassword ""))})
           :stop (conman/disconnect! *db*))
@@ -360,8 +360,8 @@ Here, we can see that we already have the definition for our database connection
 (conman/bind-connection *db* "sql/queries.sql")
 ```
 
-The database connection is read from the environment map at runtime. By default, the `:database` key points to a map containing
-database specific configuration variables. This map contains the `:url` key that has the connection URL for the database.
+The database connection is read from the environment map at runtime. By default, the `:database-url` key points to a
+a string with the connection URL for the database.
  This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
 
 ```
@@ -748,7 +748,7 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
     (mount/start
       #'guestbook.config/env
       #'guestbook.db.core/*db*)
-    (migrations/migrate ["migrate"] (-> env :database :url))
+    (migrations/migrate ["migrate"](:database-url env))
     (f)))
 
 (deftest test-users
