@@ -163,9 +163,10 @@ while the `prod` configuration will be used when the application is packaged for
 * `config.edn` - default environment variables for the development
 * `log4j.properties` file used to configure the development logging profile
 
-#### `test/resources` folder contains the `log4j.properties` file used to configure the development logging profile.
+#### `test/resources`
 
 * `config.edn` - default environment variables for testing
+* `log4j.properties` - file used to configure the development logging profile
 
 #### `prod/clj`
 
