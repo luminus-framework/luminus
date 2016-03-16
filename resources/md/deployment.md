@@ -229,6 +229,7 @@ Add the following line:
 0 0 1,15 * * /path-to-letsencrypt/letsencrypt-auto certonly --keep-until-expiring --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
 ```
 
+Alternatively, you could use [Acmetool](https://github.com/hlandau/acme) as a comprehensive solution for keeping certificates up to date.
 
 We'll generate a stronger DHE parameter instead of using OpenSSL's defaults, which include a 1024-bit key for the key-exchange:
 
