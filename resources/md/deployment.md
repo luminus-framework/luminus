@@ -93,6 +93,8 @@ Your application should also now be accessible on the server at `http://<domain>
 * [Creating access point on Azure](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-set-up-endpoints/)
 * [Creating access point on Amazon EC2](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html#adding-security-group-rule)
 
+### systemd start configuration
+
 Now, let's stop the application instance and create a `systemd` configuration to manage its lifecycle, especially taking care that the application will be launched on server boot.
 Create the file `/lib/systemd/system/myapp.service` with the following content:
 
@@ -139,6 +141,35 @@ This should return something like this. Pay attention to the `UID`, it should be
 ```
 deploy     730     1  1 06:45 ?        00:00:42 /usr/bin/java -jar /var/mysite/mysite.jar
 ```
+
+### upstart configuration
+
+Ubuntu currently uses [upstart](https://www.digitalocean.com/community/tutorials/the-upstart-event-system-what-it-is-and-how-to-use-it) event system. It's configuration file should be placed in the `/etc/init/` directory.
+
+We could create the following configuration for our application called `/etc/init/myapp.conf`:
+
+```
+description "Upstart script to launch My App"
+
+start on (local-filesystems and net-device-up IFACE=eth0)
+stop on runlevel [!12345]
+
+respawn
+
+setuid deploy
+setgid deploy
+env    DATABASE_URL=jdbc:postgresql://localhost/app?user=app_user&password=secret
+chdir  /var/myapp
+
+exec /usr/bin/java -jar /var/myapp/myapp.jar
+```
+
+The configuration can be tested by running the following command:
+
+    init-checkconf /etc/init/myapp.conf
+    File /etc/init/myapp.conf: syntax ok
+    
+It can now be managed running `service myapp start|stop|restart`.
 
 ### Fronting with Nginx
 
