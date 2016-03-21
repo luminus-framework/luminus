@@ -96,6 +96,44 @@ and `(mount/stop)` respectively. This ensures that the connection is available w
 
 When working with multiple databases, a separate atom is required to track each database connection.
 
+### Translating SQL types
+
+Certain types requite translation when persisting and reading the data.
+The specifics of how different types are translated will vary between
+different database engines. It is possible to do automatic coercison of
+types read from the database by extending the `clojure.java.jdbc/IResultSetReadColumn`
+protocol.
+
+For example, if we wanted to convert columns containing `java.sql.Date` objects to `java.util.Date` objects, then
+we could write the following:
+
+```clojure
+(defn to-date [sql-date]
+  (-> sql-date (.getTime) (java.util.Date.)))
+  
+(extend-protocol jdbc/IResultSetReadColumn
+  java.sql.Date
+  (result-set-read-column [value metadata index]
+    (to-date value)))
+```
+
+The `result-set-read-column` function must accept `value`,
+`metadata`, and `index` parameters. The return value will
+be set as the data in the result map of the query.
+
+Conversely, if we wanted to translate the data to the SQL
+type, then we'd extend the `java.util.Date` type:
+
+```clojure
+(extend-type java.util.Date
+  jdbc/ISQLParameter
+  (set-parameter [value ^PreparedStatement stmt idx]
+    (.setTimestamp stmt idx (java.sql.Timestamp. (.getTime value)))))
+```
+This approach allows us to do all the data translation centrally,
+without having to remember to do it on case by case basis.
+
+
 ### Working with HugSQL
 
 HugSQL uses plain SQL to define the queries. The comments are used to supply the function name and a doc string for each query.
