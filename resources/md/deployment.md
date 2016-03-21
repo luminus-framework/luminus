@@ -112,6 +112,10 @@ User=deploy
 WantedBy=multi-user.target
 ```
 
+The `WantedBy=` is the target level that this unit is a part of. To find the default run level for your system run:
+
+    systemctl get-default
+
 Note that by default JVM is fairly aggressive about memory usage. If you're like to reduce the amount of memory used then you can add the following line under the `[Service]` configuration:
 
 ```
