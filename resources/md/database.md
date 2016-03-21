@@ -130,6 +130,13 @@ type, then we'd extend the `java.util.Date` type:
   (set-parameter [value ^PreparedStatement stmt idx]
     (.setTimestamp stmt idx (java.sql.Timestamp. (.getTime value)))))
 ```
+
+The type extensions would typically be placed in the `<app>.db.core`
+namespace, and will get loaded automatically when the project starts.
+
+The templates using Postgres and MySQL databases come with some extensions
+enabled by default.
+
 This approach allows us to do all the data translation centrally,
 without having to remember to do it on case by case basis.
 
