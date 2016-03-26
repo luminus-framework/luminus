@@ -327,8 +327,14 @@ CREATE TABLE guestbook
 ```
 
 The guestbook table will store all the fields describing the message, such as the name of the
-commenter, the content of the message and a timestamp. We'll save the file and run the following
-command from the root of our project:
+commenter, the content of the message and a timestamp.
+Next, let's replace the contents of the `<date>-add-users-table.down.sql` file accordingly:
+
+```sql
+DROP TABLE guestbook;
+```
+
+We can now run the migrations using the following command from the root of our project:
 
 ```
 lein run migrate
