@@ -772,6 +772,9 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
 
 We can now run `lein test` in the terminal to see that our database interaction works as expected.
 
+Luminus comes with [lein-test-refresh](https://github.com/jakemcc/lein-test-refresh) enabled by default. This plugin allows running tests continuously
+whenever a change in a namespace is detected. We can start a test runner in a new terminal using the `lein test-refresh` command.
+
 ## Packaging the application
 
 The application can be packaged for standalone deployment by running the following command:
