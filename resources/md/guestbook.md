@@ -796,4 +796,4 @@ it's not packaged with the application.
 ***
 
 Complete source listing for the tutorial is available [here](https://github.com/yogthos/guestbook).
-For a more complete example you can see the source for this site on [Github](https://github.com/yogthos/luminus).
+
