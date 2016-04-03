@@ -45,10 +45,10 @@ following strategy:
 * `PORT=3000` -> `{:port 3000}`
 * `NREPL_PORT=7000` - {:nrepl-port 7000}
 * `DATABASE__URL="jdbc:h2:./guestbook_dev.db"` -> `{:database {:url "jdbc:h2:./guestbook_dev.db"}}`
-* `IO__HTTP__MAX_CONNECTIONS` -> `{:io {:http-max-connections 10}}`
+* `IO__HTTP_MAX_CONNECTIONS` -> `{:io {:http-max-connections 10}}`
 
 Note that the `_` is converted to `-`, while `__` is used to indicate nesting for shell variables. These
-conventions can be mixed as seen with `IO__HTTP__MAX_CONNECTIONS`.
+conventions can be mixed as seen with `IO__HTTP_MAX_CONNECTIONS`.
 
 See the [official documentation](https://github.com/tolitius/cprop) for further details.
 
