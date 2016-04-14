@@ -92,20 +92,17 @@ We'll first need to add a reference to `anti-forgery` in the namespace declarati
 (require ... [ring.util.anti-forgery :refer [anti-forgery-field]]))
 ```
 
-Next, we can then define a new CSRF tag in our `init` function:
+Notice the CSRF tag is included by default in `layout.clj`:
 
 ```clojure
-(defn init
-  ...
-  (parser/add-tag! :csrf-token (fn [_ _] (anti-forgery-field)))
-  ...)
+(parser/add-tag! :csrf-field (fn [_ _] (anti-forgery-field)))
 ```
 
-and start using it in our templates as follows:
+you can use it in your templates as follows:
 
 ```xml
 <form name="input" action="/login" method="POST">
-  {% csrf-token %}
+  {% csrf-field %}
   Username: <input type="text" name="user">
   Password: <input type="password" name="pass">
   <input type="submit" value="Submit">
