@@ -446,7 +446,7 @@ or setting the `PORT` environment variable.
 lein run -p 8000
 ```
 
-Note that the page is prompting us to run the migrations in order to initialize the database. However, since we've already done that earlier and we won't need to do that again.
+Note that the page is prompting us to run the migrations in order to initialize the database. However, we've already done that earlier, so we won't need to do that again.
 
 ### Creating Pages and Handling Form Input
 
