@@ -211,12 +211,12 @@ It can also be passed in an explicit connection, as would be the case for runnin
   "jdbc:postgresql://localhost/myapp_test?user=test&password=test")
   
 (create-user!
+  some-other-conn
   {:id "user1"
    :first_name "Bob"
    :last_name "Bobberton"
    :email "bob.bobberton@mail.com"
-   :pass "verysecret"}
-   some-other-conn)
+   :pass "verysecret"})
 ```
 
 The `conman` library also provides a `with-transaction` macro for running statements within a transaction.
