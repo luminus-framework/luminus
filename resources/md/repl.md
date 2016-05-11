@@ -3,35 +3,24 @@ of the application. Luminus provides two ways to connect to the REPL.
 
 ## Starting the Application from the REPL
 
-When you run the REPL in the project directory it will switch the `yourapp.core` namespace when it starts.
-This namespace refers to `luminus.http-server` namespace using an alias `http` which contains functions called `start` and `stop` that are used to start and stop the HTTP server respectively.
+When you run the REPL in the project directory it will start in the `user` namespace located in the `env/dev/clj/user.clj` file. This namespace provides helper functions `start`, `stop`, and `restart` that are used to manage the state of the application components.
 
-The `start` function accepts a [Ring](https://github.com/ring-clojure/ring) handler, initialization function and a port as its argument:
+To start the HTTP server and any other components such as databases, run the `start` function:
 
 ```clojure
-(http/start {:port 3000 :init init :handler app})
-```
-
-The `stop` function takes tear down function:
-
-```
-(http/stop destroy)
+(start)
 ```
 
 ## Connecting to the nREPL
 
 Luminus also provides an embedded [nREPL](https://github.com/clojure/tools.nrepl) that can be used to connect
-the editor to a running instance of the server. A default nREPL port is set in your `project.clj` file for development
-under the `:project/dev` profile:
+the editor to a running instance of the server. A default nREPL port is set the `env/dev/resources/config.edn` configuration file:
 
 ```clojure
-:profiles
-{...
- :project/dev {...
-               :env {:dev        true
-                     :port       3000
-                     :nrepl-port 7000
-                     :log-level  :trace}}}
+{:dev true
+ :port 3000
+ ;; when :nrepl-port is set the application starts the nREPL server on load
+ :nrepl-port 7000}
 ```
 
 When you run your application using `lein run` it will create a network REPL on the port `7000` and you will be
