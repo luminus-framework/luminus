@@ -85,10 +85,10 @@ We'll define our LDAP host as follows, note that the `host` key points to a vect
 ```clojure
 (def host
   {:host
-    [{:address "my-ldap-server.ca"
-      :port 389
-      :connect-timeout (* 1000 5)
-      :timeout (* 1000 30)}]})
+   {:address         "my-ldap-server.ca"
+    :port            389
+    :connect-timeout (* 1000 5)
+    :timeout         (* 1000 30)}})
 ```
 
 We'll can now declare a connection pool for LDAP:
