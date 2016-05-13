@@ -71,14 +71,16 @@ First, we'll add the following dependency to your `project.clj`.
 [org.clojars.pntblnk/clj-ldap "0.0.10"]
 ```
 
-Next, we'll need to require the LDAP client in the authentication namespace.
+Next, we'll need to require the LDAP client in the authentication namespace and `defstate` to hold the connection pool:
 
 ```clojure
 (ns ldap-auth
-  (:require [clj-ldap.client :as client]))
+  (:require 
+    [mount.core :refer [defstate]]
+    [clj-ldap.client :as client]))
 ```
 
-We can then define our LDAP host as follows, note that the `host` key points to a vector of LDAP servers.
+We'll define our LDAP host as follows, note that the `host` key points to a vector of LDAP servers.
 
 ```clojure
 (def host
@@ -89,16 +91,25 @@ We can then define our LDAP host as follows, note that the `host` key points to 
       :timeout (* 1000 30)}]})
 ```
 
-Finally, we'll write a function to authenticate the user using the above host definition.
+We'll can now declare a connection pool for LDAP:
+
+```clojure
+(defstate ldap-pool :start (client/connect host))
+```
+
+Finally, we'll write a function to authenticate the user using the above declared pool.
 
 ```clojure
 (defn authenticate [username password & [attributes]]
-  (let [server (client/connect host)
-        qualified-name (str username "@" (-> host :host first :address))]
-    (if (client/bind? server qualified-name  password)
-      (first (client/search server "OU=MyOrgPeople,DC=myorg,DC=ca"
-                            {:filter (str "sAMAccountName=" username)
-                             :attributes (or attributes [])})))))
+  (let [conn           (.getConnection ldap-pool)
+        qualified-name (str username "@" (-> host :host :address))
+        result (if (client/bind? conn qualified-name password)
+                 (first (client/search conn
+                                       "ou=people,dc=example,dc=com"
+                                       {:filter     (str "sAMAccountName=" username)
+                                        :attributes (or attributes [])})))]
+    (.close conn)
+    result))
 ```
 
 The `attributes` vector can be used to filter the keys that are returned, an empty vector will return all the keys associated with the account.
