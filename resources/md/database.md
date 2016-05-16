@@ -61,25 +61,14 @@ The connection can be terminated by calling the `disconnect!` function.
     [conman.core :as conman]
     [mount.core :refer [defstate]]))
             
-(def pool-spec
-  {:adapter    :postgresql
-   :init-size  1
-   :min-idle   1
-   :max-idle   4
-   :max-active 32}) 
-
-(defn connect! []
-  (conman/connect!
-    (assoc
-      pool-spec
-      :jdbc-url (env :database-url))))
-
-(defn disconnect! [conn]
-  (conman/disconnect! conn))
-
 (defstate ^:dynamic *db*
-          :start (connect!)
-          :stop (disconnect! *db*))
+          :start (conman/connect!
+                   {:init-size  1
+                    :min-idle   1
+                    :max-idle   4
+                    :max-active 32
+                    :jdbc-url   (env :database-url)})
+          :stop (conman/disconnect! *db*))
 ```
 
 The connection is specified using the `defstate` macro. The `connect!` function is called when the `*db*` component
@@ -138,10 +127,10 @@ enabled by default.
 
 ### Working with HugSQL
 
-HugSQL uses plain SQL to define the queries. The comments are used to supply the function name and a doc string for each query.
+HugSQL takes the approach similar to HTML templating for writing SQL queries. The queries are written using plain SQL, and the
+dynamic parameters are specified using Clojure keyword syntax. HugSQL will use the SQL templates to automatically generate the functions for interacting with the database.
 
-Conventionally the queries are placed in the `resources/sql/queries.sql` file. However, once your application grows you may consider splitting the queries
-into multiple files.
+Conventionally the queries are placed in the `resources/sql/queries.sql` file. However, once your application grows you may consider splitting the queries into multiple files.
 
 The format for the file can be seen below:
 
