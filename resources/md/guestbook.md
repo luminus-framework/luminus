@@ -508,6 +508,8 @@ Finally, we'll change the `home-page` handler function to look as follows:
 
 The function renders the home page template and passes it the currently stored messages along with any parameters from the `:flash` session, such as validation errors.
 
+Recall that the database accessor functions were automatically generated for us by the `(conman/bind-connection *db* "sql/queries.sql")` statement ran in the `guestbook.db.core` namespace. The names of these functions are inferred from the `-- :name` comments in the SQL templates found in the `resources/sq/queries.sql` file. 
+
 Our routes will now have to pass the request to both the `home-page` and the `save-message!` handlers:
 
 ```clojure
