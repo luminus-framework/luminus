@@ -102,14 +102,14 @@ Finally, we'll write a function to authenticate the user using the above declare
 ```clojure
 (defn authenticate [username password & [attributes]]
   (let [conn           (.getConnection ldap-pool)
-        qualified-name (str username "@" (-> host :host :address))
-        result (if (client/bind? conn qualified-name password)
-                 (first (client/search conn
-                                       "ou=people,dc=example,dc=com"
-                                       {:filter     (str "sAMAccountName=" username)
-                                        :attributes (or attributes [])})))]
-    (.close conn)
-    result))
+        qualified-name (str username "@" (-> host :host :address))]
+    (try
+      (if (client/bind? conn qualified-name password)
+        (first (client/search conn
+                              "ou=people,dc=example,dc=com"
+                              {:filter     (str "sAMAccountName=" username)
+                               :attributes (or attributes [])})))
+      (finally (client/release-connection pool conn)))))
 ```
 
 The `attributes` vector can be used to filter the keys that are returned, an empty vector will return all the keys associated with the account.
