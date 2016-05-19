@@ -68,7 +68,7 @@ The following example demonstrates how to authenticate with the `sAMAccountName`
 First, we'll add the following dependency to your `project.clj`.
 
 ```clojure
-[org.clojars.bskinny/clj-ldap "0.0.12"]
+[org.clojars.pntblnk/clj-ldap "0.0.10"]
 ```
 
 Next, we'll need to require the LDAP client in the authentication namespace and `defstate` to hold the connection pool:
@@ -109,7 +109,7 @@ Finally, we'll write a function to authenticate the user using the above declare
                               "ou=people,dc=example,dc=com"
                               {:filter     (str "sAMAccountName=" username)
                                :attributes (or attributes [])})))
-      (finally (client/release-connection pool conn)))))
+      (finally (.releaseAndReAuthenticateConnection pool conn)))))
 ```
 
 The `attributes` vector can be used to filter the keys that are returned, an empty vector will return all the keys associated with the account.
