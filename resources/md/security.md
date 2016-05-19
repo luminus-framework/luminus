@@ -68,7 +68,7 @@ The following example demonstrates how to authenticate with the `sAMAccountName`
 First, we'll add the following dependency to your `project.clj`.
 
 ```clojure
-[org.clojars.pntblnk/clj-ldap "0.0.12"]
+[org.clojars.bskinny/clj-ldap "0.0.12"]
 ```
 
 Next, we'll need to require the LDAP client in the authentication namespace and `defstate` to hold the connection pool:
