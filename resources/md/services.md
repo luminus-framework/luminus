@@ -101,3 +101,15 @@ CSRF protection provided by the [ring-anti-forgery](https://github.com/ring-cloj
         base-routes)
       middleware/wrap-base))
 ```
+
+In order to add CSRF support for Swagger services, you would need to add the following options to the service routes:
+
+```clojure
+(context "/api" [] 
+   :middleware [wrap-anti-forgery]
+   :header-params [{x-csrf-token :- String nil}]
+   ...)
+```
+
+The token will have to be pasted as an optional header-parameter in the UI.
+
