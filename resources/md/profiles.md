@@ -20,7 +20,7 @@ alternative servers are supported:
 * +postgres - adds `db.core` namespace and add PostreSQL dependencies
 * +mysql - adds `db.core` namespace and add MySQL dependencies
 * +mongodb - adds `db.core` namespace and MongoDB dependencies
-
+* +datomic - adds `db.core` namespace and Datomic dependencies
  
 ### miscellaneous 
 
