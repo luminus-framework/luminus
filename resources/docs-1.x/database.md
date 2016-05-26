@@ -2,7 +2,7 @@
 
 ### SQL Korma
 
-Luminus uses [SQL Korma](https://github.com/korma/Korma) when you select a database profile such as `+postgres`. 
+Luminus uses [SQL Korma](https://github.com/korma/Korma) when you select a database profile such as `+postgres`.
 
 >[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/)
 
@@ -15,7 +15,7 @@ to you `project.clj`:
 ```
 
 The driver has to be present on the classpath, which means you should include it as a dependency in `project.clj` as well.
-For example, if you were connecting to PostreSQL, you would have to include the following dependency in your `project.clj`:
+For example, if you were connecting to PostgreSQL, you would have to include the following dependency in your `project.clj`:
 
 ```clojure
 [postgresql/postgresql "9.3-1102-jdbc41"]
@@ -158,8 +158,8 @@ With the file created, you will have to require `yesql.core/defqueries` in your 
 ```clojure
 (ns myapp.db.core
   (:require [yesql.core :refer [defqueries]]))
-  
-(defqueries "resources/queries.sql")  
+
+(defqueries "resources/queries.sql")
 ```
 
 Each query can now be called by its name like a regular function:
