@@ -244,12 +244,14 @@ If your site has any user authentication then you will also want to use HTTPS. Y
 
 #### Setting up SSL Certificate using Let's Encrypt
 
+The easiest way to setup SSL is to use [Certbot](https://certbot.eff.org/) and to follow the instructions on the site.
+
 Download the installation tool and generate the certificate using the following commands:
 
 ```
-git clone https://github.com/letsencrypt/letsencrypt
-cd letsencrypt
-./letsencrypt-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
+git clone https://github.com/certbot/certbot
+cd certbot
+./certbot-auto certonly --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
 ```
 
 Optionally, setup a Cron job to automatically update the certificate by updating crontab by running as `root`:
@@ -261,7 +263,7 @@ crontab -e
 Add the following line:
 
 ```
-0 0 1,15 * * /path-to-letsencrypt/letsencrypt-auto certonly --keep-until-expiring --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
+0 0 1,15 * * /path-to-certbot/certbot-auto certonly --keep-until-expiring --email <you@email.com> -d <yoursite.com> -d <www.yoursite.com> --webroot --webroot-path /var/www/html
 ```
 
 Alternatively, you could use [Acmetool](https://github.com/hlandau/acme) as a comprehensive solution for keeping certificates up to date.
