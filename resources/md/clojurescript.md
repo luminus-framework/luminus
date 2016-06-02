@@ -80,12 +80,14 @@ This will start Figwheel and connect a browser REPL. Any changes you make in Clo
 
 ### ClojureScript with nREPL
 
-To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port` key in your `:figwheel` config in `project.clj`. When Figwheel starts, it will open nREPL on the specified port.
+To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port` key in your `:figwheel` config in `project.clj`. This key defaults to port `7002`. When Figwheel starts, it will open nREPL on the specified port.
 
 Luminus also sets up the scaffolding for running the Figwheel compiler from the REPL. When you generate a project using the `+cljs` flag, then a `env/dev/clj/<app>/figwheel.clj` namespace will be generated. This namespace provides functions to manage the Figwheel
 compiler and run the ClojureScript REPL. This allows you to connect any REPL aware editor to the ClojureScript REPL.
 
-The compiler is started using the `start-fw` function and stopped using the `stop-fw` function. The ClojureScript REPL is started by running the `cljs` function after `start-fw` has run successfully. These functions will be available in the `user` namespace. The REPL will default to it when it starts:
+Once you run `lein figwheel`, then you'll be able to connect to its nREPL at `localhost:7002`. Once connected, you simply have to run `(cljs)` and the ClojureScript nREPL will become available. You can test that everything is working correctly by running `(js/alert "Hi")` in the REPl. This should pop up an alert in the browser.
+
+Alternatively. the compiler can be started from a regular REPL using the `start-fw` function and stopped using the `stop-fw` function. The ClojureScript REPL is started by running the `cljs` function after `start-fw` has run successfully. These functions will be available in the `user` namespace. The REPL will default to it when it starts:
 
 ```clojure
 user=> (start-fw)
