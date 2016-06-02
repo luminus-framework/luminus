@@ -16,31 +16,38 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
 
 :resource-paths ["resources" "target/cljsbuild"]
 :cljsbuild
-{:builds {:app {:source-paths ["src-cljs"]
-               :compiler {:output-to     "target/cljsbuild/public/js/app.js"
-                          :output-dir    "target/cljsbuild/public/js/out"
-                          :source-map    true
-                          :externs       ["react/externs/react.js"]
-                          :optimizations :none
-                          :main "<app>.core"
-                          :asset-path "/js/out"
-                          :pretty-print  true}}}}
+{:builds
+   {:app
+    {:source-paths ["src/cljs"]
+     :figwheel     true
+     :compiler
+                   {:main          (str project-ns ".app")
+                    :asset-path    "/js/out"
+                    :output-to     "target/cljsbuild/public/js/app.js"
+                    :output-dir    "target/cljsbuild/public/js/out"
+                    :optimizations :none
+                    :source-map    true
+                    :pretty-print  true}}
+    :min
+    {:source-paths ["src/cljs"]
+     :compiler
+                   {:output-to     "target/cljsbuild/public/js/app.js"
+                    :output-dir    "target/uberjar"
+                    :externs       ["react/externs/react.js"]
+                    :optimizations :advanced
+                    :pretty-print  false}}}}
 ```
 
+The ClojureScript sources are expected to be found under the `src/cljs` source path in the above configuraiton.
+Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
+ 
 Next, update the `:uberjar` profile with the following options:
 
 ```clojure
-:hooks ['leiningen.cljsbuild]
-:cljsbuild {:jar true
-            :builds {:app
-                     {:compiler
-                      {:optimizations :advanced
-                       :pretty-print false}}}}
+:prep-tasks ["compile" ["cljsbuild" "once" "min"]]
 ```
 
-The above will add the `lein-cljsbuild` hook to the `:uberjar` profile so that ClojureScript is compiled when `lein uberjar` is run. The `:cljsbuild` options will override the defaults with production settings.
-
-All the ClojureScript namespaces should live in the `src-cljs` directory under the root of your project. Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
+The above will add the `lein-cljsbuild` hook to the `:uberjar` profile so that ClojureScript is compiled when `lein uberjar` is run.
 
 ### Using Libraries
 
