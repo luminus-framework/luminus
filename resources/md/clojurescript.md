@@ -19,7 +19,6 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
 {:builds
    {:app
     {:source-paths ["src/cljs"]
-     :figwheel     true
      :compiler
                    {:main          (str project-ns ".app")
                     :asset-path    "/js/out"
