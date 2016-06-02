@@ -40,6 +40,12 @@ The easiest way to add ClojureScript support is by using the `+cljs` flag when m
 The ClojureScript sources are expected to be found under the `src/cljs` source path in the above configuraiton.
 Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
  
+The compiled JavaScript file will be available in the `/js/app.js` resource path and can be referenced on the page as follows:
+
+```javascript
+{% script "/js/app.js" %}
+```
+ 
 Next, update the `:uberjar` profile with the following options:
 
 ```clojure
