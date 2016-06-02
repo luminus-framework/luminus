@@ -89,6 +89,7 @@ to those already included with Luminus.
 
 * [clj-pdf](https://github.com/yogthos/clj-pdf) - PDF report generation library
 * [clj-rss](https://github.com/yogthos/clj-rss) - a library for generating RSS feeds
+* [metrics-clojure](https://github.com/sjl/metrics-clojure/) - a thin Clojure façade around Coda Hale’s wonderful metrics library
 * [ring-logger-timbre](https://github.com/nberger/ring-logger-timbre) - log Ring requests & responses using Timbre
 * [slf4j-timbre](https://github.com/fzakaria/slf4j-timbre) - SLF4J binding for Clojure's Timbre logging library
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
