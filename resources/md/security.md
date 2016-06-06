@@ -24,36 +24,36 @@ is used as the default encryption algorithm.
 The `encrypt` function allows specifying additional parameters such as the algorithm and the number of iterations:
 
 ```clojure
-(hashers/encrypt "secretpassword" {:algorithm :pbkdf2+sha256})
-(hashers/encrypt "secretpassword" {:algorithm :pbkdf2+sha256
+(hashers/encrypt "secretpassword" {:alg :pbkdf2+sha256})
+(hashers/encrypt "secretpassword" {:alg :pbkdf2+sha256
                                    :salt "123456"})
-(hashers/encrypt "secretpassword" {:algorithm :pbkdf2+sha256
+(hashers/encrypt "secretpassword" {:alg :pbkdf2+sha256
                                    :salt "123456"
                                    :iterations 200000})
 ```
 
 The following algorithms with their associated options and defaults are seen below:
 
-* `:algorithm :bcrypt+sha512`
+* `:alg :bcrypt+sha512`
   * `:iterations` 12
   * `:salt` random
-* `:algorithm :pbkdf2+sha256`
+* `:alg :pbkdf2+sha256`
   * `:iterations` 100000
   * `:salt` random
-* `:algorithm :pbkdf2+sha3_256`
+* `:alg :pbkdf2+sha3_256`
   * `:iterations` 100000
   * `:salt` random
-* `:algorithm :pbkdf2+sha1`
+* `:alg :pbkdf2+sha1`
   * `:iterations` 100000
   * `:salt` random
-* `:algorithm :scrypt`
+* `:alg :scrypt`
   * `:salt` random
   * `:cpucost` 65536
   * `:memcost` 8
   * `:parallelism` 1
-* `:algorithm :sha256`
+* `:alg :sha256`
   * `:salt` random
-* `:algorithm :md5`
+* `:alg :md5`
   * `:salt` random
 
 
