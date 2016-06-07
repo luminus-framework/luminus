@@ -20,10 +20,27 @@ To specify a custom port you need to set the `$PORT` environment variable, eg:
 export PORT=8080
 java -jar <app>.jar
 ```
-## Deploying on Immutant App Server
+## Deploying to WildFly
 
-Please follow the steps outlined in the [official Immutant documentation](http://immutant.org/documentation/2.0.2/apidoc/guide-installation.html) for Immutant application server deployment.
-Also, [Linode](http://linode.com) has a guide on [how to deploy Luminus application with Immutant and WildFly on Ubuntu 14.04](https://linode.com/docs/applications/development/clojure-deployment-with-immutant-and-wildfly-on-ubuntu-14-04)
+Without any modifications to your code whatsoever, Immutant-based
+applications can either run standalone or be deployed to a
+[WildFly](http://wildfly.org) app server. The latter requires your app
+to be packaged in a special war file created by the
+[lein-immutant](https://github.com/immutant/lein-immutant) plugin,
+e.g.
+
+```bash
+lein immutant war
+```
+
+**NOTE:** The `+war` Luminus profile is incompatible with Immutant apps intended to run on WildFly and should not be used.
+
+More details are available in the
+[official Immutant documentation](http://immutant.org/documentation/current/apidoc/guide-wildfly.html)
+for WildFly server deployment.
+
+Also, [Linode](http://linode.com) has a guide on
+[how to deploy Luminus application with Immutant and WildFly on Ubuntu 14.04](https://linode.com/docs/applications/development/clojure-deployment-with-immutant-and-wildfly-on-ubuntu-14-04)
 
 ## Deploying to Tomcat
 
