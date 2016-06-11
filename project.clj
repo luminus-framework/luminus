@@ -5,7 +5,7 @@
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.cache "0.6.4"]
-                 [compojure "1.45.0"]
+                 [compojure "1.5.0"]
                  [ring-server "0.4.0"]
                  [markdown-clj "0.9.86"]
                  [clj-http "2.1.0"]
