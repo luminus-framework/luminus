@@ -98,7 +98,7 @@ Some code, such as development middleware for showing stacktraces in the browser
 runs in. For example, we'd only want to run the above middleware during development and not show stacktraces to the client
 in production.
 
-Luminus uses `env/env/clj` and `env/prod/clj` source paths for this purpose. By default the source path will contain the
+Luminus uses `env/dev/clj` and `env/prod/clj` source paths for this purpose. By default the source path will contain the
 `<app>.env` namespace that has the environment specific configuration. The `dev` config looks as follows:
 
 ```clojure
