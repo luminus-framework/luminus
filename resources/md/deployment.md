@@ -74,6 +74,28 @@ at root context, simply copy it to `webapp` as `ROOT.war`.
 
 ### Configuring JNDI Connections
 
+Tomcat may have database configuration specified as a [JNDI resource](https://tomcat.apache.org/tomcat-7.0-doc/jndi-resources-howto.html) (check JDBC Data Sources
+section). In this case you need to fetch this data from the Tomcat configuration and not from clojure profiles. Just change this lines in `src/clj/<app>/db/core.clj`:
+
+```clojure
+(defstate ^:dynamic *db*
+           :start (conman/connect!
+                   {:init-size  1
+                    :min-idle   1
+                    :max-idle   4
+                    :max-active 32
+                    :jdbc-url   (env :database-url)})
+           :stop (conman/disconnect! *db*))
+```
+
+to:
+
+```clojure
+(def ^:dynamic *db* {:name "java:comp/env/jdbc/EmployeeDB"})
+```
+
+(in this example `jdbc/EmployeeDB` is the same name as specified in `context.xml` and `web.xml` in the [JNDI HowTo page](https://tomcat.apache.org/tomcat-7.0-doc/jndi-resources-howto.html). Note that this name is case sensitive.)
+
 ### Configuring JNDI Development Environment
 
 Add the following dependency under the `:project/dev` profile:
