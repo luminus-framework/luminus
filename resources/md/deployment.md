@@ -120,7 +120,7 @@ Add the following code in the `user` namespace found in the `env/dev/clj/user.cl
   (.bind "java:comp/env/jdbc/testdb"
          (doto (org.postgresql.ds.PGSimpleDataSource.)
            (.setServerName "localhost")
-           (.setDatabaseName "appdb")
+           (.setDatabaseName "EmployeeDB")
            (.setUser "user")
            (.setPassword "pass"))))
 ```
