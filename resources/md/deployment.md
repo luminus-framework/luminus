@@ -72,6 +72,40 @@ cp target/uberjar/<app>.war ~/tomcat/webapps/
 Your app will now be avaliable at the context `/<app>` when Tomcat starts. To deploy the app
 at root context, simply copy it to `webapp` as `ROOT.war`.
 
+### Configuring JNDI Connections
+
+### Configuring JNDI Development Environment
+
+Add the following dependency under the `:project/dev` profile:
+
+```clojure
+[directory-naming/naming-java "0.8"]
+```
+
+Add the following code in the `user` namespace found in the `env/dev/clj/user.clj` file:
+
+```clojure
+(System/setProperty "java.naming.factory.initial"
+                    "org.apache.naming.java.javaURLContextFactory")
+(System/setProperty "java.naming.factory.url.pkgs"
+                    "org.apache.naming")
+
+(doto (new javax.naming.InitialContext)
+  (.createSubcontext "java:")
+  (.createSubcontext "java:comp")
+  (.createSubcontext "java:comp/env")
+  (.createSubcontext "java:comp/env/jdbc")
+  (.bind "java:comp/env/jdbc/testdb"
+         (doto (org.postgresql.ds.PGSimpleDataSource.)
+           (.setServerName "localhost")
+           (.setDatabaseName "appdb")
+           (.setUser "user")
+           (.setPassword "pass"))))
+```
+
+The above code will create a JNDI context for the application. Note that you'll have to modify the
+data source configuration for your particular database configuration.
+
 ## VPS Deployment
 
 Virtual Private Servers (VPS) such as [DigitalOcean](https://www.digitalocean.com/) provide a cheap hosting option for Clojure applications. 
