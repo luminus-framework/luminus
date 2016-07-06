@@ -49,12 +49,6 @@ The default logger configuration is found in the `resources/log4j.xml` file and 
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="org.xnio.nio" level="warn">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="com.zaxxer.hikari" level="warn">
-            <AppenderRef ref="Console"/>
-        </Logger>
         <Root level="info">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
@@ -82,12 +76,6 @@ called `log4j-prod.xml` and have it log to the `/var/log/myapp.log` location.
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="org.xnio.nio" level="warn">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="com.zaxxer.hikari" level="warn">
-            <AppenderRef ref="Console"/>
-        </Logger>
         <Root level="info">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
