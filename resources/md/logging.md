@@ -31,7 +31,7 @@ The log levels are `trace`, `debug`, `info`, `warn`, `error`, and `fatal`.
 
 The default logger configuration is found in the `resources/log4j.xml` file and looks as follows:
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration name="XmlConfig">
     <Appenders>
@@ -67,7 +67,7 @@ An external logging configuration can be provided by setting the `log4j.configur
 that points to the path of the log configuration file. For example, we could create a production configuration
 called `log4j-prod.xml` and have it log to the `/var/log/myapp.log` location.
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration name="XmlConfig">
     <Appenders>
