@@ -29,47 +29,77 @@ The log levels are `trace`, `debug`, `info`, `warn`, `error`, and `fatal`.
 ### Logging Configuration
 
 
-The default logger configuration is found in the `resources/log4j.properties` file and looks as follows:
+The default logger configuration is found in the `resources/log4j.xml` file and looks as follows:
 
 ```
-### Direct log4j properties to STDOUT ###
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.Target=System.out
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=[%d][%p][%c] %m%n
-
-log4j.appender.R=org.apache.log4j.RollingFileAppender
-log4j.appender.R.File=./log/<<name>>.log
-
-log4j.appender.R.MaxFileSize=100KB
-log4j.appender.R.MaxBackupIndex=20
-
-log4j.appender.R.layout=org.apache.log4j.PatternLayout
-log4j.appender.R.layout.ConversionPattern=[%d][%p][%c] %m%n
-
-log4j.rootLogger=DEBUG, stdout, R
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="XmlConfig">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d][%p][%c] %m%n"/>
+        </Console>
+        <RollingFile name="File"
+                     fileName="./log/myapp.log"
+                     filePattern="./log/myapp-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="[%d][%p][%c] %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.xnio.nio" level="warn">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.zaxxer.hikari" level="warn">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>
 ```
 
-An external logging configuration can be provided by setting the `LOG_CONFIG` environment variable
-to the path of the log configuration file. For example, we could create a production configuration
-called `log4j-prod.properties` and have it log to the `/var/log/myapp.log` location.
+An external logging configuration can be provided by setting the `log4j.configurationFile` Java system property
+that points to the path of the log configuration file. For example, we could create a production configuration
+called `log4j-prod.xml` and have it log to the `/var/log/myapp.log` location.
 
 ```
-log4j.appender.R=org.apache.log4j.RollingFileAppender
-log4j.appender.R.File=/var/log/myapp.log
-
-log4j.appender.R.MaxFileSize=100KB
-log4j.appender.R.MaxBackupIndex=20
-
-log4j.appender.R.layout=org.apache.log4j.PatternLayout
-log4j.appender.R.layout.ConversionPattern=[%d][%p][%c] %m%n
-
-log4j.rootLogger=INFO, R
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="XmlConfig">
+    <Appenders>
+        <RollingFile name="File"
+                     fileName="/var/log/myapp.log"
+                     filePattern="/var/log/myapp-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="[%d][%p][%c] %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.xnio.nio" level="warn">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.zaxxer.hikari" level="warn">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>
 ```
 
 Then we can start the app with the following flag to have it use this logging configuration:
 
 ```
-java -Dlog_config="log4j-prod.properties" -jar myapp.jar
+java -Dlog4j.configurationFile=log4j-prod.xml -jar myapp.jar
 ```
 
+Please refer to the [official documentation](https://logging.apache.org/log4j/2.x/manual/configuration.html) for further information on configuring `log4j`.
