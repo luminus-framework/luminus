@@ -2,7 +2,7 @@
 
 By default, logging functionality is provided by the [clojure.tools.logging](https://github.com/clojure/tools.logging)
 library. The library provides macros that delegate to a specific logging implementation.
-The default implementation used in Luminus is the [log4j](https://logging.apache.org/log4j/2.x/) library.
+The default implementation used in Luminus is the [logback](http://logback.qos.ch/) library.
 
 There are six log levels in `clojure.tools.logging`, and any Clojure data structures can be logged directly.
 The log levels are `trace`, `debug`, `info`, `warn`, `error`, and `fatal`.
@@ -29,65 +29,77 @@ The log levels are `trace`, `debug`, `info`, `warn`, `error`, and `fatal`.
 ### Logging Configuration
 
 
-The default logger configuration is found in the `resources/log4j.xml` file and looks as follows:
+The default logger configuration is found in the `resources/logback.xml` file and looks as follows:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration name="XmlConfig">
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%d][%p][%c] %m%n"/>
-        </Console>
-        <RollingFile name="File"
-                     fileName="./log/myapp.log"
-                     filePattern="./log/myapp-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout pattern="[%d][%p][%c] %m%n"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="10 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="10"/>
-        </RollingFile>
-    </Appenders>
-    <Loggers>
-        <Root level="info">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
-        </Root>
-    </Loggers>
-</Configuration>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/myapp.log</file>
+        <rollingPolicy
+         class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/myapp.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+             class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- keep 30 days of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
 ```
 
-An external logging configuration can be provided by setting the `log4j.configurationFile` Java system property
+An external logging configuration can be provided by setting the `logback.configurationFile` Java system property
 that points to the path of the log configuration file. For example, we could create a production configuration
-called `log4j-prod.xml` and have it log to the `/var/log/myapp.log` location.
+called `prod-log-config.xml` and have it log to the `/var/log/myapp.log` location.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration name="XmlConfig">
-    <Appenders>
-        <RollingFile name="File"
-                     fileName="/var/log/myapp.log"
-                     filePattern="/var/log/myapp-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout pattern="[%d][%p][%c] %m%n"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="10 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="10"/>
-        </RollingFile>
-    </Appenders>
-    <Loggers>
-        <Root level="info">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
-        </Root>
-    </Loggers>
-</Configuration>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/log/myapp.log</file>
+        <rollingPolicy
+         class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/myapp.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+             class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- keep 30 days of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
 ```
 
 Then we can start the app with the following flag to have it use this logging configuration:
 
 ```
-java -Dlog4j.configurationFile=log4j-prod.xml -jar myapp.jar
+java -Dlogback.configurationFile=prod-log-config.xml -jar myapp.jar
 ```
 
-Please refer to the [official documentation](https://logging.apache.org/log4j/2.x/manual/configuration.html) for further information on configuring `log4j`.
+Please refer to the [official documentation](http://logback.qos.ch/manual/configuration.html) for further information on configuring `logback`.
