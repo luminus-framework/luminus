@@ -109,7 +109,7 @@ Finally, we'll write a function to authenticate the user using the above declare
                               "ou=people,dc=example,dc=com"
                               {:filter     (str "sAMAccountName=" username)
                                :attributes (or attributes [])})))
-      (finally (client/release-connection pool conn)))))
+      (finally (client/release-connection ldap-pool conn)))))
 ```
 
 The `attributes` vector can be used to filter the keys that are returned, an empty vector will return all the keys associated with the account.
