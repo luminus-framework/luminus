@@ -197,8 +197,8 @@ It can also be passed in an explicit connection, as would be the case for runnin
 
 ```clojure
 (def some-other-conn
-  "jdbc:postgresql://localhost/myapp_test?user=test&password=test")
-  
+  (conman/connect! {:jdbc-url "jdbc:postgresql://localhost/myapp_test?user=test&password=test"}))
+
 (create-user!
   some-other-conn
   {:id "user1"
