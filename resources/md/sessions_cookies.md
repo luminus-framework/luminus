@@ -122,7 +122,7 @@ Cookies are found under the `:cookies` key of the request, eg:
 Conversely, to set a cookie on the response we simply update the response map with the desired cookie value:
 
 ```clojure
-(-> "cookie set" response (update-in [:cookies "username" :value] "Alice"))
+(-> "response with a cookie" response (assoc-in [:cookies "username" :value] "Alice"))
 ```
 
 Cookies cn contain the following additional attributes in addition to the `:value` key:
