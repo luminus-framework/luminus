@@ -25,6 +25,7 @@ alternative servers are supported:
 ### miscellaneous 
 
 * +auth - adds [Buddy](https://github.com/funcool/buddy) dependency and authentication middleware
+* +cider - adds support for [CIDER](https://github.com/clojure-emacs/cider) using [CIDER nREPL](https://github.com/clojure-emacs/cider-nrepl) plugin
 * +cljs - adds ClojureScript support to the project along with an example
 * +cucumber - a profile for cucumber with clj-webdriver
 * +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
