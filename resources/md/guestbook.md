@@ -410,7 +410,7 @@ VALUES (:name, :message, :timestamp)
 
 -- :name get-messages :? :*
 -- :doc selects all available messages
-SELECT * from guestbook
+SELECT * FROM guestbook
 ```
 
 Now that our model is all setup, let's start up the application.
