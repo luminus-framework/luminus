@@ -50,3 +50,21 @@ The additional handler uses a `:path` prefix as a context. All the routes served
 Immutant uses separate thread pools for managing the IO and the worker threads.
 The `:dispatch?` flag is used to decide whether the request should be dispatched by the IO thread to a separate worker thread.
 Since dispatching the request to a worker carries overhead, it may be more performant to handle some requests, such as hardcoded text responses, directly in the IO thread.
+
+### Context paths
+
+Set the value of `:handler-path` key to customize the global path for the application (default is `/`). In the example below the value is got from a custom environment variable `:my-path`.
+
+```clojure
+(mount/defstate http-server
+    :start
+    (http/start
+      (-> env
+        (assoc :handler (handler/app))
+        (update :port #(or (-> env :options :port) %))
+        (update :handler-path #(or (-> env :my-path) %))))
+    :stop
+    (http/stop http-server))
+```
+
+You can also supply the `:app-context` key in the environment that's used by the `wrap-context` wrapper in the `middleware` namespace. It will populate the `*app-context*` variable in the `layout` namespace. That can be used to populate the context on the page for the client to use.
