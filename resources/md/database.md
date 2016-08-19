@@ -224,6 +224,8 @@ macro:
   (get-user {:id "foo"}))
 ```
 
+### Massaging key names from SQL to Clojure style
+
 HugSQL can be told to automatically transform underscores in the result keys into dashes as follows:
 
 ```clojure
