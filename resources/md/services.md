@@ -113,3 +113,81 @@ In order to add CSRF support for Swagger services, you would need to add the fol
 
 The token will have to be pasted as an optional header-parameter in the UI.
 
+## Authentication
+
+Services declared using compojure-api can have their own authentication rules. This is useful if you wish to return different kinds of
+errors than you would when serving HTML pages.
+
+In order to provide authentication, we'll first need to implement `restructure-param` methods:
+
+```clojure
+(ns <<myapp>>.routes.services
+  (:require ...
+            [compojure.api.meta :refer [restructure-param]]
+            [buddy.auth.accessrules :refer [restrict]]
+            [buddy.auth :refer [authenticated?]]))
+  
+(defn access-error [_ _]
+  (unauthorized {:error "unauthorized"}))
+
+(defn wrap-restricted [handler rule]
+  (restrict handler {:handler  rule
+                     :on-error access-error}))
+
+(defmethod restructure-param :auth-rules
+  [_ rule acc]
+  (update-in acc [:middleware] conj [wrap-restricted rule]))
+
+(defmethod restructure-param :current-user
+  [_ binding acc]
+  (update-in acc [:letks] into [binding `(:identity ~'+compojure-api-request+)]))
+```
+
+The above code creates the `:auth-rules` key that can be used in compojure-api routes. This key will apply
+the authentication middleware to the routes using it.
+
+The `:current-user` key will will bind the `:identity` from the request and can be used to access the user identity.
+
+We can now define services as follows:
+
+```clojure
+(defn admin [req]
+  (and (authenticated? req)
+       (#{:admin} (:role (:identity req)))))
+       
+(defapi service-routes
+  {:swagger {:ui   "/swagger-ui"
+             :spec "/swagger.json"
+             :data {:info {:version     "1.0.0"
+                           :title       "Sample API"
+                           :description "Sample Services"}}}}
+
+  (POST "/login" req
+    :return {:userid s/Str}
+    :body-params [userid :- String pass :- String]
+    :summary "User login handler"
+    (assoc-in (ok) [:session :identity] {:userid userid}))
+    
+  (context "/api" []
+    ;; note the :auth-rules key pointing to the authenticated? rule
+    ;; all routes within the context will require that the user is present in the session
+    :auth-rules authenticated?
+    
+    ;;authentication can also be specified as a combination of rules
+    ; :auth-rules {:or [authenticated admin?]}
+    ; :auth-rules {:and [authenticated admin?]}
+    
+    :tags ["private"]
+    
+    (GET "/foo" []
+      :current-user user
+      (ok user))
+
+    (POST "/logout" []
+      :return s/Str
+      :summary "remove the user from the session"
+      (assoc (ok "ok") :session nil))))
+```
+
+In the above example, the `/login` route does not require authentication. Meanwhile, the routes defined within the `/api`
+context will only be accessible when a user is present in the session.
