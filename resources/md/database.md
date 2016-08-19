@@ -224,71 +224,48 @@ macro:
   (get-user {:id "foo"}))
 ```
 
+HugSQL can be told to automatically transform underscores in the result keys into dashes as follows:
+
+```clojure
+(ns <<myapp.>>.db.core
+  (:require ...
+            [clojure.walk :refer [postwalk]]))
+            
+(defn ->kebab-case-keyword [k]
+  (-> (reduce
+        (fn [s c]
+          (if (and
+                (not-empty s)
+                (Character/isLowerCase (last s))
+                (Character/isUpperCase c))
+            (str s "-" c)
+            (str s c)))
+        "" (name k))
+      (clojure.string/replace #"[\s]+" "-")
+      (.replaceAll "_" "-")
+      (.toLowerCase)
+      (keyword)))
+
+(defn transform-keys [t coll]
+  "Recursively transforms all map keys in coll with t."
+  (letfn [(transform [[k v]] [(t k) v])]
+    (postwalk (fn [x] (if (map? x) (into {} (map transform x)) x)) coll)))
+
+(defn result-one-snake->kebab
+  [this result options]
+  (->> (hugsql.adapter/result-one this result options)
+       (transform-keys ->kebab-case-keyword)))
+
+(defn result-many-snake->kebab
+  [this result options]
+  (->> (hugsql.adapter/result-many this result options)
+       (map #(transform-keys ->kebab-case-keyword %))))
+
+(defmethod hugsql.core/hugsql-result-fn :1 [sym]
+  'yuggoth.db.core/result-one-snake->kebab)
+
+(defmethod hugsql.core/hugsql-result-fn :* [sym]
+  'yuggoth.db.core/result-many-snake->kebab)
+```
+
 See the [official documentation](http://www.hugsql.org/) for more details.
-
-### SQL Korma
-
->[Korma is a domain specific language for Clojure that takes the pain out of working with your favorite RDBMS. Built for speed and designed for flexibility, Korma provides a simple and intuitive interface to your data that won't leave a bad taste in your mouth.](http://sqlkorma.com/)
-
-
-Adding Korma support to an existing project is rather simple as well. You will first need to add the Korma dependency
-to you `project.clj`:
-
-```clojure
-[korma "0.4.0"]
-```
-
-We'll have to add a reference to `korma.db` in order to start using Korma.
-
-```clojure
-(ns myapp.db.core
-  (:require
-        [korma.core :refer :all]
-        [korma.db :refer [create-db default-connection]]))
-```
-
-
-Korma requires us to create the connection using `create-db` and the default connection can then be set by
-calling the `default-connection` function.
-
-```clojure
-(connect! [] (create-db db-spec))
-
-(defstate ^:dynamic *db*
-          :start (connect!))
-
-(default-connection *db*)
-```
-
-
-
-This will create a connection pool for your db spec using the [c3p0](http://sourceforge.net/projects/c3p0/) library.
-Note that the last created pool is set as the default for all queries.
-
-Korma uses entities to represent SQL tables. The entities represent the core building blocks of your queries.
-These entities are created by using `defentity` macro:
-
-```clojure
-(defentity users)
-```
-
-Using the users entity we can rewrite our query to create a user as follows:
-
-```clojure
-(defn create-user [user]
-  (insert users
-          (values user)))
-```
-
-The get user query would then be rewritten as:
-
-```clojure
-(defn get-user [id]
-  (first (select users
-                 (where {:id id})
-                 (limit 1))))
-```
-
-For further documentation on Korma and its features please refer to the [official documentation page](http://sqlkorma.com/docs).
-
-
