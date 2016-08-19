@@ -151,7 +151,7 @@ The `:current-user` key will will bind the `:identity` from the request and can 
 We can now define services as follows:
 
 ```clojure
-(defn admin [req]
+(defn admin? [req]
   (and (authenticated? req)
        (#{:admin} (:role (:identity req)))))
        
@@ -174,8 +174,8 @@ We can now define services as follows:
     :auth-rules authenticated?
     
     ;;authentication can also be specified as a combination of rules
-    ; :auth-rules {:or [authenticated admin?]}
-    ; :auth-rules {:and [authenticated admin?]}
+    ; :auth-rules {:or [authenticated? admin?]}
+    ; :auth-rules {:and [authenticated? admin?]}
     
     :tags ["private"]
     
