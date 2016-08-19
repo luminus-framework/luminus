@@ -163,7 +163,7 @@ We can now define services as follows:
                            :description "Sample Services"}}}}
 
   (POST "/login" req
-    :return {:userid s/Str}
+    :return {:userid String}
     :body-params [userid :- String pass :- String]
     :summary "User login handler"
     (assoc-in (ok) [:session :identity] {:userid userid}))
@@ -184,7 +184,7 @@ We can now define services as follows:
       (ok user))
 
     (POST "/logout" []
-      :return s/Str
+      :return String
       :summary "remove the user from the session"
       (assoc (ok "ok") :session nil))))
 ```
