@@ -316,7 +316,7 @@ CREATE TABLE users
  admin BOOLEAN,
  last_login TIME,
  is_active BOOLEAN,
- pass VARCHAR(100));
+ pass VARCHAR(300));
 ```
 
 We'll replace the `users` table with one that's more appropriate for our application:
@@ -347,7 +347,7 @@ If everything went well we should now have our database initialized.
 
 ### Accessing The Database
 
-Next, we'll take a look at the `src/guestbook/db/core.clj` file.
+Next, we'll take a look at the `src/clj/guestbook/db/core.clj` file.
 Here, we can see that we already have the definition for our database connection.
 
 ```clojure
@@ -506,7 +506,7 @@ We can now change the `home-page` handler function to look as follows:
 
 The function renders the home page template and passes it the currently stored messages along with any parameters from the `:flash` session, such as validation errors.
 
-Recall that the database accessor functions were automatically generated for us by the `(conman/bind-connection *db* "sql/queries.sql")` statement ran in the `guestbook.db.core` namespace. The names of these functions are inferred from the `-- :name` comments in the SQL templates found in the `resources/sq/queries.sql` file. 
+Recall that the database accessor functions were automatically generated for us by the `(conman/bind-connection *db* "sql/queries.sql")` statement ran in the `guestbook.db.core` namespace. The names of these functions are inferred from the `-- :name` comments in the SQL templates found in the `resources/sq/queries.sql` file.
 
 Our routes will now have to pass the request to both the `home-page` and the `save-message!` handlers:
 
@@ -796,4 +796,3 @@ it's not packaged with the application.
 ***
 
 Complete source listing for the tutorial is available [here](https://github.com/yogthos/guestbook).
-
