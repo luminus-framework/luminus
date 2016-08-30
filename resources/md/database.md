@@ -80,7 +80,7 @@ query functions within the scope of `conman.core/with-transaction`.
 The lifecycle of the `*db*` component is managed by the [mount](https://github.com/tolitius/mount) library as discussed in
 the [Managing Component Lifecycle](/docs/components.md) section.
   
-The `<app>.handler/init` and `<app>.handler/destroy` functions will initialize and tear down any components defined using `defstate` by calling `(mount/start)`
+The `<app>.core/start-app` and `<app>.core/stop-app` functions will initialize and tear down any components defined using `defstate` by calling `(mount/start)`
 and `(mount/stop)` respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.
 
 When working with multiple databases, a separate atom is required to track each database connection.
