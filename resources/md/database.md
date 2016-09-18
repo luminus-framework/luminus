@@ -226,32 +226,16 @@ macro:
 
 ### Massaging key names from SQL to Clojure style
 
-HugSQL can be told to automatically transform underscores in the result keys into dashes as follows:
+HugSQL can be told to automatically transform underscores in the
+result keys into dashes by using
+[camel-snake-kebab](https://github.com/qerub/camel-snake-kebab)
+library:
 
 ```clojure
-(ns <<myapp.>>.db.core
+(ns yuggoth.db.core
   (:require ...
-            [clojure.walk :refer [postwalk]]))
-            
-(defn ->kebab-case-keyword [k]
-  (-> (reduce
-        (fn [s c]
-          (if (and
-                (not-empty s)
-                (Character/isLowerCase (last s))
-                (Character/isUpperCase c))
-            (str s "-" c)
-            (str s c)))
-        "" (name k))
-      (clojure.string/replace #"[\s]+" "-")
-      (.replaceAll "_" "-")
-      (.toLowerCase)
-      (keyword)))
-
-(defn transform-keys [t coll]
-  "Recursively transforms all map keys in coll with t."
-  (letfn [(transform [[k v]] [(t k) v])]
-    (postwalk (fn [x] (if (map? x) (into {} (map transform x)) x)) coll)))
+            [camel-snake-kebab.extras :refer [transform-keys]]
+            [camel-snake-kebab.core :refer [->kebab-case-keyword]]))
 
 (defn result-one-snake->kebab
   [this result options]
