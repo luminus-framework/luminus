@@ -68,5 +68,5 @@ handler <- wrap-formats <- wrap-defaults <- request
 
 * [ring-ratelimit](https://github.com/myfreeweb/ring-ratelimit) - Rate limiting middleware
 * [ring-etag-middleware](https://github.com/mikejs/ring-etag-middleware) - Calculates etags for ring responses and returns 304 responses when appropriate
-* [ring-gzip-middleware](https://github.com/mikejs/ring-gzip-middleware) - Gzips ring responses for user agents which can handle it
+* [ring-gzip-middleware](https://github.com/amalloy/ring-gzip-middleware) - Gzips ring responses for user agents which can handle it
 * [ring-upload-progress](https://github.com/joodie/ring-upload-progress) - Provide upload progress data in ring session
