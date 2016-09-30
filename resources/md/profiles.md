@@ -26,6 +26,7 @@ alternative servers are supported:
 
 * +auth - adds [Buddy](https://github.com/funcool/buddy) dependency and authentication middleware
 * +auth-jwe - adds [Buddy](https://github.com/funcool/buddy) dependency with the [JWE](https://jwcrypto.readthedocs.io/en/stable/jwe.html) backend
+* +oauth - adds OAuth boilerplate for the [clj-oauth](https://github.com/mattrepl/clj-oauth) library
 * +cider - adds support for [CIDER](https://github.com/clojure-emacs/cider) using [CIDER nREPL](https://github.com/clojure-emacs/cider-nrepl) plugin
 * +cljs - adds [ClojureScript][cljs] support with [Reagent](https://reagent-project.github.io/)
 * +re-frame - adds [ClojureScript][cljs] support with [re-frame](https://github.com/Day8/re-frame)
