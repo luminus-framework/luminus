@@ -32,12 +32,12 @@ java -Ddatabase_url="jdbc:postgresql://localhost/app?user=app_user&password=secr
 ```
 
 The variable names are converted into Clojure style keywords. The variables are lowercased and `_`
-characters are converted to `-` charachters, while `.` characters are used to indicate nesting.
+characters are used to indicate nesting, while `.` characters are converted to `-` charachters.
 
 * `-Dport=300` -> `{:port 3000}`
 * `-Dnrepl-port=7000` -> `{:nrepl-port 7000}`
-* `-Ddatabase.url="jdbc:h2:./guestbook_dev.db"` -> `{:database {:url "jdbc:h2:./guestbook_dev.db"}}`
-* `-Dio.http-max-connections=10` -> `{:io {:http-max-connections 10}}`
+* `-Ddatabase_url="jdbc:h2:./guestbook_dev.db"` -> `{:database {:url "jdbc:h2:./guestbook_dev.db"}}`
+* `-Dio_http.max.connections=10` -> `{:io {:http-max-connections 10}}`
 
 Any environment variables found in `System/getenv` will be merged last. These variables are parsed using the
 following strategy:
