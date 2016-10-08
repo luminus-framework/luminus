@@ -143,7 +143,7 @@ For more examples of ClojureScript synonyms of common JavaScript operations see 
 
 ### Reagent
 
-[Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+cljs` profile in Luminus will create an application with it configured.
+[Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+reagent` profile in Luminus will create an application with it configured. Consider also using `+re-frame` to add support with [re-frame](https://github.com/Day8/re-frame) to the project.
 
 Reagent is backed by [React](http://facebook.github.io/react/) and provides an extremely efficient way to manipulate the DOM using [Hiccup](https://github.com/weavejester/hiccup) style syntax. In Reagent, each UI component is simply a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable components simple and intuitive.
 
