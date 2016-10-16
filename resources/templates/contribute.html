@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row page contributing">
-    <div class="col-md-9 article contributing">
-        {{content|markdown}}
-    </div>
-    <div class="col-md-3 sidebar">
-        <h3>Community</h3>
-        <h5>Mailing lists:</h5>
-        <ul>
-            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/luminusweb">Luminus</a></li>
-            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/clojure">Clojure</a></li>
-            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/clojurescript">ClojureScript</a></li>
-            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/compojure">Compojure</a></li>
-            <li><a href="https://groups.google.com/forum/?fromgroups#!forum/ring-clojure">Ring</a></li>
-        </ul>
-        <h5>IRC Channels:</h5>
+<div class="column column-75">
+  <div class="column-wrapper">
+    {{content|markdown}}
+  </div>
+</div>
 
-        <ul>
-            <li>#luminus</li>
-            <li>#clojure</li>
-        </ul>
-        <p>on irc.freenode.net</p>
-    </div>
+<div class="column column-25">
+  <div class="column-wrapper">
+    <h3>Community</h3>
+    <h5>Mailing lists:</h5>
+    <ul>
+      <li><a href="https://groups.google.com/forum/?fromgroups#!forum/luminusweb">Luminus</a></li>
+      <li><a href="https://groups.google.com/forum/?fromgroups#!forum/clojure">Clojure</a></li>
+      <li><a href="https://groups.google.com/forum/?fromgroups#!forum/clojurescript">ClojureScript</a></li>
+      <li><a href="https://groups.google.com/forum/?fromgroups#!forum/compojure">Compojure</a></li>
+      <li><a href="https://groups.google.com/forum/?fromgroups#!forum/ring-clojure">Ring</a></li>
+    </ul>
+    <h5>IRC Channels:</h5>
+
+    <ul>
+      <li>#luminus</li>
+      <li>#clojure</li>
+    </ul>
+    <p>on irc.freenode.net</p>
+  </div>
 </div>
 {% endblock %}
