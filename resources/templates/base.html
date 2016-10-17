@@ -1,90 +1,82 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="keywords" content="luminus, clojure, framework, leiningen">
     <meta name="canonical" content="http://luminusweb.net">
     <title>Luminus - a Clojure web framework</title>
-    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/color-brewer.min.css">
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon"> 
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon"> 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
-
     {% style "/css/highlight.css" %}
     {% style "/css/codestyle.css" %}
     {% style "/css/screen.css" %}
     {% include "ga.html" %}
-</head>
-<body>
-<div id="wrap">
-    <header class="navbar navbar-top">
-        <div id="logo" class="col-lg-5 col-md-5 col-sm-5">
-            <h1 id="logo-text">
-                <a class="navbar-brand" href="{{servlet-context}}/"><img id="logo-image" src="{{servlet-context}}/img/luminus_bleached.png" alt="Luminus"></a>
-            </h1>
-        </div>
-        <div class="row nav-row">
-            <!-- navbar -->
-            <div class="col-lg-7 col-md-7 col-sm-7">
-                <nav>
-                    <ul class="nav navbar-nav">
-                        <li {% ifequal page
-                        "home.html" %} class="selected"{%endifequal%}>
-                        <a href="{{servlet-context}}/">Home</a>
-                        </li>
-                        <li {% ifequal page
-                        "docs.html" %} class="selected"{%endifequal%}>
-                        <a href="{{servlet-context}}/docs">
-                            Doc<span class="show-on-mobile">s</span><span class="hide-on-mobile">umentation</span>
-                        </a>
-                        </li>
-                        <li {% ifequal page
-                        "contribute.html" %} class="selected"{%endifequal%}>
-                        <a href="{{servlet-context}}/contribute">Get Involved</a>
-                        </li>
-                    </ul>
-                </nav>
+  </head>
+  <body>
+    <header>
+      <div class="wrapper">
+        <div class="column-wrapper">
+          <div class="row">
+            <div id="logo">
+              <h1>
+                <a href="{{servlet-context}}/">
+                  <img src="{{servlet-context}}/img/logo.png" alt="Luminus">
+                  Luminus
+                </a>
+              </h1>
             </div>
+            <nav>
+              <ul>
+                <li {% ifequal page
+                    "home.html" %} class="selected"{%endifequal%}>
+                  <a href="{{servlet-context}}/">Home</a>
+                </li>
+                <li {% ifequal page
+                    "docs.html" %} class="selected"{%endifequal%}>
+                  <a href="{{servlet-context}}/docs">
+                    Doc<span class="show-on-mobile">s</span><span class="hide-on-mobile">umentation</span>
+                  </a>
+                </li>
+                <li {% ifequal page
+                    "contribute.html" %} class="selected"{%endifequal%}>
+                  <a href="{{servlet-context}}/contribute">
+                    <span class="hide-on-mobile">Get Involved</span>
+                    <span class="show-on-mobile">Contrib</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          {% block header %}
+          {% endblock %}
         </div>
+      </div>
     </header>
-    <div id="body" class="container">
-        <div class="content">
-            {% block content %}
-            {% endblock %}
+    <div class="wrapper">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <footer>
+      <article class="wrapper">
+        <div class="column-wrapper">
+          <p>
+            Luminus framework is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>
+            -
+            Copyright ©
+            <span id="cpyear"></span>
+          </p>
         </div>
-    </div>
-    <div id="footer">
-        <footer class="text-muted text-center">
-            <article>
+      </article>
+    </footer>
 
-                <p>
-                    Luminus framework is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>
-                    -
-                    Copyright ©
-                    <span id="cpyear"></span>
-                </p>
-            </article>
-        </footer>
-    </div>
-
-</div>
-
-
-<!-- scripts  -->
-
-{% script "/js/highlight.pack.js" %}
-
-{% script "/js/site.js" %}
-<script type="text/javascript">
-    var context = "{{servlet-context}}";
-</script>
-{% block page-scripts %}
-{% endblock %}
-
-</body>
+    {% script "/js/highlight.pack.js" %}
+    {% script "/js/site.js" %}
+    <script type="text/javascript">
+      var context = "{{servlet-context}}";
+    </script>
+    {% block page-scripts %}
+    {% endblock %}
+  </body>
 </html>
-
