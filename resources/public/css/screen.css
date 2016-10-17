@@ -25,6 +25,23 @@ ul, ol {
 ul {
     list-style: none;
 }
+
+ul.slogan {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+ul.slogan > li {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
+ul.slogan > li:before {
+  content: "➤";
+  padding-right: 5px;
+}
+
 h1 {
     font-size: 2em;
 }
@@ -99,8 +116,17 @@ header .selected, header .selected a {
     color: black;
     font-weight: bold;
 }
+.column-25 > div > ul {
+    font-size: 0.95em;
+    white-space: nowrap;
+}
+
+.column-25 > div > ul > li > a:before {
+    content: "  ";
+}
+
 .column-25 .selected:before {
-    content: "» ";
+    content: "•";
 }
 #logo {
     float: left;
@@ -124,11 +150,16 @@ header nav li a {
     margin: 0 0.5em;
 }
 
+.contents > li > a {
+  color: #5900ff;
+}
+
 footer {
     margin-top: 2em;
 }
 footer .wrapper {
     border-top: 1px solid #DDD;
+    text-align: center;
 }
 
 .contents {
