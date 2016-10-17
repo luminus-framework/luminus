@@ -1,46 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="column column-75">
-  <div class="column-wrapper">
-    <h1>{{title}}</h1>
-    {% if toc %}
-    <h2>Contents</h2>
-    {{toc|safe}}
-    {% endif %}
-    <div id="content">
-      {{content|safe}}
+<div class="row">
+  <div class="column column-75">
+    <div class="column-wrapper">
+      <h1>{{title}}</h1>
+      {% if toc %}
+      <h2>Contents</h2>
+      {{toc|safe}}
+      {% endif %}
+      <div id="content">
+        {{content|safe}}
+      </div>
     </div>
   </div>
-</div>
-<div class="column column-25">
-  <div class="column-wrapper">
-    <h2>Topics</h2>
-    <ul>
-      {% for topic in topics %}
-      <li>
-        <a {%ifequal topic.1 title %}class="selected" {% endifequal %}
-           href="{{servelt-context}}/docs/{{topic.0}}">
-          {{topic.1}}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-    <h2>Books</h2>
-    <ul>
-      <li>
-        <a href="http://pragprog.com/book/dswdcloj/web-development-with-clojure">
-          <img src="{{servelt-context}}/img/wdwc.png" class="bookimage">
-        </a>
-      </li>
-      <li>
-        <a href="https://www.packtpub.com/application-development/clojure-web-development-essentials">
-          <img src="{{servelt-context}}/img/CljWDE.jpg" class="bookimage">
-        </a>
-      </li>
+  <div class="column column-25">
+    <div class="column-wrapper">
+      <h2>Topics</h2>
+      <ul>
+        {% for topic in topics %}
+        <li>
+          <a {%ifequal topic.1 title %}class="selected" {% endifequal %}
+             href="{{servelt-context}}/docs/{{topic.0}}">
+            {{topic.1}}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <h2>Books</h2>
+      <ul>
+        <li>
+          <a href="http://pragprog.com/book/dswdcloj/web-development-with-clojure">
+            <img src="{{servelt-context}}/img/wdwc.png" class="bookimage">
+          </a>
+        </li>
+        <li>
+          <a href="https://www.packtpub.com/application-development/clojure-web-development-essentials">
+            <img src="{{servelt-context}}/img/CljWDE.jpg" class="bookimage">
+          </a>
+        </li>
 
 
-      <li><a href=""></a></li>
-    </ul>
+        <li><a href=""></a></li>
+      </ul>
+    </div>
   </div>
 </div>
 {% endblock %}

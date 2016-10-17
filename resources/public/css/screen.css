@@ -26,10 +26,10 @@ ul {
     list-style: none;
 }
 h1 {
-    font-size: 1.5em;
+    font-size: 1.75em;
 }
 h2 {
-    font-size: 1em;
+    font-size: 1.25em;
 }
 h3 {
     font-size: 1em;
@@ -90,9 +90,17 @@ header, header a, header a:hover {
 }
 header h1 {
     margin: 0;
+    font-size: 1.5em;
 }
 header .selected, header .selected a {
     color: yellow;
+}
+.column-25 .selected {
+    color: black;
+    font-weight: bold;
+}
+.column-25 .selected:before {
+    content: "» ";
 }
 #logo {
     float: left;
@@ -164,4 +172,8 @@ footer .wrapper {
 }
 .markdown .hljs-link_label {
     color: #5900ff;
+}
+
+#easy-start {
+    padding-top: 0;
 }
