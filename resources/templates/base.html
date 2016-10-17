@@ -41,7 +41,10 @@
                 </li>
                 <li {% ifequal page
                     "contribute.html" %} class="selected"{%endifequal%}>
-                  <a href="{{servlet-context}}/contribute">Get Involved</a>
+                  <a href="{{servlet-context}}/contribute">
+                    <span class="hide-on-mobile">Get Involved</span>
+                    <span class="show-on-mobile">Contrib</span>
+                  </a>
                 </li>
               </ul>
             </nav>

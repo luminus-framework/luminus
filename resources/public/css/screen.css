@@ -26,7 +26,7 @@ ul {
     list-style: none;
 }
 h1 {
-    font-size: 1.75em;
+    font-size: 2em;
 }
 h2 {
     font-size: 1.25em;
@@ -176,4 +176,21 @@ footer .wrapper {
 
 #easy-start {
     padding-top: 0;
+}
+
+@media screen and (max-width: 640px) {
+    .column {
+        float: none;
+        width: auto;
+    }
+    .column-wrapper {
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+    .show-on-mobile {
+        display: initial;
+    }
+    .hide-on-mobile {
+        display: none;
+    }
 }
