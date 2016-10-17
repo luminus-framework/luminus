@@ -99,7 +99,7 @@ header, footer {
     overflow: hidden;
 }
 header {
-    background-color: #5900ff;
+    background-color: #3e51ff;
 }
 header, header a, header a:hover {
     color: white;
@@ -151,7 +151,7 @@ header nav li a {
 }
 
 .contents > li > a {
-  color: #5900ff;
+  color: #3e51ff;
 }
 
 footer {
@@ -202,7 +202,7 @@ footer .wrapper {
     color: white;
 }
 .markdown .hljs-link_label {
-    color: #5900ff;
+    color: #3e51ff;
 }
 
 #easy-start {
