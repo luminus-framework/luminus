@@ -3,63 +3,58 @@
 <div id="hero">
   <h2>Clojure Web Development Made Simple</h2>
   <p>
-    Luminus is a Clojure micro-framework based on a set of lightweight libraries. It aims to provide
-    a robust, scalable, and easy to use platform. With Luminus you can focus on developing your app
-    the way you want without any distractions.
+    Luminus is a Clojure micro-framework based on a set of lightweight libraries. It aims to provide a robust, scalable, and easy to use platform. With Luminus you can focus on developing your app the way you want without any distractions.
   </p>
 </div>
 {% endblock %}
 {% block content %}
-<div class="column column-33">
-  <div class="column-wrapper">
-    <h2>Developer Friendly</h2>
-
-    <p class="blurb">
-      Start hacking immediately with the REPL and embedded development server
-    </p>
-    <ul class="info-bullets">
-      <li><i class="fa fa-arrow-circle-right"></i> Simple and easy to learn</li>
-      <li><i class="fa fa-arrow-circle-right"></i> REPL driven development</li>
-      <li><i class="fa fa-arrow-circle-right"></i> Powerful build tools</li>
-    </ul>
+<div class="row">
+  <div class="column column-33">
+    <div class="column-wrapper">
+      <h2>Developer Friendly</h2>
+      <p>
+        Start hacking immediately with the REPL and embedded development server
+      </p>
+      <ul>
+        <li>Simple and easy to learn</li>
+        <li>REPL driven development</li>
+        <li>Powerful build tools</li>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="column column-33">
-  <div class="column-wrapper">
-    <h2>Productive</h2>
-
-    <p class="blurb">
-      Choose productivity and performance by leveraging Clojure on the JVM
-    </p>
-    <ul class="info-bullets">
-      <li><i class="fa fa-arrow-circle-right"></i> Built on top of the JVM</li>
-      <li><i class="fa fa-arrow-circle-right"></i> Low overhead</li>
-      <li><i class="fa fa-arrow-circle-right"></i> Compiled for production</li>
-    </ul>
+  <div class="column column-33">
+    <div class="column-wrapper">
+      <h2>Productive</h2>
+      <p>
+        Choose productivity and performance by leveraging Clojure on the JVM
+      </p>
+      <ul>
+        <li>Built on top of the JVM</li>
+        <li>Low overhead</li>
+        <li>Compiled for production</li>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="column column-33">
-  <div class="column-wrapper">
-    <h2>Modern Web & Mobile</h2>
-
-    <p class="blurb">
-      Luminus is built for needs of modern web & mobile apps
-    </p>
-    <ul class="info-bullets">
-      <li><i class="fa fa-arrow-circle-right"></i> ClojureScript support</li>
-      <li><i class="fa fa-arrow-circle-right"></i> Stateless web tier</li>
-      <li><i class="fa fa-arrow-circle-right"></i> Excellent SQL/NoSQL support</li>
-    </ul>
+  <div class="column column-33">
+    <div class="column-wrapper">
+      <h2>Modern Web & Mobile</h2>
+      <p>
+        Luminus is built for needs of modern web & mobile apps
+      </p>
+      <ul>
+        <li>ClojureScript support</li>
+        <li>Stateless web tier</li>
+        <li>Excellent SQL/NoSQL support</li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <div class="column-wrapper">
-  <p class="title">Using <a href="http://leiningen.org/">Leiningen</a>, getting started is as easy as:</p>
-  <pre class="bash hljs">
-    <span class="prompt">$ </span><span class="cmd">lein new luminus my-app</span>
-    <span class="prompt">$ </span><span class="cmd">cd my-app</span>
-    <span class="prompt">$ </span><span class="cmd">lein run</span>
-    Started server on port <span class="hljs-number">3000</span>
-  </pre>
+  <p>Using <a href="http://leiningen.org/">Leiningen</a>, getting started is as easy as:</p>
+<pre class="bash hljs"><span class="prompt">$ </span><span class="cmd">lein new luminus my-app</span>
+<span class="prompt">$ </span><span class="cmd">cd my-app</span>
+<span class="prompt">$ </span><span class="cmd">lein run</span>
+Started server on port <span class="hljs-number">3000</span></pre>
 </div>
 {% endblock %}

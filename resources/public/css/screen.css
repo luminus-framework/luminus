@@ -2,7 +2,7 @@ html, body {
     margin:0;
     padding:0;
     height:100%;
-    font-family: Helvetica Neue;
+    font-family: Helvetica Neue, Helvetica, sans-serif;
     color: #111;
 }
 a, a:hover {
@@ -35,22 +35,40 @@ h3 {
     font-size: 1em;
     margin-top: 3em;
 }
+h4 {
+    text-transform: uppercase;
+    font-size: 0.75em;
+}
+h4 code {
+    font-size: 1.25em;
+    text-transform: none;
+}
 img {
     max-width: 100%;
+}
+hr {
+    border-top: 1px solid #DDD;
+    border-bottom: none;
 }
 
 .wrapper {
     margin: 0 auto;
     max-width: 900px;
 }
+.row {
+    overflow: hidden;
+}
 .column {
     float: left;
 }
 .column-wrapper {
-    padding: 2em;
+    padding: 2em 1em;
 }
 .column-75 {
     width: 75%;
+}
+.column-75 .column-wrapper {
+    padding-right: 2em;
 }
 .column-25 {
     width: 25%;
@@ -62,20 +80,19 @@ img {
 header, footer {
     width: 100%;
     overflow: hidden;
-    padding: 1em 2em;
 }
 header {
-    background-color: blue;
+    background-color: #5900ff;
 }
 header, header a, header a:hover {
     color: white;
     border-color: white;
 }
-#header-main {
-    overflow: hidden;
-}
 header h1 {
     margin: 0;
+}
+header .selected, header .selected a {
+    color: yellow;
 }
 #logo {
     float: left;
@@ -95,13 +112,21 @@ header nav li {
 }
 header nav li a {
     display: inline-block;
-    padding: 0.5em;
+    padding: 0.5em 0;
+    margin: 0 0.5em;
+}
+
+footer {
+    margin-top: 2em;
+}
+footer .wrapper {
+    border-top: 1px solid #DDD;
 }
 
 .contents {
     padding-bottom: 2em;
     margin-bottom: 2em;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #DDD;
 }
 
 #hero {
@@ -109,10 +134,34 @@ header nav li a {
     max-width: 600px;
     margin: 3em auto;
 }
+#hero p {
+    color: yellow;
+}
 #hero h2 {
     font-size: 3em;
 }
 
 .show-on-mobile {
     display: none;
+}
+
+.column-33 li:before {
+    content: "— ";
+}
+
+.bash {
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 1.5em 2em;
+    line-height: 1.5em;
+}
+.bash .cmd, .bash .hljs-string {
+    color: yellow;
+}
+.bash .hljs-number, .bash .hljs-keyword {
+    color: white;
+}
+.markdown .hljs-link_label {
+    color: #5900ff;
 }

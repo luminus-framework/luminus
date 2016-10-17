@@ -6,7 +6,6 @@
     <meta name="canonical" content="http://luminusweb.net">
     <title>Luminus - a Clojure web framework</title>
     <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/color-brewer.min.css">
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon"> 
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon"> 
@@ -18,36 +17,38 @@
   <body>
     <header>
       <div class="wrapper">
-        <div id="header-main">
-          <div id="logo">
-            <h1>
-              <a href="{{servlet-context}}/">
-                <img src="{{servlet-context}}/img/logo.png" alt="Luminus">
-                Luminus
-              </a>
-            </h1>
-          </div>
-          <nav>
-            <ul>
-              <li {% ifequal page
-                  "home.html" %} class="selected"{%endifequal%}>
-                <a href="{{servlet-context}}/">Home</a>
-              </li>
-              <li {% ifequal page
-                  "docs.html" %} class="selected"{%endifequal%}>
-                <a href="{{servlet-context}}/docs">
-                  Doc<span class="show-on-mobile">s</span><span class="hide-on-mobile">umentation</span>
+        <div class="column-wrapper">
+          <div class="row">
+            <div id="logo">
+              <h1>
+                <a href="{{servlet-context}}/">
+                  <img src="{{servlet-context}}/img/logo.png" alt="Luminus">
+                  Luminus
                 </a>
-              </li>
-              <li {% ifequal page
-                  "contribute.html" %} class="selected"{%endifequal%}>
-                <a href="{{servlet-context}}/contribute">Get Involved</a>
-              </li>
-            </ul>
-          </nav>
+              </h1>
+            </div>
+            <nav>
+              <ul>
+                <li {% ifequal page
+                    "home.html" %} class="selected"{%endifequal%}>
+                  <a href="{{servlet-context}}/">Home</a>
+                </li>
+                <li {% ifequal page
+                    "docs.html" %} class="selected"{%endifequal%}>
+                  <a href="{{servlet-context}}/docs">
+                    Doc<span class="show-on-mobile">s</span><span class="hide-on-mobile">umentation</span>
+                  </a>
+                </li>
+                <li {% ifequal page
+                    "contribute.html" %} class="selected"{%endifequal%}>
+                  <a href="{{servlet-context}}/contribute">Get Involved</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          {% block header %}
+          {% endblock %}
         </div>
-      {% block header %}
-      {% endblock %}
       </div>
     </header>
     <div class="wrapper">
@@ -56,12 +57,14 @@
     </div>
     <footer>
       <article class="wrapper">
-        <p>
-          Luminus framework is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>
-          -
-          Copyright ©
-          <span id="cpyear"></span>
-        </p>
+        <div class="column-wrapper">
+          <p>
+            Luminus framework is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>
+            -
+            Copyright ©
+            <span id="cpyear"></span>
+          </p>
+        </div>
       </article>
     </footer>
 
