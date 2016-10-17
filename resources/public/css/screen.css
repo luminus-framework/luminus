@@ -110,7 +110,7 @@ header h1 {
     font-size: 1.5em;
 }
 
-nav > ul > .selected {
+nav > ul > .selected a {
     border-bottom: solid;
 }
 
@@ -148,7 +148,7 @@ header nav li {
 }
 header nav li a {
     display: inline-block;
-    padding: 0.5em 0;
+    padding: 0.5em 0 0;
     margin: 0 0.5em;
 }
 
