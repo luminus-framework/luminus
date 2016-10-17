@@ -10,13 +10,13 @@
                  [markdown-clj "0.9.90"]
                  [clj-http "2.1.0"]
                  [crouton "0.1.2"]
+                 [luminus-jetty "0.1.0"]
+                 [luminus/config "0.5"]
                  [selmer "1.0.2"]]
   :min-lein-version "2.0.0"
-  :plugins [[lein-ring "0.9.7"]]
-  :profiles {:production
-             {:ring
-              {:open-browser? false
-               :stacktraces? false
-               :auto-reload? false}}}
-  :ring {:handler luminus.handler/app
-         :init luminus.handler/init})
+  :uberjar-name "luminus.jar"
+  :main luminus.core
+  :jvm-opts ["-server"]
+  :profiles {:uberjar
+             {:omit-source true
+              :aot :all}})
