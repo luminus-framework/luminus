@@ -109,9 +109,11 @@ header h1 {
     margin: 0;
     font-size: 1.5em;
 }
-header .selected, header .selected a {
-    color: yellow;
+
+nav > ul > .selected {
+    border-bottom: solid;
 }
+
 .column-25 .selected {
     color: black;
     font-weight: bold;
@@ -174,7 +176,7 @@ footer .wrapper {
     margin: 3em auto;
 }
 #hero p {
-    color: yellow;
+    color: white;
 }
 #hero h2 {
     font-size: 3em;
