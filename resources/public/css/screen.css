@@ -156,6 +156,14 @@ header nav li a {
   color: #3e51ff;
 }
 
+#content > ul > li > a {
+  color: #3e51ff;
+}
+
+.column-75 > a {
+  color: #3e51ff;
+}
+
 footer {
     margin-top: 2em;
 }
@@ -190,17 +198,17 @@ footer .wrapper {
     content: "— ";
 }
 
-.bash {
+#easy-start .bash {
     background: black;
     color: white;
     border-radius: 5px;
     padding: 1.5em 2em;
     line-height: 1.5em;
 }
-.bash .cmd, .bash .hljs-string {
+#easy-start > .bash .cmd, #easy-start .bash .hljs-string {
     color: yellow;
 }
-.bash .hljs-number, .bash .hljs-keyword {
+#easy-start > .bash .hljs-number, #easy-start .bash .hljs-keyword {
     color: white;
 }
 .markdown .hljs-link_label {
