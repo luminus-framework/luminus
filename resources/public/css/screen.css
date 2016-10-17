@@ -122,14 +122,19 @@ nav > ul > .selected a {
     font-size: 0.95em;
     white-space: nowrap;
 }
-
-.column-25 > div > ul > li > a:before {
-    content: "  ";
+.column-25 .selected {
+    list-style-type: disc;
+}
+.selected, .selected a {
+    cursor: default;
+}
+.selected:hover, .selected a:hover {
+    cursor: default;
+}
+.column-25 .selected a:hover {
+    border: none;
 }
 
-.column-25 .selected:before {
-    content: "•";
-}
 #logo {
     float: left;
 }
