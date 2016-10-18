@@ -146,7 +146,7 @@ In order to provide authentication, we'll first need to implement `restructure-p
 The above code creates the `:auth-rules` key that can be used in compojure-api routes. This key will apply
 the authentication middleware to the routes using it.
 
-The `:current-user` key will will bind the `:identity` from the request and can be used to access the user identity.
+The `:current-user` key will bind the `:identity` from the request and can be used to access the user identity.
 
 We can now define services as follows:
 
