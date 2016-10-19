@@ -7,6 +7,15 @@ project architecture.
 
 If you don't have a preferred Clojure editor already, then it's recommended that you use [Light Table](http://www.lighttable.com/) to follow along with this tutorial.
 
+### Using the Docker Image
+
+If you're using Docker, then you can follow these steps to get up and running:
+
+1. Clone [this project](https://github.com/luminus-framework/luminus-docker)
+2. `cd luminus-docker && docker build .`
+3. `docker run -p 3000:3000 -p 7000:7000 -it id-from-step-3`
+
+
 ### Installing JDK
 
 Clojure runs on the JVM and requires a copy of JDK to be installed. IF you don't
