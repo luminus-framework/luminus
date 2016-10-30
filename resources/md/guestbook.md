@@ -12,7 +12,7 @@ If you don't have a preferred Clojure editor already, then it's recommended that
 If you're using Docker, then you can follow these steps to get up and running:
 
 1. `docker pull danboykis/luminus-guestbook`
-2. `docker run -p 3000:3000 -p 7000:7000 -it danboykus/luminus-guestbook`
+2. `docker run -p 3000:3000 -p 7000:7000 -it danboykis/luminus-guestbook`
 
 If you prefer to build your own docker image follow the directions [here](https://github.com/luminus-framework/luminus-docker)
 
