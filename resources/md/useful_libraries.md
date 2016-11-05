@@ -41,15 +41,16 @@ to those already included with Luminus.
 
 ## Database clients
 
+* [Carmine](https://github.com/ptaoussanis/carmine) - Clojure Redis client & message queue
+* [Cassaforte](https://github.com/clojurewerkz/cassaforte) - A young client for Apache Cassandra 1.2+
+* [Clutch](https://github.com/clojure-clutch/clutch) - a library for Apache CouchDB
 * [CongoMongo](https://github.com/aboekhoff/congomongo) - Wrapper for the mongo-db java api
 * [Monger](http://clojuremongodb.info/) - a client for MongoDB
-* [Clutch](https://github.com/clojure-clutch/clutch) - a library for Apache CouchDB
 * [Neocons](https://github.com/michaelklishin/neocons) - a feature rich idiomatic client for the Neo4J REST API
-* [Welle](http://clojureriak.info/) - an expressive client for Riak
-* [Cassaforte](https://github.com/clojurewerkz/cassaforte) - A young client for Apache Cassandra 1.2+
+* [pgjdbc-ng](http://impossibl.github.io/pgjdbc-ng/) - JDBC driver with PostgreSQL specific features
 * [Rotary](https://github.com/weavejester/rotary) - DynamoDB API
 * [Rummage](https://github.com/cemerick/rummage) - a client library for Amazon's SimpleDB (SDB)
-* [Carmine](https://github.com/ptaoussanis/carmine) - Clojure Redis client & message queue
+* [Welle](http://clojureriak.info/) - an expressive client for Riak
 
 ## Database Migrations
 
