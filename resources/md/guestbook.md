@@ -754,7 +754,6 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
             [clojure.test :refer :all]
             [clojure.java.jdbc :as jdbc]
             [guestbook.config :refer [env]]
-            [conman.core :refer [with-transaction]]
             [mount.core :as mount]))
 
 (use-fixtures
@@ -763,20 +762,26 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
     (mount/start
       #'guestbook.config/env
       #'guestbook.db.core/*db*)
-    (migrations/migrate ["migrate"](:database-url env))
+    (migrations/migrate ["migrate"] (select-keys env [:database-url]))
     (f)))
 
-(deftest test-message
+(deftest test-users
   (jdbc/with-db-transaction [t-conn *db*]
     (jdbc/db-set-rollback-only! t-conn)
-    (let [message {:name "test"
-                   :message "test"
-                   :timestamp (java.util.Date.)}]
-      (is (= 1 (db/save-message! t-conn message)))
-      (let [result (db/get-messages t-conn {})]
-        (is (= 1 (count result)))
-        (is (= message (dissoc (first result) :id))))))
-  (is (empty? (db/get-messages))))
+    (let [timestamp (java.util.Date.)]
+      (is (= 1 (db/save-message!
+                t-conn
+                {:name "Bob"
+                 :message "Hello, World"
+                 :timestamp timestamp}
+                {:connection t-conn})))
+      (is (=
+           {:name "Bob"
+            :message "Hello, World"
+            :timestamp timestamp}
+           (-> (db/get-messages t-conn {})
+               (first)
+               (select-keys [:name :message :timestamp])))))))
 ```
 
 We can now run `lein test` in the terminal to see that our database interaction works as expected.
