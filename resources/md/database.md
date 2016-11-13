@@ -50,7 +50,7 @@ The [conman](https://github.com/luminus-framework/conman) library is used to cre
   
 The connection is initialized by calling the `conman/connect!` function with the connection atom and a database specification map.
 The `connect!` function will create a pooled JDBC
-connection using the [HikariCP](https://github.com/brettwooldridge/HikariCP) library.
+connection using the [HikariCP](https://github.com/brettwooldridge/HikariCP) library. You can see the complete list of the connection options [here](https://github.com/tomekw/hikari-cp#configuration-options).
 The connection can be terminated by calling the `disconnect!` function.
 
 ```clojure
