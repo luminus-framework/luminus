@@ -63,11 +63,7 @@ The connection can be terminated by calling the `disconnect!` function.
             
 (defstate ^:dynamic *db*
           :start (conman/connect!
-                   {:init-size  1
-                    :min-idle   1
-                    :max-idle   4
-                    :max-active 32
-                    :jdbc-url   (env :database-url)})
+                   {:jdbc-url (env :database-url)})
           :stop (conman/disconnect! *db*))
 ```
 
