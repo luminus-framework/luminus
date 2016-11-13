@@ -80,11 +80,7 @@ section). In this case you need to fetch this data from the Tomcat configuration
 ```clojure
 (defstate ^:dynamic *db*
            :start (conman/connect!
-                   {:init-size  1
-                    :min-idle   1
-                    :max-idle   4
-                    :max-active 32
-                    :jdbc-url   (env :database-url)})
+                   {:jdbc-url (env :database-url)})
            :stop (conman/disconnect! *db*))
 ```
 
