@@ -809,4 +809,4 @@ it's not packaged with the application.
 
 ***
 
-Complete source listing for the tutorial is available [here](https://github.com/yogthos/guestbook).
+Complete source listing for the tutorial is available [here](https://github.com/luminus-framework/examples/tree/master/guestbook).
