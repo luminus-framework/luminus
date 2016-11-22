@@ -85,16 +85,19 @@ Below we have a simple example of interaction with the session.
             [ring.util.response :refer [response]]))
 
 (defn set-user! [id {session :session}]
-  (-> (str "User set to: " id)
-      response
-      (assoc :session (assoc session :user id))))
+  (-> (response (str "User set to: " id))
+      (assoc :session (assoc session :user id))
+      (assoc :headers {"Content-Type" "text/plain"})))
 
 (defn remove-user! [{session :session}]
-  (-> (response "")
-      (assoc :session (dissoc session :user))))
+  (-> (response "User removed")
+      (assoc :session (dissoc session :user))
+      (assoc :headers {"Content-Type" "text/plain"})))
 
 (defn clear-session! []
-  (dissoc (response "") :session))
+  (-> (response "Session cleared")
+      (dissoc :session)
+      (assoc :headers {"Content-Type" "text/plain"})))
 
 (defroutes app-routes
   (GET "/login/:id" [id :as req] (set-user! id req))
