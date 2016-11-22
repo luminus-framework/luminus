@@ -98,7 +98,7 @@ Below we have a simple example of interaction with the session.
 
 (defroutes app-routes
   (GET "/login/:id" [id :as req] (set-user! id req))
-  (GET "/remove" req (remove-user req))
+  (GET "/remove" req (remove-user! req))
   (GET "/logout" req (clear-session!)))
 ```
 
