@@ -35,8 +35,9 @@ alternative servers are supported:
 * +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
 * +sassc - adds support for [SASS/SCSS](http://sass-lang.com/) files using [SassC](https://github.com/sass/sassc) command line compiler
 * +service - create a service application without the front-end boilerplate such as HTML templates
-* +war - add support of building WAR archives for deployment to servers such as Apache Tomcat (should *NOT* be used for [Immutant apps running on WildFly](deployment.md#deploying_to_wildfly))
+* +war - adds support of building WAR archives for deployment to servers such as Apache Tomcat (should *NOT* be used for [Immutant apps running on WildFly](deployment.md#deploying_to_wildfly))
 * +site - creates template for site using the specified database (H2 by default) and ClojureScript
+* +kibit - adds [Kibit](https://github.com/jonase/kibit) static code analyzer support
 
 To add a profile simply pass it as an argument after your application name, eg:
 
@@ -50,3 +51,11 @@ You can also mix multiple profiles when creating the application, eg:
 lein new luminus myapp +cljs +swagger +postgres
 ```
 
+Note that some profiles will override others where appropriate. For example, the `+re-frame` profile has precedence over `+reagent`, so
+```
+lein new luminus myapp +reagent +re-frame
+```
+is equivalent to
+```
+lein new luminus myapp +re-frame
+```
