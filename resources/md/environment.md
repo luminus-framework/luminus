@@ -28,7 +28,7 @@ The `System/getProperties` will be merged on top of the configuration found on t
 the optional EDN configuration file.
 
 ```
-java -Ddatabase_url="jdbc:postgresql://localhost/app?user=app_user&password=secret" -jar app.jar
+java -Ddatabase-url="jdbc:postgresql://localhost/app?user=app_user&password=secret" -jar app.jar
 ```
 
 The variable names are converted into Clojure style keywords. The variables are lowercased and `_`
@@ -36,7 +36,7 @@ characters are used to indicate nesting, while `.` characters are converted to `
 
 * `-Dport=300` -> `{:port 3000}`
 * `-Dnrepl-port=7000` -> `{:nrepl-port 7000}`
-* `-Ddatabase_url="jdbc:h2:./guestbook_dev.db"` -> `{:database {:url "jdbc:h2:./guestbook_dev.db"}}`
+* `-Ddatabase-url="jdbc:h2:./guestbook_dev.db"` -> `{:database-url "jdbc:h2:./guestbook_dev.db"}`
 * `-Dio_http.max.connections=10` -> `{:io {:http-max-connections 10}}`
 
 Any environment variables found in `System/getenv` will be merged last. These variables are parsed using the
@@ -44,7 +44,7 @@ following strategy:
 
 * `PORT=3000` -> `{:port 3000}`
 * `NREPL_PORT=7000` - {:nrepl-port 7000}
-* `DATABASE__URL="jdbc:h2:./guestbook_dev.db"` -> `{:database {:url "jdbc:h2:./guestbook_dev.db"}}`
+* `DATABASE_URL="jdbc:h2:./guestbook_dev.db"` -> `{:database-url "jdbc:h2:./guestbook_dev.db"}`
 * `IO__HTTP_MAX_CONNECTIONS` -> `{:io {:http-max-connections 10}}`
 
 Note that the `_` is converted to `-`, while `__` is used to indicate nesting for shell variables. These
@@ -58,7 +58,7 @@ Luminus projects use the following environment variables by default:
 
 * `PORT` - HTTP port that the application will attempt to bind to, defaults to `3000`
 * `NREPL_PORT` - when set the application will run the nREPL server on the specified port, defaults to `7000` for development
-* `DATABASE__URL` - the URL for the database connection, note the double underscore indicating a nested configuration
+* `DATABASE_URL` - the URL for the database connection
 * `APP_CONTEXT` - used to specify an optional context for the routes in the application
 
 ### The Config Namespace
