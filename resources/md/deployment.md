@@ -343,7 +343,62 @@ We'll generate a stronger DHE parameter instead of using OpenSSL's defaults, whi
 cd /etc/ssl/certs
 openssl dhparam -out dhparam.pem 4096
 ```
-Next, you'll want to update the configuration in `/etc/nginx/sites-available/default` as follows:
+
+There are two options for handling HTTPS connections. You can either configure the HTTP server in the app itself, or front it with Nginx. We'll look at both approaches below.
+
+##### App SSL config
+
+You will need to setup Java Keystore to use certificates from the app. This involves running the following commands:
+
+```
+openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out pkcs.p12 -name <NAME>
+
+keytool -importkeystore -deststorepass <PASSWORD_STORE> -destkeypass <PASSWORD_KEYPASS> -destkeystore keystore.jks -srckeystore pkcs.p12 -srcstoretype PKCS12 -srcstorepass <STORE_PASS> -alias <NAME>
+```
+
+If you're using Immutant as your HTTP server (Luminus default), then you have to update your `<app>.core` namespace as follows:
+
+```clojure
+(ns <app>.core
+  (:require ...)
+  (:import
+    (java.security KeyStore)
+    (java.util TimeZone)
+    (org.joda.time DateTimeZone)))
+
+(defn keystore [file pass]
+(doto (KeyStore/getInstance "JKS")
+  (.load (io/input-stream (io/file file)) (.toCharArray pass))))
+  
+(mount/defstate ^{:on-reload :noop} http-server
+  :start
+  (let [ssl-options (:ssl env)]
+    (http/start
+      (merge
+        env
+        {:handler handler/app}
+        (if ssl-options
+          {:port         nil ;disables access on HTTP port
+           :ssl-port     (:port ssl-options)
+           :keystore     (keystore (:keystore ssl-options) (:keystore-password ssl-options))
+           :key-password (:keystore-password ssl-options)}))))
+  :stop
+  (http/stop http-server))
+```
+
+The above code will expect the `:ssl` key to be present in the environment. The key should point to a map with the SSL configuration:
+
+```clojure
+{:port              443
+ :keystore          "/path/to/keystore.jks"
+ :keystore-password "changeit"}
+```
+
+The application will now be available over HTTPS.
+
+##### Nginx SSL config
+
+To use Nginx as your SSL proxy you'll want to update the configuration in `/etc/nginx/sites-available/default` as follows:
 
 ```
 server {
