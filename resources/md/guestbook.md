@@ -43,7 +43,7 @@ lein
 
 ### Creating a new application
 
-Once you have Leiningen installed you can run the following command in your terminal to
+Once you have Leiningen installed you can run the following commands in your terminal to
 initialize your application:
 
 ```
