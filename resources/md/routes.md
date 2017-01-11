@@ -113,7 +113,7 @@ Finally, if we need to get at the complete request along with the parameters we 
 (GET "/" [x y :as r] (str x y r))
 ```
 
-Here we bind the form parameters x an y, and bind the complete request map to the variable r.
+Here we bind the form parameters x and y, and bind the complete request map to the variable r.
 
 ### Return values
 
