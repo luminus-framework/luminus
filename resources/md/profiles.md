@@ -21,16 +21,20 @@ alternative servers are supported:
 * +mysql - adds `db.core` namespace and add MySQL dependencies
 * +mongodb - adds `db.core` namespace and MongoDB dependencies
 * +datomic - adds `db.core` namespace and Datomic dependencies
- 
+
+### ClojureScript
+
+* +cljs - adds [ClojureScript](http://clojurescript.org/) support
+* +hoplon adds ClojureScript support with [Hoplon](https://github.com/hoplon/hoplon) to the project
+* +reagent - adds ClojureScript support with [Reagent](https://reagent-project.github.io/)
+* +re-frame - adds ClojureScript support with [re-frame](https://github.com/Day8/re-frame)
+
 ### miscellaneous 
 
 * +auth - adds [Buddy](https://github.com/funcool/buddy) dependency and authentication middleware
 * +auth-jwe - adds [Buddy](https://github.com/funcool/buddy) dependency with the [JWE](https://jwcrypto.readthedocs.io/en/stable/jwe.html) backend
 * +oauth - adds OAuth boilerplate for the [clj-oauth](https://github.com/mattrepl/clj-oauth) library
 * +cider - adds support for [CIDER](https://github.com/clojure-emacs/cider) using [CIDER nREPL](https://github.com/clojure-emacs/cider-nrepl) plugin
-* +cljs - adds [ClojureScript](http://clojurescript.org/) support
-* +reagent - adds ClojureScript support with [Reagent](https://reagent-project.github.io/)
-* +re-frame - adds ClojureScript support with [re-frame](https://github.com/Day8/re-frame)
 * +cucumber - a profile for cucumber with clj-webdriver
 * +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
 * +sassc - adds support for [SASS/SCSS](http://sass-lang.com/) files using [SassC](https://github.com/sass/sassc) command line compiler
