@@ -11,6 +11,12 @@ To start the HTTP server and any other components such as databases, run the `st
 (start)
 ```
 
+Run the following command to start the HTTP server:
+
+```clojure
+(mount/start #'<app>.core/http-server)
+```
+
 ## Connecting to the nREPL
 
 Luminus also provides an embedded [nREPL](https://github.com/clojure/tools.nrepl) that can be used to connect
