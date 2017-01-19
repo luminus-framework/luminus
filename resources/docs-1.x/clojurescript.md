@@ -196,7 +196,7 @@ Our view components dispatch updates to the atoms, which represent the stores. T
 In the previous example, we used a global atom to hold the state. While it's convenient for small applications this approach doesn't scale well. Fortunately, Reagent allows us to have localized states in our components. Let's take a look at how this works.
 
 ```clojure
-(defn input-field [label-text id]
+(defn input-field []
   (let [value (atom nil)]
     (fn []
       [:div
