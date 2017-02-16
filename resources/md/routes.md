@@ -204,7 +204,7 @@ we could then render the page and handle the file upload as follows:
        (file-response (str resource-path filename))))
 ```
 
-Th `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` funciton above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
+Th `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` function above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
 
 
 If you're fronting with Nginx then you can easily support file upload progress using its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
