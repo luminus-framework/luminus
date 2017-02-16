@@ -128,7 +128,7 @@ Conversely, to set a cookie on the response we simply update the response map wi
 (-> "response with a cookie" response (assoc-in [:cookies "username" :value] "Alice"))
 ```
 
-Cookies cn contain the following additional attributes in addition to the `:value` key:
+Cookies can contain the following additional attributes in addition to the `:value` key:
 
 * :domain - restrict the cookie to a specific domain
 * :path - restrict the cookie to a specific path
