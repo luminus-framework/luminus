@@ -32,7 +32,7 @@ java -Ddatabase-url="jdbc:postgresql://localhost/app?user=app_user&password=secr
 ```
 
 The variable names are converted into Clojure style keywords. The variables are lowercased and `_`
-characters are used to indicate nesting, while `.` characters are converted to `-` charachters.
+characters are used to indicate nesting, while `.` characters are converted to `-` characters.
 
 * `-Dport=3000` -> `{:port 3000}`
 * `-Dnrepl-port=7000` -> `{:nrepl-port 7000}`
