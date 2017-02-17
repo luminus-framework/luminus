@@ -83,7 +83,7 @@ When working with multiple databases, a separate atom is required to track each 
 
 ### Translating SQL types
 
-Certain types requite translation when persisting and reading the data.
+Certain types require translation when persisting and reading the data.
 The specifics of how different types are translated will vary between
 different database engines. It is possible to do automatic coercison of
 types read from the database by extending the `clojure.java.jdbc/IResultSetReadColumn`
