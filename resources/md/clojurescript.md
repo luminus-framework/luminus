@@ -76,7 +76,7 @@ lein cljsbuild once
 
 ### Live Code Reloading
 
-A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-figwheel) to hot load the code in the browser. The easiest way to get Figwheel support is by using `+cljs` profile when creating your Luminus project.
+A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-figwheel) to hot load the code in the browser. The easiest way to get Figwheel support is by using a ClojureScript profile when creating your Luminus project.
 
 Figwheel requires that the server to be running:
 
@@ -96,7 +96,7 @@ This will start Figwheel and connect a browser REPL. Any changes you make in Clo
 
 To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port` key in your `:figwheel` config in `project.clj`. This key defaults to port `7002`. When Figwheel starts, it will open nREPL on the specified port.
 
-Luminus also sets up the scaffolding for running the Figwheel compiler from the REPL. When you generate a project using the `+cljs` flag, then a `env/dev/clj/<app>/figwheel.clj` namespace will be generated. This namespace provides functions to manage the Figwheel
+Luminus also sets up the scaffolding for running the Figwheel compiler from the REPL. When you generate a project using one of the ClojureScript flags, then a `env/dev/clj/<app>/figwheel.clj` namespace will be generated. This namespace provides functions to manage the Figwheel
 compiler and run the ClojureScript REPL. This allows you to connect any REPL aware editor to the ClojureScript REPL.
 
 Once you run `lein figwheel`, then you'll be able to connect to its nREPL at `localhost:7002`. Once connected, you simply have to run `(cljs)` and the ClojureScript nREPL will become available. You can test that everything is working correctly by running `(js/alert "Hi")` in the REPl. This should pop up an alert in the browser.
@@ -222,7 +222,7 @@ For more examples of ClojureScript synonyms of common JavaScript operations see 
 
 ### Reagent
 
-[Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+cljs` profile in Luminus will create an application with it configured.
+[Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+reagent` profile in Luminus will create an application with it configured.
 
 Reagent is backed by [React](http://facebook.github.io/react/) and provides an extremely efficient way to manipulate the DOM using [Hiccup](https://github.com/weavejester/hiccup) style syntax. In Reagent, each UI component is simply a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable components simple and intuitive.
 
@@ -299,7 +299,7 @@ A working sample project can be found [here](https://github.com/yogthos/reagent-
 
 ### Client Side Routing
 
-[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure inspired syntax for route definitions. To use the library, We'll add the dependency to your project, if you created the project using the `+cljs` template then it will be included by default.
+[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure inspired syntax for route definitions. To use the library, We'll add the dependency to your project, if you created the project using a ClojureScript profile, then it will be included by default.
 
 ```clojure
 [secretary "1.2.0"]
