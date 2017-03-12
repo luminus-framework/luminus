@@ -1,3 +1,5 @@
+### Clojure
+
 Luminus sets up a default test harness found in the `test` directory of the project.
 
 The database tests run using the `:test` profile. This profile is the composite of the `:project/test` and
@@ -56,4 +58,24 @@ the project.
 (use-fixtures :once (fn [f] (migrations/migrate ["migrate"]) (f)))
 ```
 
-The database connection for the test database should be defined inside the `:profiles/test` profile found in the `profiles.clj`. 
+The database connection for the test database should be defined inside the `:profiles/test` profile found in the `profiles.clj`.
+
+### ClojureScript
+
+Luminus uses [doo](https://github.com/bensu/doo) for running ClojureScript tests. ClojureScript tests are located in `test/cljs`. Doo runs tests in namespaces that have been given as a parameter to 'doo.runner/doo-tests' macro in doo_runner.cljs, that is located in 'test/cljs' directory of the project.
+
+Doo requires a JavaScript environment where to run the tests. This can be a headless environment, such as [PhantomJS](http://phantomjs.org), or a browser. Prerequisites to run ClojureScript tests depend on the environment. For further information, [refer to the documentation provided by doo](https://github.com/bensu/doo#setting-up-environments).
+
+To run tests using PhantomJS, PhantomJS needs to be installed. Once PhantomJS has been installed, tests can be ran using test profile with doo:
+
+```
+lein with-profile test doo phantom
+```
+
+For running tests in a browser, Javascript test runner Karma and related plugins are needed. These can be set up by following [Karma installation instructions provided by doo](https://github.com/bensu/doo#karma). Once all the prerequisites are fulfilled, tests can be ran in a given browser, for example in Safari, with command
+
+```
+lein with-profile test doo safari
+```
+
+Using doo with the above commands builds ClojureScript with the tests included accordingly to test profile definitions, executes the tests, displays their results and watches for changes in files and runs the tests again when changes happen.
