@@ -528,3 +528,6 @@ When running on a remote server it is recommended to forward the REPL port to th
 ssh -L 7001:localhost:7001 remotehost
 ```
 
+### Resources
+
+* [Deploying Your First Clojure App ...From the Shadows](http://www.braveclojure.com/quests/deploy/) provides an indepth guide for Clojure web application deployment strategies.
