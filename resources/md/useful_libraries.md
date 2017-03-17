@@ -111,6 +111,7 @@ to those already included with Luminus.
 * [sweet-liberty](https://github.com/RJMetrics/sweet-liberty) - a library for building database-backed RESTful services
 * [Liberator](http://clojure-liberator.github.com/) - a library for creating REST services
 * [necessary-evil](https://github.com/brehaut/necessary-evil) - XML RPC library for Clojure
+* [lacinia](https://github.com/walmartlabs/lacinia) - a GraphQL implementation for Clojure
 
 It's just few categories, more libraries related to web development
  for testing, data validation, text search, random data generation,
