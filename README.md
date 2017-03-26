@@ -1,6 +1,6 @@
 
 <img src="https://raw.githubusercontent.com/luminus-framework/luminus/master/resources/public/img/luminus.png"
- hspace="20" align="left"height="200"/>
+ hspace="20" align="left" height="200"/>
  
 
 sources of the documentation site for the [Luminus framework](http://www.luminusweb.net) 
