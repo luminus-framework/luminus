@@ -20,13 +20,13 @@ A string, it will be sent back to the client as is. For a sequence, a string rep
 
 ### Response encoding
 
-By default [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format) middleware is used to infer the response type when a route returns a map containing the`:body` key:
+By default, [muuntaja](https://github.com/metosin/muuntaja) middleware library is used to infer the response type when a route returns a map containing the`:body` key:
 
 ```clojure
 (GET "/json" [] {:body {:foo "bar"}})
 ```
 
-The middleware is found in the `<app-name>.middleware` namespace of your application. The middleware function is called `wrap-formats`, and it enables support for `ring-middleware-format` using the JSON and Transit encodings.
+The middleware is found in the `<app-name>.middleware` namespace of your application. The middleware function is called `wrap-formats`:
 
 ```clojure
   (defn wrap-base [handler]
@@ -41,25 +41,8 @@ The middleware is found in the `<app-name>.middleware` namespace of your applica
       wrap-internal-error))
 ```
 
-The formats are controlled by the `:formats` key and can be selected as follows:
-
-
-```clojure
-(defn wrap-formats [handler]
-  (wrap-restful-format handler {:formats [:json-kw :transit-json :transit-msgpack]}))
-
-```
-
-The available formats are:
-
-* :json - JSON with string keys in :params and :body-params
-* :json-kw - JSON with keywodized keys in :params and :body-params
-* :edn - native Clojure format.
-* :yaml - YAML format
-* :yaml-kw - YAML format with keywodized keys in :params and :body-params
-* :yaml-in-html - yaml in a html page
-
-When no format is supplied in the `Accept` header or the format specified is unknown, the first format from the `:formats` vector in the handler will be used (JSON by default).
+Muuntaja will use the `Content-Type` header to infer the content of the request, and the
+`Accept` header to infer the response format.
 
 ### Setting headers
 
