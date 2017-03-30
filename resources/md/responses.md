@@ -60,7 +60,7 @@ You can set a custom response type by using the `ring.util.http-response/content
 ```clojure
 (GET "/project" []
   (-> (clojure.java.io/input-stream "report.pdf")
-      response
+      ok
       (content-type "application/pdf")))
 ```
 
@@ -71,7 +71,7 @@ Setting a custom status is accomplished by passing the content to the `ring.util
 ```clojure
 (GET "/missing-page" []
   (-> "your page could not be found"
-      response
+      ok
       (status 404)))
 ```
 
