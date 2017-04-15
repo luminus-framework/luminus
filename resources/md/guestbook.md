@@ -232,29 +232,29 @@ The project file of the application we've created is found in its root folder an
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [selmer "1.0.7"]
-                 [markdown-clj "0.9.89"]
-                 [ring-middleware-format "0.7.0"]
+  :dependencies [[com.h2database/h2 "1.4.192"]
+                 [compojure "1.5.1"]
+                 [conman "0.6.2"]
+                 [cprop "0.1.9"]
+		 [funcool/struct "1.0.0"]
+                 [luminus-immutant "0.2.2"]
+                 [luminus-migrations "0.2.8"]
+                 [luminus-nrepl "0.1.4"]
+                 [markdown-clj "0.9.90"]
                  [metosin/ring-http-response "0.8.0"]
-                 [bouncer "1.0.0"]
+                 [mount "0.1.10"]
+                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/tools.cli "0.3.5"]
+                 [org.clojure/tools.logging "0.3.1"]
+                 [org.webjars.bower/tether "1.3.7"]
                  [org.webjars/bootstrap "4.0.0-alpha.3"]
                  [org.webjars/font-awesome "4.6.3"]
-                 [org.webjars.bower/tether "1.3.3"]
-                 [org.webjars/jquery "3.0.0"]
-                 [org.clojure/tools.logging "0.3.1"]
-                 [compojure "1.5.1"]
+                 [org.webjars/jquery "3.1.1"]
+                 [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
+                 [ring-middleware-format "0.7.0"]
                  [ring-webjars "0.1.1"]
                  [ring/ring-defaults "0.2.1"]
-                 [mount "0.1.10"]
-                 [cprop "0.1.8"]
-                 [org.clojure/tools.cli "0.3.5"]
-                 [luminus-nrepl "0.1.4"]
-                 [luminus-migrations "0.2.6"]
-                 [conman "0.6.0"]
-                 [com.h2database/h2 "1.4.192"]
-                 [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
-                 [luminus-immutant "0.2.2"]]
+                 [selmer "1.10.0"]]
 
   :min-lein-version "2.0.0"
 
@@ -466,27 +466,33 @@ references for [Bouncer](https://github.com/leonardoborges/bouncer) validators a
   (:require
     ...
     [guestbook.db.core :as db]
-    [bouncer.core :as b]
-    [bouncer.validators :as v]
-    [ring.util.response :refer [redirect]]))
+    [ring.util.response :refer [redirect]]
+    [struct.core :as st]))
 ```
 
-Next, we'll create a function to validate the form parameters.
+Next, we'll create a schema that defines the form parameters
+and add a function to validate them:
 
 ```clojure
+(def message-schema
+  [[:name
+    st/required
+    st/string]
+    
+   [:message
+    st/required
+    st/string
+    {:message "message must contain at least 10 characters"
+     :validate #(> (count %) 9)}]])
+
 (defn validate-message [params]
-  (first
-    (b/validate
-      params
-      :name v/required
-      :message [v/required [v/min-count 10]])))
+  (first (st/validate params message-schema)))
 ```
 
-The function uses the Bouncer `validate` function to check that the `:name` and the `:message` keys
-conform to the rules we specified. Specifically, the name is required and the message must contain at least
-10 characters. Bouncer uses vector syntax to pass multiple rules to a validator as is the case with the message validator.
-
-When a validator takes additional parameters as is the case with `min-count` the vector syntax is used as well. The value will be passed in implicitly as the first parameter to the validator.
+The function uses the `validate` function from the [Struct](http://funcool.github.io/struct/latest/) library to check that the `:name` and the `:message` keys conform to the rules we specified.
+Specifically, the name is required and the message must contain at least
+10 characters. Struct uses a vector to specify the the fields being validates where each field is itself a vector starting
+with the keyword pointing to the value being validated followed by one or more validators. Custom validators can be specified using a map as seen with with the validator for the character count in the message.
 
 We'll now add a function to validate and save messages:
 
