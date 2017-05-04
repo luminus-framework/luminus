@@ -127,6 +127,8 @@ guestbook
 
 Let's take a look at what the files in the root folder of the application do:
 
+* `Capstanfile` - used to facilitate OSv deployments
+* `Dockerfile` - used to facilitate Docker container deployments
 * `Procfile` - used to facilitate Heroku deployments
 * `README.md` - where documentation for the application is conventionally put
 * `project.clj` - used to manage the project configuration and dependencies by Leiningen
