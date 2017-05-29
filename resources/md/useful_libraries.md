@@ -93,6 +93,7 @@ to those already included with Luminus.
 * [metrics-clojure](https://github.com/sjl/metrics-clojure/) - a thin Clojure façade around Coda Hale’s wonderful metrics library
 * [ring-logger-timbre](https://github.com/nberger/ring-logger-timbre) - log Ring requests & responses using Timbre
 * [slf4j-timbre](https://github.com/fzakaria/slf4j-timbre) - SLF4J binding for Clojure's Timbre logging library
+* [ring-cors](https://github.com/r0man/ring-cors) CORS middleware for Ring
 * [ring-rewrite](https://github.com/ebaxt/ring-rewrite) - Ring middleware for defining and applying rewrite rules
 * [Pantomime](https://github.com/michaelklishin/pantomime) - a Library For Working With MIME Types
 * [Route One](https://github.com/clojurewerkz/route-one) -  a library that generates HTTP resource routes (as in Ruby on Rails and similar modern Web application frameworks)
