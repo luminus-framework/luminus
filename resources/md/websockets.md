@@ -158,6 +158,11 @@ That's all we need to do to manage the lifecycle of the websocket connections an
 Next, We'll need to add the routes in our `multi-client-ws.handler` namespace:
 
 ```clojure
+(ns multi-client-ws.hanlder
+ (:require
+   ...
+   [multi-client-ws.routes.websockets :refer [websocket-routes]]))
+   
 (def app
  (-> (routes
        websocket-routes
