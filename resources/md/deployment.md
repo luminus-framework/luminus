@@ -502,6 +502,21 @@ To initialize or update your database:
 heroku run lein run migrate
 ```
 
+If the above step uses too much memory for your instance. Modify the `start-app` function in your project's `core.clj`:
+
+```
+(defn start-app [args]
+  (doseq [component (-> args
+                        (parse-opts cli-options)
+                        mount/start-with-args
+                        :started)]
+    (log/info component "started"))
+  (migrations/migrate ["migrate"] (select-keys env [:database-url]))
+  (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
+```
+
+This will run migrations every time. Consuming less resources, because the app is started, and keeping migrations up to date.
+
 For further instructions see the [official documentation](https://devcenter.heroku.com/articles/clojure).
 
 ## Enabling nREPL
