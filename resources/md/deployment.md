@@ -237,7 +237,11 @@ The configuration can be tested by running the following command:
 
     init-checkconf /etc/init/myapp.conf
     File /etc/init/myapp.conf: syntax ok
-    
+
+Now create a symlink for starting the application:
+
+    ln -s /etc/init/myapp.conf /etc/init.d/myapp
+
 It can now be managed running `service myapp start|stop|restart`.
 
 ### Fronting with Nginx
