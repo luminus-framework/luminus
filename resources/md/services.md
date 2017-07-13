@@ -166,7 +166,7 @@ We can now define services as follows:
     :return {:userid String}
     :body-params [userid :- String pass :- String]
     :summary "User login handler"
-    (assoc-in (ok) [:session :identity] {:userid userid}))
+    (assoc-in (ok {:userid userid}) [:session :identity] {:userid userid}))
     
   (context "/api" []
     ;; note the :auth-rules key pointing to the authenticated? rule
