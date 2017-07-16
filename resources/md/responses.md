@@ -64,8 +64,8 @@ Next, we'll add a transit writer for the `org.joda.time.DateTime` type:
 (def joda-time-writer
   (transit/write-handler
     (constantly "m")
-    #(some-> % coerce/to-date .getTime)
-    #(some-> % coerce/to-date .getTime .toString)))
+    (fn [v] (-> ^org.joda.time.ReadableInstant v .getMillis))
+    (fn [v] (-> ^org.joda.time.ReadableInstant v .getMillis .toString))))
 ```
 
 Finally, we'll update the default options passed to `wrap-format` to let it know that we'd like to use `joda-time-writer` for this type:
