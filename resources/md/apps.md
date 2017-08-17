@@ -10,4 +10,5 @@ Below are a few sample applications built using Luminus:
 * [Postgres Async Push Notifications example](https://github.com/yogthos/pg-feed-demo)
 * [Luminus - source for this site](https://github.com/yogthos/luminus)
 * [Tropology -  TVTropes.org crawler](https://github.com/ricardojmendez/tropology)
+* [Memento - private note-taking](https://gitlab.com/Numergent/memento/)
 * [Memory Hole - support issue organizer](https://github.com/yogthos/memory-hole)
