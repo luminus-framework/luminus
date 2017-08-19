@@ -17,6 +17,7 @@ to those already included with Luminus.
 * [Friend](https://github.com/cemerick/friend) - an extensible authentication and authorization library
 * [clj-ldap](https://github.com/pauldorman/clj-ldap) - a library for talking to LDAP servers
 * [ring-basic-authentication](https://github.com/remvee/ring-basic-authentication) - Ring middleware to enforce basic authentication
+* [ring-oauth2](https://github.com/weavejester/ring-oauth2) - Ring middleware that acts as a OAuth 2.0 client
 
 ## Caching
 
