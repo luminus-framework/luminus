@@ -176,7 +176,7 @@ If we put the above code in a file called `externs.js` under the `resources` dir
 
 ```clojure
 {:id "release"
- :source-paths ["src-cljs"]
+ :source-paths ["src/cljs"]
  :compiler
  {:output-to "target/cljsbuild/public/js/app.js"
   :optimizations :advanced
