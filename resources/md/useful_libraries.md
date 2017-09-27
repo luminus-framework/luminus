@@ -107,7 +107,7 @@ to those already included with Luminus.
 * [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
 * [cronj](http://docs.caudate.me/cronj/) - a library for scheduling tasks 
 * [ring-async](https://github.com/ninjudd/ring-async) - a Ring adapter for supporting asynchronous responses
-
+* [lein-nvd](https://github.com/rm-hull/lein-nvd) - National Vulnerability Database dependency-checker plugin for Leiningen
 ## Web Services 
 
 * [sweet-liberty](https://github.com/RJMetrics/sweet-liberty) - a library for building database-backed RESTful services
