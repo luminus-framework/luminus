@@ -17,17 +17,17 @@ is used as the default encryption algorithm.
    [buddy.hashers :as hashers]))
 
 (def raw "secret")
-(def encrypted (hashers/encrypt raw))
+(def encrypted (hashers/derive raw))
 (hashers/check raw encrypted)
 ```
 
 The `encrypt` function allows specifying additional parameters such as the algorithm and the number of iterations:
 
 ```clojure
-(hashers/encrypt "secretpassword" {:alg :pbkdf2+sha256})
-(hashers/encrypt "secretpassword" {:alg :pbkdf2+sha256
+(hashers/derive "secretpassword" {:alg :pbkdf2+sha256})
+(hashers/derive "secretpassword" {:alg :pbkdf2+sha256
                                    :salt "123456"})
-(hashers/encrypt "secretpassword" {:alg :pbkdf2+sha256
+(hashers/derive "secretpassword" {:alg :pbkdf2+sha256
                                    :salt "123456"
                                    :iterations 200000})
 ```
