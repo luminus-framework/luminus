@@ -773,10 +773,10 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
     (migrations/migrate ["migrate"] (select-keys env [:database-url]))
     (f)))
 
-(deftest test-users
+(deftest test-message
   (jdbc/with-db-transaction [t-conn *db*]
     (jdbc/db-set-rollback-only! t-conn)
-    (let [timestamp (java.util.Date.)]
+    (let [timestamp (org.joda.time.DateTime. org.joda.time.DateTimeZone/UTC)]
       (is (= 1 (db/save-message!
                 t-conn
                 {:name "Bob"
