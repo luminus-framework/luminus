@@ -24,3 +24,9 @@ file for the page [here](https://github.com/luminus-framework/luminus/tree/maste
 
 To add a new topic simply create a new Markdown file under [resources/md](https://github.com/luminus-framework/luminus/tree/master/resources/md)
 directory, and update the list of topics [here](https://github.com/luminus-framework/luminus/blob/master/resources/docpages.edn).
+
+## Support Luminus on Patreon
+
+Finally, you can support the maintainer on [Patreon](https://www.patreon.com/yogthos). Your contribution will
+help cover development and maintenance costs for the project.
+
