@@ -56,7 +56,6 @@ to those already included with Luminus.
 ## Database Migrations
 
 * [Drift](https://github.com/macourtney/drift) - a migration library
-* [Lobos](http://budu.github.com/lobos/) - Lobos is a library to help you create and modify database schemas
 * [Ragtime](https://github.com/weavejester/ragtime) - database-independent migration library
 
 ## SQL Libraries
