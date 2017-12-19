@@ -73,7 +73,6 @@ java -jar target/uberjar/<app>.jar migrate
 Below is a list of all the popular migration libraries that are currently available:
 
 * [Drift](https://github.com/macourtney/drift) - Drift is a migration library written in Clojure. Drift works much like Rails migrations where a directory in your project contains all of the migration files. Drift will detect which migration files need to be run and run them as appropriate.
-* [Lobos](https://github.com/budu/lobos) - Lobos is a SQL database schema manipulation and migration library written in Clojure. It currently support supports H2, MySQL, PostgreSQL, SQLite and SQL Server.
 * [Ragtime](https://github.com/weavejester/ragtime) - a general migration framework, with an implementation for database migrations.
 * [Joplin](https://github.com/juxt/joplin) - Joplin is a library for flexible datastore migration and seeding
 
