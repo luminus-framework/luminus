@@ -35,7 +35,7 @@ The library handles the lifecycle of such resources within the application ensur
 and stopped as necessary.
 
 Luminus encourages keeping related domain logic close together. Therefore, in cases where we have functions that
-reply on an external resource the management of the state for that resource should be handled in the same namespace
+rely on an external resource the management of the state for that resource should be handled in the same namespace
 where the functions using it are defined.
  
 Stateful components belong to the namespace they're declared in. To create a component we need to reference
