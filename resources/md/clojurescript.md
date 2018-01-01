@@ -11,7 +11,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 
 The easiest way to add ClojureScript support is by using the one of the ClojureScript [profile flags](/docs/profiles.md) when creating a new project.
 
-However, it's quite easy to add it to an existing project as well. First, add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and `:cljsbuild` key to the project as seen below:
+However, it's quite easy to add it to an existing project as well. <div class="lein">First, add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and `:cljsbuild` key to the project as seen below:
 
 ```clojure
 :plugins [... [lein-cljsbuild "1.1.3"]]
@@ -38,7 +38,57 @@ However, it's quite easy to add it to an existing project as well. First, add th
                     :optimizations :advanced
                     :pretty-print  false}}}}
 ```
+</div>
+<div class="boot">
+First add the `boot-cljs` library to your dependencies and something along the
+lines of the following tasks:
+```clojure
+(set-env! :dependencies '[... [adzerk/boot-cljs "2.1.0-SNAPSHOT" :scope "test"]
+                         [crisptrutski/boot-cljs-test "0.3.2-SNAPSHOT" :scope "test"]
+                         [adzerk/boot-cljs-repl "0.3.3" :scope "test"]
+                         [powerlaces/boot-figreload "0.1.1-SNAPSHOT" :scope "test"]
+                         [org.clojure/clojurescript cljs-version :scope "test]]
+          :source-paths #{... "src/cljs"})
+                
+(deftask figwheel
+  "Runs figwheel and enables reloading."
+  []
+  (dev)
+  (require '[powerlaces.boot-figreload :refer [reload]])
+  (let [reload (resolve 'powerlaces.boot-figreload/reload)]
+    (comp
+     (reload :client-opts {:debug true})
+     (cljs-repl)
+     (cljs)
+     (start-server)
+     (wait))))
+     
+(deftask uberjar
+  "Builds an uberjar of this project that can be run with java -jar"
+  []
+  (comp
+   (prod)
+   (aot :namespace #{'<<project-ns>>.core})
+   (cljs :optimizations :advanced) ;; Add this line to the uberjar task
+   (uber)
+   (jar :file "<<name>>.jar" :main '<<project-ns>>.core)
+   (sift :include #{#"<<name>>.jar"})
+   (target)))
+```
 
+Then create an app.cljs.edn file in the `src/cljs` directory:
+```
+
+{:require [<<name>>.core]
+ :compiler-options {:main          (str project-ns ".app")
+                    :asset-path    "/js/out"
+                    :output-to     "public/js/app.js"
+                    :output-dir    "public/js/out"
+                    :source-map    true
+                    :optimizations :none
+                    :pretty-print  true}}
+```
+</div>
 The ClojureScript sources are expected to be found under the `src/cljs` source path in the above configuraiton.
 Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
  
@@ -62,6 +112,7 @@ One advantage of using ClojureScript is that it allows managing your client-side
 
 ### Running the Compiler
 
+<div class="lein">
 The easiest way to develop ClojureScript applications is to run the compiler in `auto` mode. This way any changes you make in your namespaces will be recompiled automatically and become immediately available on the page. To start the compiler in this mode simply run:
 
 ```
@@ -73,11 +124,27 @@ Make sure to run the `clean` option before packaging the application for product
 ```
 lein cljsbuild once
 ```
+</div>
+<div class="boot">
+The easiest way to develop ClojureScript applications is to use the `figwheel`
+task, simply run:
+```
+boot figwheel
+```
+And connect to the application in your browser. Any code changed will be
+automatically reloaded as described in the next section.
+
+To build the code without running the server run:
+```
+boot cljs
+```
+</div>
 
 ### Live Code Reloading
 
 A more advanced approach is to setup [Figwheel](https://github.com/bhauman/lein-figwheel) to hot load the code in the browser. The easiest way to get Figwheel support is by using a ClojureScript profile when creating your Luminus project.
 
+<div class="lein">
 Figwheel requires that the server to be running:
 
 ```
@@ -89,6 +156,14 @@ Once the server starts simply run:
 ```
 lein figwheel
 ```
+</div>
+<div class="boot">
+As mentioned above, simply start the server with the figwheel task instead of
+the run task:
+```
+boot figwheel
+```
+</div>
 
 This will start Figwheel and connect a browser REPL. Any changes you make in ClojureScript source will now be automatically reloaded on the page.
 
@@ -172,7 +247,8 @@ AlbumColors.getColors = function() {};
 Note that in most cases it's possible to simply use the JavaScript library as its own externs file without the need to
 manually write out each function used.
 
-If we put the above code in a file called `externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows:
+If we put the above code in a file called `externs.js` under the `resources`
+directory then we would reference it in our <span class="lein">`cljsbuild` section as follows:
 
 ```clojure
 {:id "release"
@@ -187,7 +263,24 @@ If we put the above code in a file called `externs.js` under the `resources` dir
   :closure-warnings {:externs-validation :off
                      :non-standard-jsdoc :off}}}
 ```
-
+</span><span class="boot">`app.cljs.edn` file as follows:
+```clojure
+{:require [boot_proj.core]
+ :compiler-options 
+ {:main "boot-proj.app", 
+  :asset-path "/js/out", 
+  :output-to "public/js/app.js", 
+  :output-dir "public/js/out", 
+  :source-map true, 
+  :optimizations :advanced, 
+  :pretty-print false
+  :output-wrapper false
+  ;;specify the externs file to protect function names
+  :externs ["resources/externs.js"]
+  :closure-warnings {:externs-validation :off
+                     :non-standard-jsdoc :off}}}
+```
+</span>
 A useful site for extracting externs can be found [here](http://www.dotnetwise.com/Code/Externs/).
 
 ### Interacting with JavaScript

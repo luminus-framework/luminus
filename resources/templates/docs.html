@@ -15,6 +15,14 @@
   </div>
   <div class="column column-25">
     <div class="column-wrapper">
+      <div id="build-tool-div">
+        <p>Build Tool:
+          <select name="build-tool" id="build-tool" >
+            <option value="lein" >lein</option>
+            <option value="boot" >boot</option>
+          </select>
+        </p>
+      </div>
       <h2>Topics</h2>
       <ul>
         {% for topic in topics %}

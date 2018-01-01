@@ -23,11 +23,22 @@ have JDK already on your system then OpenJDK is recommended and can be downloade
 [here](http://www.azul.com/downloads/zulu/). Note that Luminus requires JDK 8 to
 work with the default settings.
 
-### Installing Leiningen
+### Installing a Build Tool
 
-You need to have [Leiningen](http://leiningen.org/) installed in
-order to work with Luminus. Installing Leiningen is accomplished by
-following the step below.
+Luminus supports the two major build tools, [Leiningen](http://leiningen.org/)
+or [Boot](http://boot-clj.com/). Either may be installed and this documentation
+supports both. You can choose which version of the documentation to use by
+selecting the dropdown [here](#build-tool-div).
+
+In general Leiningen does more for you and therefore is easier to use but more
+rigid. Boot allows more customization and is more flexible but isn't quite as
+slick. 
+
+If you are unsure which to choose, stick with Leiningen as it is the most
+popular, and continue reading.
+
+<div class="lein">
+Installing Leiningen is accomplished by followings the step below.
 
 1. Download the script.
 3. Set it to be executable. (eg: chmod +x lein)
@@ -40,16 +51,40 @@ chmod +x lein
 mv lein ~/bin
 lein
 ```
+</div>
+<div class="boot">
+Installing Boot is accomplished by following the steps below.
+
+1. Download the script.
+2. Set it to be executable. (eg: chmod +x boot)
+3. Place it on your $PATH. (eg: ~/bin)
+4. Run `boot` and wait for the self-installation to complete.
+
+```
+wget https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh
+chmod +x boot
+mv boot ~/bin
+boot
+```
+</div>
 
 ### Creating a new application
 
-Once you have Leiningen installed you can run the following commands in your terminal to
+Once you have <lein-div>Leiningen</lein-div><boot-div>Boot</boot-div> installed you can run the following commands in your terminal to
 initialize your application:
 
+<div class="lein">
 ```
 lein new luminus guestbook +h2
 cd guestbook
 ```
+</div>
+<div class="boot">
+```
+boot -d boot/new new -t luminus -n guestbook -a +boot -a +h2
+cd guestbook
+```
+</div>
 
 The above will create a new template project with the support for [H2 embedded database](http://www.h2database.com/html/main.html) engine.
 
@@ -58,7 +93,8 @@ The above will create a new template project with the support for [H2 embedded d
 The newly created application has the following structure:
 
 ```
-guestbook
+guestbook<boot-div>
+├── build.boot</boot-div>
 ├── Capstanfile
 ├── Dockerfile
 ├── Procfile
@@ -69,7 +105,7 @@ guestbook
 │   │   │   ├── guestbook
 │   │   │   │   ├── dev_middleware.clj
 │   │   │   │   └── env.clj
-│   │   │   └── user.clj
+│   │   │   └── user.cl
 │   │   └── resources
 │   │       ├── config.edn
 │   │       └── logback.xml
@@ -83,8 +119,8 @@ guestbook
 │   └── test
 │       └── resources
 │           └── config.edn
-├── profiles.clj
-├── project.clj
+├── profiles.clj<lein-div>
+├── project.clj</lein-div>
 ├── resources
 │   ├── docs
 │   │   └── docs.md
@@ -127,11 +163,17 @@ guestbook
 
 Let's take a look at what the files in the root folder of the application do:
 
+<div class="boot">
+* `build.boot` - used to define the tasks and dependencies used by Boot.
+</div>
 * `Capstanfile` - used to facilitate OSv deployments
 * `Dockerfile` - used to facilitate Docker container deployments
 * `Procfile` - used to facilitate Heroku deployments
 * `README.md` - where documentation for the application is conventionally put
-* `project.clj` - used to manage the project configuration and dependencies by Leiningen
+<div class="lein">
+* `project.clj` - used to manage the project configuration and dependencies by
+  Leiningen
+</div
 * `profiles.clj` - used for local configuration that should not be checked into the code repository
 * `.gitignore` - a list of assets, such as build generated files, to exclude from Git
 
@@ -224,7 +266,7 @@ The files are conventionally versioned using the date and will be applied in ord
 
 
 ### The Project File
-
+<div class="lein">
 As was noted above, all the dependencies are managed via updating the `project.clj` file.
 The project file of the application we've created is found in its root folder and should look as follows:
 
@@ -311,7 +353,108 @@ as well as from `:profiles/dev` and `:profiles/test` found in the `profiles.clj`
 checked into the shared code repository.
 
 Please refer to the [official Leiningen documentation](http://leiningen.org/#docs) for further details on structuring the `project.clj` build file.
+</div>
+<div class="boot">
+```
+(set-env!
+ :dependencies '[[clj-time "0.14.0"]
+                 [com.h2database/h2 "1.4.196"]
+                 [compojure "1.6.0"]
+                 [conman "0.6.8"]
+                 [cprop "0.1.11"]
+                 [funcool/struct "1.1.0"]
+                 [luminus-immutant "0.2.3"]
+                 [luminus-migrations "0.4.2"]
+                 [luminus-nrepl "0.1.4"]
+                 [luminus/ring-ttl-session "0.3.2"]
+                 [markdown-clj "1.0.1"]
+                 [metosin/muuntaja "0.3.2"]
+                 [metosin/ring-http-response "0.9.0"]
+                 [mount "0.1.11"]
+                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/java.jdbc "0.7.1"]
+                 [org.clojure/tools.cli "0.3.5"]
+                 [org.clojure/tools.logging "0.4.0"]
+                 [org.webjars.bower/tether "1.4.0"]
+                 [org.webjars/bootstrap "4.0.0-alpha.5"]
+                 [org.webjars/font-awesome "4.7.0"]
+                 [org.webjars/jquery "3.2.1"]
+                 [ring-webjars "0.2.0"]
+                 [ring/ring-core "1.6.2"]
+                 [ring/ring-defaults "0.3.1"]
+                 [selmer "1.11.1"]]
+ :source-paths #{"src/clj"}
+ :resource-paths #{"resources"})
 
+(deftask dev
+  "Enables configuration for a development setup."
+  []
+  (set-env!
+   :source-paths #(conj % "env/dev/clj")
+   :resource-paths #(conj % "env/dev/resources")
+   :dependencies #(concat % '[[prone "1.1.4"]
+                              [ring/ring-mock "0.3.0"]
+                              [ring/ring-devel "1.6.1"]
+                              [pjstadig/humane-test-output "0.8.2"]]))
+  (task-options! repl {:init-ns 'user})
+  (require 'pjstadig.humane-test-output)
+  (let [pja (resolve 'pjstadig.humane-test-output/activate!)]
+    (pja))
+  identity)
+
+(deftask testing
+  "Enables configuration for testing."
+  []
+  (dev)
+  (set-env! :resource-paths #(conj % "env/test/resources"))
+  identity)
+
+(deftask prod
+  "Enables configuration for production building."
+  []
+  (merge-env! :source-paths #{"env/prod/clj"}
+              :resource-paths #{"env/prod/resources"})
+  identity)
+
+(deftask start-server
+  "Runs the project without building class files.
+
+  This does not pause execution. Combine with a wait task or use the \"run\"
+  task."
+  []
+  (require 'guestbook.core)
+  (let [m (resolve 'guestbook.core/-main)]
+    (with-pass-thru _
+      (m))))
+
+(deftask run
+  "Starts the server and causes it to wait."
+  []
+  (comp
+   (start-server)
+   (wait)))
+
+(deftask uberjar
+  "Builds an uberjar of this project that can be run with java -jar"
+  []
+  (comp
+   (prod)
+   (aot :namespace #{'guestbook.core})
+   (uber)
+   (jar :file "guestbook.jar" :main 'guestbook.core)
+   (sift :include #{#"guestbook.jar"})
+   (target)))
+```
+
+As you can see the build.boot file is simple a clojure file which defines a
+series of tasks and other environment settings needed to set up a project.
+
+The most common change is adding new dependencies to the dependency list in the
+`set-env!` call.
+
+Each task defined can be called using `boot task-name` on the command line or
+`(boot (task-name))` on a REPL (which can be started with `boot repl` on the commandline).
+</div>
 
 ### Creating the Database
 
@@ -350,9 +493,16 @@ DROP TABLE guestbook;
 
 We can now run the migrations using the following command from the root of our project:
 
+<div class="lein">
 ```
 lein run migrate
 ```
+</div>
+<div class="boot">
+```
+boot dev [ run migrate ]
+```
+</div>
 
 If everything went well we should now have our database initialized.
 
@@ -368,7 +518,7 @@ Here, we can see that we already have the definition for our database connection
     [mount.core :refer [defstate]]
     [guestbook.config :refer [env]]))
 
-(defstate ^:dynamic *db*
+(defstate ^^:dynamic *db*
            :start (conman/connect! {:jdbc-url (env :database-url)})
            :stop (conman/disconnect! *db*))
 
@@ -431,7 +581,9 @@ Now that our model is all setup, let's start up the application.
 We can run our application in development mode as follows:
 
 ```
->lein run
+<lein-div>
+>lein run</lein-div><boot-div>
+>boot dev run</boot-div>
 [2016-02-28 15:05:34,970][DEBUG][org.jboss.logging] Logging Provider: org.jboss.logging.Log4jLoggerProvider
 [2016-02-28 15:05:36,067][INFO][com.zaxxer.hikari.HikariDataSource] HikariPool-0 - is starting.
 [2016-02-28 15:05:36,252][INFO][luminus.http-server] starting HTTP server on port 3000
@@ -792,18 +944,34 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
                (select-keys [:name :message :timestamp])))))))
 ```
 
-We can now run `lein test` in the terminal to see that our database interaction works as expected.
+We can now run <lein-div>`lein test`</lein-div><div class="boot">`boot
+testing test`</div> in the terminal to see that our database interaction works
+as expected.
 
+<div class="lein">
 Luminus comes with [lein-test-refresh](https://github.com/jakemcc/lein-test-refresh) enabled by default. This plugin allows running tests continuously
 whenever a change in a namespace is detected. We can start a test runner in a new terminal using the `lein test-refresh` command.
+</div>
+<div class="boot">
+An auto test can be easily enabled by using the `watch` task in boot. We
+encourage you to start a test runner in a new terminal using `boot testing watch
+test`
+</div>
 
 ## Packaging the application
 
 The application can be packaged for standalone deployment by running the following command:
 
+<div class="lein">
 ```
 lein uberjar
 ```
+</div>
+<div class="boot">
+```
+boot uberjar
+```
+</div>
 
 This will create a runnable jar that can be run as seen below:
 
