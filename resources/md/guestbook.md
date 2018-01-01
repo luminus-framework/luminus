@@ -119,7 +119,8 @@ guestbook<boot-div>
 │   └── test
 │       └── resources
 │           └── config.edn
-├── profiles.clj<lein-div>
+├── dev-config.edn
+├── test-config.edn<lein-div>
 ├── project.clj</lein-div>
 ├── resources
 │   ├── docs
@@ -170,11 +171,17 @@ Let's take a look at what the files in the root folder of the application do:
 * `Dockerfile` - used to facilitate Docker container deployments
 * `Procfile` - used to facilitate Heroku deployments
 * `README.md` - where documentation for the application is conventionally put
+<<<<<<< HEAD
 <div class="lein">
 * `project.clj` - used to manage the project configuration and dependencies by
   Leiningen
 </div
 * `profiles.clj` - used for local configuration that should not be checked into the code repository
+=======
+* `project.clj` - used to manage the project configuration and dependencies by Leiningen
+* `dev-config.edn` - used for local development configuration that should not be checked into the code repository
+* `test-config.edn` - used for test development configuration that should not be checked into the code repository
+>>>>>>> master
 * `.gitignore` - a list of assets, such as build generated files, to exclude from Git
 
 ### The Source Directory
@@ -302,7 +309,6 @@ The project file of the application we've created is found in its root folder an
 
   :min-lein-version "2.0.0"
 
-  :jvm-opts ["-server" "-Dconf=.lein-env"]
   :source-paths ["src/clj"]
   :resource-paths ["resources"]
   :target-path "target/%s/"
@@ -323,7 +329,8 @@ The project file of the application we've created is found in its root folder an
    :dev           [:project/dev :profiles/dev]
    :test          [:project/test :profiles/test]
 
-   :project/dev  {:dependencies [[prone "1.1.1"]
+   :project/dev  {:jvm-opts ["-server" "-Dconf=dev-config.edn"]
+                  :dependencies [[prone "1.1.1"]
                                  [ring/ring-mock "0.3.0"]
                                  [ring/ring-devel "1.5.0"]
                                  [pjstadig/humane-test-output "0.8.1"]]
@@ -334,7 +341,8 @@ The project file of the application we've created is found in its root folder an
                   :repl-options {:init-ns user}
                   :injections [(require 'pjstadig.humane-test-output)
                                (pjstadig.humane-test-output/activate!)]}
-   :project/test {:resource-paths ["env/dev/resources" "env/test/resources"]}
+   :project/test {:jvm-opts ["-server" "-Dconf=test-config.edn"]
+                  :resource-paths ["env/dev/resources" "env/test/resources"]}
    :profiles/dev {}
    :profiles/test {}})
 ```
@@ -344,12 +352,12 @@ As you can see the `project.clj` file is simply a Clojure list containing key/va
 The most common task is adding new libraries to the project. These libraries are specified using the `:dependencies` vector.
 In order to use a new library in our project we simply have to add its dependency here.
 
-The items in the `:plugins` vector can be used to provide additional functionality such as reading environment variables via `lein-cprop` plugin.
+The items in the `:plugins` vector can be used to provide additional functionality.
 
 The `:profiles` contain a map of different project configurations that are used to initialize it for either development or production builds.
 
 Note that the project sets up composite profiles for `:dev` and `:test`. These profiles contain the variables from `:project/dev` and `:project/test` profiles,
-as well as from `:profiles/dev` and `:profiles/test` found in the `profiles.clj`. The latter should contain local environment variables that are not meant to be
+as well as from `:profiles/dev` and `:profiles/test` found in the `profiles.clj`. The latter should contain local configuration that is not meant to be
 checked into the shared code repository.
 
 Please refer to the [official Leiningen documentation](http://leiningen.org/#docs) for further details on structuring the `project.clj` build file.
@@ -527,7 +535,7 @@ Here, we can see that we already have the definition for our database connection
 
 The database connection is read from the environment map at runtime. By default, the `:database-url` key points to a
 a string with the connection URL for the database.
- This variable is populated from the `profiles.clj` file during development and has to be set as an environment variable for production, e.g:
+ This variable is populated from the `dev-config.edn` file during development and has to be set as an environment variable for production, e.g:
 
 ```
 export DATABASE_URL="jdbc:h2:./guestbook.db"
@@ -632,7 +640,7 @@ and add a function to validate them:
   [[:name
     st/required
     st/string]
-    
+
    [:message
     st/required
     st/string
@@ -925,10 +933,10 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
     (migrations/migrate ["migrate"] (select-keys env [:database-url]))
     (f)))
 
-(deftest test-users
+(deftest test-message
   (jdbc/with-db-transaction [t-conn *db*]
     (jdbc/db-set-rollback-only! t-conn)
-    (let [timestamp (java.util.Date.)]
+    (let [timestamp (org.joda.time.DateTime. org.joda.time.DateTimeZone/UTC)]
       (is (= 1 (db/save-message!
                 t-conn
                 {:name "Bob"

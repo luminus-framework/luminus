@@ -7,8 +7,8 @@
     <title>Luminus - a Clojure web framework</title>
     <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/color-brewer.min.css">
-    <link rel="icon" href="/img/favicon.ico" type="image/x-icon"> 
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon"> 
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
     {% style "/css/highlight.css" %}
     {% style "/css/codestyle.css" %}
     {% style "/css/screen.css" %}
@@ -36,7 +36,8 @@
                 <li {% ifequal page
                     "docs.html" %} class="selected"{%endifequal%}>
                   <a href="{{servlet-context}}/docs">
-                    Doc<span class="show-on-mobile">s</span><span class="hide-on-mobile">umentation</span>
+                    <span class="show-on-mobile">Docs</span>
+                    <span class="hide-on-mobile">Documentation</span>
                   </a>
                 </li>
                 <li {% ifequal page

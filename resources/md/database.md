@@ -6,12 +6,18 @@ The migrations and a default connection will be setup when using a database prof
 
 ### Configuring Migrations
 
-We first have to set the connection strings for our database in `profiles.clj`. By default two profiles are
-generated for development and testing respectively:
+We first have to set the connection strings for our database in `dev-config.edn` and `test-config.edn` files. These
+files come with a generated configuration for development and testing respectively:
+
+#### `dev-config.edn`:
 
 ```clojure
-{:profiles/dev  {:env {:database-url "jdbc:postgresql://localhost/my_app_dev?user=db_user&password=db_password"}}
- :profiles/test {:env {:database-url "jdbc:postgresql://localhost/myapp_test?user=db_user&password=db_password"}}}
+{:database-url "jdbc:postgresql://localhost/my_app_dev?user=db_user&password=db_password"}
+
+#### `test-config.edn`:
+
+```clojure
+{:database-url "jdbc:postgresql://localhost/myapp_test?user=db_user&password=db_password"}
 ```
 
 Then we can create SQL scripts to migrate the database schema, and to roll it back. These are applied using the numeric order of the ids. Conventionally the current date is used to prefix the filename. The files are expected to be present under the `resources/migrations` folder. The template will generate sample migration files for the users table.
@@ -47,7 +53,7 @@ The connection settings are found in the `<app>.db.core` namespace of the applic
 By default the database connection is expected to be provided as the `DATABASE_URL` environment variable.
 
 The [conman](https://github.com/luminus-framework/conman) library is used to create a pooled connection.
-  
+
 The connection is initialized by calling the `conman/connect!` function with the connection atom and a database specification map.
 The `connect!` function will create a pooled JDBC
 connection using the [HikariCP](https://github.com/brettwooldridge/HikariCP) library. You can see the complete list of the connection options [here](https://github.com/tomekw/hikari-cp#configuration-options).
@@ -60,7 +66,7 @@ The connection can be terminated by calling the `disconnect!` function.
     [<app>.config :refer [env]]
     [conman.core :as conman]
     [mount.core :refer [defstate]]))
-            
+
 (defstate ^:dynamic *db*
           :start (conman/connect!
                    {:jdbc-url (env :database-url)})
@@ -75,7 +81,7 @@ query functions within the scope of `conman.core/with-transaction`.
 
 The lifecycle of the `*db*` component is managed by the [mount](https://github.com/tolitius/mount) library as discussed in
 the [Managing Component Lifecycle](/docs/components.md) section.
-  
+
 The `<app>.core/start-app` and `<app>.core/stop-app` functions will initialize and tear down any components defined using `defstate` by calling `(mount/start)`
 and `(mount/stop)` respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.
 
@@ -95,7 +101,7 @@ we could write the following:
 ```clojure
 (defn to-date [sql-date]
   (-> sql-date (.getTime) (java.util.Date.)))
-  
+
 (extend-protocol jdbc/IResultSetReadColumn
   java.sql.Date
   (result-set-read-column [value metadata index]
@@ -245,13 +251,13 @@ library:
 
 (defmethod hugsql.core/hugsql-result-fn :1 [sym]
   'yuggoth.db.core/result-one-snake->kebab)
-  
+
 (defmethod hugsql.core/hugsql-result-fn :one [sym]
   'yuggoth.db.core/result-one-snake->kebab)
 
 (defmethod hugsql.core/hugsql-result-fn :* [sym]
   'yuggoth.db.core/result-many-snake->kebab)
-  
+
 (defmethod hugsql.core/hugsql-result-fn :many [sym]
   'yuggoth.db.core/result-many-snake->kebab)
 ```

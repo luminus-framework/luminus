@@ -380,7 +380,7 @@ If you're using Immutant as your HTTP server (Luminus default), then you have to
     (http/start
       (merge
         env
-        {:handler handler/app}
+        {:handler (handler/app)}
         (if ssl-options
           {:port         nil ;disables access on HTTP port
            :ssl-port     (:port ssl-options)

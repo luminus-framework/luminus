@@ -232,7 +232,7 @@ a set of routes that all shared `/user/:id` path as seen below:
 (defroutes user-routes
   (GET "/user/:id/profile" [id] ...)
   (GET "/user/:id/settings" [id] ...)
-  (GET "/user/:id/change-password [id] ...))
+  (GET "/user/:id/change-password" [id] ...))
 ```
 
 We could rewrite that as:
