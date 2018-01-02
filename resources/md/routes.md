@@ -206,8 +206,22 @@ we could then render the page and handle the file upload as follows:
 
 Th `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` function above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
 
+A file upload progress listener can be added in the `<app>.middleware/wrap-base` function by updating `wrap-defaults` as follows:
 
-If you're fronting with Nginx then you can easily support file upload progress using its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
+```clojure
+(wrap-defaults
+  (-> site-defaults
+      (assoc-in [:security :anti-forgery] false)
+      (dissoc :session)
+      (assoc-in [:params :multipart]
+                {:progress-fn
+                 (fn [request bytes-read content-length item-count]
+                   (log/info "bytes read:" bytes-read
+                             "\ncontent length:" content-length
+                             "\nitem count:" item-count))})))
+```
+
+Alternatively, if you're fronting with Nginx then you can use its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
 
 ## Organizing application routes
 
