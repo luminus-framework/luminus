@@ -247,7 +247,7 @@ We could rewrite that as:
 
 
 Once all your application routes are defined you can add them to the main handler of your application.
-You'll notice that the template already defined the `app` in the `handler` namespace of your
+You'll notice that the template already defined the `app` route group in the `handler` namespace of your
 application. All you have to do is add your new routes there.
 
 Note that you can also apply custom middleware to the routes using `wrap-routes` as seen with `home-routes`.
@@ -255,15 +255,15 @@ The middleware will be resolved after the routes are matched and only affect the
 to global middleware that's referenced in the `middleware/wrap-base`.
 
 ```clojure
-(def app-routes
-  (routes
-    (wrap-routes #'home-routes middleware/wrap-csrf)
-    (route/not-found
-      (:body
-       (error-page {:code 404
-                    :title "page not found"})))))
-
-(def app (middleware/wrap-base #'app-routes))
+(def app
+  :start
+  (middleware/wrap-base
+    (routes
+      (wrap-routes #'home-routes middleware/wrap-csrf)
+      (route/not-found
+        (:body
+         (error-page {:code 404
+                      :title "page not found"}))))))
 ```
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
