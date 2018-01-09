@@ -1,12 +1,14 @@
 (ns luminus.handler
-  (:require [compojure.core :refer [GET defroutes routes]]
-            [compojure.route :as route]
-            [luminus.util :as util]
-            [selmer.parser :as parser]
-            [selmer.filters :refer [add-filter!]]
-            [markdown.core :refer [md-to-html-string]]
-            [ring.util.response :refer [content-type response]]
-            [compojure.response :refer [Renderable]]))
+  (:require
+    [clojure.string :as s]
+    [compojure.core :refer [GET defroutes routes]]
+    [compojure.route :as route]
+    [luminus.util :as util]
+    [selmer.parser :as parser]
+    [selmer.filters :refer [add-filter!]]
+    [markdown.core :refer [md-to-html-string]]
+    [ring.util.response :refer [content-type response]]
+    [compojure.response :refer [Renderable]]))
 
 (parser/set-resource-path! (clojure.java.io/resource "templates"))
 
@@ -29,20 +31,27 @@
 (defn render [template & [params]]
   (RenderableTemplate. template params))
 
+(defn translated-topics []
+  (mapv
+    (fn [[doc-id title]]
+      [(s/replace doc-id #".md$" ".html") title])
+    (:topics @util/docs)))
+
 (defn doc-page [doc]
-  (render "docs.html"
-          (merge
-            {:title  (get-in @util/docs [:docs-by-topic doc])
-             :topics (:topics @util/docs)}
-            (get @util/docs doc))))
+  (let [doc (s/replace doc #".html$" ".md")]
+    (render "docs.html"
+            (merge
+              {:title  (get-in @util/docs [:docs-by-topic doc])
+               :topics (translated-topics)}
+              (get @util/docs doc)))))
 
 (defroutes app-routes
- (GET "/" [] (render "home.html"))
- (GET "/docs" [] (doc-page "guestbook.md"))
- (GET "/docs/:doc" [doc] (doc-page doc))
- (GET "/contribute" [] (render "contribute.html" {:content (util/slurp-resource "md/contributing.md")}))
- (route/resources "/")
- (route/not-found (render "404.html")))
+  (GET "/" [] (render "home.html"))
+  (GET "/docs" [] (doc-page "guestbook.md"))
+  (GET "/docs/:doc" [doc] (doc-page doc))
+  (GET "/contribute" [] (render "contribute.html" {:content (util/slurp-resource "md/contributing.md")}))
+  (route/resources "/")
+  (route/not-found (render "404.html")))
 
 (defn init []
   (.start

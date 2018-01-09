@@ -3,9 +3,11 @@
             [clj-http.client :as client]
             [crouton.html :as html]
             [hiccup.core :as hiccup]
-            [clojure.java.io :refer [resource]]))
+            [clojure.edn :as edn]
+            [clojure.java.io :refer [resource]]
+            [clojure.string :as s]))
 
-(def docs (agent {}))
+(defonce docs (agent {}))
 
 (defn format-time
   "formats the time using SimpleDateFormat, the default format is
@@ -20,14 +22,10 @@
   (->> filename resource slurp))
 
 (defn fetch-doc-pages []
-  (with-open
-    [r (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
-            client/get
-            :body
-            java.io.StringReader.
-            java.io.PushbackReader.)]
-    (binding [*read-eval* false]
-      (read r))))
+  (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
+       client/get
+       :body
+       (edn/read-string)))
 
 (defn fetch-doc [name]
   (md/md-to-html-string
