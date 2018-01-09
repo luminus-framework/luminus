@@ -84,7 +84,7 @@ In the guestbook application example we saw the following route defined:
 (POST "/"  [name message] (save-message name message))
 ```
 
-Note that `POST` requests must contain a CSRF token by default. Please refer [here](/docs/security.md#cross_site_request_forgery_protection) for more details on managing CSRF middleware.
+Note that `POST` requests must contain a CSRF token by default. Please refer [here](/docs/security.html#cross_site_request_forgery_protection) for more details on managing CSRF middleware.
 
 This route extracts the name and the message form parameters and binds them to variables of the same name.
 We can now use them as any other declared variable.

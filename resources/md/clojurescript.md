@@ -9,7 +9,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 
 ### Adding ClojureScript Support
 
-The easiest way to add ClojureScript support is by using the one of the ClojureScript [profile flags](/docs/profiles.md) when creating a new project.
+The easiest way to add ClojureScript support is by using the one of the ClojureScript [profile flags](/docs/profiles.html) when creating a new project.
 
 However, it's quite easy to add it to an existing project as well. First, add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and `:cljsbuild` key to the project as seen below:
 
@@ -41,13 +41,13 @@ However, it's quite easy to add it to an existing project as well. First, add th
 
 The ClojureScript sources are expected to be found under the `src/cljs` source path in the above configuraiton.
 Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
- 
+
 The compiled JavaScript file will be available in the `/js/app.js` resource path and can be referenced on the page as follows:
 
 ```javascript
 {% script "/js/app.js" %}
 ```
- 
+
 Next, update the `:uberjar` profile with the following options:
 
 ```clojure
@@ -424,11 +424,11 @@ The route should simply return a response map with the body set to the content o
 (ns myapp.routes.services
   (:require [compojure.core :refer [defroutes GET POST]]
             [ring.util.response :refer [response status]]))
-            
+
 (defn save-message! [{:keys [params]}]
   (println params)
   (response {:status :success}))
-            
+
 (defroutes services
   (POST "/send-message" request (save-message! request)))
 ```
@@ -451,7 +451,7 @@ If we wish the services to be accessible to external client then we would update
 (ns myapp.handler
   (:require ...
             [myapp.routes.services :refer [service-routes]]))
-            
+
 (def app
   (-> (routes
         service-routes ;; no CSRF protection

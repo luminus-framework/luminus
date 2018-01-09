@@ -45,7 +45,7 @@ Additional migration files can be generated using the `migratus` plugin as follo
 lein migratus create add-guestbook-table
 ```
 
-Please refer to the [Database Migrations](/docs/migrations.md) section for more details.
+Please refer to the [Database Migrations](/docs/migrations.html) section for more details.
 
 ### Setting up the database connection
 
@@ -80,7 +80,7 @@ The connection needs to be dynamic in order to be automatically rebound to a tra
 query functions within the scope of `conman.core/with-transaction`.
 
 The lifecycle of the `*db*` component is managed by the [mount](https://github.com/tolitius/mount) library as discussed in
-the [Managing Component Lifecycle](/docs/components.md) section.
+the [Managing Component Lifecycle](/docs/components.html) section.
 
 The `<app>.core/start-app` and `<app>.core/stop-app` functions will initialize and tear down any components defined using `defstate` by calling `(mount/start)`
 and `(mount/stop)` respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.

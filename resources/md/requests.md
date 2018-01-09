@@ -9,7 +9,7 @@ for encoding and decoding the body parameters.
 
 The request parameters will be available under the `:params` key
 of the request. Note that the middleware will also handle encoding the response bodies when you set the appropriate MIME
-type on the response. Please see the [response types](/docs/responses.md) section for more information on generating responses.
+type on the response. Please see the [response types](/docs/responses.html) section for more information on generating responses.
 
 Below is a list of valid formats:
 
