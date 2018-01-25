@@ -13,6 +13,7 @@ files come with a generated configuration for development and testing respective
 
 ```clojure
 {:database-url "jdbc:postgresql://localhost/my_app_dev?user=db_user&password=db_password"}
+```
 
 #### `test-config.edn`:
 
