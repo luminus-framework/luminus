@@ -172,7 +172,7 @@ AlbumColors.getColors = function() {};
 Note that in most cases it's possible to simply use the JavaScript library as its own externs file without the need to
 manually write out each function used.
 
-If we put the above code in a file called `externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows:
+If we put the above code in a file called `my-externs.js` under the `resources` directory then we would reference it in our `cljsbuild` section as follows:
 
 ```clojure
 {:id "release"
@@ -183,12 +183,14 @@ If we put the above code in a file called `externs.js` under the `resources` dir
   :pretty-print false
   :output-wrapper false
   ;;specify the externs file to protect function names
-  :externs ["resources/externs.js"]
+  :externs ["resources/my-externs.js"]
   :closure-warnings {:externs-validation :off
                      :non-standard-jsdoc :off}}}
 ```
 
 A useful site for extracting externs can be found [here](http://www.dotnetwise.com/Code/Externs/).
+
+Please see the [official documentation](https://clojurescript.org/reference/advanced-compilation) for more information.
 
 ### Interacting with JavaScript
 
