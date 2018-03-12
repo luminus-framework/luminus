@@ -158,7 +158,7 @@ That's all we need to do to manage the lifecycle of the websocket connections an
 Next, We'll need to add the routes in our `multi-client-ws.handler` namespace:
 
 ```clojure
-(ns multi-client-ws.hanlder
+(ns multi-client-ws.handler
  (:require
    ...
    [multi-client-ws.routes.websockets :refer [websocket-routes]]))
@@ -173,7 +173,7 @@ Next, We'll need to add the routes in our `multi-client-ws.handler` namespace:
 
 ### The Client
 
-We'll start by creating a `multi-client-ws.websockets` in the `src-cljs/multi_client_ws` folder. The namespace will require the transit library:
+We'll start by creating a `multi-client-ws.websockets` in the `src/cljs/multi_client_ws` folder. The namespace will require the transit library:
 
 ```clojure
 (ns multi-client-ws.websockets
