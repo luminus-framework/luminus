@@ -29,7 +29,7 @@ alternative servers are supported:
 * +reagent - adds ClojureScript support with [Reagent](https://reagent-project.github.io/)
 * +re-frame - adds ClojureScript support with [re-frame](https://github.com/Day8/re-frame)
 
-### servie API
+### service API
 
 * +graphql - adds GraphQL support using [Lacinia](https://github.com/walmartlabs/lacinia)
 * +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
