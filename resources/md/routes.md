@@ -379,7 +379,7 @@ We'll also define an error handler function that will be used when access to a p
    :body "Not authorized"})
 ```
 
-Finally, we have to add the necessary middlware to enable the access rules and authentication using a session backend.
+Finally, we have to add the necessary middleware to enable the access rules and authentication using a session backend.
 
 ```clojure
 (defn wrap-base [handler]
