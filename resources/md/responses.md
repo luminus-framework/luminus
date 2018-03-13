@@ -20,7 +20,7 @@ A string, it will be sent back to the client as is. For a sequence, a string rep
 
 ### Response encoding
 
-By default, [muuntaja](https://github.com/metosin/muuntaja) middleware library is used to infer the response type when a route returns a map containing the`:body` key:
+By default, the [muuntaja](https://github.com/metosin/muuntaja) middleware library is used to infer the response type when a route returns a map containing the `:body` key:
 
 ```clojure
 (GET "/json" [] {:body {:foo "bar"}})

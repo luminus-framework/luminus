@@ -4,7 +4,7 @@ Since Luminus uses Ring for routing the application handler
 is a standard Ring handler and can be wrapped in middleware
 just like you would in any other Ring based application.
 
-The middleware allows wrapping the handlers in functions which can modify the the way the request is processed. 
+The middleware allows wrapping the handlers in functions which can modify the way the request is processed. 
 Middleware functions are often used to extend the base functionality of Ring handlers to match the needs of 
 the particular application.
 

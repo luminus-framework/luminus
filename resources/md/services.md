@@ -7,7 +7,7 @@ The easiest way to add Swagger support is by using the `+swagger` profile:
 lein new luminus swag +swagger
 ```
 
-The resulting project will contain a `swagger.routes.services` namespace with a few example routes defined.
+The resulting project will contain an `<app>.routes.services` namespace with a few example routes defined.
 
 ## Working with Swagger
 

@@ -3,7 +3,7 @@ The 12 factor approach states that the configuration should be kept separate fro
 should not have to be packaged differently for each environment that it's deployed in.
 
 The environment variables are managed by the [cprop](https://github.com/tolitius/cprop) library.
-The configuration is represented by a map. the map is constructed by aggregating variables from
+The configuration is represented by a map. The map is constructed by aggregating variables from
 multiple sources in the environment. The sources include EDN configuration, shell variables,
 and Java system properties.
 

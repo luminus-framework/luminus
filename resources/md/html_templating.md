@@ -22,7 +22,7 @@ If you're familiar with Django or similar templating languages you should feel r
 
 By design, Selmer separates the presentation logic from the program logic. The templates
 are simply HTML files with additional template tags for dynamic elements. The dynamc elements
-in the template are resolved during the rendering step. Let's take a look at a an example template below:
+in the template are resolved during the rendering step. Let's take a look at an example template below:
 
 ```xml
 <html>
@@ -89,7 +89,7 @@ By default Selmer caches the compiled template. A recompile will be triggered if
 
 ### Filters
 
-Filters allow post processing the variables before they are rendered. For example, you
+Filters allow post-processing of the variables before they are rendered. For example, you
 can use a filter to convert the variable to upper case, compute a hash, or count the length.
 Filters are specified by using a `|` after the variable name, as can be seen below:
 

@@ -6,7 +6,7 @@ When using the [Immutant](http://immutant.org/) server the sessions are backed b
 provided by the [wrap-session](http://immutant.org/documentation/2.0.2/apidoc/immutant.web.middleware.html#var-wrap-session) middleware.
 
 The session middleware is initialized in the `<app>.middleware` namespace by the `wrap-base`
-function. Session timeout is specified in second and defaults to 30 minutes of inactivity.
+function. Session timeout is specified in seconds and defaults to 30 minutes of inactivity.
 
 
 ```clojure
