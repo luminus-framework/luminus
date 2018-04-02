@@ -40,11 +40,13 @@ Applied migration can then be rolled back with:
 lein run rollback
 ```
 
-Additional migration files can be generated using the `migratus` plugin as follows:
+Migrations can also be run via the REPL, the `user` namespace provides the following
+helper functions:
 
-```
-lein migratus create add-guestbook-table
-```
+* `(reset-db)` - resets the state of the database
+* `(migrate)` - runs the pending migrations
+* `(rollback)` - rolls back the last set of migrations
+* `(create-migration "add-guestbook-table")` - creates the up/down migration files with the given name
 
 Please refer to the [Database Migrations](/docs/migrations.html) section for more details.
 

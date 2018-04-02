@@ -266,7 +266,6 @@ The project file of the application we've created is found in its root folder an
   :resource-paths ["resources"]
   :target-path "target/%s/"
   :main guestbook.core
-  :migratus {:store :database :db ~(get (System/getenv) "DATABASE_URL")}
 
   :plugins [[lein-cprop "1.0.1"]
             [migratus-lein "0.4.1"]
