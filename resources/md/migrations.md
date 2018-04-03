@@ -42,30 +42,58 @@ DROP TABLE users;
 ```
 
 The migrations can now be invoked by running:
-
+<div class="lein">
 ```
 lein run migrate
 ```
-
+</div>
+<div class="boot">
+```
+boot dev [ run migrate ]
+```
+</div>
 Rolling back is done by running:
 
+<div class="lein">
 ```
 lein run rollback
 ```
+</div>
+<div class="boot">
+```
+boot dev [ run rollback ]
+```
+</div>
 
 To apply specific migrations, run the above commands with the desired migrations ids:
 
+<div class="lein">
 ```
 lein run migrate 201506104553 201506120401
 lein run rollback 201506104553 201506120401
 ```
+</div>
+<div class="boot">
+```
+boot dev [ run migrate 201506104553 201506120401]
+boot dev [ run rollback 201506104553 201506120401]
+```
+</div>
 
 The migrations will be packaged in the applications when it's compiled. This allows the application to apply its own migrations when deployed to the server:
 
+<div class="lein">
 ```
 lein uberjar
 java -jar target/uberjar/<app>.jar migrate
 ```
+</div>
+<div class="boot">
+```
+boot uberjar target
+java -jar target/<app>.jar migrate"
+```
+</div>
 
 ### Popular Migrations Alternatives
 

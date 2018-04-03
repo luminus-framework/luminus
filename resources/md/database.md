@@ -49,7 +49,7 @@ lein run rollback
 ```
 boot dev [ run rollback ]
 ```
-
+</div>
 Migrations can also be run via the REPL, the `user` namespace provides the following
 helper functions:
 

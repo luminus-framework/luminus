@@ -37,6 +37,9 @@ slick.
 If you are unsure which to choose, stick with Leiningen as it is the most
 popular, and continue reading.
 
+<b>Note:</b> Most of the documentation is equally accurate for Boot, but as 
+of now some pages are not updated to have the boot commands instead of lein ones.
+
 <div class="lein">
 Installing Leiningen is accomplished by followings the step below.
 
@@ -167,21 +170,17 @@ Let's take a look at what the files in the root folder of the application do:
 <div class="boot">
 * `build.boot` - used to define the tasks and dependencies used by Boot.
 </div>
+<div class="lein">
+* `project.clj` - used to manage the project configuration and dependencies by
+  Leiningen
+</div>
+
 * `Capstanfile` - used to facilitate OSv deployments
 * `Dockerfile` - used to facilitate Docker container deployments
 * `Procfile` - used to facilitate Heroku deployments
 * `README.md` - where documentation for the application is conventionally put
-<<<<<<< HEAD
-<div class="lein">
-* `project.clj` - used to manage the project configuration and dependencies by
-  Leiningen
-</div
-* `profiles.clj` - used for local configuration that should not be checked into the code repository
-=======
-* `project.clj` - used to manage the project configuration and dependencies by Leiningen
 * `dev-config.edn` - used for local development configuration that should not be checked into the code repository
 * `test-config.edn` - used for test development configuration that should not be checked into the code repository
->>>>>>> master
 * `.gitignore` - a list of assets, such as build generated files, to exclude from Git
 
 ### The Source Directory
@@ -978,7 +977,7 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
                (select-keys [:name :message :timestamp])))))))
 ```
 
-We can now run <lein-div>`lein test`</lein-div><div class="boot">`boot
+We can now run <div class="lein">`lein test`</div><div class="boot">`boot
 testing test`</div> in the terminal to see that our database interaction works
 as expected.
 
@@ -1009,10 +1008,18 @@ boot uberjar
 
 This will create a runnable jar that can be run as seen below:
 
+<div class="lein">
 ```
 export DATABASE_URL="jdbc:h2:./guestbook_dev.db"
 java -jar target/uberjar/guestbook.jar
 ```
+</div>
+<div class="boot">
+```
+export DATABASE_URL="jdbc:h2:./guestbook_dev.db"
+java -jar target/guestbook.jar
+```
+</div>
 
 Note that we have to supply the `DATABASE_URL` environment variable when running as a jar, as
 it's not packaged with the application.
