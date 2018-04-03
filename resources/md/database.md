@@ -29,17 +29,27 @@ resources/migrations/20150720004935-add-users-table.up.sql
 ```
 
 With the above setup we can run the migrations as follows:
-
+<div class="lein">
 ```
 lein run migrate
 ```
-
+</div>
+<div class="boot">
+```
+boot dev [ run migrate ] 
+```
+</div>
 Applied migration can then be rolled back with:
-
+<div class="lein">
 ```
 lein run rollback
 ```
-
+</div>
+<div class="boot">
+```
+boot dev [ run rollback ]
+```
+</div>
 Migrations can also be run via the REPL, the `user` namespace provides the following
 helper functions:
 

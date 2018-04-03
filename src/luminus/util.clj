@@ -1,6 +1,7 @@
 (ns luminus.util
   (:require [markdown.core :as md]
             [clj-http.client :as client]
+            [clojure.edn :as edn] ;;TODO remove again
             [crouton.html :as html]
             [hiccup.core :as hiccup]
             [clojure.edn :as edn]
@@ -8,6 +9,17 @@
             [clojure.string :as s]))
 
 (defonce docs (agent {}))
+
+(defn remove-div-spans [text state]
+  (let [opener #"&lt;(boot|lein)-div&gt;"
+        closer #"&lt;/(boot|lein)-div&gt;"]
+    (if (or (:codeblock state)
+            (:code state))
+      [(-> text
+           (s/replace opener "<div class=\"$1\">")
+           (s/replace closer "</div>"))
+       state]
+      [text state])))
 
 (defn format-time
   "formats the time using SimpleDateFormat, the default format is
@@ -21,13 +33,16 @@
   [filename]
   (->> filename resource slurp))
 
-(defn fetch-doc-pages []
+(defn fetch-doc-pages-web [] ;; TODO return this to normal
   (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
        client/get
        :body
        (edn/read-string)))
 
-(defn fetch-doc [name]
+(defn fetch-doc-pages []
+  (edn/read-string (slurp (resource "docpages.edn"))))
+
+(defn fetch-doc-web [name]
   (md/md-to-html-string
     (->> name
          (str "https://raw.github.com/luminus-framework/luminus/master/resources/md/")
@@ -35,6 +50,14 @@
          :body)
     :heading-anchors true
     :code-style #(str "class=\"" % "\"")))
+
+(defn fetch-doc [name]
+  (md/md-to-html-string
+   (slurp-resource (str "md/" name))
+   :heading-anchors true
+   :code-style #(str "class=\"" % "\"")
+   :replacement-transformers (conj markdown.transformers/transformer-vector
+                                   remove-div-spans)))
 
 (defn get-headings [content]
   (reduce
