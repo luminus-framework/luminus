@@ -29,13 +29,13 @@ alternative servers are supported:
 * +reagent - adds ClojureScript support with [Reagent](https://reagent-project.github.io/)
 * +re-frame - adds ClojureScript support with [re-frame](https://github.com/Day8/re-frame)
 
-### servie API
+### service API
 
 * +graphql - adds GraphQL support using [Lacinia](https://github.com/walmartlabs/lacinia)
 * +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
 * +service - create a service application without the front-end boilerplate such as HTML templates
 
-### miscellaneous 
+### miscellaneous
 
 * +auth - adds [Buddy](https://github.com/funcool/buddy) dependency and authentication middleware
 * +auth-jwe - adds [Buddy](https://github.com/funcool/buddy) dependency with the [JWE](https://jwcrypto.readthedocs.io/en/stable/jwe.html) backend
@@ -43,7 +43,7 @@ alternative servers are supported:
 * +cider - adds support for [CIDER](https://github.com/clojure-emacs/cider) using [CIDER nREPL](https://github.com/clojure-emacs/cider-nrepl) plugin
 * +cucumber - a profile for cucumber with clj-webdriver
 * +sassc - adds support for [SASS/SCSS](http://sass-lang.com/) files using [SassC](https://github.com/sass/sassc) command line compiler
-* +war - adds support of building WAR archives for deployment to servers such as Apache Tomcat (should *NOT* be used for [Immutant apps running on WildFly](deployment.md#deploying_to_wildfly))
+* +war - adds support of building WAR archives for deployment to servers such as Apache Tomcat (should *NOT* be used for [Immutant apps running on WildFly](deployment.html#deploying_to_wildfly))
 * +site - creates template for site using the specified database (H2 by default) and ClojureScript
 * +kibit - adds [Kibit](https://github.com/jonase/kibit) static code analyzer support
 

@@ -9,7 +9,7 @@ ClojureScript is an excellent alternative to JavaScript for client side applicat
 
 ### Adding ClojureScript Support
 
-The easiest way to add ClojureScript support is by using the one of the ClojureScript [profile flags](/docs/profiles.md) when creating a new project.
+The easiest way to add ClojureScript support is by using the one of the ClojureScript [profile flags](/docs/profiles.html) when creating a new project.
 
 However, it's quite easy to add it to an existing project as well. <div class="lein">First, add the [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin and `:cljsbuild` key to the project as seen below:
 
@@ -89,15 +89,15 @@ Then create an app.cljs.edn file in the `src/cljs` directory:
                     :pretty-print  true}}
 ```
 </div>
-The ClojureScript sources are expected to be found under the `src/cljs` source path in the above configuraiton.
+The ClojureScript sources are expected to be found under the `src/cljs` source path in the above configuration.
 Note that ClojureScript files **must** end with the `.cljs` extension. If the file ends with `.clj` it will still compile, but it will not have access to the `js` namespace.
- 
+
 The compiled JavaScript file will be available in the `/js/app.js` resource path and can be referenced on the page as follows:
 
 ```javascript
 {% script "/js/app.js" %}
 ```
- 
+
 Next, update the `:uberjar` profile with the following options:
 
 ```clojure
@@ -176,7 +176,7 @@ compiler and run the ClojureScript REPL. This allows you to connect any REPL awa
 
 Once you run `lein figwheel`, then you'll be able to connect to its nREPL at `localhost:7002`. Once connected, you simply have to run `(cljs)` and the ClojureScript nREPL will become available. You can test that everything is working correctly by running `(js/alert "Hi")` in the REPl. This should pop up an alert in the browser.
 
-Alternatively. the compiler can be started from a regular REPL using the `start-fw` function and stopped using the `stop-fw` function. The ClojureScript REPL is started by running the `cljs` function after `start-fw` has run successfully. These functions will be available in the `user` namespace. The REPL will default to it when it starts:
+Alternatively, the compiler can be started from a regular REPL using the `start-fw` function and stopped using the `stop-fw` function. The ClojureScript REPL is started by running the `cljs` function after `start-fw` has run successfully. These functions will be available in the `user` namespace. The REPL will default to it when it starts:
 
 ```clojure
 user=> (start-fw)
@@ -259,7 +259,7 @@ directory then we would reference it in our <span class="lein">`cljsbuild` secti
   :pretty-print false
   :output-wrapper false
   ;;specify the externs file to protect function names
-  :externs ["resources/externs.js"]
+  :externs ["resources/my-externs.js"]
   :closure-warnings {:externs-validation :off
                      :non-standard-jsdoc :off}}}
 ```
@@ -282,6 +282,8 @@ directory then we would reference it in our <span class="lein">`cljsbuild` secti
 ```
 </span>
 A useful site for extracting externs can be found [here](http://www.dotnetwise.com/Code/Externs/).
+
+Please see the [official documentation](https://clojurescript.org/reference/advanced-compilation) for more information.
 
 ### Interacting with JavaScript
 
@@ -317,7 +319,7 @@ For more examples of ClojureScript synonyms of common JavaScript operations see 
 
 [Reagent](http://holmsand.github.io/reagent/) is the recommended approach for building ClojureScript applications with Luminus. Using the `+reagent` profile in Luminus will create an application with it configured.
 
-Reagent is backed by [React](http://facebook.github.io/react/) and provides an extremely efficient way to manipulate the DOM using [Hiccup](https://github.com/weavejester/hiccup) style syntax. In Reagent, each UI component is simply a data structure that represents a particular DOM element. By taking a DOM centric view of the UI, Reagent makes writing composable components simple and intuitive.
+Reagent is backed by [React](http://facebook.github.io/react/) and provides an extremely efficient way to manipulate the DOM using [Hiccup](https://github.com/weavejester/hiccup) style syntax. In Reagent, each UI component is simply a data structure that represents a particular DOM element. By taking a DOM-centric view of the UI, Reagent makes writing composable components simple and intuitive.
 
 A simple Reagent component looks as follows:
 
@@ -334,7 +336,7 @@ Components can also be functions:
 
 The values of the components are stored in Reagent atoms. These atoms behave just like regular Clojure atoms, except for one important property. When an atom is updated it causes any components that dereference it to be repainted. Let's take a look at an example.
 
-**important** make sure that you require Reagent atom in the namespace, otherwise regular Clojure atoms will be used and components will not be repainted on change.
+**Important:** Make sure that you require Reagent atom in the namespace, otherwise regular Clojure atoms will be used and components will not be repainted on change.
 
 ```clojure
 (ns myapp
@@ -344,7 +346,7 @@ The values of the components are stored in Reagent atoms. These atoms behave jus
 
 (defn input-field [label-text]
   [:div
-    [:label label-text]
+    [label label-text]
     [:input {:type "text"
              :value @state
              :on-change #(reset! state (-> % .-target .-value))}]])
@@ -354,7 +356,7 @@ Above, the `input-field` component consists of a `label` component we defined ea
 
 Notice that even though `label` is a function we're not calling it, but instead we're putting it in a vector. The reason for this is that we're specifying the component hierarchy. The components will be run by Reagent when they need to be rendered.
 
-This is behavior makes it trivial to implements the [React Flux](http://facebook.github.io/react/docs/flux-overview.html) pattern.
+This is behavior makes it trivial to implement the [React Flux](http://facebook.github.io/react/docs/flux-overview.html) pattern.
 
 ```
 Views--->(actions) --> Dispatcher-->(callback)--> Stores---+
@@ -378,7 +380,7 @@ In the previous example, we used a global atom to hold the state. While it's con
                  :on-change #(reset! value (-> % .-target .-value))}]])))
 ```
 
-All we have to do is create a local binding for the atom inside a closure. The returned function is what's going to be called by reagent when the value of the atom changes.
+All we have to do is create a local binding for the atom inside a closure. The returned function is what's going to be called by Reagent when the value of the atom changes.
 
 Finally, rendering components is accomplished by calling the `render-component` function:
 
@@ -392,7 +394,7 @@ A working sample project can be found [here](https://github.com/yogthos/reagent-
 
 ### Client Side Routing
 
-[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure inspired syntax for route definitions. To use the library, We'll add the dependency to your project, if you created the project using a ClojureScript profile, then it will be included by default.
+[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure-inspired syntax for route definitions. To use the library, We'll add the dependency to your project, if you created the project using a ClojureScript profile, then it will be included by default.
 
 ```clojure
 [secretary "1.2.0"]
@@ -454,7 +456,7 @@ The `ajax-request` is the base request function that accepts the following param
 * method - a string representing the HTTP request type, eg: "PUT", "DELETE", etc.
 * format - a keyword indicating the response format, can be either `:raw`, `:json`, `:edn`, or `:transit` and defaults to `:transit`
 * handler - success handler, a function that accepts the response as a single argument
-* error-handler - error handler, a function that accepts a map representing the error with keys `:status and `:status-text`
+* error-handler - error handler, a function that accepts a map representing the error with keys `:status` and `:status-text`
 * params - a map of params to be sent to the server
 
 #### GET/POST helpers
@@ -517,17 +519,17 @@ The route should simply return a response map with the body set to the content o
 (ns myapp.routes.services
   (:require [compojure.core :refer [defroutes GET POST]]
             [ring.util.response :refer [response status]]))
-            
+
 (defn save-message! [{:keys [params]}]
   (println params)
   (response {:status :success}))
-            
+
 (defroutes services
   (POST "/send-message" request (save-message! request)))
 ```
 
 Note that CSRF middleware is enabled by default. The middleware wraps the `home-routes` in the `handler` namespace of
-your applictation. It will intercept any request to the server that isn't a `HEAD` or `GET`.
+your application. It will intercept any request to the server that isn't a `HEAD` or `GET`.
 
 ```clojure
 (def app
@@ -544,7 +546,7 @@ If we wish the services to be accessible to external client then we would update
 (ns myapp.handler
   (:require ...
             [myapp.routes.services :refer [service-routes]]))
-            
+
 (def app
   (-> (routes
         service-routes ;; no CSRF protection

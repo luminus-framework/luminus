@@ -4,10 +4,11 @@
             [clojure.edn :as edn] ;;TODO remove again
             [crouton.html :as html]
             [hiccup.core :as hiccup]
-            [clojure.string :as string]
-            [clojure.java.io :refer [resource]]))
+            [clojure.edn :as edn]
+            [clojure.java.io :refer [resource]]
+            [clojure.string :as s]))
 
-(def docs (agent {}))
+(defonce docs (agent {}))
 
 (defn remove-div-spans [text state]
   (let [opener #"&lt;(boot|lein)-div&gt;"
@@ -15,8 +16,8 @@
     (if (or (:codeblock state)
             (:code state))
       [(-> text
-           (string/replace opener "<div class=\"$1\">")
-           (string/replace closer "</div>"))
+           (s/replace opener "<div class=\"$1\">")
+           (s/replace closer "</div>"))
        state]
       [text state])))
 
@@ -32,15 +33,11 @@
   [filename]
   (->> filename resource slurp))
 
-(defn fetch-doc-pages-web [] ;;TODO return this to normal
-  (with-open
-    [r (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
-            client/get
-            :body
-            java.io.StringReader.
-            java.io.PushbackReader.)]
-    (binding [*read-eval* false]
-      (read r))))
+(defn fetch-doc-pages-web [] ;; TODO return this to normal
+  (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
+       client/get
+       :body
+       (edn/read-string)))
 
 (defn fetch-doc-pages []
   (edn/read-string (slurp (resource "docpages.edn"))))

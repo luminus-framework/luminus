@@ -1,6 +1,6 @@
 ## Restricting Route Access
 
-Please refer to the [Routing section](/docs/routes.md#restricting_access) for the instructions on securing the routes.
+Please refer to the [Routing section](/docs/routes.html#restricting_access) for the instructions on securing the routes.
 
 ## Password Hashing
 
@@ -57,7 +57,7 @@ The following algorithms with their associated options and defaults are seen bel
   * `:salt` random
 
 
-For information on restricting access to specific routes, please refer to the [routing section](/docs/routes.md#marking_routes_as_restricted).
+For information on restricting access to specific routes, please refer to the [routing section](/docs/routes.html#marking_routes_as_restricted).
 
 For an alternative security solution you may wish to check out the [Friend](https://github.com/cemerick/friend) library.
 
@@ -75,7 +75,7 @@ Next, we'll need to require the LDAP client in the authentication namespace and 
 
 ```clojure
 (ns ldap-auth
-  (:require 
+  (:require
     [mount.core :refer [defstate]]
     [clj-ldap.client :as client]))
 ```
@@ -160,7 +160,7 @@ If you wish to disable it for any reason then simply update the `app` definition
 
 ```clojure
 
-      
+
 (def app
   (-> (routes
         home-routes ;;no CSRF protection
@@ -168,5 +168,5 @@ If you wish to disable it for any reason then simply update the `app` definition
       middleware/wrap-base))
 ```
 
-Please see [here](/docs/services.md#csrf) on details how to enable CSRF for select routes in your application.
+Please see [here](/docs/services.html#csrf) on details how to enable CSRF for select routes in your application.
 

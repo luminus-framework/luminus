@@ -40,7 +40,7 @@ with the keys that failed validation.
 The `valid?` function will return a boolean value indicating whether the data is valid or not:
 
 ```clojure
-(st/validate {:band "MONO" :album "Hymn to the Immortal Wind" :year 2009} album-schema)
+(st/valid? {:band "MONO" :album "Hymn to the Immortal Wind" :year 2009} album-schema)
 ;; => true
 ```
 

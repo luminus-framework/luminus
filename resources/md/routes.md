@@ -84,7 +84,7 @@ In the guestbook application example we saw the following route defined:
 (POST "/"  [name message] (save-message name message))
 ```
 
-Note that `POST` requests must contain a CSRF token by default. Please refer [here](/docs/security.md#cross_site_request_forgery_protection) for more details on managing CSRF middleware.
+Note that `POST` requests must contain a CSRF token by default. Please refer [here](/docs/security.html#cross_site_request_forgery_protection) for more details on managing CSRF middleware.
 
 This route extracts the name and the message form parameters and binds them to variables of the same name.
 We can now use them as any other declared variable.
@@ -206,8 +206,22 @@ we could then render the page and handle the file upload as follows:
 
 Th `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` function above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
 
+A file upload progress listener can be added in the `<app>.middleware/wrap-base` function by updating `wrap-defaults` as follows:
 
-If you're fronting with Nginx then you can easily support file upload progress using its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
+```clojure
+(wrap-defaults
+  (-> site-defaults
+      (assoc-in [:security :anti-forgery] false)
+      (dissoc :session)
+      (assoc-in [:params :multipart]
+                {:progress-fn
+                 (fn [request bytes-read content-length item-count]
+                   (log/info "bytes read:" bytes-read
+                             "\ncontent length:" content-length
+                             "\nitem count:" item-count))})))
+```
+
+Alternatively, if you're fronting with Nginx then you can use its [Upload Progress Module](http://wiki.nginx.org/HttpUploadProgressModule).
 
 ## Organizing application routes
 
@@ -247,7 +261,7 @@ We could rewrite that as:
 
 
 Once all your application routes are defined you can add them to the main handler of your application.
-You'll notice that the template already defined the `app` in the `handler` namespace of your
+You'll notice that the template already defined the `app` route group in the `handler` namespace of your
 application. All you have to do is add your new routes there.
 
 Note that you can also apply custom middleware to the routes using `wrap-routes` as seen with `home-routes`.
@@ -255,15 +269,15 @@ The middleware will be resolved after the routes are matched and only affect the
 to global middleware that's referenced in the `middleware/wrap-base`.
 
 ```clojure
-(def app-routes
-  (routes
-    (wrap-routes #'home-routes middleware/wrap-csrf)
-    (route/not-found
-      (:body
-       (error-page {:code 404
-                    :title "page not found"})))))
-
-(def app (middleware/wrap-base #'app-routes))
+(mount/defstate app
+  :start
+  (middleware/wrap-base
+    (routes
+      (wrap-routes #'home-routes middleware/wrap-csrf)
+      (route/not-found
+        (:body
+         (error-page {:code 404
+                      :title "page not found"}))))))
 ```
 
 Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
@@ -365,7 +379,7 @@ We'll also define an error handler function that will be used when access to a p
    :body "Not authorized"})
 ```
 
-Finally, we have to add the necessary middlware to enable the access rules and authentication using a session backend.
+Finally, we have to add the necessary middleware to enable the access rules and authentication using a session backend.
 
 ```clojure
 (defn wrap-base [handler]

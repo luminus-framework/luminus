@@ -75,7 +75,7 @@ at root context, simply copy it to `webapp` as `ROOT.war`.
 ### Configuring JNDI Connections
 
 Tomcat may have database configuration specified as a [JNDI resource](https://tomcat.apache.org/tomcat-7.0-doc/jndi-resources-howto.html) (check JDBC Data Sources
-section). In this case you need to fetch this data from the Tomcat configuration and not from clojure profiles. Just change this lines in `src/clj/<app>/db/core.clj`:
+section). In this case you need to fetch this data from the Tomcat configuration and not from clojure profiles. Just change these lines in `src/clj/<app>/db/core.clj`:
 
 ```clojure
 (defstate ^:dynamic *db*
@@ -187,7 +187,7 @@ The `WantedBy=` is the target level that this unit is a part of. To find the def
 
     systemctl get-default
 
-Note that by default JVM is fairly aggressive about memory usage. If you're like to reduce the amount of memory used then you can add the following line under the `[Service]` configuration:
+Note that by default JVM is fairly aggressive about memory usage. If you'd like to reduce the amount of memory used then you can add the following line under the `[Service]` configuration:
 
 ```
 [Service]
@@ -196,7 +196,7 @@ _JAVA_OPTIONS="-Xmx256m"
 ExecStart=/usr/bin/java -jar /var/myapp/myapp.jar
 ```
 
-This will limit the maximum amount of memory that the JVM is allowed to use.  Now we can tell `systemd` to start the application everytimes the system reboots with the following commands:
+This will limit the maximum amount of memory that the JVM is allowed to use.  Now we can tell `systemd` to start the application everytime the system reboots with the following commands:
 ```
 sudo systemctl daemon-reload
 sudo systemctl enable myapp.service
@@ -206,7 +206,7 @@ When the system reboots your application will now start and will be ready to pro
 ```
  ps -ef | grep java
 ```
-This should return something like this. Pay attention to the `UID`, it should be `deploy`, leaving it to `root` would present a significant security risk.
+This should return something like the line below. Pay attention to the `UID` - it should be `deploy`, since running it as `root` would present a significant security risk.
 ```
 deploy     730     1  1 06:45 ?        00:00:42 /usr/bin/java -jar /var/mysite/mysite.jar
 ```
@@ -463,13 +463,13 @@ You can test the SSL configuration using the [SSL Server Test](https://www.sslla
 
 First, make sure you have [Git](http://git-scm.com/downloads) and [Heroku toolbelt](https://toolbelt.heroku.com/) installed, then simply follow the steps below.
 
-Optionally, test that your application runs locally by running.
+Optionally, test that your application runs locally:
 
 ```
 heroku local
 ```
 
-Now, you can initialize your git repo and commit your application.
+Now, you can initialize your git repo and commit your application:
 
 ```
 git init
@@ -477,13 +477,14 @@ git add .
 git commit -m "init"
 ```
 
-create your app on Heroku
+Create your app on Heroku:
 
 ```
 heroku create
 ```
 
-optionally, create a database for the application
+Optionally, create a database for the application:
+
 ```
 heroku addons:create heroku-postgresql
 ```
@@ -492,7 +493,7 @@ The connection settings can be found at your
 [Heroku dashboard](https://dashboard.heroku.com/apps/) under
 the add-ons for the app.
 
-deploy the application
+Deploy the application:
 
 ```
 git push heroku master
@@ -506,7 +507,7 @@ To initialize or update your database:
 heroku run lein run migrate
 ```
 
-If the above step uses too much memory for your instance. Modify the `start-app` function in your project's `core.clj`:
+If the above step uses too much memory for your instance, modify the `start-app` function in your project's `core.clj`:
 
 ```
 (defn start-app [args]
@@ -519,14 +520,14 @@ If the above step uses too much memory for your instance. Modify the `start-app`
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 ```
 
-This will run migrations every time. Consuming less resources, because the app is started, and keeping migrations up to date.
+This will run migrations every time, keeping the schema up-to-date, while also consuming less resources because the app is already running.
 
 For further instructions see the [official documentation](https://devcenter.heroku.com/articles/clojure).
 
 ## Enabling nREPL
 
-Luminus comes setup with [nREPL](https://github.com/clojure/tools.nrepl) that allows connecting to a REPL
-on a the server. This functionality can useful for debugging as well as hotfixing updates in the running
+Luminus comes set up with [nREPL](https://github.com/clojure/tools.nrepl), which allows connecting to a REPL
+on the server. This functionality can useful for debugging as well as hotfixing updates in the running
 application. To enable nREPL support set the `NREPL_PORT` envrionment variable to the desired port.
 
 ```

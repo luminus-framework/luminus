@@ -53,7 +53,7 @@ Since dispatching the request to a worker carries overhead, it may be more perfo
 
 ### Context paths
 
-Set the value of `:handler-path` key to customize the global path for the application (default is `/`). In the example below the value is got from a custom environment variable `:my-path`.
+Set the value of `:handler-path` key to customize the global path for the application (default is `/`). In the example below the value is gotten from a custom environment variable `:my-path`.
 
 ```clojure
 (mount/defstate http-server

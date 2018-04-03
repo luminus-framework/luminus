@@ -313,7 +313,6 @@ The project file of the application we've created is found in its root folder an
   :resource-paths ["resources"]
   :target-path "target/%s/"
   :main guestbook.core
-  :migratus {:store :database :db ~(get (System/getenv) "DATABASE_URL")}
 
   :plugins [[lein-cprop "1.0.1"]
             [migratus-lein "0.4.1"]
@@ -613,6 +612,33 @@ or setting the `PORT` environment variable.
 
 ```
 lein run -p 8000
+```
+
+Alternatively, you can start the application from the REPL using `start` function defined in the `user` namespace, e.g:
+
+```
+lein repl
+2018-01-30 15:48:31,147 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+nREPL server started on port 51655 on host 127.0.0.1 - nrepl://127.0.0.1:51655
+REPL-y 0.3.7, nREPL 0.2.12
+Clojure 1.9.0
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_45-b14
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+ Results: Stored in vars *1, *2, *3, an exception in *e
+
+user=>(start)
+018-01-30 15:48:58,211 [nREPL-worker-0] INFO  guestbook.env -
+-=[guestbook started successfully using the development profile]=-
+2018-01-30 15:48:58,505 [nREPL-worker-0] INFO  luminus.http-server - starting HTTP server on port 3000
+2018-01-30 15:48:58,547 [nREPL-worker-0] DEBUG io.undertow - starting undertow server io.undertow.Undertow@115503d9
+2018-01-30 15:48:58,593 [nREPL-worker-0] INFO  org.xnio - XNIO version 3.3.6.Final
+2018-01-30 15:48:58,707 [nREPL-worker-0] DEBUG io.undertow - Configuring listener with protocol HTTP for interface 0.0.0.0 and port 3000
+2018-01-30 15:48:58,745 [nREPL-worker-0] INFO  org.projectodd.wunderboss.web.Web - Registered web context /
+{:started ["#'guestbook.config/env" "#'guestbook.handler/init-app" "#'guestbook.handler/app" "#'guestbook.core/http-server"]}
 ```
 
 Note that the page is prompting us to run the migrations in order to initialize the database. However, we've already done that earlier, so we won't need to do that again.

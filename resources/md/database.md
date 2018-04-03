@@ -13,6 +13,7 @@ files come with a generated configuration for development and testing respective
 
 ```clojure
 {:database-url "jdbc:postgresql://localhost/my_app_dev?user=db_user&password=db_password"}
+```
 
 #### `test-config.edn`:
 
@@ -48,19 +49,16 @@ lein run rollback
 ```
 boot dev [ run rollback ]
 ```
-</div>
-Additional migration files can be generated using the `migratus` plugin as follows:
-<div class="lein">
-```
-lein migratus create add-guestbook-table
-```
-</div>
-<div class="boot">
-```
-boot dev migratus -c create -o add-guestbook-table
-```
-</div>
-Please refer to the [Database Migrations](/docs/migrations.md) section for more details.
+
+Migrations can also be run via the REPL, the `user` namespace provides the following
+helper functions:
+
+* `(reset-db)` - resets the state of the database
+* `(migrate)` - runs the pending migrations
+* `(rollback)` - rolls back the last set of migrations
+* `(create-migration "add-guestbook-table")` - creates the up/down migration files with the given name
+
+Please refer to the [Database Migrations](/docs/migrations.html) section for more details.
 
 ### Setting up the database connection
 
@@ -95,7 +93,7 @@ The connection needs to be dynamic in order to be automatically rebound to a tra
 query functions within the scope of `conman.core/with-transaction`.
 
 The lifecycle of the `*db*` component is managed by the [mount](https://github.com/tolitius/mount) library as discussed in
-the [Managing Component Lifecycle](/docs/components.md) section.
+the [Managing Component Lifecycle](/docs/components.html) section.
 
 The `<app>.core/start-app` and `<app>.core/stop-app` functions will initialize and tear down any components defined using `defstate` by calling `(mount/start)`
 and `(mount/stop)` respectively. This ensures that the connection is available when the server starts up and that it's cleaned up on server shutdown.
