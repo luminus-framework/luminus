@@ -28,23 +28,38 @@ resources/migrations/20150720004935-add-users-table.up.sql
 ```
 
 With the above setup we can run the migrations as follows:
-
+<div class="lein">
 ```
 lein run migrate
 ```
-
+</div>
+<div class="boot">
+```
+boot dev [ run migrate ] 
+```
+</div>
 Applied migration can then be rolled back with:
-
+<div class="lein">
 ```
 lein run rollback
 ```
-
+</div>
+<div class="boot">
+```
+boot dev [ run rollback ]
+```
+</div>
 Additional migration files can be generated using the `migratus` plugin as follows:
-
+<div class="lein">
 ```
 lein migratus create add-guestbook-table
 ```
-
+</div>
+<div class="boot">
+```
+boot dev migratus -c create -o add-guestbook-table
+```
+</div>
 Please refer to the [Database Migrations](/docs/migrations.md) section for more details.
 
 ### Setting up the database connection
