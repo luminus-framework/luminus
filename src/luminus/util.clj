@@ -33,16 +33,18 @@
   [filename]
   (->> filename resource slurp))
 
-(defn fetch-doc-pages-web [] ;; TODO return this to normal
+(defn fetch-doc-pages []
   (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
        client/get
        :body
        (edn/read-string)))
 
-(defn fetch-doc-pages []
+(defn fetch-doc-pages-local
+  "A helper function that getsdoc pages from the local files not github."
+  []
   (edn/read-string (slurp (resource "docpages.edn"))))
 
-(defn fetch-doc-web [name]
+(defn fetch-doc [name]
   (md/md-to-html-string
     (->> name
          (str "https://raw.github.com/luminus-framework/luminus/master/resources/md/")
@@ -51,7 +53,9 @@
     :heading-anchors true
     :code-style #(str "class=\"" % "\"")))
 
-(defn fetch-doc [name]
+(defn fetch-doc-local
+  "A helper function that getsdoc pages from the local files not github."
+  [name]
   (md/md-to-html-string
    (slurp-resource (str "md/" name))
    :heading-anchors true
