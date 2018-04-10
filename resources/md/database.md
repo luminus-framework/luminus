@@ -36,7 +36,7 @@ lein run migrate
 </div>
 <div class="boot">
 ```
-boot dev [ run migrate ] 
+boot dev [ run migrate ]
 ```
 </div>
 Applied migration can then be rolled back with:
@@ -57,6 +57,8 @@ helper functions:
 * `(migrate)` - runs the pending migrations
 * `(rollback)` - rolls back the last set of migrations
 * `(create-migration "add-guestbook-table")` - creates the up/down migration files with the given name
+
+**important**: the database connection must be initialized before migrations can be run in the REPL
 
 Please refer to the [Database Migrations](/docs/migrations.html) section for more details.
 

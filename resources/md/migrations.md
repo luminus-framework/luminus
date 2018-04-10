@@ -19,6 +19,22 @@ By default, the SQL migration scripts are expected to be found in the `resources
 
 Migration ids are not assumed to be incremented integers and are considered for completion independently. The recommended way to keep migrations ordered is by prefixing the current date to the name of the script.
 
+Before migrations can be run, we have to ensure that the database connection has been started. By default, the connection is defined in the
+`<app>.db.core` namespace as:
+
+```clojure
+(defstate ^:dynamic *db*
+  :start (conman/connect! {:jdbc-url (env :database-url)})
+  :stop (conman/disconnect! *db*))
+```
+
+When the `<app>.db.core` namespace has to be referenced in the proejct for the connection will be started automatically.
+To start the connection manually, run the following command in the REPL:
+
+```clojure
+(mount.core/start  #'<app>.db.core/*db*)
+```
+
 Let's create two scripts, one for the migration and the other for the rollback. The files can be generated from the REPL as follows:
 
 ```
