@@ -5,6 +5,12 @@ Luminus sets up a default test harness found in the `test` directory of the proj
 The database tests run using the `:test` profile. This profile reads the environment variables from the
 `test-config.edn` file.
 
+The recommended way to run the tests is using the [lein-test-refresh](https://github.com/jakemcc/lein-test-refresh) plugin. The plugin watches namespaces for changes, and runs tests accordingly. The plugin can be run using the following command out of the box:
+
+```
+lein test-refresh
+```
+
 A default test will be created for the application handler:
 
 ```clojure
