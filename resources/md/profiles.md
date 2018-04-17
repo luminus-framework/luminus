@@ -46,6 +46,7 @@ alternative servers are supported:
 * +war - adds support of building WAR archives for deployment to servers such as Apache Tomcat (should *NOT* be used for [Immutant apps running on WildFly](deployment.html#deploying_to_wildfly))
 * +site - creates template for site using the specified database (H2 by default) and ClojureScript
 * +kibit - adds [Kibit](https://github.com/jonase/kibit) static code analyzer support
+* +servlet - adds middleware to support the servlet context for running inside Java application servers
 
 To add a profile simply pass it as an argument after your application name, eg:
 
