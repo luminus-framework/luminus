@@ -32,12 +32,12 @@ selecting the dropdown [here](#build-tool-div).
 
 In general Leiningen does more for you and therefore is easier to use but more
 rigid. Boot allows more customization and is more flexible but isn't quite as
-slick. 
+slick.
 
 If you are unsure which to choose, stick with Leiningen as it is the most
 popular, and continue reading.
 
-<b>Note:</b> Most of the documentation is equally accurate for Boot, but as 
+<b>Note:</b> Most of the documentation is equally accurate for Boot, but as
 of now some pages are not updated to have the boot commands instead of lein ones.
 
 <div class="lein">
@@ -324,7 +324,7 @@ The project file of the application we've created is found in its root folder an
              :source-paths ["env/prod/clj"]
              :resource-paths ["env/prod/resources"]}
 
-   :dev           [:project/dev :profiles/dev]
+   :dev           [:project/dev]
    :test          [:project/test :profiles/test]
 
    :project/dev  {:jvm-opts ["-server" "-Dconf=dev-config.edn"]
@@ -355,8 +355,7 @@ The items in the `:plugins` vector can be used to provide additional functionali
 The `:profiles` contain a map of different project configurations that are used to initialize it for either development or production builds.
 
 Note that the project sets up composite profiles for `:dev` and `:test`. These profiles contain the variables from `:project/dev` and `:project/test` profiles,
-as well as from `:profiles/dev` and `:profiles/test` found in the `profiles.clj`. The latter should contain local configuration that is not meant to be
-checked into the shared code repository.
+as well as from `:profiles/dev` and `:profiles/test` found in the `profiles.clj`. The latter can be used for additional local configuration that is not meant to be checked into the shared code repository.
 
 Please refer to the [official Leiningen documentation](http://leiningen.org/#docs) for further details on structuring the `project.clj` build file.
 </div>
