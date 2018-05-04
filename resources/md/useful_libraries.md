@@ -63,6 +63,7 @@ to those already included with Luminus.
 * [Honey SQL](https://github.com/jkk/honeysql) - a Korma alternative DSL for building SQL queries
 * [clojure.java.jdbc](https://github.com/clojure/java.jdbc) - a low level wrapper for Java JDBC
 * [blackwater](https://github.com/bitemyapp/blackwater) - a library for logging SQL queries and the time they took for Korma and clojure.java.jdbc
+* [walkable](https://github.com/walkable-server/walkable) - Datomic pull syntax for building SQL queries
 
 ## Dependency Injection
 
