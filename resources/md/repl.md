@@ -1,6 +1,8 @@
 A typical workflow for developing Clojure applications is to connect the editor to a REPL running an instance
 of the application. Luminus provides two ways to connect to the REPL.
 
+# With Leiningen
+
 ## Starting the Application from the REPL
 
 When you run the REPL in the project directory it will start in the `user` namespace located in the `env/dev/clj/user.clj` file. This namespace provides helper functions `start`, `stop`, and `restart` that are used to manage the state of the application components.
@@ -34,3 +36,9 @@ able to connect your editor to it on `localhost:7000`. Note that when the `NREPL
 set then nREPL will also be available in production and can be used to inspect the application the same way you would in development.
 
 Please see the [deployment section](/docs/deployment.html#enabling_nrepl) for the instructions on enabling the nREPL for production.
+
+# With Boot
+
+## Starting the Application from the REPL
+
+With Boot, running the HTTP server in the REPL requires a few extra steps. In the command line, run `boot dev repl` to start the REPL in the "dev" configuration. Then, in the REPL, run `(in-ns 'user)` followed by `(load "user")` to load the helper functions found in `env/dev/clj/user.clj`. Since you are already in the `user` namespace, you have immediate access to these functions. Now you can run `(start)` to run your application in the REPL.
