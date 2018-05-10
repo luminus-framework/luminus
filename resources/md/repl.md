@@ -1,7 +1,7 @@
 A typical workflow for developing Clojure applications is to connect the editor to a REPL running an instance
 of the application. Luminus provides two ways to connect to the REPL.
 
-#With Leiningen
+# With Leiningen
 
 ## Starting the Application from the REPL
 
