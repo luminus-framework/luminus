@@ -4,6 +4,10 @@ Running `lein new luminus myapp` will create an application using the default pr
 However, if you would like to attach further functionality to your template you can append
 profile hints for the extended functionality.
 
+### Routing
+
+* +reitit - adds [Reitit](https://metosin.github.io/reitit/) Clojure/Script router support
+
 ### web servers
 
 Luminus defaults to using the [Immutant](http://immutant.org/) webserver, the following
