@@ -73,7 +73,7 @@ boot
 
 ### Creating a new application
 
-Once you have <lein-div>Leiningen</lein-div><boot-div>Boot</boot-div> installed you can run the following commands in your terminal to
+Once you have <span class="lein">Leiningen</span><span class="boot">Boot</span> installed you can run the following commands in your terminal to
 initialize your application:
 
 <div class="lein">
@@ -608,14 +608,24 @@ Once server starts, you should be able to navigate to [http://localhost:3000](ht
 the app running. The server can be started on an alternate port by either passing it as a parameter as seen below,
 or setting the `PORT` environment variable.
 
+<div class="lein">
 ```
 lein run -p 8000
 ```
+</div><div class="boot">
+```
+boot dev [ run -- -p 8000 ]
+```
+</div>
 
 Alternatively, you can start the application from the REPL using `start` function defined in the `user` namespace, e.g:
 
 ```
+<lein-div>
 lein repl
+</lein-div><boot-div>
+boot repl
+</boot-div>
 2018-01-30 15:48:31,147 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
 nREPL server started on port 51655 on host 127.0.0.1 - nrepl://127.0.0.1:51655
 REPL-y 0.3.7, nREPL 0.2.12
