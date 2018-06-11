@@ -1,7 +1,7 @@
 (ns luminus.util
   (:require [markdown.core :as md]
             [clj-http.client :as client]
-            [clojure.edn :as edn] ;;TODO remove again
+            [clojure.edn :as edn]
             [crouton.html :as html]
             [hiccup.core :as hiccup]
             [clojure.edn :as edn]
@@ -49,7 +49,9 @@
          (client/get)
          :body)
     :heading-anchors true
-    :code-style #(str "class=\"" % "\"")))
+    :code-style #(str "class=\"" % "\"")
+    :replacement-transformers (conj markdown.transformers/transformer-vector
+                                    remove-div-spans)))
 
 (defn fetch-doc-local [name]
   (md/md-to-html-string
@@ -86,16 +88,23 @@
         get-headings
         make-links)))
 
-(defn refresh-docs! []
-  (when-let [pages (try (fetch-doc-pages) (catch Exception _))]
-    (send docs
-          (fn [_]
-            (reduce
+(defn refresh-docs!
+  "Refresh the HTML document pages. If :local is passed as loc, pages will be rendered from
+  the local filesystem, otherwise they will be rendered from Github."
+  ([loc]
+   (when-let [pages (try ((if (= loc :local)
+                            fetch-doc-pages-local
+                            fetch-doc-pages)) (catch Exception _))]
+     (send docs
+           (fn [_]
+             (reduce
               (fn [docs id]
-                (if-let [doc (try (Thread/sleep 1000) (fetch-doc id) (catch Exception _))]
+                (if-let [doc (try (Thread/sleep 1000) ((if (= loc :local)
+                                                         fetch-doc-local
+                                                         fetch-doc) id) (catch Exception _))]
                   (assoc docs id {:toc (generate-toc doc) :content doc})
                   docs))
               {:topics pages :docs-by-topic (into {} pages)}
               (map first pages))))))
-
-
+  ([]
+   (refresh-docs! :web)))
