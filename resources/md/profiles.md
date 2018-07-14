@@ -32,6 +32,7 @@ alternative servers are supported:
 * +hoplon adds ClojureScript support with [Hoplon](https://github.com/hoplon/hoplon) to the project
 * +reagent - adds ClojureScript support with [Reagent](https://reagent-project.github.io/)
 * +re-frame - adds ClojureScript support with [re-frame](https://github.com/Day8/re-frame)
+* +kee-frame - adds ClojureScript support with [kee-frame](https://github.com/ingesolvoll/kee-frame)
 
 ### service API
 
