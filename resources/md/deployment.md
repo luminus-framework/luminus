@@ -263,6 +263,10 @@ server{
   access_log /var/log/myapp_access.log;
   error_log /var/log/myapp_error.log;
 
+  # If you're using WebSockets over HTTPS, add below two lines.
+  proxy_set_header Upgrade $http_upgrade; ###
+  proxy_set_header Connection "Upgrade";   ###
+ 
   location / {
     proxy_pass http://localhost:3000/;
     proxy_set_header Host $http_host;
