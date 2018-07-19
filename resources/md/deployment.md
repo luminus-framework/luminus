@@ -262,11 +262,7 @@ server{
 
   access_log /var/log/myapp_access.log;
   error_log /var/log/myapp_error.log;
-
-  # If you're using WebSockets over HTTPS, add below two lines.
-  proxy_set_header Upgrade $http_upgrade; ###
-  proxy_set_header Connection "Upgrade";   ###
- 
+  
   location / {
     proxy_pass http://localhost:3000/;
     proxy_set_header Host $http_host;
@@ -434,6 +430,10 @@ server {
     access_log /var/log/myapp_access.log;
     error_log /var/log/myapp_error.log;
 
+     # If you use websocket over https, add below two lines.
+    proxy_set_header Upgrade $http_upgrade; ###
+    proxy_set_header Connection "Upgrade";   ###
+
     location / {
 
       proxy_set_header        Host $host;
@@ -447,7 +447,7 @@ server {
 
       proxy_redirect      http://localhost:3000 https://mydomain.com;
     }
-  }
+}
 ```
 
 The above will cause Nginx to redirect HTTP requests to HTTPS and use the provided certificate to serve them.
