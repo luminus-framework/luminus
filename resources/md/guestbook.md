@@ -139,7 +139,7 @@ guestbook<boot-div>
 │   │   └── js
 │   ├── sql
 │   │   └── queries.sql
-│   └── templates
+│   └── html
 │       ├── about.html
 │       ├── base.html
 │       ├── error.html
@@ -248,7 +248,7 @@ This is where we put all the static resources for our application. Content in th
 
 #### HTML templates
 
-The templates directory is reserved for the [Selmer](https://github.com/yogthos/Selmer) templates
+The `resources/html` directory is reserved for the [Selmer](https://github.com/yogthos/Selmer) templates
 that represent the application pages.
 
 * `about.html` - about page
@@ -737,7 +737,7 @@ Don't forget to refer `POST` from `compojure.core`
             ...))
 ```
 
-Now that we have our controllers setup, let's open the `home.html` template located under the `resources/templates` directory. Currently, it simply renders the contents of the `content` variable inside the content block:
+Now that we have our controllers setup, let's open the `home.html` template located under the `resources/html` directory. Currently, it simply renders the contents of the `content` variable inside the content block:
 
 ```xml
 {% extends "base.html" %}

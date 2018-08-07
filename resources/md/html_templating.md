@@ -51,7 +51,7 @@ If we saved the template defined above in a file called `index.html` then we cou
 (ns example.routes.home
   (:require [selmer.parser :refer [render-file]]))
 
-(render-file "templates/index.html" {:name "John"})
+(render-file "html/index.html" {:name "John"})
 ```
 
 The `render-file` function expects the templates to be found at a path relative
@@ -70,7 +70,7 @@ For example, if we pass in a collection we can iterate it using the `for` tag:
 ```
 
 ```clojure
-(render-file "templates/items.html" {:items (range 10)})
+(render-file "html/items.html" {:items (range 10)})
 ```
 
 If an item happens to be a map, we can access the keys by their name as follows:
@@ -332,7 +332,7 @@ replaces itself with the contents of the referenced template
 
 optionally, you can supply default arguments any tags matching these will have the `default` filter applied using the value supplied:
 
-`{% include "templates/inheritance/child.html" with name="Jane Doe" greeting="Hello!" %}`
+`{% include "html/inheritance/child.html" with name="Jane Doe" greeting="Hello!" %}`
 
 **block**
 
@@ -574,9 +574,9 @@ at an example. Let's say we have a `base.html` template that includes templates 
 <body>
   <div id="content">
     {% if user %}
-    {% include "templates_path/home.html" %}
+    {% include "<templates path>/home.html" %}
     {% else %}
-    {% include "templates_path/register.html" %}
+    {% include "<templates path>/register.html" %}
     {% endif %}
   </div>
 </body>
