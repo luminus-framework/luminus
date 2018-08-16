@@ -41,11 +41,10 @@ alternative servers are supported:
 * +service - create a service application without the front-end boilerplate such as HTML templates
 
 ### miscellaneous
-
+* +boot - uses [Boot](https://github.com/boot-clj/boot) as build tool and creates `build.boot` instead of `project.clj`
 * +auth - adds [Buddy](https://github.com/funcool/buddy) dependency and authentication middleware
 * +auth-jwe - adds [Buddy](https://github.com/funcool/buddy) dependency with the [JWE](https://jwcrypto.readthedocs.io/en/stable/jwe.html) backend
 * +oauth - adds OAuth boilerplate for the [clj-oauth](https://github.com/mattrepl/clj-oauth) library
-* +cider - adds support for [CIDER](https://github.com/clojure-emacs/cider) using [CIDER nREPL](https://github.com/clojure-emacs/cider-nrepl) plugin
 * +cucumber - a profile for cucumber with clj-webdriver
 * +sassc - adds support for [SASS/SCSS](http://sass-lang.com/) files using [SassC](https://github.com/sass/sassc) command line compiler
 * +war - adds support of building WAR archives for deployment to servers such as Apache Tomcat (should *NOT* be used for [Immutant apps running on WildFly](deployment.html#deploying_to_wildfly))
