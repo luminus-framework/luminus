@@ -41,6 +41,7 @@ alternative servers are supported:
 * +service - create a service application without the front-end boilerplate such as HTML templates
 
 ### miscellaneous
+
 * +boot - uses [Boot](https://github.com/boot-clj/boot) as build tool and creates `build.boot` instead of `project.clj`
 * +auth - adds [Buddy](https://github.com/funcool/buddy) dependency and authentication middleware
 * +auth-jwe - adds [Buddy](https://github.com/funcool/buddy) dependency with the [JWE](https://jwcrypto.readthedocs.io/en/stable/jwe.html) backend
