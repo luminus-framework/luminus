@@ -122,7 +122,7 @@ Where the `ws-handler` function will look as follows:
 ```
 
 The function accepts the request and passes it to the `org.httpkit.server/with-channel` macro provided by the HTTP Kit API.
-The macro creates accepts the request as its argument and binds the value of the `:async-channel` key to the second paramets representing the name of the channel.
+The macro creates a handler that accepts the request as its argument and binds the value of the `:async-channel` key to the second paramets representing the name of the channel.
 The statement following the channel name will be called once when the channel is created. In our case we'll call the `connect!` function defined below any time a new client connects:
 
 ```clojure
