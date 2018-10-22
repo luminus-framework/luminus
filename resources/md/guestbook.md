@@ -530,7 +530,7 @@ Here, we can see that we already have the definition for our database connection
 (conman/bind-connection *db* "sql/queries.sql")
 ```
 
-The database connection is read from the environment map at runtime. By default, the `:database-url` key points to a
+The database connection is read from the environment map at runtime. By default, the `:database-url` key points to
 a string with the connection URL for the database.
  This variable is populated from the `dev-config.edn` file during development and has to be set as an environment variable for production, e.g:
 
