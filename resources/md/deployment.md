@@ -211,39 +211,6 @@ This should return something like the line below. Pay attention to the `UID` - i
 deploy     730     1  1 06:45 ?        00:00:42 /usr/bin/java -jar /var/mysite/mysite.jar
 ```
 
-### upstart configuration
-
-Ubuntu currently uses [upstart](https://www.digitalocean.com/community/tutorials/the-upstart-event-system-what-it-is-and-how-to-use-it) event system. It's configuration file should be placed in the `/etc/init/` directory.
-
-We could create the following configuration for our application called `/etc/init/myapp.conf`:
-
-```
-description "Upstart script to launch My App"
-
-start on (local-filesystems and net-device-up IFACE=eth0)
-stop on runlevel [!12345]
-
-respawn
-
-setuid deploy
-setgid deploy
-env    DATABASE_URL=jdbc:postgresql://localhost/app?user=app_user&password=secret
-chdir  /var/myapp
-
-exec /usr/bin/java -jar /var/myapp/myapp.jar
-```
-
-The configuration can be tested by running the following command:
-
-    init-checkconf /etc/init/myapp.conf
-    File /etc/init/myapp.conf: syntax ok
-
-Now create a symlink for starting the application:
-
-    ln -s /etc/init/myapp.conf /etc/init.d/myapp
-
-It can now be managed running `service myapp start|stop|restart`.
-
 ### Fronting with Nginx
 
 Install Nginx using the following command:
