@@ -15,7 +15,7 @@ The log levels are `trace`, `debug`, `info`, `warn`, `error`, and `fatal`.
 =>[2015-12-24 09:04:25,711][INFO][myapp.handler] Hello
 
 (log/debug {:user {:id "Anonymous"}})
-=>[2015-12-24 09:04:25,711][INFO][myapp.handler] {:user {:id "Anonymous"}}
+=>[2015-12-24 09:04:25,711][DEBUG][myapp.handler] {:user {:id "Anonymous"}}
 
 (log/error (Exception. "I'm an error") "something bad happened")
 =>[2015-12-24 09:43:47,193][ERROR][myapp.handler] something bad happened
