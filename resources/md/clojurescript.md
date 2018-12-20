@@ -57,11 +57,11 @@ lines of the following tasks:
   (require '[powerlaces.boot-figreload :refer [reload]])
   (let [reload (resolve 'powerlaces.boot-figreload/reload)]
     (comp
+     (start-server)
+     (watch)
      (reload :client-opts {:debug true})
      (cljs-repl)
-     (cljs)
-     (start-server)
-     (wait))))
+     (cljs))))
      
 (deftask uberjar
   "Builds an uberjar of this project that can be run with java -jar"
@@ -163,12 +163,21 @@ the run task:
 ```
 boot figwheel
 ```
+
+Once the server starts, simply run:
+```
+boot repl -c
+boot.user=> (adzerk.boot-cljs-repl/start-repl)
+```
+
+And reload the page in your browser. This will start a ClojureScript repl that 
+will evaluate in the browser.
 </div>
 
 This will start Figwheel and connect a browser REPL. Any changes you make in ClojureScript source will now be automatically reloaded on the page.
 
 ### ClojureScript with nREPL
-
+<div class="lein">
 To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-port` key in your `:figwheel` config in `project.clj`. This key defaults to port `7002`. When Figwheel starts, it will open nREPL on the specified port.
 
 Luminus also sets up the scaffolding for running the Figwheel compiler from the REPL. When you generate a project using one of the ClojureScript flags, then a `env/dev/clj/<app>/figwheel.clj` namespace will be generated. This namespace provides functions to manage the Figwheel
@@ -206,6 +215,14 @@ Figwheel Controls:
  Results: Stored in vars *1, *2, *3, *e holds last exception object
 Prompt will show when Figwheel connects to your application
 ```
+</div>
+<div class="boot">
+To connect an IDE to the ClojureScript connect to the nREPL server produced by 
+`boot fighweel`. It defaults to port 7002.
+
+Once connected simply run `(adzerk.boot-cljs-repl/start-repl)` and reload the 
+page in the browser as normal.
+</div>
 
 ### Advanced Compilation and Exports
 
