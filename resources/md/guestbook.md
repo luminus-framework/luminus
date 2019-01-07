@@ -690,7 +690,7 @@ and add a function to validate them:
 
 The function uses the `validate` function from the [Struct](http://funcool.github.io/struct/latest/) library to check that the `:name` and the `:message` keys conform to the rules we specified.
 Specifically, the name is required and the message must contain at least
-10 characters. Struct uses a vector to specify the the fields being validates where each field is itself a vector starting
+10 characters. Struct uses a vector to specify the fields being validated where each field is itself a vector starting
 with the keyword pointing to the value being validated followed by one or more validators. Custom validators can be specified using a map as seen with with the validator for the character count in the message.
 
 We'll now add a function to validate and save messages:
