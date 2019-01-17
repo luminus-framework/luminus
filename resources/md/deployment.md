@@ -502,7 +502,7 @@ on the server. This functionality can useful for debugging as well as hotfixing 
 application. To enable nREPL support set the `NREPL_PORT` envrionment variable to the desired port.
 
 ```
-export NREPL_PORT=7000
+export NREPL_PORT=7001
 ```
 
 To test the REPL connection simply run the following command:
