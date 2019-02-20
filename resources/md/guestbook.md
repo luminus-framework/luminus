@@ -711,8 +711,9 @@ The function will grab the `:params` key from the request that contains the form
 We can now change the `home-page` handler function to look as follows:
 
 ```clojure
-(defn home-page [{:keys [flash]}]
+(defn home-page [{:keys [flash] :as request}]
   (layout/render
+   request
    "home.html"
    (merge {:messages (db/get-messages)}
           (select-keys flash [:name :message :errors]))))
@@ -728,7 +729,7 @@ Our routes will now have to pass the request to both the `home-page` and the `sa
 (defroutes home-routes
   (GET "/" request (home-page request))
   (POST "/" request (save-message! request))
-  (GET "/about" [] (about-page)))
+  (GET "/about" request (about-page request)))
 ```
 
 Don't forget to refer `POST` from `compojure.core`
