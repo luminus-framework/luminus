@@ -81,8 +81,8 @@ Below we have a simple example of interaction with the session.
 
 ```clojure
 (ns myapp.home
-  (:require [compojure.core :refer [defroutes GET]]
-            [ring.util.response :refer [response]]))
+  (:require
+   [ring.util.response :refer [response]]))
 
 (defn set-user! [id {session :session}]
   (-> (response (str "User set to: " id))
@@ -99,10 +99,14 @@ Below we have a simple example of interaction with the session.
       (dissoc :session)
       (assoc :headers {"Content-Type" "text/plain"})))
 
-(defroutes app-routes
-  (GET "/login/:id" [id :as req] (set-user! id req))
-  (GET "/remove" req (remove-user! req))
-  (GET "/logout" req (clear-session!)))
+(def app-routes
+  [""
+   {:middleware [middleware/wrap-csrf
+                 middleware/wrap-formats]}
+   ["/login/:id" {:get (fn [{:keys [path-params] :as req}]
+                         (set-user! (:id path-params) req))}]
+   ["/remove" {:get remove-user!}]
+   ["/logout" {:get clear-session!]])
 ```
 
 Note that the the default `<app>.layout/render` function does not allow setting the session.

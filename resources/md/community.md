@@ -5,7 +5,6 @@
 * [Luminus](https://groups.google.com/forum/?fromgroups#!forum/luminusweb)
 * [Clojure](https://groups.google.com/forum/?fromgroups#!forum/clojure)
 * [ClojureScript](https://groups.google.com/forum/?fromgroups#!forum/clojurescript)
-* [Compojure](https://groups.google.com/forum/?fromgroups#!forum/compojure)
 * [Ring](https://groups.google.com/forum/?fromgroups#!forum/ring-clojure)
 
 ##### IRC Channels:

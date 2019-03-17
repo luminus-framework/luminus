@@ -68,7 +68,7 @@ The following example demonstrates how to authenticate with the `sAMAccountName`
 First, we'll add the following dependency to your `project.clj`.
 
 ```clojure
-[org.clojars.pntblnk/clj-ldap "0.0.12"]
+[org.clojars.pntblnk/clj-ldap "0.0.16"]
 ```
 
 Next, we'll need to require the LDAP client in the authentication namespace and `defstate` to hold the connection pool:
@@ -145,27 +145,16 @@ We can use it in our templates as follows:
 Any requests that aren't `GET` or `HEAD` and do not contain the token will be rejected by the middleware. The server will
 respond with a 403 error saying "Invalid anti-forgery token".
 
-The anti-forgery middleware is wrapped around the `home-routes` in the `app` definition of the `<app>.handler` namespace.
-Note that the `wrap-csrf` wrapper will be applied to `home-routes` explicitly, and should be applied to any other route
-groups that are not meant to be used by external clients.
+The anti-forgery middleware is wrapped around the `home-routes` using the `:middleware` declaration in the router:
 
 ```clojure
-(def app
-  (-> (routes
-        (wrap-routes home-routes middleware/wrap-csrf) ;;wraps CSRF protection
-        base-routes)
-      middleware/wrap-base))
-```
-If you wish to disable it for any reason then simply update the `app` definition as follows:
-
-```clojure
-
-
-(def app
-  (-> (routes
-        home-routes ;;no CSRF protection
-        base-routes)
-      middleware/wrap-base))
+(defn home-routes []
+  [""
+   {:middleware [middleware/wrap-csrf
+                 middleware/wrap-formats]}
+   ["/" {:get home-page
+         :post save-message!}]
+   ["/about" {:get about-page}]])
 ```
 
 Please see [here](/docs/services.html#csrf) on details how to enable CSRF for select routes in your application.

@@ -122,6 +122,7 @@ guestbook<boot-div>
 │   └── test
 │       └── resources
 │           └── config.edn
+│           └── logback.xml
 ├── dev-config.edn
 ├── test-config.edn<lein-div>
 ├── project.clj</lein-div>
@@ -153,7 +154,10 @@ guestbook<boot-div>
 │           │   └── core.clj
 │           ├── handler.clj
 │           ├── layout.clj
+│           ├── middleware
+│           │   └── formats.clj
 │           ├── middleware.clj
+│           ├── nrepl.clj
 │           └── routes
 │               └── home.clj
 └── test
@@ -278,36 +282,36 @@ The project file of the application we've created is found in its root folder an
 
 ```clojure
 (defproject guestbook "0.1.0-SNAPSHOT"
+
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
+
   :dependencies [[cheshire "5.8.1"]
                  [clojure.java-time "0.3.2"]
                  [com.h2database/h2 "1.4.197"]
-                 [compojure "1.6.1"]
                  [conman "0.8.3"]
                  [cprop "0.1.13"]
                  [funcool/struct "1.3.0"]
-                 [luminus-immutant "0.2.4"]
-                 [luminus-migrations "0.6.3"]
+                 [luminus-immutant "0.2.5"]
+                 [luminus-migrations "0.6.4"]
                  [luminus-transit "0.1.1"]
                  [luminus/ring-ttl-session "0.3.2"]
-                 [markdown-clj "1.0.5"]
+                 [markdown-clj "1.0.7"]
                  [metosin/muuntaja "0.6.3"]
+                 [metosin/reitit "0.2.13"]
                  [metosin/ring-http-response "0.9.1"]
-                 [mount "0.1.15"]
-                 [nrepl "0.5.3"]
+                 [mount "0.1.16"]
+                 [nrepl "0.6.0"]
                  [org.clojure/clojure "1.10.0"]
                  [org.clojure/tools.cli "0.4.1"]
                  [org.clojure/tools.logging "0.4.1"]
-                 [org.webjars.bower/tether "1.4.4"]
-                 [org.webjars/bootstrap "4.1.3"]
-                 [org.webjars/font-awesome "5.6.1"]
-                 [org.webjars/jquery "3.3.1-1"]
-                 [org.webjars/webjars-locator "0.34"]
+                 [org.webjars.npm/bulma "0.7.4"]
+                 [org.webjars.npm/material-icons "0.3.0"]
+                 [org.webjars/webjars-locator "0.36"]
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.7.1"]
                  [ring/ring-defaults "0.3.2"]
-                 [selmer "1.12.5"]]
+                 [selmer "1.12.6"]]
 
   :min-lein-version "2.0.0"
 
@@ -365,32 +369,32 @@ Please refer to the [official Leiningen documentation](http://leiningen.org/#doc
 <div class="boot">
 ```
 (set-env!
- :dependencies '[[clj-time "0.14.0"]
-                 [com.h2database/h2 "1.4.196"]
-                 [compojure "1.6.0"]
-                 [conman "0.6.8"]
-                 [cprop "0.1.11"]
-                 [funcool/struct "1.1.0"]
-                 [luminus-immutant "0.2.3"]
-                 [luminus-migrations "0.4.2"]
-                 [luminus-nrepl "0.1.4"]
+  :dependencies [[cheshire "5.8.1"]
+                 [clojure.java-time "0.3.2"]
+                 [com.h2database/h2 "1.4.197"]
+                 [conman "0.8.3"]
+                 [cprop "0.1.13"]
+                 [funcool/struct "1.3.0"]
+                 [luminus-immutant "0.2.5"]
+                 [luminus-migrations "0.6.4"]
+                 [luminus-transit "0.1.1"]
                  [luminus/ring-ttl-session "0.3.2"]
-                 [markdown-clj "1.0.1"]
-                 [metosin/muuntaja "0.3.2"]
-                 [metosin/ring-http-response "0.9.0"]
-                 [mount "0.1.11"]
-                 [org.clojure/clojure "1.8.0"]
-                 [org.clojure/java.jdbc "0.7.1"]
-                 [org.clojure/tools.cli "0.3.5"]
-                 [org.clojure/tools.logging "0.4.0"]
-                 [org.webjars.bower/tether "1.4.0"]
-                 [org.webjars/bootstrap "4.0.0-alpha.5"]
-                 [org.webjars/font-awesome "4.7.0"]
-                 [org.webjars/jquery "3.2.1"]
+                 [markdown-clj "1.0.7"]
+                 [metosin/muuntaja "0.6.3"]
+                 [metosin/reitit "0.2.13"]
+                 [metosin/ring-http-response "0.9.1"]
+                 [mount "0.1.16"]
+                 [nrepl "0.6.0"]
+                 [org.clojure/clojure "1.10.0"]
+                 [org.clojure/tools.cli "0.4.1"]
+                 [org.clojure/tools.logging "0.4.1"]
+                 [org.webjars.npm/bulma "0.7.4"]
+                 [org.webjars.npm/material-icons "0.3.0"]
+                 [org.webjars/webjars-locator "0.36"]
                  [ring-webjars "0.2.0"]
-                 [ring/ring-core "1.6.2"]
-                 [ring/ring-defaults "0.3.1"]
-                 [selmer "1.11.1"]]
+                 [ring/ring-core "1.7.1"]
+                 [ring/ring-defaults "0.3.2"]
+                 [selmer "1.12.6"]]
  :source-paths #{"src/clj"}
  :resource-paths #{"resources"})
 
@@ -592,18 +596,17 @@ We can run our application in development mode as follows:
 <lein-div>
 >lein run</lein-div><boot-div>
 >boot dev run</boot-div>
-[2016-02-28 15:05:34,970][DEBUG][org.jboss.logging] Logging Provider: org.jboss.logging.Log4jLoggerProvider
-[2016-02-28 15:05:36,067][INFO][com.zaxxer.hikari.HikariDataSource] HikariPool-0 - is starting.
-[2016-02-28 15:05:36,252][INFO][luminus.http-server] starting HTTP server on port 3000
-[2016-02-28 15:05:36,294][INFO][org.xnio] XNIO version 3.4.0.Beta1
-[2016-02-28 15:05:36,344][INFO][org.xnio.nio] XNIO NIO Implementation Version 3.4.0.Beta1
-[2016-02-28 15:05:36,406][INFO][org.projectodd.wunderboss.web.Web] Registered web context /
-[2016-02-28 15:05:36,407][INFO][luminus.repl-server] starting nREPL server on port 7000
-[2016-02-28 15:05:36,422][INFO][guestbook.core] #'guestbook.config/env started
-[2016-02-28 15:05:36,422][INFO][guestbook.core] #'guestbook.db.core/*db* started
-[2016-02-28 15:05:36,422][INFO][guestbook.core] #'guestbook.core/http-server started
-[2016-02-28 15:05:36,423][INFO][guestbook.core] #'guestbook.core/repl-server started
-[2016-02-28 15:05:36,423][INFO][guestbook.env]
+2019-03-17 09:01:03,709 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+2019-03-17 09:01:04,614 [main] INFO  guestbook.env -
+-=[guestbook started successfully using the development profile]=-
+2019-03-17 09:01:04,709 [main] INFO  luminus.http-server - starting HTTP server on port 3000
+2019-03-17 09:01:05,047 [main] INFO  org.projectodd.wunderboss.web.Web - Registered web context /
+2019-03-17 09:01:05,048 [main] INFO  guestbook.nrepl - starting nREPL server on port 7000
+2019-03-17 09:01:05,075 [main] INFO  guestbook.core - #'guestbook.db.core/*db* started
+2019-03-17 09:01:05,076 [main] INFO  guestbook.core - #'guestbook.handler/init-app started
+2019-03-17 09:01:05,076 [main] INFO  guestbook.core - #'guestbook.handler/app started
+2019-03-17 09:01:05,076 [main] INFO  guestbook.core - #'guestbook.core/http-server started
+2019-03-17 09:01:05,076 [main] INFO  guestbook.core - #'guestbook.core/repl-server started
 -=[guestbook started successfully using the development profile]=-
 ```
 
@@ -663,14 +666,22 @@ references for [Bouncer](https://github.com/leonardoborges/bouncer) validators a
 ```clojure
 (ns guestbook.routes.home
   (:require
-    ...
-    [ring.util.http-response :as response]
-    [clojure.java.io :as io]
-    [struct.core :as st]))
+   [guestbook.layout :as layout]
+   [guestbook.db.core :as db]
+   [clojure.java.io :as io]
+   [guestbook.middleware :as middleware]
+   [ring.util.http-response :as response]))
 ```
 
 Next, we'll create a schema that defines the form parameters
-and add a function to validate them:
+and add a function to validate them. We'll first have to update the namespace declaration above to require [Struct](http://funcool.github.io/struct/latest/) library:
+
+```
+(ns guestbook.routes.home
+  (:require
+   ...
+   [struct.core :as st])
+```
 
 ```clojure
 (def message-schema
@@ -688,7 +699,7 @@ and add a function to validate them:
   (first (st/validate params message-schema)))
 ```
 
-The function uses the `validate` function from the [Struct](http://funcool.github.io/struct/latest/) library to check that the `:name` and the `:message` keys conform to the rules we specified.
+The function uses the `validate` function from Struct to check that the `:name` and the `:message` keys conform to the rules we specified.
 Specifically, the name is required and the message must contain at least
 10 characters. Struct uses a vector to specify the fields being validated where each field is itself a vector starting
 with the keyword pointing to the value being validated followed by one or more validators. Custom validators can be specified using a map as seen with with the validator for the character count in the message.
@@ -726,19 +737,13 @@ Recall that the database accessor functions were automatically generated for us 
 Our routes will now have to pass the request to both the `home-page` and the `save-message!` handlers:
 
 ```clojure
-(defroutes home-routes
-  (GET "/" request (home-page request))
-  (POST "/" request (save-message! request))
-  (GET "/about" request (about-page request)))
-```
-
-Don't forget to refer `POST` from `compojure.core`
-
-```
-(ns guestbook.routes.home
-  (:require ...
-            [compojure.core :refer [defroutes GET POST]]
-            ...))
+(defn home-routes []
+  [""
+   {:middleware [middleware/wrap-csrf
+                 middleware/wrap-formats]}
+   ["/" {:get home-page
+         :post save-message!}]
+   ["/about" {:get about-page}]])
 ```
 
 Now that we have our controllers setup, let's open the `home.html` template located under the `resources/html` directory. Currently, it simply renders the contents of the `content` variable inside the content block:
@@ -746,16 +751,8 @@ Now that we have our controllers setup, let's open the `home.html` template loca
 ```xml
 {% extends "base.html" %}
 {% block content %}
-  <div class="jumbotron">
-    <h1>Welcome to guestbook</h1>
-    <p>Time to start building your site!</p>
-    <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
-  </div>
-
-  <div class="row">
-    <div class="span12">
-    {{docs|markdown}}
-    </div>
+  <div class="content">
+  {{docs|markdown}}
   </div>
 {% endblock %}
 ```
@@ -765,24 +762,21 @@ We'll update our `content` block to iterate over the messages and print each one
 ```xml
 {% extends "base.html" %}
 {% block content %}
-  <div class="jumbotron">
-    <h1>Welcome to guestbook</h1>
-    <p>Time to start building your site!</p>
-    <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
-  </div>
-
-  <div class="row">
-    <div class="span12">
-        <ul class="messages">
-            {% for item in messages %}
-            <li>
-                <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time>
-                <p>{{item.message}}</p>
-                <p> - {{item.name}}</p>
-            </li>
-            {% endfor %}
-        </ul>
+<div class="content">
+  <div class="columns">
+    <div class="column">
+      <h3>Messages</h3>
+      <ul class="messages">
+        {% for item in messages %}
+        <li>
+          <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time>
+          <p>{{item.message}}</p>
+          <p> - {{item.name}}</p>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
+  </div>
 </div>
 {% endblock %}
 ```
@@ -794,34 +788,28 @@ Also, notice the use of the `date` filter to format the timestamps into a human 
 Finally, we'll create a form to allow users to submit their messages. We'll populate the name and message values if they're supplied and render any errors associated with them. Note that the forms also uses the `csrf-field` tag that's required for cross-site request forgery protection.
 
 ```xml
-<div class="row">
-    <div class="span12">
-        <form method="POST" action="/">
-                {% csrf-field %}
-                <p>
-                    Name:
-                    <input class="form-control"
-                           type="text"
-                           name="name"
-                           value="{{name}}" />
-                </p>
-                {% if errors.name %}
-                <div class="alert alert-danger">{{errors.name|join}}</div>
-                {% endif %}
-                <p>
-                    Message:
-                <textarea class="form-control"
-                          rows="4"
-                          cols="50"
-                          name="message">{{message}}</textarea>
-                </p>
-                {% if errors.message %}
-                <div class="alert alert-danger">{{errors.message|join}}</div>
-                {% endif %}
-                <input type="submit" class="btn btn-primary" value="comment" />
-        </form>
+<div class="columns">
+    <div class="column">
+      <form method="POST" action="/">
+        {% csrf-field %}
+        <p>
+          Name:
+          <input class="input" type="text" name="name" value="{{name}}" />
+        </p>
+        {% if errors.name %}
+        <div class="notification is-danger">{{errors.name|join}}</div>
+        {% endif %}
+        <p>
+          Message:
+          <textarea class="textarea" name="message">{{message}}</textarea>
+        </p>
+        {% if errors.message %}
+        <div class="notification is-danger">{{errors.message|join}}</div>
+        {% endif %}
+        <input type="submit" class="button is-primary" value="comment" />
+      </form>
     </div>
-</div>
+  </div>
 ```
 
 Our final `home.html` template should look as follows:
@@ -829,46 +817,43 @@ Our final `home.html` template should look as follows:
 ```xml
 {% extends "base.html" %}
 {% block content %}
-<div class="row">
-    <div class="span12">
-        <ul class="messages">
-            {% for item in messages %}
-            <li>
-                <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time>
-                <p>{{item.message}}</p>
-                <p> - {{item.name}}</p>
-            </li>
-            {% endfor %}
-        </ul>
+<div class="content">
+  <div class="columns">
+    <div class="column">
+      <h3>Messages</h3>
+      <ul class="messages">
+        {% for item in messages %}
+        <li>
+          <time>{{item.timestamp|date:"yyyy-MM-dd HH:mm"}}</time>
+          <p>{{item.message}}</p>
+          <p> - {{item.name}}</p>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
-</div>
-<div class="row">
-    <div class="span12">
-        <form method="POST" action="/">
-                {% csrf-field %}
-                <p>
-                    Name:
-                    <input class="form-control"
-                           type="text"
-                           name="name"
-                           value="{{name}}" />
-                </p>
-                {% if errors.name %}
-                <div class="alert alert-danger">{{errors.name|join}}</div>
-                {% endif %}
-                <p>
-                    Message:
-                <textarea class="form-control"
-                          rows="4"
-                          cols="50"
-                          name="message">{{message}}</textarea>
-                </p>
-                {% if errors.message %}
-                <div class="alert alert-danger">{{errors.message|join}}</div>
-                {% endif %}
-                <input type="submit" class="btn btn-primary" value="comment" />
-        </form>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <form method="POST" action="/">
+        {% csrf-field %}
+        <p>
+          Name:
+          <input class="input" type="text" name="name" value="{{name}}" />
+        </p>
+        {% if errors.name %}
+        <div class="notification is-danger">{{errors.name|join}}</div>
+        {% endif %}
+        <p>
+          Message:
+          <textarea class="textarea" name="message">{{message}}</textarea>
+        </p>
+        {% if errors.message %}
+        <div class="notification is-danger">{{errors.message|join}}</div>
+        {% endif %}
+        <input type="submit" class="button is-primary" value="comment" />
+      </form>
     </div>
+  </div>
 </div>
 {% endblock %}
 ```
@@ -876,47 +861,6 @@ Our final `home.html` template should look as follows:
 Finally, we can update the `screen.css` file located in the `resources/public/css` folder to format our form nicer:
 
 ```
-html,
-body {
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  height: 100%;
-  line-height: 1.4em;
-	background: #eaeaea;
-	width: 520px;
-	margin: 0 auto;
-}
-.navbar {
-  margin-bottom: 10px;
-}
-.navbar-brand {
-  float: none;
-}
-.navbar-nav .nav-item {
-  float: none;
-}
-.navbar-divider,
-.navbar-nav .nav-item+.nav-item,
-.navbar-nav .nav-link + .nav-link {
-  margin-left: 0;
-}
-@media (min-width: 34em) {
-  .navbar-brand {
-    float: left;
-  }
-  .navbar-nav .nav-item {
-    float: left;
-  }
-  .navbar-divider,
-  .navbar-nav .nav-item+.nav-item,
-  .navbar-nav .nav-link + .nav-link {
-    margin-left: 1rem;
-  }
-}
-
-.messages {
-  background: white;
-  width: 520px;
-}
 ul {
 	list-style: none;
 }
@@ -941,7 +885,6 @@ form, .error {
 	padding: 30px;
 	margin-bottom: 50px;
 	position: relative;
-  background: white;
 }
 ```
 
@@ -955,12 +898,13 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
 
 ```clojure
 (ns guestbook.test.db.core
-  (:require [guestbook.db.core :refer [*db*] :as db]
-            [luminus-migrations.core :as migrations]
-            [clojure.test :refer :all]
-            [clojure.java.jdbc :as jdbc]
-            [guestbook.config :refer [env]]
-            [mount.core :as mount]))
+  (:require
+   [guestbook.db.core :refer [*db*] :as db]
+   [luminus-migrations.core :as migrations]
+   [clojure.test :refer :all]
+   [clojure.java.jdbc :as jdbc]
+   [guestbook.config :refer [env]]
+   [mount.core :as mount]))
 
 (use-fixtures
   :once

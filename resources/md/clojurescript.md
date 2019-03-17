@@ -49,7 +49,7 @@ lines of the following tasks:
                          [powerlaces/boot-figreload "0.1.1-SNAPSHOT" :scope "test"]
                          [org.clojure/clojurescript cljs-version :scope "test]]
           :source-paths #{... "src/cljs"})
-                
+
 (deftask figwheel
   "Runs figwheel and enables reloading."
   []
@@ -62,7 +62,7 @@ lines of the following tasks:
      (reload :client-opts {:debug true})
      (cljs-repl)
      (cljs))))
-     
+
 (deftask uberjar
   "Builds an uberjar of this project that can be run with java -jar"
   []
@@ -170,7 +170,7 @@ boot repl -c
 boot.user=> (adzerk.boot-cljs-repl/start-repl)
 ```
 
-And reload the page in your browser. This will start a ClojureScript repl that 
+And reload the page in your browser. This will start a ClojureScript repl that
 will evaluate in the browser.
 </div>
 
@@ -217,10 +217,10 @@ Prompt will show when Figwheel connects to your application
 ```
 </div>
 <div class="boot">
-To connect an IDE to the ClojureScript connect to the nREPL server produced by 
+To connect an IDE to the ClojureScript connect to the nREPL server produced by
 `boot fighweel`. It defaults to port 7002.
 
-Once connected simply run `(adzerk.boot-cljs-repl/start-repl)` and reload the 
+Once connected simply run `(adzerk.boot-cljs-repl/start-repl)` and reload the
 page in the browser as normal.
 </div>
 
@@ -283,13 +283,13 @@ directory then we would reference it in our <span class="lein">`cljsbuild` secti
 </span><span class="boot">`app.cljs.edn` file as follows:
 ```clojure
 {:require [boot_proj.core]
- :compiler-options 
- {:main "boot-proj.app", 
-  :asset-path "/js/out", 
-  :output-to "public/js/app.js", 
-  :output-dir "public/js/out", 
-  :source-map true, 
-  :optimizations :advanced, 
+ :compiler-options
+ {:main "boot-proj.app",
+  :asset-path "/js/out",
+  :output-to "public/js/app.js",
+  :output-dir "public/js/out",
+  :source-map true,
+  :optimizations :advanced,
   :pretty-print false
   :output-wrapper false
   ;;specify the externs file to protect function names
@@ -411,25 +411,34 @@ A working sample project can be found [here](https://github.com/yogthos/reagent-
 
 ### Client Side Routing
 
-[Secretary](https://github.com/gf3/secretary) is the recommended ClojureScript routing library. It uses Compojure-inspired syntax for route definitions. To use the library, We'll add the dependency to your project, if you created the project using a ClojureScript profile, then it will be included by default.
+Reitit is used to handle both client and server routes.
+We'd need to require Reitit in the routing namespace,
+declare the routes, and create an instance of a router
+as follows:
 
 ```clojure
-[secretary "1.2.0"]
+(ns <app>.routes
+ (:require [reitit.core :as reitit]))
+
+(def routes
+  [["/" :home]
+   ["/about" :about]])
+
+(def router (reitit/router routes))
 ```
 
-Next, we have to reference the library in our ClojureScript namespace to use it.
+We can use the routers to dispatch routes
+
+Next, we'll add a function to match routes
 
 ```clojure
-(ns app
-  (:require [secretary.core :as secretary
-             :include-macros true
-             :refer [defroute]]
-            [goog.events :as events])
-  (:import goog.History
-           goog.history.EventType))
+(defn match-url [routes url]
+  (let [[path+query fragment] (-> url (str/replace #"^/#" "") (str/split #"#" 2))
+        [path query] (str/split path+query #"\?" 2)]
+    (some-> (reitit/match-by-path routes path)
+            (assoc :query-string query :hash fragment))))
 ```
 
-With the library imported we can create routes that will set the content of the specified DOM element when triggered.
 
 ```clojure
 (defn home []
@@ -534,8 +543,8 @@ The route should simply return a response map with the body set to the content o
 
 ```clojure
 (ns myapp.routes.services
-  (:require [compojure.core :refer [defroutes GET POST]]
-            [ring.util.response :refer [response status]]))
+  (:require
+   [ring.util.response :refer [response status]]))
 
 (defn save-message! [{:keys [params]}]
   (println params)

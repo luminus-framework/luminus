@@ -37,7 +37,7 @@ alternative servers are supported:
 ### service API
 
 * +graphql - adds GraphQL support using [Lacinia](https://github.com/walmartlabs/lacinia)
-* +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui) using the [compojure-api](https://github.com/metosin/compojure-api) library
+* +swagger - adds support for [Swagger-UI](https://github.com/swagger-api/swagger-ui)
 * +service - create a service application without the front-end boilerplate such as HTML templates
 
 ### miscellaneous

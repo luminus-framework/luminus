@@ -30,9 +30,9 @@ Let's create a new namespace called `multi-client-ws.routes.websockets` and add 
 
 ```
 (ns multi-client-ws.routes.websockets
-  (:require [compojure.core :refer [GET defroutes wrap-routes]]
-            [clojure.tools.logging :as log]
-            [immutant.web.async       :as async]))
+  (:require
+   [clojure.tools.logging :as log]
+   [immutant.web.async :as async]))
 ```
 
 Next, we'll create the `websocket-callbacks` map that will specify the functions that should be
@@ -46,14 +46,14 @@ triggered during different websocket events:
    :on-message notify-clients!})
 ```
 
-We'll create an websocket handler function and Compojure route for our websocket route:
+We'll create an websocket handler function and Reitit route for our websocket route:
 
 ```clojure
-(defn ws-handler [request]  
+(defn ws-handler [request]
   (async/as-channel request websocket-callbacks))
 
-(defroutes websocket-routes
-  (GET "/ws" [] ws-handler))
+(def websocket-routes
+  [["/ws" ws-handler]])
 ```
 
 We'll now create an atom to store the channels and define the `connect!` function that
@@ -97,18 +97,18 @@ Let's create a new namespace called `multi-client-ws.routes.websockets` and add 
 ```
 
 (ns multi-client-ws.routes.websockets
- (:require [compojure.core :refer [GET defroutes]]
-           [org.httpkit.server
-            :refer [send! with-channel on-close on-receive]]
-           [cognitect.transit :as t]
-           [clojure.tools.logging :as log]))
+ (:require
+  [org.httpkit.server
+   :refer [send! with-channel on-close on-receive]]
+  [cognitect.transit :as t]
+  [clojure.tools.logging :as log]))
 ```
 
-Next, we'll create a Compojure route for our websocket handler:
+Next, we'll create a Reitit route for our websocket handler:
 
 ```clojure
-(defroutes websocket-routes
- (GET "/ws" request (ws-handler request)))
+(def websocket-routes
+ ["/ws" ws-handler])
 ```
 
 Where the `ws-handler` function will look as follows:
@@ -162,13 +162,14 @@ Next, We'll need to add the routes in our `multi-client-ws.handler` namespace:
  (:require
    ...
    [multi-client-ws.routes.websockets :refer [websocket-routes]]))
-   
-(def app
- (-> (routes
-       websocket-routes
-       (wrap-routes home-routes middleware/wrap-csrf)
-       base-routes)
-     middleware/wrap-base))
+
+(mount/defstate app
+  :start
+  (middleware/wrap-base
+    (ring/ring-handler
+      (ring/router
+        ...
+        websocket-routes))))
 ```
 
 ### The Client

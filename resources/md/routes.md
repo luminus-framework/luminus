@@ -1,119 +1,79 @@
-Luminus uses Compojure to define application routes. The routes are the entry points to your application and are used to establish a communiction protocol between the server and the client.
+Luminus uses [Reitit](https://metosin.github.io/reitit/) to define application routes. The routes are the entry points to your application and are used to establish a communication protocol between the server and the client.
 
 ### Routes
 
-Compojure route definitions are just functions that
-[accept request maps and return response maps](https://github.com/mmcgrana/ring/blob/master/SPEC). Each route is an HTTP method paired with a URL-matching pattern,
-an argument list, and a body.
+Reitit route handlers are just functions that
+[accept request maps and return response maps](https://github.com/mmcgrana/ring/blob/master/SPEC).
+Routes are defined as vectors of String path and optional (non-sequential) route argument child routes.
+A route is a mapping from a URL pattern to a map containing the handlers keyed on the request method:
 
 ```clojure
-(GET "/" [] "Show something")
-(POST "/" [] "Create something")
-(PUT "/" [] "Replace something")
-(PATCH "/" [] "Modify Something")
-(DELETE "/" [] "Annihilate something")
-(OPTIONS "/" [] "Appease something")
-(HEAD "/" [] "Preview something")
+["/" {:get (fn [request] {:status 200 :body "GET request"})
+      :post (fn [request] {:status 200 :body "POST request"})}]
 ```
 
 The body may be a function, that must accept the request as a parameter:
 
 ```clojure
-(GET "/" [] (fn [req] "Do something with req"))
-```
-
-Or, we can just use the request directly by declaring it as the
-second argument to the route:
-
-```clojure
-(GET "/foo" request (interpose ", " (keys request)))
+(fn [request] {:status 200 :body (keys request)})
 ```
 
 The above route reads out all the keys from the request map and displays them.
 The output will look like the following:
 
 ```clojure
-:ssl-client-cert, :remote-addr, :scheme, :query-params, :session, :form-params,
-:multipart-params, :request-method, :query-string, :route-params, :content-type,
-:cookies, :uri, :server-name, :params, :headers, :content-length, :server-port,
-:character-encoding, :body, :flash
+["reitit.core/match","reitit.core/router","ssl-client-cert","cookies","remote-addr","params","flash","handler-type","headers","server-port","muuntaja/request","content-length","form-params","server-exchange","query-params","content-type","path-info","character-encoding","context","uri","server-name","anti-forgery-token","query-string","path-params","muuntaja/response","body","multipart-params","scheme","request-method","session"]
 ```
 
-Route patterns may include named parameters:
+Reitit supports three kinds of parameters. These can be route, query, and body parameters.
+For example, if we create the following route:
 
 ```clojure
-(GET "/hello/:name" [name] (str "Hello " name))
+["/foo/:bar" {:post (fn [{:keys [path-params query-params body-params]}]
+                        {:status 200
+                         :body   (str "path params: " path-params
+                                      "\nquery params: " query-params
+                                      "\nbody params: " body-params)})}]
 ```
 
-We can adjust what each parameter matches by supplying a regex:
+Then we could query it via cURL:
 
-```clojure
-(GET ["/file/:name.:ext" :name #".*", :ext #".*"] [name ext]
-    (str "File: " name ext))
+```
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"username":"xyz","password":"xyz"}' \
+'localhost:3000/foo/bar?foo=bar'
 ```
 
-Handlers may utilize query parameters:
+and the params will be parsed out as follows:
 
 ```clojure
-(GET "/posts" []
-  (fn [req]
-    (let [title (get-in req [:params :title])
-          author (get-in req [:params :author])]
-      "Do something with title and author")))
-```
-
-Or, for POST and PUT requests, form parameters:
-
-```clojure
-(POST "/posts" []
-  (fn [req]
-    (let [title (get-in req [:params :title])
-          author (get-in req [:params :author])]
-      "Do something with title and author")))
-```
-
-Compojure also provides syntax sugar for accessing the form parameters as seen below:
-
-```clojure
-(POST "/hello" [id] (str "Welcome " id))
+path params: {:bar "bar"}
+query params: {"foo" "bar"}
+body params: {:password "xyz", :username "xyz"}
 ```
 
 In the guestbook application example we saw the following route defined:
 
 ```clojure
-(POST "/"  [name message] (save-message name message))
+["/" {:get home-page
+      :post save-message!}]
 ```
 
-Note that `POST` requests must contain a CSRF token by default. Please refer [here](/docs/security.html#cross_site_request_forgery_protection) for more details on managing CSRF middleware.
-
-This route extracts the name and the message form parameters and binds them to variables of the same name.
-We can now use them as any other declared variable.
-
-It's also possible to use the regular Clojure destructuring
-inside the route.
+This route serves the home page when it receives a `GET` request and extracts the name and the message form parameters when it receives a `POST` request.
+Note that `POST` requests must contain a CSRF token by default. This is handled by the `middleware/wrap-csrf` declaration below:
 
 ```clojure
-(GET "/:foo" {{foo "foo"} :params}
-  (str "Foo = " foo))
+(defn home-routes []
+  [""
+   {:middleware [middleware/wrap-csrf
+                 middleware/wrap-formats]}
+   ["/" {:get home-page
+         :post save-message!}]
+   ["/about" {:get about-page}]])
 ```
 
-Furthermore, Compojure allows destructuring a subset of form parameters and creating a map from the rest.
-
-```clojure
-[x y & z]
-x -> "foo"
-y -> "bar"
-z -> {:v "baz", :w "qux"}
-```
-
-Above, parameters x and y have been bound to variables, while parameters v and w remain in a map called z.
-Finally, if we need to get at the complete request along with the parameters we can do the following:
-
-```clojure
-(GET "/" [x y :as r] (str x y r))
-```
-
-Here we bind the form parameters x and y, and bind the complete request map to the variable r.
+Please refer [here](/docs/security.html#cross_site_request_forgery_protection) for more details on managing CSRF middleware.
 
 ### Return values
 
@@ -135,12 +95,11 @@ But, we may also return a [response map](https://github.com/mmcgrana/ring/blob/m
 
 ## Static Resources
 
-By default, any resources located under the `resources/public` directory will be available to the clients. This is handled by the `compojure.route/resources` handler found in the `<app>.handler` namespace:
+By default, any resources located under the `resources/public` directory will be available to the clients.
+This is handled by the `reitit.ring/resource-handler` handler found in the `<app>.handler` namespace:
 
 ```clojure
-(defroutes base-routes
-  (route/resources "/")
-  (route/not-found "Not Found"))
+(ring/create-resource-handler {:path "/"})
 ```
 
 Any resources found on the classpath of the application can be accessed using `clojure.java.io/resource` function:
@@ -168,7 +127,6 @@ we could then render the page and handle the file upload as follows:
 
 ```clojure
 (ns myapp.upload
-  (:use compojure.core)
   (:require [myapp.layout :as layout]
             [ring.util.response :refer [redirect file-response]])
   (:import [java.io File FileInputStream FileOutputStream]))
@@ -192,16 +150,21 @@ we could then render the page and handle the file upload as follows:
         (.transferFrom dest source 0 (.size source))
         (.flush out)))))
 
-(defroutes home-routes
-  (GET "/upload" request
-       (layout/render request "upload.html"))
+(def home-routes
+  [""
+   {:middleware [middleware/wrap-csrf
+                 middleware/wrap-formats]}
 
-  (POST "/upload" [file]
-       (upload-file resource-path file)
-       (redirect (str "/files/" (:filename file))))
+  ["/upload" {:get (fn [req]
+                     (layout/render request "upload.html"))
 
-  (GET "/files/:filename" [filename]
-       (file-response (str resource-path filename))))
+              :post (fn [{{{:keys [file]} :multipart} :parameters}]
+                      (upload-file resource-path file)
+                      (redirect (str "/files/" (:filename file))))}]
+
+  ["/files/:filename" {:get (fn [{{:keys [filename]} :path-params}]
+
+                              (file-response (str resource-path filename)))}]])
 ```
 
 Th `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` function above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
@@ -225,62 +188,37 @@ Alternatively, if you're fronting with Nginx then you can use its [Upload Progre
 
 ## Organizing application routes
 
-It's a good practice to organize your application routes together by functionality. Compojure provides
-the `defroutes` macro which can group several routes together and bind them to a symbol.
-
-```clojure
-(defroutes auth-routes
-  (POST "/login" [id pass] (login id pass))
-  (POST "/logout" [] (logout)))
-
-(defroutes app-routes
-  (GET "/" [] (home))
-  (route/resources "/")
-  (route/not-found "Not Found"))
-```
-
-It's also possible to group routes by common path elements using `context`. If you had
-a set of routes that all shared `/user/:id` path as seen below:
-
-```clojure
-(defroutes user-routes
-  (GET "/user/:id/profile" [id] ...)
-  (GET "/user/:id/settings" [id] ...)
-  (GET "/user/:id/change-password" [id] ...))
-```
-
-We could rewrite that as:
-
-```clojure
-(def user-routes
-  (context "/user/:id" [id]
-    (GET "/profile" [] ...)
-    (GET "/settings" [] ...)
-    (GET "/change-password" [] ...)))
-```
-
+It's a good practice to organize your application routes together by functionality.
+Your application will typically have two types of routes. The first type is used to serve
+HTML pages that are rendered by the browser. The second type are routes used to expose your
+service API. These are accessed by the client to retrieve data from the server via AJAX.
 
 Once all your application routes are defined you can add them to the main handler of your application.
 You'll notice that the template already defined the `app` route group in the `handler` namespace of your
 application. All you have to do is add your new routes there.
 
-Note that you can also apply custom middleware to the routes using `wrap-routes` as seen with `home-routes`.
-The middleware will be resolved after the routes are matched and only affect the specified routes as opposed
-to global middleware that's referenced in the `middleware/wrap-base`.
-
 ```clojure
 (mount/defstate app
   :start
   (middleware/wrap-base
-    (routes
-      (wrap-routes #'home-routes middleware/wrap-csrf)
-      (route/not-found
-        (:body
-         (error-page {:code 404
-                      :title "page not found"}))))))
+    (ring/ring-handler
+      (ring/router
+        [(home-routes)])
+      (ring/routes
+        (ring/create-resource-handler
+          {:path "/"})
+        (wrap-content-type
+          (wrap-webjars (constantly nil)))
+        (ring/create-default-handler
+          {:not-found
+           (constantly (error-page {:status 404, :title "404 - Page not found"}))
+           :method-not-allowed
+           (constantly (error-page {:status 405, :title "405 - Not allowed"}))
+           :not-acceptable
+           (constantly (error-page {:status 406, :title "406 - Not acceptable"}))})))))
 ```
 
-Further documentation is available on the [official Compojure wiki](https://github.com/weavejester/compojure/wiki)
+Further documentation is available on the [official Reitit documentation](https://metosin.github.io/reitit/)
 
 ## Restricting access
 
