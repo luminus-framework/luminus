@@ -412,53 +412,72 @@ A working sample project can be found [here](https://github.com/yogthos/reagent-
 ### Client Side Routing
 
 Reitit is used to handle both client and server routes.
-We'd need to require Reitit in the routing namespace,
-declare the routes, and create an instance of a router
-as follows:
+We'd need to require Reitit in the routing namespace along
+with Google Closure history and events helpers.
 
 ```clojure
-(ns <app>.routes
- (:require [reitit.core :as reitit]))
-
-(def routes
-  [["/" :home]
-   ["/about" :about]])
-
-(def router (reitit/router routes))
+(ns <app>.core
+ (:require
+  [reagent.core :as r]
+  [reitit.core :as reitit]
+  [goog.events :as events]
+  [goog.history.EventType :as HistoryEventType])
+ (:import goog.History))
 ```
 
-We can use the routers to dispatch routes
-
-Next, we'll add a function to match routes
+We'll now add a session atom to hold the selected page along with a couple of pages:
 
 ```clojure
-(defn match-url [routes url]
-  (let [[path+query fragment] (-> url (str/replace #"^/#" "") (str/split #"#" 2))
-        [path query] (str/split path+query #"\?" 2)]
-    (some-> (reitit/match-by-path routes path)
-            (assoc :query-string query :hash fragment))))
+(def session (r/atom {:page :home}))
+
+(defn home-page []
+  [:div "Home"])
+  
+(defn about-page []
+  [:div "About"])
+
+(def pages
+  {:home #'home-page
+   :about #'about-page})
 ```
 
+We can now create a `page` function that will check the state of the session and render
+the appropriate page:
 
 ```clojure
-(defn home []
-  [:div [:h1 "Home"]])
-
-(defn info []
-  [:div [:h1 "About this app"]])
-
-(defn not-found []
-  [:div [:h1 "404: Page doesn't exist"]])
-
-(defn page [page-component]
-  (reagent/render-component
-    [page-component]
-    (.getElementById js/document "appContainer")))
-
-(defroute home-path "/" [] (page home))
-(defroute home-path "/about" [] (page info))
-(defroute "*" [] (page not-found))
+(defn page []
+  [(pages (:page @session))])
 ```
+
+We can now add a route that will dispatch the key associated with each page when the route is selected:
+
+```
+(def router
+  (reitit/router
+    [["/" :home]
+     ["/about" :about]]))     
+```
+
+Finally, we'll add functions to match routes and hook into browser navigation:
+
+```clojure
+(defn match-route [uri]
+  (->> (or (not-empty (string/replace uri #"^.*#" "")) "/")
+       (reitit/match-by-path router)
+       :data
+       :name))
+
+(defn hook-browser-navigation! []
+  (doto (History.)
+    (events/listen
+      HistoryEventType/NAVIGATE
+      (fn [event]
+        (swap! session assoc :page (match-route (.-token event)))))
+    (.setEnabled true)))
+```
+
+When the `hook-browser-navigation!` is called it will hook into page events and call the `match-route` function
+when the page navigation event is dispatched.
 
 Please refer to the [official documentation](https://github.com/gf3/secretary) for further details.
 
