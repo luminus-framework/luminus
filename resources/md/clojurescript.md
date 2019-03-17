@@ -451,7 +451,7 @@ the appropriate page:
 
 We can now add a route that will dispatch the key associated with each page when the route is selected:
 
-```
+```clojure
 (def router
   (reitit/router
     [["/" :home]
