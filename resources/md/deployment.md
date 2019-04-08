@@ -434,6 +434,12 @@ You can test the SSL configuration using the [SSL Server Test](https://www.sslla
 
 First, make sure you have [Git](http://git-scm.com/downloads) and [Heroku toolbelt](https://toolbelt.heroku.com/) installed, then simply follow the steps below.
 
+Create a production configuration file in `env/prod/resources/config.edn`. This file will provide base configuration in Heroku environment.
+
+```clojure
+{:prod true}
+```
+
 Optionally, test that your application runs locally:
 
 ```
