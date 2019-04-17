@@ -28,7 +28,7 @@ Before migrations can be run, we have to ensure that the database connection has
   :stop (conman/disconnect! *db*))
 ```
 
-When the `<app>.db.core` namespace has to be referenced in the proejct for the connection will be started automatically.
+When the `<app>.db.core` namespace has been referenced in the project for the connection, it will be started automatically.
 To start the connection manually, run the following command in the REPL:
 
 ```clojure
