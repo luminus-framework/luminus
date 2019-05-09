@@ -245,7 +245,7 @@ macro:
 
 HugSQL can be told to automatically transform underscores in the
 result keys into dashes by using
-[camel-snake-kebab](https://github.com/qerub/camel-snake-kebab)
+[camel-snake-kebab](https://clj-commons.org/camel-snake-kebab)
 library:
 
 ```clojure
