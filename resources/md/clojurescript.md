@@ -224,6 +224,26 @@ Once connected simply run `(adzerk.boot-cljs-repl/start-repl)` and reload the
 page in the browser as normal.
 </div>
 
+### Developing with shadow-cljs
+
+Since shadow-cljs comes with live code reloading out of the box, the easiest way to develop with it is to have the live code reloader running in the background. You simply run:
+
+```
+lein shadow watch app
+```
+
+If you wish to just compile your ClojureScript once, you can also run
+
+```
+lein shadow compile app
+```
+
+#### shadow-cljs with nREPL
+
+By default, luminus configures shadow-cljs' nrepl to run on port 7002. Once you connect to the nREPL you simply have to run `(shadow/nrepl :app)` to connect to the ClojureScript nREPL.
+
+To exit the ClojureScript nREPL you have to run `:cljs/quit` in the nREPL.
+
 ### Advanced Compilation and Exports
 
 During advanced compilation variable names will be munged by the compiler to shorten the code. If we wish to expose any functions to JavaScript we have to ensure that their names are protected. This is done by using the `^:export` annotation, eg:
