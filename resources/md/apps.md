@@ -12,3 +12,4 @@ Below are a few sample applications built using Luminus:
 * [Tropology -  TVTropes.org crawler](https://github.com/ricardojmendez/tropology)
 * [Memento - private note-taking](https://gitlab.com/Numergent/memento/)
 * [Memory Hole - support issue organizer](https://github.com/yogthos/memory-hole)
+* [flitskaart.com - Youtube inspired flashcard study app](https://www.flitskaart.com)
