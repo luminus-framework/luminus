@@ -244,6 +244,10 @@ By default, luminus configures shadow-cljs' nrepl to run on port 7002. Once you 
 
 To exit the ClojureScript nREPL you have to run `:cljs/quit` in the nREPL.
 
+#### Self-managed package.json
+
+By default, luminus configures lein-shadow to store npm dependencies in a `:npm-deps` key in the project.clj file. Sometimes, you may wish to self-manage these, in order to expand on the package.json config. To do this, you have to remove the `:npm-deps` key from your project.clj file, and create a `package.json` file instead. Now lein-shadow will skip checking for npm dependencies on execution, and you will have to manually run `npm install` and update your `package.json` accordingly.
+
 ### Advanced Compilation and Exports
 
 During advanced compilation variable names will be munged by the compiler to shorten the code. If we wish to expose any functions to JavaScript we have to ensure that their names are protected. This is done by using the `^:export` annotation, eg:
