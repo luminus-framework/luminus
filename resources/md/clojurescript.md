@@ -240,7 +240,7 @@ lein shadow compile app
 
 #### shadow-cljs with nREPL
 
-By default, luminus configures shadow-cljs' nrepl to run on port 7002. Once you connect to the nREPL you simply have to run `(shadow/nrepl :app)` to connect to the ClojureScript nREPL.
+By default, luminus configures shadow-cljs' nrepl to run on port 7002. Once you connect to the nREPL you simply have to run `(shadow/repl :app)` to connect to the ClojureScript nREPL.
 
 To exit the ClojureScript nREPL you have to run `:cljs/quit` in the nREPL.
 
