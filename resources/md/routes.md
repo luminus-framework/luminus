@@ -112,7 +112,7 @@ Conventionally, non-source resources should be placed in the `resources` directo
 
 ### Handling file uploads
 
-Given page called `upload.html` with the following form:
+Given a page called `upload.html` with the following form:
 
 ```xml
 <h2>Upload a file</h2>
