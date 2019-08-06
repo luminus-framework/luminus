@@ -503,7 +503,7 @@ Finally, we'll add functions to match routes and hook into browser navigation:
 When the `hook-browser-navigation!` is called it will hook into page events and call the `match-route` function
 when the page navigation event is dispatched.
 
-Please refer to the [official documentation](https://github.com/gf3/secretary) for further details.
+Please refer to the [official documentation](https://metosin.github.io/reitit/) for further details.
 
 ### Working With the DOM directly
 
