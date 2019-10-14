@@ -108,7 +108,7 @@ guestbook<boot-div>
 │   │   │   ├── guestbook
 │   │   │   │   ├── dev_middleware.clj
 │   │   │   │   └── env.clj
-│   │   │   └── user.cl
+│   │   │   └── user.clj
 │   │   └── resources
 │   │       ├── config.edn
 │   │       └── logback.xml
