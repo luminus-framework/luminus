@@ -21,28 +21,25 @@
           <div class="row">
             <div id="logo">
               <h1>
-                <a href="{{servlet-context}}/">
-                  <img src="{{servlet-context}}/img/logo.png" alt="Luminus">
+                <a href="/">
+                  <img src="/img/logo.png" alt="Luminus">
                   Luminus
                 </a>
               </h1>
             </div>
             <nav>
               <ul>
-                <li {% ifequal page
-                    "home.html" %} class="selected"{%endifequal%}>
-                  <a href="{{servlet-context}}/">Home</a>
+                <li {% ifequal page "home.html" %} class="selected"{%endifequal%}>
+                  <a href="/">Home</a>
                 </li>
-                <li {% ifequal page
-                    "docs.html" %} class="selected"{%endifequal%}>
-                  <a href="{{servlet-context}}/docs">
+                <li {% ifequal page "docs.html" %} class="selected"{%endifequal%}>
+                  <a href="/docs/guestbook">
                     <span class="show-on-mobile">Docs</span>
                     <span class="hide-on-mobile">Documentation</span>
                   </a>
                 </li>
-                <li {% ifequal page
-                    "contribute.html" %} class="selected"{%endifequal%}>
-                  <a href="{{servlet-context}}/contribute">
+                <li {% ifequal page "contribute.html" %} class="selected"{%endifequal%}>
+                  <a href="/contribute">
                     <span class="hide-on-mobile">Get Involved</span>
                     <span class="show-on-mobile">Contrib</span>
                   </a>
@@ -74,9 +71,6 @@
 
     {% script "/js/highlight.pack.js" %}
     {% script "/js/site.js" %}
-    <script type="text/javascript">
-      var context = "{{servlet-context}}";
-    </script>
     {% block page-scripts %}
     {% endblock %}
   </body>

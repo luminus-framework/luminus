@@ -1,14 +1,11 @@
 (ns luminus.util
   (:require [markdown.core :as md]
-            [clj-http.client :as client]
             [clojure.edn :as edn]
             [crouton.html :as html]
             [hiccup.core :as hiccup]
             [clojure.edn :as edn]
             [clojure.java.io :refer [resource]]
             [clojure.string :as s]))
-
-(defonce docs (agent {}))
 
 (defn remove-div-spans [text state]
   (let [opener #"&lt;(boot|lein)-div&gt;"
@@ -33,33 +30,15 @@
   [filename]
   (->> filename resource slurp))
 
-(defn fetch-doc-pages []
-  (->> "https://raw.github.com/luminus-framework/luminus/master/resources/docpages.edn"
-       client/get
-       :body
-       (edn/read-string)))
-
-(defn fetch-doc-pages-local []
+(defn load-doc-pages []
   (edn/read-string (slurp (resource "docpages.edn"))))
 
-(defn fetch-doc [name]
-  (md/md-to-html-string
-    (->> name
-         (str "https://raw.github.com/luminus-framework/luminus/master/resources/md/")
-         (client/get)
-         :body)
-    :heading-anchors true
-    :code-style #(str "class=\"" % "\"")
-    :replacement-transformers (conj markdown.transformers/transformer-vector
-                                    remove-div-spans)))
-
-(defn fetch-doc-local [name]
+(defn parse-doc [name]
   (md/md-to-html-string
    (slurp-resource (str "md/" name))
    :heading-anchors true
    :code-style #(str "class=\"" % "\"")
-   :replacement-transformers (conj markdown.transformers/transformer-vector
-                                   remove-div-spans)))
+   :replacement-transformers (conj markdown.transformers/transformer-vector remove-div-spans)))
 
 (defn get-headings [content]
   (reduce
@@ -75,8 +54,8 @@
   (when (not-empty headings)
     (hiccup/html
       [:ol.contents
-       (for [{[{{name :name} :attrs} title] :content} headings]
-         [:li [:a {:href (str "#" name)} title]])])))
+       (for [{{id :id} :attrs [title] :content} headings]
+         [:li [:a {:href (str "#" id)} title]])])))
 
 (defn generate-toc [content]
   (when content
@@ -88,23 +67,13 @@
         get-headings
         make-links)))
 
-(defn refresh-docs!
-  "Refresh the HTML document pages. If :local is passed as loc, pages will be rendered from
-  the local filesystem, otherwise they will be rendered from Github."
-  ([loc]
-   (when-let [pages (try ((if (= loc :local)
-                            fetch-doc-pages-local
-                            fetch-doc-pages)) (catch Exception _))]
-     (send docs
-           (fn [_]
-             (reduce
-              (fn [docs id]
-                (if-let [doc (try (Thread/sleep 1000) ((if (= loc :local)
-                                                         fetch-doc-local
-                                                         fetch-doc) id) (catch Exception _))]
-                  (assoc docs id {:toc (generate-toc doc) :content doc})
-                  docs))
-              {:topics pages :docs-by-topic (into {} pages)}
-              (map first pages))))))
-  ([]
-   (refresh-docs! :web)))
+(defn generate-docs
+  "generate HTML document pages from Markdown"
+  []
+  (let [pages (load-doc-pages)]
+    (reduce
+      (fn [docs id]
+        (let [doc (parse-doc id)]
+          (assoc docs id {:toc (generate-toc doc) :content doc})))
+      {:topics pages :docs-by-topic (into {} pages)}
+      (map first pages))))
