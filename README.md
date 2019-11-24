@@ -1,5 +1,5 @@
 
-<img src="https://raw.githubusercontent.com/luminus-framework/luminus/master/resources/public/img/luminus.png"
+<img src="https://raw.githubusercontent.com/luminus-framework/luminus/master/luminus.png"
  hspace="20" align="left" height="200"/>
  
 
