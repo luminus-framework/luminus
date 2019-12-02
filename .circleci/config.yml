@@ -1,0 +1,45 @@
+version: 2
+
+jobs:
+  deploy:
+    docker:
+      - image: circleci/clojure:lein-2.9.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - site-{{ checksum "project.clj"}}
+      - run:
+          name: clone GH pages repo
+          command: git clone https://${GH_TOKEN}@github.com/luminus-framework/luminus-framework.github.io.git
+      - run:
+          name: build site
+          command: |
+            lein run
+            cd luminus-framework.github.io
+            shopt -s extglob
+            rm -rfv !("."|".."|".git")
+            cp -r ../static/* .
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: site-{{ checksum "project.clj"}}
+      - run:
+          name: push to GH pages
+          command: |
+            cd luminus-framework.github.io
+            git config user.email "dmitri.sotnikov@gmail.com"
+            git config user.name "Dmitri Sotnikov"
+            git add --all
+            git commit -a -m "$CIRCLE_BUILD_URL"
+            git push --force origin master
+      - store_artifacts:
+          path: static
+          destination: site-content
+
+workflows:
+  version: 2
+  deploy_site:
+    jobs:
+      - deploy
+
