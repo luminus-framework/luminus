@@ -317,7 +317,7 @@ Filters can also be chained together as needed:
 
 ### Tags
 
-Selmer provides two types of tags. The frist kind are inline tags such as the `extends`
+Selmer provides two types of tags. The first kind are inline tags such as the `extends`
 and `include` tags. These tags are self contained statements and do not require an end tag.
 The other type is the block tags. These tags have a start and an end tag, and operate on a
 block of text. An example of this would be the `if` ... `endif` block.
