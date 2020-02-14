@@ -78,7 +78,7 @@ initialize your application:
 
 <div class="lein">
 ```
-lein new luminus guestbook +h2
+lein new luminus guestbook +h2 +immutant
 cd guestbook
 ```
 </div>

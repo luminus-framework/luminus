@@ -10,11 +10,11 @@ profile hints for the extended functionality.
 
 ### web servers
 
-Luminus defaults to using the [Immutant](http://immutant.org/) webserver, the following
+Luminus defaults to using the [Jetty](https://github.com/mpenet/jet) webserver, the following
 alternative servers are supported:
 
 * +aleph - adds [Aleph](https://github.com/ztellman/aleph) server support to the project
-* +jetty - adds [Jetty](https://github.com/mpenet/jet) support to the project
+* +immutant - add [Immutant](http://immutant.org/) support to the project
 * +http-kit - adds the [HTTP Kit](http://www.http-kit.org/) web server to the project
 
 ### databases

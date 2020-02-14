@@ -12,8 +12,8 @@ The resulting `jar` can be found in the `target/uberjar` folder. It can be run a
 java -jar <app>.jar
 ```
 
-By default the standalone application uses an embedded Immutant server to run the application.
-However, if you used a profile such as `+jetty` then the alternate server will be used instead.
+By default the standalone application uses an embedded Jetty server to run the application.
+However, if you used a profile such as `+immutant` then the alternate server will be used instead.
 To specify a custom port you need to set the `$PORT` environment variable, eg:
 
 ```
@@ -327,7 +327,7 @@ openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out pkcs.p12 -name 
 keytool -importkeystore -deststorepass <PASSWORD_STORE> -destkeypass <PASSWORD_KEYPASS> -destkeystore keystore.jks -srckeystore pkcs.p12 -srcstoretype PKCS12 -srcstorepass <STORE_PASS> -alias <NAME>
 ```
 
-If you're using Immutant as your HTTP server (Luminus default), then you have to update your `<app>.core` namespace as follows:
+If you're using Immutant as your HTTP server (`+immutant`), then you have to update your `<app>.core` namespace as follows:
 
 ```clojure
 (ns <app>.core

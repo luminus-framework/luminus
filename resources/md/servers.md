@@ -8,8 +8,9 @@ While such middleware is useful in most situations, it will also incur a perform
 would not need to wrap it with the webjars middleware.
 
 ### Immutant Configuration
+Luminus used to using [Immutant](http://immutant.org/) as the default server, but now it defaults to Jetty.  The following information is still applicable to using `+immutant`.
 
-Luminus defaults to using [Immutant](http://immutant.org/) as the default server. This server provides a number of options that are unique to it.
+The [Immutant](http://immutant.org/) server provides a number of options that are unique to it.
 
 Immutant allows setting the number of worker and IO threads using the `:worker-threads` and the `:io-threads` keys respectively. For example, we could update the default configuration as follows:
 
