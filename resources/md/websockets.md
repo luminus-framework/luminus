@@ -1,9 +1,9 @@
 This section will cover an example of using websockets for client/server communication with Immutant and HTTP Kit servers in Luminus. As the first step, create a new application. Our example uses Reagent components, so we'll include the `+cljs` profile.
 
-To create an Immutant based application use the default profile:
+To create an Immutant based application use the `+immutant` profile:
 
 ```
-lein new luminus multi-client-ws +cljs
+lein new luminus multi-client-ws +cljs +immutant
 ```
 
 To create an HTTP Kit based application use the `+http-kit` profile instead:
