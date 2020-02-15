@@ -8,7 +8,7 @@ While such middleware is useful in most situations, it will also incur a perform
 would not need to wrap it with the webjars middleware.
 
 ### Immutant Configuration
-Luminus used to using [Immutant](http://immutant.org/) as the default server, but now it defaults to Jetty.  The following information is still applicable to using `+immutant`.
+Luminus used to be using [Immutant](http://immutant.org/) as the default server, but now it defaults to Jetty.  The following information is still applicable to using `+immutant`.
 
 The [Immutant](http://immutant.org/) server provides a number of options that are unique to it.
 
