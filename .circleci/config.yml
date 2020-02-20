@@ -28,6 +28,7 @@ jobs:
           name: push to GH pages
           command: |
             cd luminus-framework.github.io
+            echo "luminusweb.com" > CNAME
             git config user.email "dmitri.sotnikov@gmail.com"
             git config user.name "Dmitri Sotnikov"
             git add --all
