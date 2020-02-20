@@ -167,7 +167,7 @@ we could then render the page and handle the file upload as follows:
                               (file-response (str resource-path filename)))}]])
 ```
 
-Th `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` function above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
+The `:file` request form parameter points to a map containing the description of the file that will be uploaded. Our `upload-file` function above uses `:tempfile`, `:size` and `:filename` keys from this map to save the file on disk.
 
 A file upload progress listener can be added in the `<app>.middleware/wrap-base` function by updating `wrap-defaults` as follows:
 
