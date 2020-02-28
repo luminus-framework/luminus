@@ -113,7 +113,7 @@ Conventionally, non-source resources should be placed in the `resources` directo
 ### Handling file uploads
 
 See [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)
-for a general information about this topic, and [Bulma documentation](https://bulma.io/documentation/form/file/)
+for general information about this topic, and [Bulma documentation](https://bulma.io/documentation/form/file/)
 for examples of styling the file upload input.
 
 Given a page called `upload.html` with the following form:
