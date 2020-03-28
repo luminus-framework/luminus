@@ -53,6 +53,7 @@ alternative servers are supported:
 * +site - creates template for site using the specified database (H2 by default) and ClojureScript
 * +kibit - adds [Kibit](https://github.com/jonase/kibit) static code analyzer support
 * +servlet - adds middleware to support the servlet context for running inside Java application servers
+* +basic - generates a bare bones luminus project
 
 To add a profile simply pass it as an argument after your application name, eg:
 
