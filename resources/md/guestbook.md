@@ -530,7 +530,7 @@ Here, we can see that we already have the definition for our database connection
     [mount.core :refer [defstate]]
     [guestbook.config :refer [env]]))
 
-(defstate ^^:dynamic *db*
+(defstate ^:dynamic *db*
            :start (conman/connect! {:jdbc-url (env :database-url)})
            :stop (conman/disconnect! *db*))
 
@@ -916,8 +916,7 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
     (f)))
 
 (deftest test-message
-  (jdbc/with-db-transaction [t-conn *db*]
-    (jdbc/db-set-rollback-only! t-conn)
+  (jdbc/with-transaction [t-conn *db*]
     (let [timestamp (java.time.LocalDateTime/now)]
       (is (= 1 (db/save-message!
                 t-conn
