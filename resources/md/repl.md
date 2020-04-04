@@ -22,7 +22,7 @@ Run the following command to start the HTTP server:
 ## Connecting to the nREPL
 
 Luminus also provides an embedded [nREPL](https://github.com/clojure/tools.nrepl) that can be used to connect
-the editor to a running instance of the server. A default nREPL port is set the `env/dev/resources/config.edn` configuration file:
+the editor to a running instance of the server. A default nREPL port is set in `dev-config.edn` configuration file:
 
 ```clojure
 {:dev true
