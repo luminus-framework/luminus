@@ -193,7 +193,7 @@ Note that by default JVM is fairly aggressive about memory usage. If you'd like 
 ```
 [Service]
 ...
-_JAVA_OPTIONS="-Xmx256m"
+Environment=JAVA_TOOL_OPTIONS="-Xmx256m"
 ExecStart=/usr/bin/java -jar /var/myapp/myapp.jar
 ```
 
