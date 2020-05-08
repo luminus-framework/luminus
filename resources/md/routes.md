@@ -132,6 +132,7 @@ we could then render the page and handle the file upload as follows:
 ```clojure
 (ns myapp.upload
   (:require [myapp.layout :as layout]
+            [clojure.java.io :as io] 
             [ring.util.response :refer [redirect file-response]])
   (:import [java.io File FileInputStream FileOutputStream]))
 
@@ -143,16 +144,11 @@ we could then render the page and handle the file upload as follows:
     "utf-8"))
 
 (defn upload-file
-  "uploads a file to the target folder
-   when :create-path? flag is set to true then the target path will be created"
+  "uploads a file to the target folder"
   [path {:keys [tempfile size filename]}]
-  (try
-    (with-open [in (new FileInputStream tempfile)
-                out (new FileOutputStream (file-path path filename))]
-      (let [source (.getChannel in)
-            dest   (.getChannel out)]
-        (.transferFrom dest source 0 (.size source))
-        (.flush out)))))
+  (with-open [in (io/input-stream tempfile)
+              out (io/output-stream (file-path path filename))]
+    (io/copy in out)))
 
 (def home-routes
   [""
