@@ -900,9 +900,10 @@ Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it 
 (ns guestbook.test.db.core
   (:require
    [guestbook.db.core :refer [*db*] :as db]
+   [java-time.pre-java8]
    [luminus-migrations.core :as migrations]
    [clojure.test :refer :all]
-   [clojure.java.jdbc :as jdbc]
+   [next.jdbc :as jdbc]
    [guestbook.config :refer [env]]
    [mount.core :as mount]))
 
