@@ -183,7 +183,7 @@ To connect the IDE to a ClojureScript REPL make sure that you have the `:nrepl-p
 Luminus also sets up the scaffolding for running the Figwheel compiler from the REPL. When you generate a project using one of the ClojureScript flags, then a `env/dev/clj/<app>/figwheel.clj` namespace will be generated. This namespace provides functions to manage the Figwheel
 compiler and run the ClojureScript REPL. This allows you to connect any REPL aware editor to the ClojureScript REPL.
 
-Once you run `lein figwheel`, then you'll be able to connect to its nREPL at `localhost:7002`. Once connected, you simply have to run `(cljs)` and the ClojureScript nREPL will become available. You can test that everything is working correctly by running `(js/alert "Hi")` in the REPl. This should pop up an alert in the browser.
+Once you run `lein figwheel`, then you'll be able to connect to its nREPL at `localhost:7002`. Once connected, you simply have to run `(cljs)` and the ClojureScript nREPL will become available. You can test that everything is working correctly by running `(js/alert "Hi")` in the REPL. This should pop up an alert in the browser.
 
 Alternatively, the compiler can be started from a regular REPL using the `start-fw` function and stopped using the `stop-fw` function. The ClojureScript REPL is started by running the `cljs` function after `start-fw` has run successfully. These functions will be available in the `user` namespace. The REPL will default to it when it starts:
 
@@ -511,7 +511,7 @@ Please refer to the [official documentation](https://metosin.github.io/reitit/) 
 
 Since Reagent uses a virtual DOM and renders components as necessary, direct manipulation of the DOM is highly discouraged. Updating DOM elements outside the Reagent components can result in unpredictable behavior.
 
-That said, there are several libraries available for accessing and modifying DOM elements. In particular, you may wish  to take a look at the [Domina](https://github.com/levand/domina) and [Dommy](https://github.com/Prismatic/dommy). Domina is a lightweight library for selecting and manipulating DOM elements as well as handling events. Dommy is a templating library similar to Hiccup.
+That said, there are several libraries available for accessing and modifying DOM elements. In particular, you may wish to take a look at the [Domina](https://github.com/levand/domina) and [Dommy](https://github.com/Prismatic/dommy). Domina is a lightweight library for selecting and manipulating DOM elements as well as handling events. Dommy is a templating library similar to Hiccup.
 
 ### Ajax
 
@@ -571,7 +571,7 @@ In the example above, the `handler` will be invoked when the server responds wit
 
 The library attempts to automatically discover the encoding based on the response headers, however the response format can be specified explicitly using the `:response-format` key.
 
-The `error-handler` function is expected to to accept a single parameter that contains the error response. The function will receive the entire response map that contains the status and the description of the error along with any data returned by the server.
+The `error-handler` function is expected to accept a single parameter that contains the error response. The function will receive the entire response map that contains the status and the description of the error along with any data returned by the server.
 
 * `:status` - contains the HTTP status code
 * `:status-text` - contains the textual description of the status
