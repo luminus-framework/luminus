@@ -88,7 +88,6 @@ But, we may also return a [response map](https://github.com/mmcgrana/ring/blob/m
   {:get (fn [request] {:status 200 :body "Hello World"})}
  ["/is-403"
   {:get (fn [request] {:status 403 :body ""})}]
- 
  ["/is-json"
   {:get (fn [request] {:status 200 :headers {"Content-Type" "application/json"} :body "{}"})}]]
 ```
