@@ -83,14 +83,14 @@ ring stack. Most commonly, this is a string, as in the above examples.
 But, we may also return a [response map](https://github.com/mmcgrana/ring/blob/master/SPEC):
 
 ```clojure
-(GET "/" []
-    {:status 200 :body "Hello World"})
-
-(GET "/is-403" []
-    {:status 403 :body ""})
-
-(GET "/is-json" []
-    {:status 200 :headers {"Content-Type" "application/json"} :body "{}"})
+[""
+ ["/"
+  {:get (fn [request] {:status 200 :body "Hello World"})}
+ ["/is-403"
+  {:get (fn [request] {:status 403 :body ""})}]
+ 
+ ["/is-json"
+  {:get (fn [request] {:status 200 :headers {"Content-Type" "application/json"} :body "{}"})}]]
 ```
 
 ## Static Resources
