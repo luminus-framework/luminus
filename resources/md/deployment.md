@@ -128,7 +128,7 @@ data source configuration for your particular database configuration.
 
 Virtual Private Servers (VPS) such as [DigitalOcean](https://www.digitalocean.com/) provide a cheap hosting option for Clojure applications. 
 
-Follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-create-your-first-digitalocean-droplet-virtual-server) in order to setup your DigitalOcean server. Once the server is created you can install Ubuntu [as described here](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-12-04). Finally, install Java on your Ubuntu instance by following [these instructions](https://help.ubuntu.com/community/Java). The instructions below apply for Ubuntu 15.04 and newer.
+Follow [this guide](https://www.digitalocean.com/docs/droplets/how-to/create/) in order to setup your DigitalOcean server. Once the server is created you can install Ubuntu [as described here](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-12-04). Finally, install Java on your Ubuntu instance by following [these instructions](https://help.ubuntu.com/community/Java). The instructions below apply for Ubuntu 15.04 and newer.
 
 The most common approach is to run the `uberjar` and front it using [Nginx](http://wiki.nginx.org/Main).
 
