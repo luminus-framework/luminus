@@ -4,11 +4,10 @@ While Luminus aims to provide reasonable defaults, you will likely want to tune 
 
 Luminus includes a number of useful wrappers in its default middleware stack. These include [ring-defaults](https://github.com/ring-clojure/ring-defaults), session middleware, [ring-middleware-format](https://github.com/ngrunwald/ring-middleware-format), and [ring-webjars](https://github.com/weavejester/ring-webjars).
 
-While such middleware is useful in most situations, it will also incur a performance cost. In cases where you wish to optimize for performance, only wrap the routes with the necessary middleware. For example, if a route doesn't server static resources, then you
-would not need to wrap it with the webjars middleware.
+While such middleware is useful in most situations, it will also incur a performance cost. In cases where you wish to optimize for performance, only wrap the routes with the necessary middleware. For example, if a route doesn't serve static resources, then you would not need to wrap it with the webjars middleware.
 
 ### Immutant Configuration
-Luminus used to be using [Immutant](http://immutant.org/) as the default server, but now it defaults to Jetty.  The following information is still applicable to using `+immutant`.
+Luminus used to be using [Immutant](http://immutant.org/) as the default server, but now it defaults to [ring-undertow](https://github.com/luminus-framework/ring-undertow-adapter). The following information is still applicable to using `+immutant`.
 
 The [Immutant](http://immutant.org/) server provides a number of options that are unique to it.
 
