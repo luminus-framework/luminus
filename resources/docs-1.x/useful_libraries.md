@@ -105,7 +105,7 @@ to those already included with Luminus.
 * [aging-session](https://github.com/diligenceengine/aging-session) - a memory based ring session store that has a concept of time
 * [Throttler](https://github.com/brunoV/throttler) - token bucket algorithm to control both the overall rate as well as the burst rate for function calls (e.g. incoming requests)
 * [Elastisch](https://github.com/clojurewerkz/elastisch) - a minimalistic Clojure client for ElasticSearch, a modern distributed search engine
-* [cronj](http://docs.caudate.me/cronj/) - a library for scheduling tasks 
+* [cronj](https://github.com/zcaudate-me/cronj) - a library for scheduling tasks
 
 ## Web Services 
 
