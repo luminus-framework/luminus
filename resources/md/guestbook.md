@@ -41,7 +41,7 @@ popular, and continue reading.
 of now some pages are not updated to have the boot commands instead of lein ones.
 
 <div class="lein">
-Installing Leiningen is accomplished by followings the step below.
+Installing Leiningen is accomplished by following the steps below.
 
 1. Download the script.
 3. Set it to be executable. (eg: chmod +x lein)
@@ -208,7 +208,7 @@ The `db` namespace is used to define the model for the application and handle th
 #### guestbook.routes
 
 The `routes` namespace is where the routes and controllers for our home and about pages are located. When you add more routes,
-such as authentication, or specific workflows you should create namespaces for them here.
+such as authentication or specific workflows you should create namespaces for them here.
 
 * `home.clj` - a namespace that defines the home and about pages of the application
 
@@ -702,7 +702,7 @@ and add a function to validate them. We'll first have to update the namespace de
 The function uses the `validate` function from Struct to check that the `:name` and the `:message` keys conform to the rules we specified.
 Specifically, the name is required and the message must contain at least
 10 characters. Struct uses a vector to specify the fields being validated where each field is itself a vector starting
-with the keyword pointing to the value being validated followed by one or more validators. Custom validators can be specified using a map as seen with with the validator for the character count in the message.
+with the keyword pointing to the value being validated followed by one or more validators. Custom validators can be specified using a map as seen with the validator for the character count in the message.
 
 We'll now add a function to validate and save messages:
 
