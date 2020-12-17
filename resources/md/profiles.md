@@ -15,7 +15,7 @@ alternative servers are supported:
 
 * +aleph - adds [Aleph](https://github.com/ztellman/aleph) server support to the project
 * +immutant - add [Immutant](http://immutant.org/) support to the project
-* +http-kit - adds the [HTTP Kit](http://www.http-kit.org/) web server to the project
+* +http-kit - adds the [HTTP Kit](https://github.com/http-kit/http-kit) web server to the project
 * +undertow - adds the [ring-undertow](https://github.com/luminus-framework/ring-undertow-adapter) web server to the project
 
 ### databases
