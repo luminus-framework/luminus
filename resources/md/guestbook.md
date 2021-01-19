@@ -894,10 +894,10 @@ We can test that everything is working as expected by adding a comment in our co
 ## Adding some tests
 
 Now that we have our application working we can add some tests for it.
-Let's open up the `test/clj/guestbook/test/db/core.clj` namespace and update it as follows:
+Let's open up the `test/clj/guestbook/db/core_test.clj` namespace and update it as follows:
 
 ```clojure
-(ns guestbook.test.db.core
+(ns guestbook.db.core-test
   (:require
    [guestbook.db.core :refer [*db*] :as db]
    [java-time.pre-java8]
