@@ -26,6 +26,7 @@ alternative servers are supported:
 * +mysql - adds `db.core` namespace and add MySQL dependencies
 * +mongodb - adds `db.core` namespace and MongoDB dependencies
 * +datomic - adds `db.core` namespace and Datomic dependencies
+* +crux - adds `db.core` namespace and Crux dependencies
 
 ### ClojureScript
 
