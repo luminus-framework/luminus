@@ -1,6 +1,6 @@
 ## Adding custom middleware
 
-Since Luminus uses Ring for routing the application handler
+Since Luminus uses Ring for routing, the application handler
 is a standard Ring handler and can be wrapped in middleware
 just like you would in any other Ring based application.
 
