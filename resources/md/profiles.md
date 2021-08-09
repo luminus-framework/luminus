@@ -10,13 +10,13 @@ profile hints for the extended functionality.
 
 ### web servers
 
-Luminus defaults to using the [Jetty](https://github.com/mpenet/jet) webserver, the following
+Luminus defaults to using the [ring-undertow](https://github.com/luminus-framework/ring-undertow-adapter) webserver, however the following
 alternative servers are supported:
 
+* +jetty - adds [Jetty](https://github.com/mpenet/jet) server support to the project
 * +aleph - adds [Aleph](https://github.com/ztellman/aleph) server support to the project
 * +immutant - add [Immutant](http://immutant.org/) support to the project
 * +http-kit - adds the [HTTP Kit](https://github.com/http-kit/http-kit) web server to the project
-* +undertow - adds the [ring-undertow](https://github.com/luminus-framework/ring-undertow-adapter) web server to the project
 
 ### databases
 
