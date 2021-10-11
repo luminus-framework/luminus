@@ -5,7 +5,7 @@ The guestbook allows users to leave a message and to view a list of messages lef
 The application will demonstrate the basics of HTML templating, database access, and
 project architecture.
 
-If you don't have a preferred Clojure editor already, then it's recommended that you use [Light Table](http://www.lighttable.com/) to follow along with this tutorial.
+If you don't have a preferred Clojure editor already, then it's recommended that you use VS Code with [Calva](https://calva.io/) to follow along with this tutorial.
 
 ### Using the Docker Image
 
