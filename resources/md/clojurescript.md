@@ -28,12 +28,13 @@ However, it's quite easy to add it to an existing project as well using [shadow-
  :lein  {:profile "+dev"}}
 ```
 
-Next, let's update `project.clj` to add a shadow-cljs dependency and a new source path for ClojureScript:
+Next, let's update `project.clj` to add reagent and shadow-cljs dependencies along with a new source path for ClojureScript:
 
 ```clojure
 (defproject <your app> "0.1.0"
  :dependencies
   [...
+   [reagent "1.1.0"]
    [thheller/shadow-cljs "2.15.2" :scope "provided"]]
   
  :source-paths ["src/clj" "src/cljs"]
@@ -48,6 +49,26 @@ The compiled JavaScript file will be available in the `/js/app.js` resource path
 ```javascript
 {% script "/js/app.js" %}
 ```
+
+We can now add a ClojureScript namespace in a file `src/cljs/<your app>/core.cljs` with some basic configuration:
+
+```clojure
+(ns <your app>.core
+  (:require
+   [reagent.dom :as rdom]
+   [reagent.core :as r]))
+
+(defn page []
+  (r/with-let [counter (r/atom 0)]
+   [:div
+    [:label (str "current count: " @counter)]
+    [:button {:on-click #(swap! counter inc)}]]))
+
+(defn ^:dev/after-load mount-components []
+  (rdom/render [#'page] (.getElementById js/document "app")))
+ ```
+
+Reagent will look for an element with the id `app` on the page and mount itself there.
 
 Next, update the `:uberjar` profile with the following options:
 
