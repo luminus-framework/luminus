@@ -183,8 +183,8 @@ Let's take a look at what the files in the root folder of the application do:
 * `Dockerfile` - used to facilitate Docker container deployments
 * `Procfile` - used to facilitate Heroku deployments
 * `README.md` - where documentation for the application is conventionally put
-* `dev-config.edn` - used for local development configuration that should not be checked into the code repository
-* `test-config.edn` - used for test development configuration that should not be checked into the code repository
+* `dev-config.edn` - used for local development configuration, make sure to commit only a version without sensitive information into the code repository
+* `test-config.edn` - used for test development configuration, make sure to commit only a version without sensitive information into the code repository
 * `.gitignore` - a list of assets, such as build generated files, to exclude from Git
 
 ### The Source Directory
