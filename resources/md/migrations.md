@@ -32,7 +32,7 @@ When the `<app>.db.core` namespace has been referenced in the project for the co
 To start the connection manually, run the following command in the REPL:
 
 ```clojure
-(mount.core/start  #'<app>.db.core/*db*)
+(mount.core/start  #'<app>.config/env #'<app>.db.core/*db*)
 ```
 
 Let's create two scripts, one for the migration and the other for the rollback. The files can be generated from the REPL as follows:
