@@ -289,3 +289,30 @@ library:
 ```
 
 See the [official documentation](http://www.hugsql.org/) for more details.
+
+
+### Logging SQL queries
+
+You can use [next.jdbc/with-logging](https://cljdoc.org/d/com.github.seancorfield/next.jdbc/1.3.883/api/next.jdbc#with-logging) in order to log SQL queries in dev environment:
+
+```clojure
+(ns cljapp.db.core
+   ...)
+
+(defn with-logging [connection]
+  (next.jdbc/with-logging connection
+    (fn [sym sql-params]
+      (log/debug (str sym " " sql-params))
+      (System/currentTimeMillis))
+    (fn [sym state result]
+      (log/debug sym (str (- (System/currentTimeMillis) state) "ms"
+                          (if (sequential? result) (str ", " (count result) (if (> (count result) 1) " items" " item")) ""))))))
+
+(defstate ^:dynamic *db*
+  :start (if-let [jdbc-url (env :database-url)]
+           (with-logging (conman/connect! {:jdbc-url jdbc-url}))
+           (do
+             (log/warn "database connection URL was not found, please set :database-url in your config, e.g: dev-config.edn")
+             *db*))
+  :stop (conman/disconnect! *db*))
+```
