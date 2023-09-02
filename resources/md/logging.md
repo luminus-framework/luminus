@@ -103,3 +103,36 @@ java -Dlogback.configurationFile=prod-log-config.xml -jar myapp.jar
 ```
 
 Please refer to the [official documentation](http://logback.qos.ch/manual/configuration.html) for further information on configuring `logback`.
+
+
+### Logging HTTP requests
+
+You can use [ring-logger](https://github.com/nberger/ring-logger#usage) in order to log HTTP requests:
+
+
+```clojure
+# project.clj
+
+  :dependencies [...
+                 [ring-logger "1.1.1"]
+                ]
+
+```
+
+```clojure
+(ns myapp.routes.home
+  (:require
+   ...
+   [ring.logger]))
+
+
+(defn home-routes []
+  [ "" 
+   {:middleware [
+                 ring.logger/wrap-with-logger
+                 middleware/wrap-csrf
+                 middleware/wrap-formats
+                 ]}
+   ["/" {:get home-page}]
+   ["/about" {:get about-page}]])
+  ...
